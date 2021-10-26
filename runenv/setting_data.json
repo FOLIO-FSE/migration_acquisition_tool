@@ -1,0 +1,1187 @@
+{
+    "settings": [
+        {
+            "name": "groups",
+            "pathPattern": "/finance/groups",
+            "schema": "finance",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "ledger.json"
+        },
+        {
+            "name": "noteTypes",
+            "pathPattern": "/note-types",
+            "schema": "notes",
+            "app": "notes",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "noteTypes.json"
+        },
+        {
+            "name": "departments",
+            "pathPattern": "/departments",
+            "schema": "departments",
+            "app": "users",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "departments"
+        },
+        {
+            "name": "ordersTransactionSummaries",
+            "pathPattern": "/finance-storage/order-transaction-summaries",
+            "schema": "finance",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "transaction-summaries.json"
+        },        
+        {
+            "name": "group-fund-fiscal-years",
+            "pathPattern": "/finance/group-fund-fiscal-years",
+            "schema": "finance",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": ""
+        },
+        {
+            "name": "fiscalYears",
+            "pathPattern": "/finance/fiscal-years",
+            "schema": "finance",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "ledger.json"
+        },
+        {
+            "name": "ledgers",
+            "pathPattern": "/finance/ledgers",
+            "schema": "finance",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "ledger.json"
+        },
+        {
+            "name": "transactions",
+            "pathPattern": "/finance-storage/transactions",
+            "schema": "transactions",
+            "app": "acquisition",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "finance_transactions.json"
+        },        
+        {
+            "name": "transactions_amount_0",
+            "pathPattern": "/finance/transactions?query=amount==0.0",
+            "schema": "transactions",
+            "app": "acquisition",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "finance_transactions.json"
+        },        
+        {
+            "name": "poLines",
+            "pathPattern": "/orders/order-lines",
+            "app": "acquisition",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "poLines.json"
+        },
+        {
+            "name": "acquisitionsUnits",
+            "pathPattern": "/acquisitions-units/units",
+            "app": "acquisition",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": "acquisitionsUnits.json"
+        },
+        {
+            "name": "accounts",
+            "pathPattern": "/accounts",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "addressTypes",
+            "pathPattern": "/addresstypes",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "aggregator",
+            "pathPattern": "/aggregator-settings",
+            "app": "erm",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "alternativeTitleTypes",
+            "pathPattern": "/alternative-title-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "blockedFields",
+            "pathPattern": "/inventory/config/instances/blocked-fields",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "groupfundfiscalyears",
+            "pathPattern": "/finance-storage/group-fund-fiscal-years",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "budgetExpenseClasses",
+            "pathPattern": "/finance-storage/budget-expense-classes",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "budgets",
+            "pathPattern": "/finance/budgets",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "custom-fields",
+            "pathPattern": "/custom-fields",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "cancellationReasons",
+            "pathPattern": "/cancellation-reason-storage/cancellation-reasons",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "openingPeriods",
+            "pathPattern": "/calendar/periods",
+            "app": "circulations",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "callNumberTypes",
+            "pathPattern": "/call-number-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "categories",
+            "pathPattern": "/organizations-storage/categories",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "circulation_rules",
+            "pathPattern": "/circulation-rules-storage",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "classificationTypes",
+            "pathPattern": "/classification-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "contributorNameTypes",
+            "pathPattern": "/contributor-name-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "contributorTypes",
+            "pathPattern": "/contributor-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "comments",
+            "pathPattern": "/comments",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "counter_report",
+            "pathPattern": "/counter-reports",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "credentials",
+            "pathPattern": "/organizations-storage/interfaces/{id}/credentials",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "electronicAccessRelationships",
+            "pathPattern": "/electronic-access-relationships",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "erm_files",
+            "pathPattern": "/erm-usage/files",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "fileExtensions",
+            "pathPattern": "/data-import/fileExtensions",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "feefineactions",
+            "pathPattern": "/feefineactions",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        
+        {
+            "name": "expenseClasses",
+            "pathPattern": "/finance-storage/expense-classes",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "allocation",
+            "pathPattern": "/finance/group-fund-fiscal-years",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "groupFundFiscalYears",
+            "pathPattern": "/finance/group-fund-fiscal-years",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "fundTypes",
+            "pathPattern": "/finance/fund-types",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "funds",
+            "pathPattern": "/finance/funds",
+            "app": "finance",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "fixedDueDateSchedules",
+            "pathPattern": "/fixed-due-date-schedule-storage/fixed-due-date-schedules",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "holdingsTypes",
+            "pathPattern": "/holdings-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "holdingsNoteTypes",
+            "pathPattern": "/holdings-note-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "identifierTypes",
+            "pathPattern": "/identifier-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "holdingsRecordsSources",
+            "pathPattern": "/holdings-sources",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "holdingsTypes",
+            "pathPattern": "/holdings-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "illPolicies",
+            "pathPattern": "/ill-policies",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "instanceFormats",
+            "pathPattern": "/instance-formats",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "instanceStatuses",
+            "pathPattern": "/instance-statuses",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "instanceTypes",
+            "pathPattern": "/instance-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "instanceNoteTypes",
+            "pathPattern": "/instance-note-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "interfaces",
+            "pathPattern": "/organizations-storage/interfaces",
+            "schema":"interfaces",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "invoices",
+            "pathPattern": "/invoice-storage/invoices",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "invoice_lines",
+            "pathPattern": "/invoice-storage/invoice-lines",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "vouchers",
+            "pathPattern": "/voucher-storage/vouchers",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "vouchers_line",
+            "pathPattern": "/voucher-storage/voucher-lines",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "loans",
+            "pathPattern": "/circulation/loans",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "loanPolicies",
+            "pathPattern": "/loan-policy-storage/loan-policies",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "loantypes",
+            "pathPattern": "/loan-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "locations",
+            "pathPattern": "/locations",
+            "schema":"locations",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "loccamps",
+            "pathPattern": "/location-units/campuses",
+            "schema": "loccamps",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "locinsts",
+            "pathPattern": "/location-units/institutions",
+            "schema": "locinsts",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "loclibs",
+            "pathPattern": "/location-units/libraries",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "lostItemFeePolicies",
+            "pathPattern": "/lost-item-fees-policies",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "notes",
+            "pathPattern": "/notes",
+            "schema": "notes",
+            "app": "notes",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "mtypes",
+            "pathPattern": "/material-types",
+            "schema":"mtypes",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "manualblocks",
+            "pathPattern": "/manualblocks",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "issuanceModes",
+            "pathPattern": "/modes-of-issuance",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "gobi_validate",
+            "pathPattern": "/gobi/validate",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "notify",
+            "pathPattern": "/notify",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "natureOfContentTerms",
+            "pathPattern": "/nature-of-content-terms",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "openingPeriods",
+            "pathPattern": "/calendar/periods",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "organizations",
+            "pathPattern": "/organizations/organizations",
+            "schema":"organizations",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "overdueFinePolicies",
+            "pathPattern": "/overdue-fines-policies",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "owners",
+            "pathPattern": "/owners",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "contacts",
+            "pathPattern": "/organizations-storage/contacts",
+            "schema":"contacts",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "patronNoticePolicies",
+            "pathPattern": "/patron-notice-policy-storage/patron-notice-policies",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "payments",
+            "pathPattern": "/payments",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "pub_history",
+            "pathPattern": "/pubsub/history",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "requests",
+            "pathPattern": "/circulation/requests",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "requestsStorage",
+            "pathPattern": "/request-storage/requests",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "refunds",
+            "pathPattern": "/refunds",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "requestPolicies",
+            "pathPattern": "/request-policy-storage/request-policies",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "scheduledNotices",
+            "pathPattern": "/scheduled-notice-storage/scheduled-notices",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "servicepoints",
+            "pathPattern": "/service-points",
+            "schema": "servicepoints",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "staffSlips",
+            "pathPattern": "/staff-slips-storage/staff-slips",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "statisticalCodes",
+            "pathPattern": "/statistical-codes",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "statisticalCodeTypes",
+            "pathPattern": "/statistical-code-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "tags",
+            "pathPattern": "/tags",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "templates",
+            "pathPattern": "/templates",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "transfers",
+            "pathPattern": "/transfers",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "transfer-criterias",
+            "pathPattern": "/transfer-criterias",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "groups_inventory",
+            "pathPattern": "/groups",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "usergroups",
+            "pathPattern": "/groups",
+            "schema":"users",
+            "app": "users",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "users",
+            "pathPattern": "/users",
+            "schema":"users",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "usage-data-provider",
+            "pathPattern": "/usage-data-providers",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "waivers",
+            "pathPattern": "/waives",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "permissions",
+            "pathPattern": "/perms/permissions",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "permissionUsers",
+            "pathPattern": "/perms/users",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "proxiesFor",
+            "pathPattern": "/proxiesfor",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "itemNoteTypes",
+            "pathPattern": "/item-note-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "event-types",
+            "pathPattern": "/pubsub/event-types",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "titles",
+            "schema":"titles",
+            "pathPattern": "/orders/titles",
+            "app": "acquisitions",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "purchaseOrders",
+            "schema":"purchaseOrders",
+            "pathPattern": "/orders/composite-orders",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "purchase_orders",
+            "pathPattern": "/orders-storage/purchase-orders",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "periods",
+            "pathPattern": "/calendar/periods",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "periodsget",
+            "pathPattern": "/calendar/periods/{servicePointId}/period",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "minimal_order",
+            "pathPattern": "/orders/composite-orders",
+            "app": "inventory",
+            "type": "",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "poLines",
+            "pathPattern": "/orders/order-lines",
+            "app": "inventory",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "items",
+            "pathPattern": "/item-storage/items",
+            "app": "inventory",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "holdingsRecords",
+            "pathPattern": "/holdings-storage/holdings",
+            "app": "inventory",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "instances",
+            "pathPattern": "/instance-storage/instances",
+            "app": "inventory",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "login",
+            "pathPattern": "/authn/login",
+            "app": "inventory",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "itemintransit",
+            "pathPattern": "/inventory-reports/items-in-transit",
+            "app": "circulation",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "erm_refdata",
+            "pathPattern": "/erm/refdata",
+            "app": "erm",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "jsonfile": "erm_refdata.json"
+        },
+        {
+            "name": "erm_custprops",
+            "pathPattern": "/erm/custprops",
+            "app": "erm",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "jsonfile": "erm_refdata.json"
+        },
+        {
+            "name": "licenses_refdata",
+            "pathPattern": "/licenses/refdata",
+            "app": "erm",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "jsonfile": "licenses_refdata.json"
+        },
+        {
+            "name": "licenses_custprops",
+            "pathPattern": "/licenses/custprops",
+            "app": "erm",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "jsonfile": "licenses_custprops.json"
+        },
+        {
+            "name": "licenses",
+            "pathPattern": "/licenses/licenses",
+            "app": "erm",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "jsonfile": "licenses.json"
+        },
+        {
+            "name": "agreements",
+            "pathPattern": "/erm/sas",
+            "app": "erm",
+            "type": "source",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "jsonfile": "erm_agreements.json"
+        },
+        {
+            "name": "requestPreferences",
+            "pathPattern": "request-preference-storage/request-preference",
+            "app": "inventory",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false]
+        },
+        {
+            "name": "erm.agreements.collection.get",
+            "methods":"get",
+            "pathPattern": "/erm/sas",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.collection.get" ]
+        },
+        {
+            "name": "publiclookup",
+            "description":"publications",
+            "methods":"get",
+            "pathPattern": "/erm/sas/publicLookup",
+            "app": "erm",
+            "type": "ref",
+            "modulePermissions": [ "licenses.licenses.item.get" ]
+        },
+        {
+            "name": "erm.agreements.item.get",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.item.get" ]
+        },
+        {
+            "name": "erm.agreements.export",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}/export",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.export" ]
+        },
+        {
+            "name": "erm.agreements.export.id*",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}/export/*",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.export" ]
+        },
+        {
+            "name": "linkedLicenses",
+            "methods":"get",
+            "pathPattern": "/erm/sas/linkedLicenses",
+            "app": "source",
+            "type": "source",
+            "permissionsRequired": [ "erm.agreements.linkedLicenses.get" ]
+        },
+        {
+            "name": "erm.agreements.linkedLicenses.get.id",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}/linkedLicenses",
+            "app": "erm",
+            "type": "source",
+            "permissionsRequired": [ "erm.agreements.linkedLicenses.get" ]
+        },
+        {
+            "name": "usageDataProviders",
+            "methods":"get",
+            "pathPattern": "/erm/sas/usageDataProviders",
+            "app": "erm",
+            "type": "source",
+            "permissionsRequired": [ "erm.agreements.usageDataProviders.get" ]
+        },
+        {
+            "name": "erm.agreements.usageDataProviders.get",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}/usageDataProviders",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.usageDataProviders.get" ]
+        },
+        {
+            "name": "erm.agreements.item.resources.get",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}/resources",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.item.resources.get" ]
+        },
+        {
+            "name": "erm.agreements.item.resources.get",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}/resources/*",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.item.resources.get" ]
+        },
+        {
+            "name": "export_erm",
+            "methods":"get",
+            "pathPattern": "/erm/export/*",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": ["erm.agreements.export" ]
+        },
+        {
+            "name": "erm.agreements.export",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}/resources/export",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.export" ]
+        },
+        {
+            "name": "entitlements",
+            "methods":"get",
+            "pathPattern": "/erm/entitlements",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.entitlements.item.get" ]
+        },
+        {
+            "name": "erm_files",
+            "methods":"get",
+            "pathPattern": "/erm/files",
+            "app": "erm",
+            "type": "source",
+            "permissionsRequired": [ "erm.entitlements.item.get" ]
+        },
+        {
+            "name": "erm_contacts",
+            "methods":"get",
+            "pathPattern": "/erm/contacts",
+            "app": "erm",
+            "type": "source",
+            "permissionsRequired": [ "erm.entitlements.item.get" ]
+        },
+        {
+            "name": "erm_packages",
+            "methods":"get",
+            "pathPattern": "/erm/packages",
+            "app": "erm",
+            "type": "source",
+            "permissionsRequired": [ "erm.entitlements.item.get" ]
+        },
+        {
+            "name": "erm_org",
+            "methods":"get",
+            "pathPattern": "/erm/org",
+            "app": "erm",
+            "type": "source",
+            "permissionsRequired": [ "erm.entitlements.item.get" ]
+        },
+        {
+            "name": "erm.agreements.export",
+            "methods":"get",
+            "pathPattern": "/erm/sas/{id}/resources/export/*",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.export" ]
+        },
+        {
+            "name": "publicLookup",
+            "methods":"get",
+            "pathPattern": "/erm/sas/publicLookup",
+            "app": "erm",
+            "type": "ref",
+            "permissionsRequired": [ "erm.agreements.export" ]
+        },
+        {
+            "name": "bl-users",
+            "methods":"get",
+            "pathPattern": "/bl-users",
+            "app": "user",
+            "type": "ref"
+        },
+        {
+            "name": "bl-users-login",
+            "methods":"post",
+            "pathPattern": "/bl-users/login",
+            "app": "user",
+            "type": "ref"
+        }
+    ]
+}
