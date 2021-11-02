@@ -2,7 +2,9 @@
 import dataframe_class as pd
 import agreement_class as agree
 import users_class as users
+import notes_class as note
 import compositePurchaseorders_class as orders
+import organizations as org
 import windows_class as windows
 import datetime
 import warnings
@@ -84,6 +86,49 @@ def timeStampString(dateTimeObj):
             return timestampStr
         except ValueError:
             print("Module folioAcqfunctions organizations time Error: "+str(ValueError))
+            
+def write_file(**kwargs):
+        try:
+            if 'ruta' in kwargs:
+                ext=kwargs['ruta']
+                extension=ext[-3:]
+                if extension=="csv":
+                    if 'contenido' in kwargs:
+                        row=kwargs['contenido']
+                    else:
+                        row=""
+                    with open(kwargs['ruta'],"a+", encoding="utf8") as outfile:
+                        writer = csv.writer(outfile)
+                        writer.writerow(row)
+                else:
+                    if 'contenido' in kwargs:
+                        data=kwargs['contenido']
+                    else: 
+                        data=""
+                with open(kwargs['ruta'],"a+", encoding="utf8") as outfile:
+                    outfile.write(data+"\n")
+        except Exception as ee:
+            print(f"ERROR: {ee}")
+            
+def okapiPath(code_search):
+        valor=[]
+        try:
+            #valor="0"
+            f = open("setting_data.json",)
+            data = json.load(f)
+            for i in data['settings']:
+                a_line=str(i)
+                if i['name'] == code_search:
+                #if (a_line.find(code_search) !=-1):
+                    valor.append(i['pathPattern'])
+                    valor.append(i['name'])
+                    break
+            f.close()
+            return valor
+        except ValueError:
+            print("schema does not found")
+            return 0
+
 #############################
 #ACQ_ERM_MIGRATION TOOLS
 #(customerName=customerName,getrefdata=getrefdata,scriptTorun=scriptTorun,graphicinterfaces=graphicinterfaces)  
@@ -182,6 +227,7 @@ class AcqErm():
                     self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"
                     self.path_licenseMapping=f"{self.path_dir}\{arg}\\license_mapping.json"
                     self.path_agreementMapping=f"{self.path_dir}\{arg}\\agreement_mapping.json"
+                    self.path_notesMapping=f"{self.path_dir}\{arg}\\notes_mapping.json"
                     self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
                     self.path_organizationsMapping=f"{self.path_dir}\{arg}\\organization_mapping.json"
                     
@@ -234,6 +280,7 @@ class AcqErm():
                         self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"
                         self.path_licenseMapping=f"{self.path_dir}\{arg}\\license_mapping.json"
                         self.path_agreementMapping=f"{self.path_dir}\{arg}\\agreement_mapping.json"
+                        self.path_notesMapping=f"{self.path_dir}\{arg}\\notes_mapping.json"
                         self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
                         self.path_organizationsMapping=f"{self.path_dir}\{arg}\\organization_mapping.json"
                     except OSError as error:
@@ -294,7 +341,7 @@ class AcqErm():
             else:
                 if self.sctr=="a":   
                     self.value="agreement"
-                    self.value_a="agre"
+                    self.value_a="agree"
                     self.df=self.value
                     ls=self.load_settings()
                     self.customerName=pd.dataframe()
@@ -305,8 +352,11 @@ class AcqErm():
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_agreementMapping)
-                    self.customerName=agree.Agreements(self.customerName)
-                    self.customerName.readagreements(self.df)        
+                    if self.df is not None:
+                        self.customerName=agree.Agreements(client,self.path_dir)
+                        self.customerName.readagreements(client,self.df)
+                    else:
+                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")   
                 elif self.sctr=="l": 
                     self.value="licenses"
                     self.value_a="lic"
@@ -315,6 +365,22 @@ class AcqErm():
                     self.value_a="orgs"
                     self.value_b="contacts"
                     self.value_c="interfaces"
+                    self.df=self.value
+                    ls=self.load_settings()
+                    self.customerName=pd.dataframe()
+                    #print(ls[self.value_a])
+                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    self.df=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_purchaseMapping)
+                    print(self.df)
+                    self.customerName=org.organizations(self.customerName,self.path_dir)
+                    self.customerName.readOrganizations(self.df)
+                    
+                    
+                    
                 elif self.sctr=="p":
                     try:
                         self.value="purchaseOrders"
@@ -360,7 +426,25 @@ class AcqErm():
                                             mapping_file=self.path_usersMapping)
                     print(self.df)
                     self.customerName=users.users(self.customerName,self.path_dir)
-                    self.customerName.readusers(self.df)      
+                    self.customerName.readusers(self.df)
+                if self.sctr=="n":   
+                    self.value="notes"
+                    self.value_a="note"
+                    self.df=self.value
+                    ls=self.load_settings()
+                    self.customerName=pd.dataframe()
+                    #print(ls[self.value_a])
+                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    self.df=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_notesMapping)
+                    if self.df is not None:
+                        self.customerName=note.notes(client,self.path_dir)
+                        self.customerName.readnotes(client,self.df)
+                    else:
+                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")   
                 else:
                     print(f"ERROR: you have selected the script wrong")
 
@@ -453,24 +537,7 @@ class AcqErm():
     
 
     
-    def okapiPath(self,code_search):
-        valor=[]
-        try:
-            #valor="0"
-            f = open("setting_data.json",)
-            data = json.load(f)
-            for i in data['settings']:
-                a_line=str(i)
-                if i['name'] == code_search:
-                #if (a_line.find(code_search) !=-1):
-                    valor.append(i['pathPattern'])
-                    valor.append(i['name'])
-                    break
-            f.close()
-            return valor
-        except ValueError:
-            print("schema does not found")
-            return 0
+
     #CHECK PO NUMBER
     #THE PO NUMBER CANNOT INCLUDE SPECIAL CHARACTER    
     def check_poNumber(self, value, path):
@@ -933,50 +1000,7 @@ class AcqErm():
         except requests.exceptions.HTTPError as err:
             print(f"error Organization GET {err}")
         
-    def get_title(self, client,**kwargs):
-        try:
-            pathPattern1=okapiPath(kwargs['element'])
-            element=kwargs['element']
-            pathPattern=pathPattern1[0]
-            searchValue=kwargs['searchValue']
-            client=SearchClient(client)
-            okapi_url=str(client.get('x_okapi_url'))
-            okapi_tenant=str(client.get('x_okapi_tenant'))
-            okapi_token=str(client.get('x_okapi_token'))
-            dic={}
-            #pathPattern="/instance-storage/instances" #?limit=9999&query=code="
-            #https://okapi-ua.folio.ebsco.com/instance-storage/instances?query=hrid=="264227"
-            pathPattern="/instance-storage/instances" #?limit=9999&query=code="
-            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-            length="1"
-            start="1"
-            #element="instances"
-            #https://okapi-trinitycollegelibrarycambridge.folio.ebsco.com/instance-storage/instances?query=(identifiers any ".b10290242")
-            query=f"?query=(identifiers="
-            #query=f"query=hrid=="
-            #/finance/funds?query=name==UMPROQ
-            search='"'+searchValue+'")'
-            #.b10290242
-            #paging_q = f"?{query}"+search
-            paging_q = f"{query} "+search
-            path = pathPattern+paging_q
-            #data=json.dumps(payload)
-            url = okapi_url + path
-            req = requests.get(url, headers=okapi_headers)
-            idhrid=[]
-            if req.status_code != 201:
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idhrid.append(l['id'])
-                        idhrid.append(l['title'])            
-            return idhrid
-        except Exception as ee:
-            print(f"INFO get_title function failed {ee}")
+
         
        
     def order_closeReason(self,reasonvalue, reasonnote):
@@ -1011,22 +1035,7 @@ class AcqErm():
         except ValueError:
             print("Module folioAcqfunctions organizations time Error: "+str(ValueError)) 
     #PRINT FILES
-        def write_file(self,**kwargs):
-            try:
-                ext=kwargs['path']
-                extension=ext[-3:]
-                if extension=="csv":
-                    row=kwargs['contenido']
-                    with open(kwargs['path'],"a+", encoding="utf8") as outfile:
-                        writer = csv.writer(outfile)
-                        writer.writerow(row)
-                else:
-                    data=kwargs['contenido']
-                with open(kwargs['path'],"a+", encoding="utf8") as outfile:
-                    outfile.write(data+"\n")
-                
-            except Exception as ee:
-                print(f"ERROR: {ee}")           
+           
 
     # write a row to the csv file
 
@@ -2487,6 +2496,8 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
                 id.append(j_content['name'])#return j_content
                 if "code" in j_content:
                     id.append(j_content['code'])
+                    return id
+                elif "id" in j_content:
                     return id
     except Exception as err:
         print(f"INFO error {err}")
