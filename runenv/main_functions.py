@@ -4,7 +4,7 @@ import agreement_class as agree
 import users_class as users
 import notes_class as note
 import compositePurchaseorders_class as orders
-import organizations as org
+import organizations_class as org
 import windows_class as windows
 import datetime
 import warnings
@@ -362,7 +362,7 @@ class AcqErm():
                     self.value_a="lic"
                 elif self.sctr=="o": 
                     self.value="organizations"
-                    self.value_a="orgs"
+                    self.value_a="org"
                     self.value_b="contacts"
                     self.value_c="interfaces"
                     self.df=self.value
@@ -374,11 +374,39 @@ class AcqErm():
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
-                                            mapping_file=self.path_purchaseMapping)
-                    print(self.df)
-                    self.customerName=org.organizations(self.customerName,self.path_dir)
-                    self.customerName.readOrganizations(self.df)
+                                            mapping_file=self.path_organizationsMapping)
+                    #Contacts
+                    self.value_a="contacts"
+                    lsa=self.load_settings()
+                    filetoload=f"{self.path_data}\\"+str(lsa[self.value_a]['fileName'])
+                    self.dfcontacts=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsa[self.value_a]['orderby'],
+                                            distinct=lsa[self.value_a]['distinct'],                                            
+                                            sheetName=lsa[self.value_a]['sheetName'],
+                                            mapping_file=self.path_organizationsMapping)
                     
+                    #Interfaces
+                    self.value_a="interfaces"
+                    lse=self.load_settings()
+                    filetoload=f"{self.path_data}\\"+str(lse[self.value_a]['fileName'])
+                    self.dfinterfaces=self.customerName.importDataFrame(filetoload,
+                                            orderby=lse[self.value_a]['orderby'],
+                                            distinct=lse[self.value_a]['distinct'],                                            
+                                            sheetName=lse[self.value_a]['sheetName'],
+                                            mapping_file=self.path_organizationsMapping)
+                    #print(self.df)
+                    if self.df is not None:
+                        if ((self.dfcontacts is None) and (self.dfinterfaces is None)):
+                            dfinterfaces=self.df
+                            dfcontacts=self.df
+                            self.customerName=org.organizations(client,self.path_dir)
+                            self.customerName.readOrganizations(client,self.df, self.dfcontacts, self.dfinterfaces)
+                        else:
+                            self.customerName=org.organizations(client,self.path_dir)
+                            #print(self.df)
+                            self.customerName.readOrganizations(client, self.df,self.dfcontacts, self.dfinterfaces)
+                    else:
+                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json") 
                     
                     
                 elif self.sctr=="p":
@@ -424,10 +452,10 @@ class AcqErm():
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_usersMapping)
-                    print(self.df)
+                    #print(self.df)
                     self.customerName=users.users(self.customerName,self.path_dir)
                     self.customerName.readusers(self.df)
-                if self.sctr=="n":   
+                elif self.sctr=="n":   
                     self.value="notes"
                     self.value_a="note"
                     self.df=self.value
@@ -1268,13 +1296,20 @@ def org_aliases(**kwargs):
             print(f"ERROR: {ee}")
     return aliaR
 
-def org_languages(value):
+def org_languages(**kwargs):
     try:
-        value=value.upper()
+        value=kwargs['value'].upper()
+        type=kwargs['type']
         if value=="ENGLISH":
-            valueR="eng"
+            if type==1:
+                valueR="eng"
+            elif type==2:
+                valueR="eng-us"
         elif value=="SPANISH":
-            valueR="spa"
+            if type==1:
+                valueR="spa"
+            elif type==2:
+                valueR="es-es"
         elif value=="NULL":
             valueR="eng"
         elif value is None:
@@ -1282,7 +1317,10 @@ def org_languages(value):
         elif value=="":
             valueR=""
         else:
-            valueR="eng"
+            if type==1:
+                valueR="eng"
+            elif type==2:
+                valueR="eng-us"
         return valueR
     
     except ValueError:
@@ -2493,8 +2531,10 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
             j_content=i
             if j_content[fielTosearch]==toSearch:
                 id.append(j_content['id'])
-                id.append(j_content['name'])#return j_content
-                if "code" in j_content:
+                if "name" in j_content:
+                    id.append(j_content['name'])#return j_content
+                    return id                    
+                elif "code" in j_content:
                     id.append(j_content['code'])
                     return id
                 elif "id" in j_content:
