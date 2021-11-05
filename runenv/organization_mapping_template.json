@@ -8,7 +8,7 @@
       },
       {
          "folio_field": "accounts[0].accountNo",
-         "legacy_field": "ACCTNUM",
+         "legacy_field": "",
          "value": "",
          "description": ""
       },
@@ -74,31 +74,31 @@
       },
       {
          "folio_field": "addresses[0].addressLine1",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Address1",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "addresses[0].addressLine2",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Address1_2",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "addresses[0].categories[0]",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Categories org",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "addresses[0].city",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Address1_City",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "addresses[0].country",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Address1_Country",
          "value": "",
          "description": ""
       },
@@ -116,19 +116,19 @@
       },
       {
          "folio_field": "addresses[0].language",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Address1_Language",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "addresses[0].stateRegion",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Address1_State",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "addresses[0].zipCode",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Address1_zip",
          "value": "",
          "description": ""
       },
@@ -164,7 +164,7 @@
       },
       {
          "folio_field": "aliases[0].value",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Alternative Names",
          "value": "",
          "description": ""
       },
@@ -188,13 +188,13 @@
       },
       {
          "folio_field": "code",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Code",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "description",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Description",
          "value": "",
          "description": ""
       },
@@ -422,19 +422,13 @@
       },
       {
          "folio_field": "emails[0].categories[0]",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Categories email",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "emails[0].description",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "emails[0].id",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Description email",
          "value": "",
          "description": ""
       },
@@ -446,13 +440,13 @@
       },
       {
          "folio_field": "emails[0].language",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Language email",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "emails[0].value",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Email address",
          "value": "",
          "description": ""
       },
@@ -500,13 +494,13 @@
       },
       {
          "folio_field": "isVendor",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Vendor",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "language",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Default Language",
          "value": "",
          "description": ""
       },
@@ -530,7 +524,7 @@
       },
       {
          "folio_field": "name",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Name",
          "value": "",
          "description": ""
       },
@@ -542,37 +536,25 @@
       },
       {
          "folio_field": "phoneNumbers[0].categories[0]",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "phoneNumbers[0].id",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "phoneNumbers[0].isPrimary",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Categories phone",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "phoneNumbers[0].language",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Language phone",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "phoneNumbers[0].phoneNumber",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Phone number org",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "phoneNumbers[0].type",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Type phone",
          "value": "",
          "description": ""
       },
@@ -584,7 +566,7 @@
       },
       {
          "folio_field": "sanCode",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Accounting Code",
          "value": "",
          "description": ""
       },
@@ -626,13 +608,7 @@
       },
       {
          "folio_field": "urls[0].description",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "urls[0].id",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Description URL",
          "value": "",
          "description": ""
       },
@@ -656,13 +632,235 @@
       },
       {
          "folio_field": "urls[0].value",
-         "legacy_field": "Not mapped",
+         "legacy_field": "URL",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "vendorCurrencies[0]",
          "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].name",
+         "legacy_field": "Name Interface",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].uri",
+         "legacy_field": "URI",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].notes",
+         "legacy_field": "Interface Notes",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].available",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].deliveryMethod",
+         "legacy_field": "Delivery Method",
+         "value": "Online, FTP, Email, Other",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].statisticsFormat",
+         "legacy_field": "Statistics format",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].description",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].username",
+         "legacy_field": "Username",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "interfaces[0].password",
+         "legacy_field": "Password",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].prefix",
+         "legacy_field": "Prefix",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].firstName",
+         "legacy_field": "First Name",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].lastName",
+         "legacy_field": "Last Name",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].language",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].notes",
+         "legacy_field": "contact Note",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].inactive",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].phoneNumbers",
+         "legacy_field": "contactPhonenumber",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].phoneNumbers.categories",
+         "legacy_field": "Caqtegories",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].phoneNumbers.language",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].phoneNumbers.type",
+         "legacy_field": "contact phone Type",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].phoneNumbers.isPrimary",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].email.value",
+         "legacy_field": "contact email",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].email.description",
+         "legacy_field": "contact Description",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].email.categories",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].email.language",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].addresses.addressLine1",
+         "legacy_field": "contact Address 1",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].addresses.addressLine2",
+         "legacy_field": "Acontact Address 2",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].addresses.city",
+         "legacy_field": "contact City",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].addresses.stateRegion",
+         "legacy_field": "contact State",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].addresses.zipCode",
+         "legacy_field": "contact Zip",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].addresses.country",
+         "legacy_field": "contact Country",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].addresses.categories",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].addresses.language",
+         "legacy_field": "Address1_Language",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].url.value",
+         "legacy_field": "contact URL",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].url.description",
+         "legacy_field": "url Description",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].url.language",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].url.categories",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].categories",
+         "legacy_field": "Contact Categories",
          "value": "",
          "description": ""
       }
