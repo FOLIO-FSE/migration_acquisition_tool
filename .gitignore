@@ -1,3 +1,8 @@
+# Local data
+okapi_customers.json
+client_data
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
