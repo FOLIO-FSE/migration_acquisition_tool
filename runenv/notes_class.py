@@ -19,6 +19,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
 import main_functions as mf
+
 ################################################
 ### NOTES
 ################################################
@@ -35,9 +36,85 @@ class notes():
         self.path_logs=f"{path_dir}\\logs"
         #os.mkdir(f"{path_dir}\\refdata")
         self.path_refdata=f"{path_dir}\\refdata"
+        self.valuetitle=""
+        self.valuetypeId=""
+        self.valuedomainId=""
+        v=""
+        typev=""
+        typed=""
+        with open(self.path_refdata+"\\notes_mapping.json") as json_mappingfile:
+            self.mappingdata = json.load(json_mappingfile)
+            for i in self.mappingdata['data']:
+                if i['folio_field']=='title':
+                    v=str(i['value']).strip()
+                    if v is not None: 
+                        self.valuetitle=v
+                if i['folio_field']=='typeId':
+                    typev=str(i['value']).strip()
+                    if typev is not None: 
+                        self.valuetypeId=typev
+                if i['folio_field']=='domain':
+                    typed=str(i['value']).strip()
+                    if typed is not None: 
+                        self.valuedomainId=typed
+        return            
+                        
+            #print(self.mappingdata)
     #(uuidOrg,typeId,customerName,15,16,17)
     #client,self.path_dir
-    def readnotes(self,client,dataframe):
+    def readnotes(self,client,dataframe,toSearch,linkId):
+        self.notes= dataframe
+        countnote=1
+        noprint=False
+        dfnote = self.notes[self.notes['code']== toSearch]
+        print("notes founds records: ",len(dfnote))
+        for i, nrow in dfnote.iterrows():
+            notes={}
+            l=[]
+            try:
+                countnote+=1
+
+                if self.valuetypeId: 
+                    notes["typeId"]=self.valuetypeId
+                    cate=mf.readJsonfile(self.path_refdata,client+"_noteTypes.json","noteTypes",self.valuetypeId,"id")
+                    if cate is None:
+                        mf.write_file(ruta=self.path_logs+"\\notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
+                        noteType=""
+                    else:
+                        noteType=cate[1]
+                        noprint=True
+                        notes["id"]=str(uuid.uuid4())
+                        notes['type']=noteType
+                        if self.valuetitle: notes["title"]=self.valuetitle
+                        else: notes["title"]="Notes"
+                    
+                        if self.valuedomainId: notes["domain"]=self.valuedomainId
+                        else: notes["domain"]=""
+                        iter=0
+                        sw=True
+                        cont=""
+                        while sw:
+                            field=f"content[{iter}]"
+                            if field in dfnote.columns:
+                                if nrow[field]:
+                                    if nrow[field]!="":
+                                        cont=cont+str(nrow[field])
+                            else:
+                                sw=False
+                            iter+=1
+                        if cont is not None:
+                            notes["content"]=cont
+                        l.append(mf.dic(id=linkId,type=self.valuedomainId[:-1]))
+                        notes["links"]=l
+
+                if noprint:
+                    mf.printObject(notes,self.path_results,countnote,client+"_notes",False)
+                else:
+                    mf.printObject(notes,self.path_results,countnote,client+"worse_notes",False)
+            except Exception as ee:
+                print(f"ERROR: {ee}")                 
+             
+    def agreementReadnotes(self,client,dataframe):
          self.notes= dataframe
          
          count=1

@@ -1,8 +1,7 @@
-
 import dataframe_class as pd
 import agreement_class as agree
 import users_class as users
-import notes_class as note
+import notes_class as notes
 import compositePurchaseorders_class as orders
 import organizations_class as org
 import windows_class as windows
@@ -27,6 +26,7 @@ import time
 from datetime import datetime
 import yaml
 import shutil
+import codecs
 
 
     
@@ -37,12 +37,12 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
             if prettyJson:
                 path_file=path_file=f"{path}\{file_name}.json"
                 #outfilename = json.load(objectToPrint)
-                with open(path_file,"w+", encoding="utf-8") as outfile:
-                    json.dump(objectToPrint,outfile,indent=2)
+                with codecs.open(path_file,"w+", encoding="utf-8") as outfile:
+                    json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
             else:
                 path_file=path_file=f"{path}\{file_name}.json"
                 outfilename = json.dumps(objectToPrint)
-                with open(path_file,"a+", encoding="utf-8") as outfile:
+                with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
                     outfile.write(outfilename+"\n")
             return None
         except Exception as ee:
@@ -155,6 +155,7 @@ class AcqErm():
             print(f"Error: {error}")
 
     def createdFolderStructure(self):
+        self.exist=True
         now = datetime.now()
         client={}
         path=os.path.abspath(os.getcwd())
@@ -174,6 +175,7 @@ class AcqErm():
             try: 
                 os.mkdir(f"{self.path_dir}\{arg}")
                 print(f"INFO creating folder {arg} for {self.customerName}")
+                self.exist=False
                 if arg=="logs":
                     errorVendors=open(f"{self.path_dir}\{arg}\\vendorsNotFounds.log", 'w')
                     errorLocations=open(f"{self.path_dir}\{arg}\\locationsNotFounds.log", 'w')
@@ -224,14 +226,14 @@ class AcqErm():
                     shutil.copy(f"{self.path_original}\\agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")
                     shutil.copy(f"{self.path_original}\\license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
                     shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
+                    shutil.copy(f"{self.path_original}\\notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json") 
                     self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"
                     self.path_licenseMapping=f"{self.path_dir}\{arg}\\license_mapping.json"
                     self.path_agreementMapping=f"{self.path_dir}\{arg}\\agreement_mapping.json"
                     self.path_notesMapping=f"{self.path_dir}\{arg}\\notes_mapping.json"
                     self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
                     self.path_organizationsMapping=f"{self.path_dir}\{arg}\\organization_mapping.json"
-                    
-                    
+               
             except OSError as error: 
                 print(f"INFO client folder /{arg} for {self.customerName} found")
                 if arg=="refdata":
@@ -276,8 +278,14 @@ class AcqErm():
                         if os.path.exists(f"{self.path_dir}\{arg}\\users_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
-                        self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"
+                            shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json")
+                        if os.path.exists(f"{self.path_dir}\{arg}\\notes_mapping.json"):
+                            pass 
+                        else:
+                            shutil.copy(f"{self.path_original}\\notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json")
+
+                        
+                        self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"                
                         self.path_licenseMapping=f"{self.path_dir}\{arg}\\license_mapping.json"
                         self.path_agreementMapping=f"{self.path_dir}\{arg}\\agreement_mapping.json"
                         self.path_notesMapping=f"{self.path_dir}\{arg}\\notes_mapping.json"
@@ -287,7 +295,7 @@ class AcqErm():
                         print(f"INFO client mapping files /{arg} for {self.customerName} found")
         print("\n"+f"INFO: Reference Data: Update reference data from server: {self.getrefdata}")
         if self.getrefdata:
-            schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups"]
+            schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments"]
             #print(f"INFO Getting Okapi customer from okapi_customer files")
             #client=br.SearchClient(self.customerName)
             if self.customerName is not None:
@@ -334,10 +342,18 @@ class AcqErm():
             client=self.customerName
             self.createdFolderStructureenv()
             self.createdFolderStructure()
-            if self.graphicinterfaces:
-                root = Tk()
-                e = windows.window(root,"Purchase Orders","1000x500", customerName)
-                root.mainloop()
+            #if self.graphicinterfaces:
+            if self.exist==False:
+                #root = Tk()
+                #e = windows.window(root,"Purchase Orders","1000x500", self.customerName)
+                #root.mainloop()
+                print(f"INFO the FOLDERS for {self.customerName}  were created in..{self.path_data}")
+                print(f"Warning:")
+                print(f"INFO 1. Check the ..{self.path_data}\loadSetting.json file be sure to include the file name to read")
+                print(f"INFO 2. Need to include the mapping file too in ..{self.path_refdata}")
+                print(f"INFO 3. Run again the script...")
+                
+                return
             else:
                 if self.sctr=="a":   
                     self.value="agreement"
@@ -360,7 +376,8 @@ class AcqErm():
                 elif self.sctr=="l": 
                     self.value="licenses"
                     self.value_a="lic"
-                elif self.sctr=="o": 
+                elif self.sctr=="o":
+                    swnotes=False
                     self.value="organizations"
                     self.value_a="org"
                     self.value_b="contacts"
@@ -370,44 +387,53 @@ class AcqErm():
                     self.customerName=pd.dataframe()
                     #print(ls[self.value_a])
                     filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
-                    self.df=self.customerName.importDataFrame(filetoload,
+                    self.dforganizations=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_organizationsMapping)
                     #Contacts
                     self.value_a="contacts"
-                    lsa=self.load_settings()
-                    filetoload=f"{self.path_data}\\"+str(lsa[self.value_a]['fileName'])
+                    lsc=self.load_settings()
+                    filetoload=f"{self.path_data}\\"+str(lsc[self.value_a]['fileName'])
                     self.dfcontacts=self.customerName.importDataFrame(filetoload,
-                                            orderby=lsa[self.value_a]['orderby'],
-                                            distinct=lsa[self.value_a]['distinct'],                                            
-                                            sheetName=lsa[self.value_a]['sheetName'],
+                                            orderby=lsc[self.value_a]['orderby'],
+                                            distinct=lsc[self.value_a]['distinct'],                                            
+                                            sheetName=lsc[self.value_a]['sheetName'],
                                             mapping_file=self.path_organizationsMapping)
                     
                     #Interfaces
                     self.value_a="interfaces"
-                    lse=self.load_settings()
-                    filetoload=f"{self.path_data}\\"+str(lse[self.value_a]['fileName'])
+                    lsi=self.load_settings()
+                    filetoload=f"{self.path_data}\\"+str(lsi[self.value_a]['fileName'])
                     self.dfinterfaces=self.customerName.importDataFrame(filetoload,
-                                            orderby=lse[self.value_a]['orderby'],
-                                            distinct=lse[self.value_a]['distinct'],                                            
-                                            sheetName=lse[self.value_a]['sheetName'],
+                                            orderby=lsi[self.value_a]['orderby'],
+                                            distinct=lsi[self.value_a]['distinct'],                                            
+                                            sheetName=lsi[self.value_a]['sheetName'],
                                             mapping_file=self.path_organizationsMapping)
-                    #print(self.df)
-                    if self.df is not None:
-                        if ((self.dfcontacts is None) and (self.dfinterfaces is None)):
-                            dfinterfaces=self.df
-                            dfcontacts=self.df
-                            self.customerName=org.organizations(client,self.path_dir)
-                            self.customerName.readOrganizations(client,self.df, self.dfcontacts, self.dfinterfaces)
+                    #Notes
+                    iter=0
+                    self.value="notes"
+                    self.value_a=f"note[{iter}]"
+                    self.df=self.value
+                    lsn=self.load_settings()
+                    self.customerName=pd.dataframe()
+                    #print(ls[self.value_a])
+                    filetoload=f"{self.path_data}\\"+str(lsn[self.value_a]['fileName'])
+                    self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsn[self.value_a]['orderby'],
+                                            distinct=lsn[self.value_a]['distinct'],                                            
+                                            sheetName=lsn[self.value_a]['sheetName'],
+                                            mapping_file=self.path_notesMapping)
+                    #print(self.notes)
+                    if self.dforganizations is not None:                        
+                        self.customerName=org.organizations(client,self.path_dir)
+                        if self.notes is not None:
+                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dforganizations, dfinterfaces=self.dforganizations, dfnotes=self.notes)
                         else:
-                            self.customerName=org.organizations(client,self.path_dir)
-                            #print(self.df)
-                            self.customerName.readOrganizations(client, self.df,self.dfcontacts, self.dfinterfaces)
+                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dforganizations, dfinterfaces=self.dforganizations)
                     else:
                         print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json") 
-                    
                     
                 elif self.sctr=="p":
                     try:
@@ -520,13 +546,7 @@ class AcqErm():
         else:
             print(f"Error: Opps the {self.value} file Name is not include in {self.path_refdata}\loadSetting.json  file, please include the {self.value} file name to continue")
             return None
-
-  
-                
-
-    
-
-            
+          
     def json_validator(self,data):
         try:
             json_data = ast.literal_eval(json.dumps(str(data)))
@@ -2537,6 +2557,8 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
                 elif "code" in j_content:
                     id.append(j_content['code'])
                     return id
+                elif "type" in j_content:
+                    id.append(j_content['type'])
                 elif "id" in j_content:
                     return id
     except Exception as err:

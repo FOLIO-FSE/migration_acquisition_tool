@@ -1,6 +1,7 @@
 import json
 import logging
 import pandas as pd
+import time
 
 class dataframe():    
     def __init__(self):
@@ -8,8 +9,9 @@ class dataframe():
 
     def importDataFrame(self,file_path,**kwargs):    
         try:
+            start_time = time.perf_counter()
             sw=True
-            print("\n"+f"Dataframe")
+            print("\n"+f"INFO Uploading Dataframe")
             if "orderby" in kwargs: 
                 self.orderby=kwargs['orderby']
             else:
@@ -44,7 +46,7 @@ class dataframe():
                 else: 
                     self.df = pd.read_excel(self.filename, engine='openpyxl')
             else:
-                print("ERROR there is no file to read in ../settings file")
+                print("ERROR there is not a file to read in ../settings file")
                 sw=False
             if sw:
                 lendf=len(self.df)
@@ -52,33 +54,41 @@ class dataframe():
                     print(f"INFO File {self.sheet_name} {self.filename} Total rows: {lendf}")
                 else:
                     print(f"INFO File {self.filename} Total rows: {lendf}")
-                print(f"INFO columns in the file with legacy system fields Names  {self.df.columns}")
+                #print(f"INFO columns in the file with legacy system fields Names  {self.df.columns}")
                 self.df = self.df.apply(lambda x: x.fillna(""))
 
                 if self.distinct: 
                     if len(self.distinct)>0:
-                        print(self.distinct)
+                        #print(self.distinct)
                         self.df_unique =self.df.drop_duplicates(subset =self.distinct, keep="first", inplace=False,ignore_index=True)
                         print("INFO Total rows not duplicated records: {0}".format(len(self.df_unique)))
                         self.df=self.df_unique
                 if self.mapping_file:
                     self.df_changed=self.changeColumns()
                     self.df=self.df_changed
+                end_time = time.perf_counter()
+                print(f"INFO Dataframe Execution Time : {end_time - start_time:0.2f}" )
                 return self.df
         except Exception as ee:
             print(f"ERROR: {ee}")
             return None
             
     def changeColumns(self):
+        self.dfnew=pd.DataFrame()
         f = open(self.mapping_file,encoding='utf-8')
         data = json.load(f)
         for i in data['data']:
-            if ((i['legacy_field']!="") or (i['legacy_field']!="Not mapped")):
-                folio_field=i['folio_field']
-                legacy_field=i['legacy_field']
-                self.df.rename(columns={legacy_field: folio_field}, inplace=True)
-        print("INFO Column has been renamed"+"\n"+f"{self.df.columns}")
-        return self.df
+            try:
+                #print(i['legacy_field'])
+                if str(i['legacy_field'])!="Not mapped":
+                    folio_field=i['folio_field']
+                    legacy_field=i['legacy_field']
+                    self.dfnew[folio_field]=self.df[legacy_field]
+            except Exception as ee:
+                print(f"WARNING: {ee} legacy_field described was not found in the sourceData as column name, check it in the mapping file")
+        print("INFO Column has been renamed"+"\n"+f"{self.dfnew.columns}")
+        #print(self.dfnew)
+        return self.dfnew
             
     def exportDataFrame(self,df,file_path,**kwargs):
         self.filename=file_path[:-5]

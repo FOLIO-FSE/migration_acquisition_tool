@@ -1,4 +1,3 @@
-
 import datetime
 import warnings
 from datetime import datetime
@@ -20,6 +19,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
 import main_functions as mf
+import notes_class as notes
 import time
 from datetime import datetime
 import yaml
@@ -28,7 +28,8 @@ import shutil
 
 class organizations():
     def __init__(self,client,path_dir):
-        try:    
+        try:
+            self.path_dir=path_dir
             self.customerName=client
             #os.mkdir(f"{path_dir}\\results")
             self.path_results=f"{path_dir}\\results"
@@ -40,7 +41,10 @@ class organizations():
             self.path_refdata=f"{path_dir}\\refdata"
             self.organizationbyline=self.path_logs+"\\"+self.customerName+"_organizationbyline.json"
             print(self.organizationbyline)
-            self.organizationbyline=open(self.organizationbyline, 'w') 
+            self.organizationbyline=open(self.organizationbyline, 'w')
+            with open(self.path_refdata+"\\organization_mapping.json") as json_mappingfile:
+                self.mappingdata = json.load(json_mappingfile)
+            self.paymentMethod= ["Cash","Credit Card","EFT","Deposit Account","Physical Check","Bank Draft","Internal Transfer","Other"]
         except Exception as ee:
             print(f"ERROR: {ee}")
             
@@ -55,10 +59,14 @@ class organizations():
 #ORGANIZATIONS
 ###########################
         
-    def readOrganizations(self, client, dforganizations, dfcontacts, dfinterfaces):
+    #def readOrganizations(self, client, dforganizations, dfcontacts, dfinterfaces):
+    def readOrganizations(self, client, **kwargs):#dforganizations, dfcontacts, dfinterfaces)
         try:
-            vendors=dforganizations
-            print(vendors)
+            vendors=kwargs['dforganizations']
+            if 'dfnotes' in kwargs:
+                note=kwargs['dfnotes']
+                self.customerName=notes.notes(client,self.path_dir)
+            #print(vendors)
             org={}
             list={}
             codeorg=[]
@@ -72,13 +80,15 @@ class organizations():
             orgFull={}
             for i, row in vendors.iterrows():
                 try:
+                    orgId=""
                     count+=1
                     print(f"INFO Processing organization record # {count}")
                     swname=False
                     swcode=False
                     tic = time.perf_counter()
-                    if 'id' in vendors.columns: org['id']=str(row['id']).strip()
-                    else: org['id']=str(uuid.uuid4())
+                    if 'id' in vendors.columns: orgId=str(row['id']).strip()
+                    else: orgId=str(uuid.uuid4())
+                    org['id']=orgId
                     isVendor= True
                     if 'isVendor' in vendors.columns:
                         if row['isVendor']:
@@ -116,7 +126,7 @@ class organizations():
                     iter=0
                     sw=True
                     while sw:
-                        field="aliases["+str(iter)+"].value"
+                        field=f"aliases[{iter}].value"
                         if field in vendors.columns:
                             if row[field]:
                                 aliases.append(str(row[field]).strip())
@@ -141,7 +151,7 @@ class organizations():
 
                     while sw:
                         categories=[]
-                        field="addresses["+str(iter)+"].addressLine1"
+                        field=f"addresses[{iter}].addressLine1"
                         isPrimary=False
                         addressdata1=""
                         if field in vendors.columns:
@@ -150,30 +160,30 @@ class organizations():
                             if iter==0:
                                 isPrimary=True
 
-                            field="addresses["+str(iter)+"].addressLine2"
+                            field=f"addresses[{iter}].addressLine2"
                             addressdata2=""
                             if field in vendors.columns:
                                 addressdata2= row[field]
                              
-                            field="addresses["+str(iter)+"].city"
+                            field=f"addresses[{iter}].city"
                             city=""
                             if field in vendors.columns:
                                if row[field]:
                                    city=row[field]
                             #addresses[0].stateRegion
-                            field="addresses["+str(iter)+"].stateRegion"
+                            field=f"addresses[{iter}].stateRegion"
                             stateRegion=""
                             if field in vendors.columns:
                                if row[field]:
                                    stateRegion=row[field]
                             #addresses[0].zipCode
-                            field="addresses["+str(iter)+"].zipCode"
+                            field=f"addresses[{iter}].zipCode"
                             zipCode=""
                             if field in vendors.columns:
                                if row[field]:
                                    zipCode=row[field]
                                    
-                            field="addresses["+str(iter)+"].categories["+str(iter)+"]"
+                            field=f"addresses[{iter}].categories[{iter}]"
                             cate=""
                             if field in vendors.columns:
                                if row[field]:
@@ -183,14 +193,14 @@ class organizations():
                                         mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
                                     else:                                         
                                         categories.append(cate[0])
-                            field="addresses["+str(iter)+"].language"
+                            field=f"addresses[{iter}].language"
                             lan=""
                             language=""
                             if field in vendors.columns:
                                 if row[field]:
                                     lan=row[field]
                                     language=mf.org_languages(value=lan,type=2)
-                            field="addresses["+str(iter)+"].country"
+                            field=f"addresses[{iter}].country"
                             country=""
                             if field in vendors.columns:
                                if row[field]:
@@ -213,46 +223,49 @@ class organizations():
                     cate=[]
                     sw=True
                     iter=0
+                    phonNumbers=""
                     #phoneNumbers[0].categories[0]
                     while sw:
                         categories=[]
-                        field="phoneNumbers["+str(iter)+"].phoneNumber"
+                        field=f"phoneNumbers[{iter}].phoneNumber"
                         isPrimary=False
                         addressdata1=""
                         if field in vendors.columns:
-                            phonNumbers=row[field]
-                            if iter==0:
-                                isPrimary=True
-                            #phoneNumbers[0].type
-                            field="phoneNumbers["+str(iter)+"].type"
-                            phonenumbertype=""
-                            if field in vendors.columns:
-                                phonentype=row[field]
-                                phonetypelist=["Office","Mobile","Fax","Other"]
-                                countlist = phonetypelist.count(str(phonentype))
-                                if countlist>0:
-                                    phonenumbertype=phonentype
+                            if row[field]:
+                                phonNumbers=row[field]
+                                if iter==0:
+                                    isPrimary=True
+                                field=f"phoneNumbers[{iter}].type"
+                                phonenumbertype=""
+                                if field in vendors.columns:
+                                    phonentype=row[field]
+                                    phonetypelist=["Office","Mobile","Fax","Other"]
+                                    countlist = phonetypelist.count(str(phonentype))
+                                    if countlist>0:
+                                        phonenumbertype=phonentype
+                                    else:
+                                        phonenumbertype="Other" 
                                 else:
-                                   phonenumbertype="Other" 
-                            #phoneNumbers[0].categories[0]
-                            field="phoneNumbers["+str(iter)+"].language"
-                            lan=""
-                            language=""
-                            if field in vendors.columns:
-                                if row[field]:
-                                    lan=row[field]
-                                    language=mf.org_languages(value=lan,type=2)
+                                    phonenumbertype="Other"
+                                    #phoneNumbers[0].categories[0]
+                                    field=f"phoneNumbers[{iter}].language"
+                                    lan=""
+                                    language=""
+                                    if field in vendors.columns:
+                                        if row[field]:
+                                            lan=row[field]
+                                            language=mf.org_languages(value=lan,type=2)
                                     
-                            field="phoneNumbers["+str(iter)+"].categories["+str(iter)+"]"
-                            if field in vendors.columns:
-                               if row[field]:
-                                    toSearch=str(row[field]).strip()
-                                    cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
-                                    if cate is None:
-                                        mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
-                                    else:                                         
-                                        categories.append(cate)
-                            orgphonNumbers.append(mf.dic(phoneNumber= phonNumbers,type=phonenumbertype, isPrimary= isPrimary, language=language,categories=categories))
+                                    field=f"phoneNumbers[{iter}].categories[{iter}]"
+                                    if field in vendors.columns:
+                                        if row[field]:
+                                            toSearch=str(row[field]).strip()
+                                            cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
+                                            if cate is None:
+                                                mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                            else:                                         
+                                                categories.append(cate)
+                                orgphonNumbers.append(mf.dic(phoneNumber= phonNumbers,type=phonenumbertype, isPrimary= isPrimary, language=language,categories=categories))
                         else:
                             sw=False
                         iter+=1 
@@ -268,7 +281,7 @@ class organizations():
                     #phoneNumbers[0].categories[0]
                     while sw:
                         categories=[]
-                        field="emails["+str(iter)+"].value"
+                        field=f"emails[{iter}].value"
                         isPrimary=False
                         email=""
                         if field in vendors.columns:
@@ -276,12 +289,12 @@ class organizations():
                             if iter==0:
                                 isPrimary=True
                             #emails[0].description
-                            field="emails["+str(iter)+"].description"
+                            field=f"emails[{iter}].description"
                             desc=""
                             if field in vendors.columns:
                                 desc=row[field]
                                 
-                            field="emails["+str(iter)+"].language"
+                            field=f"emails[{iter}].language"
                             lan=""
                             language=""
                             if field in vendors.columns:
@@ -289,7 +302,7 @@ class organizations():
                                     lan=row[field]
                                     language=mf.org_languages(value=lan,type=2)
                                     
-                            field="emails["+str(iter)+"].categories["+str(iter)+"]"
+                            field=f"emails[{iter}].categories[{iter}]"
                             if field in vendors.columns:
                                if row[field]:
                                     toSearch=str(row[field]).strip()
@@ -311,7 +324,7 @@ class organizations():
                     #phoneNumbers[0].categories[0]
                     currency=[]
                     while sw:
-                        field="vendorCurrencies["+str(iter)+"]" 
+                        field=f"vendorCurrencies[{iter}]" 
                         if field in vendors.columns:
                             currency.append(row[field])
                         else:
@@ -328,22 +341,22 @@ class organizations():
                     #phoneNumbers[0].categories[0]
                     while sw:
                         categories=[]
-                        field="urls["+str(iter)+"].value"
+                        field=f"urls[{iter}].value"
                         isPrimary=False
                         if field in vendors.columns:
                             url=row[field]
                             #emails[0].description
-                            field="urls["+str(iter)+"].description"
+                            field=f"urls[{iter}].description"
                             desc=""
                             if field in vendors.columns:
                                 desc=row[field]
                             
-                            field="urls["+str(iter)+"].note"
+                            field=f"urls[{iter}].note"
                             note=""
                             if field in vendors.columns:
                                 note=row[field]
                                 
-                            field="urls["+str(iter)+"].language"
+                            field=f"urls[{iter}].language"
                             lan=""
                             language=""
                             if field in vendors.columns:
@@ -351,7 +364,7 @@ class organizations():
                                     lan=row[field]
                                     language=mf.org_languages(value=lan,type=2)   
                                                                 
-                            field="urls["+str(iter)+"].categories["+str(iter)+"]"
+                            field=f"urls[{iter}].categories[{iter}]"
                             if field in vendors.columns:
                                if row[field]:
                                     toSearch=str(row[field]).strip()
@@ -381,16 +394,70 @@ class organizations():
                     addacc=True
                     if 'Acquisitions units' in vendors.columns:
                         org['acqUnitIds']=row['Acquisitions units']
-                    org['interfaces']=self.readInterfaces(dfinterfaces, vencode)
-                    org['contacts']=self.readContacts(client,dfcontacts, vencode)     
+                    ##Accounts
+                    iter=0
+                    sw=True
+                    accounts=[]
+                    while sw:
+                        acc={}
+                        field=f"accounts[{iter}].accountNo"
+                        if field in vendors.columns:
+                            if row[field]:
+                                acc['accountNo']=str(row[field]).strip()
+                                field=f"accounts[{iter}].accountStatus"
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        acc['accountStatus']=row[field]
+                                else:
+                                    acc['accountStatus']="Active"
+                                #accounts[0].description
+                                field=f"accounts[{iter}].description"
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        acc['description']=str(row[field]).strip()
+                                #accounts[0].contactInfo
+                                field=f"accounts[{iter}].contactInfo"
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        acc['contactInfo']=str(row[field]).strip()
+                                field=f"accounts[{iter}].name"
+                                accName="No Name"
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        accName=str(row[field]).strip()
+                                acc['name']=accName
+                                #accounts[0].paymentMethod
+                                field=f"accounts[{iter}].paymentMethod"
+                                paymentMethod="Other"
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        payM=str(row[field]).strip()
+                                        countlist = self.paymentMethod.count(str(payM))
+                                        if countlist>0:
+                                            paymentMethod=payM
+                                acc['paymentMethod']=paymentMethod
+                                accounts.append(acc)                                  
+                        else:
+                            sw=False
+                        iter+=1    
+                    org['accounts']=accounts
+                    if 'dfinterfaces' in kwargs: org['interfaces']=self.readInterfaces(kwargs['dfinterfaces'], vencode)
+                    else: org['interfaces']=[]
+                    if 'dfcontacts' in kwargs: org['contacts']=self.readContacts(client,kwargs['dfcontacts'], vencode) 
+                    else: org['contacts']=[]
                     if swname and swcode:               
                         mf.printObject(org,self.path_results,count,"organization_byLine.json",False)
                         orga.append(org)
                     else:
                         mf.printObject(org,self.path_results,count,"worse_organization_byLine.json",False)
                     print(f"INFO Record: {count} created ")
+                    
+                    if kwargs['dfnotes'] is not None:                        
+                        self.customerName.readnotes(client,kwargs['dfnotes'],vencode,orgId)
+                        #self.readnotes(self,client,)
+                    
                     org={}
-                    addnoteapp=False
+                    #addnoteapp=False
                     interface_Id=[]
                     #old_org=org_code
                     contact_Id=[]
@@ -416,7 +483,7 @@ class organizations():
                 
                 inter={}
                 cred={}
-                field="interfaces["+str(iter)+"].name"
+                field=f"interfaces[{iter}].name"
                 if field in dfinter.columns:
                     if cprow[field]:
                         interId=""
@@ -424,16 +491,16 @@ class organizations():
                         inter['id']=interId
                         print(f"INFO Processing interfaces for the {toSearch} organization, Interface record {c}")
                         inter['name']=cprow[field]
-                        field="interfaces["+str(iter)+"].uri"
+                        field=f"interfaces[{iter}].uri"
                         if field in dfinter.columns:
                             inter['uri']=cprow[field]
-                        field="interfaces["+str(iter)+"].notes"
+                        field=f"interfaces[{iter}].notes"
                         if field in dfinter.columns:
                             inter['notes']=cprow[field] 
-                        field="interfaces["+str(iter)+"].available"
+                        field=f"interfaces[{iter}].available"
                         if field in dfinter.columns: inter['available']=cprow[field]
                         else:inter['available']="Available"
-                        field="interfaces["+str(iter)+"].deliveryMethod"
+                        field=f"interfaces[{iter}].deliveryMethod"
                         deliverM="Online"
                         deliverMethodvalue=["Online", "FTP", "Email", "Other"]
                         if field in dfinter.columns:
@@ -442,20 +509,20 @@ class organizations():
                             if countlist>0: inter['deliveryMethod']=deliverMethodtosearch
                             else: inter['deliveryMethod']=deliverM
                 
-                        field="interfaces["+str(iter)+"].statisticsFormat"
+                        field=f"interfaces[{iter}].statisticsFormat"
                         if field in dfinter.columns:
                             inter['statisticsFormat']=cprow[field]  
-                        field="interfaces["+str(iter)+"].onlineLocation"
+                        field=f"interfaces[{iter}].onlineLocation"
                         if field in dfinter.columns:
                             inter['onlineLocation']=cprow[field]
-                        field="interfaces["+str(iter)+"].statisticsNotes"
+                        field=f"interfaces[{iter}].statisticsNotes"
                         if field in dfinter.columns:
                             inter['statisticsNotes']=cprow[field]
-                        field="interfaces["+str(iter)+"].username"
+                        field=f"interfaces[{iter}].username"
                         if field in dfinter.columns:
                             cred['username']=cprow[field]
                             siuser=True
-                        field="interfaces["+str(iter)+"].password"
+                        field=f"interfaces[{iter}].password"
                         if field in dfinter.columns:
                             cred['password']=cprow[field]
                             sicre=True 
@@ -487,29 +554,29 @@ class organizations():
                 con={}
                 conId=""
                 #print(contact.columns)
-                field="contacts["+str(iter)+"].lastName"
+                field=f"contacts[{iter}].lastName"
                 if field in contact.columns:
                     if rowc[field]:
                         con['lastName']=rowc[field]
                         conId=str(uuid.uuid4())
                         con['id']=conId
-                        field="contacts["+str(iter)+"].prefix"
+                        field=f"contacts[{iter}].prefix"
                         if field in contact.columns:
                             if rowc[field]:
                                 con['prefix']=rowc[field]
-                        field="contacts["+str(iter)+"].firstName"
+                        field=f"contacts[{iter}].firstName"
                         if field in contact.columns:
                             if rowc[field]:
                                 con['firstName']=rowc[field]
                             else:
                                 con['firstName']=" "
-                        field="contacts["+str(iter)+"].notes"
+                        field=f"contacts[{iter}].notes"
                         if field in contact.columns:
                             if rowc[field]:
                                 con['notes']=rowc[field]
-                        #field="contacts.inactive["+str(iter)+"]"
+                        #field=f"contacts.inactive[{iter}]"
                         con['inactive']=False
-                        field="contacts["+str(iter)+"].notes"
+                        field=f"contacts[{iter}].notes"
                         if field in contact.columns:
                             if rowc[field]:
                                 con['notes']=rowc[field]
@@ -518,7 +585,7 @@ class organizations():
                         iter=0
                         while sw:
                             categories=[]
-                            field="contacts["+str(iter)+"].phoneNumbers"
+                            field=f"contacts[{iter}].phoneNumbers"
                             isPrimary=False
                             addressdata1=""
                             if field in contact.columns:
@@ -526,7 +593,7 @@ class organizations():
                                 if iter==0:
                                     isPrimary=True
                                 #phoneNumbers[0].type
-                                field="contacts["+str(iter)+"].phoneNumbers.type"
+                                field=f"contacts[{iter}].phoneNumbers.type"
                                 phonenumbertype=""
                                 if field in contact.columns:
                                     if rowc[field]:
@@ -537,7 +604,7 @@ class organizations():
                                             phonenumbertype=phonentype
                                         else:
                                             phonenumbertype="Other" 
-                                field="contacts["+str(iter)+"].phoneNumbers.categories"
+                                field=f"contacts[{iter}].phoneNumbers.categories"
                                 if field in contact.columns:
                                     if rowc[field]:
                                         toSearch=str(rowc[field]).strip()
@@ -558,7 +625,7 @@ class organizations():
                         conaddresses=[] 
                         while sw:
                             categories=[]
-                            field="contact["+str(iter)+"].addresses1"
+                            field=f"contact[{iter}].addresses1"
                             isPrimary=False
                             addressdata1=""
                             if field in contact.columns:
@@ -566,29 +633,29 @@ class organizations():
                                     addressdata1= rowc[field]
                                 if iter==0:
                                     isPrimary=True
-                                field="contact["+str(iter)+"].addressLine2"
+                                field=f"contact[{iter}].addressLine2"
                                 addressdata2=""
                                 if field in contact.columns:
                                     addressdata2= rowc[field]
-                                field="contact["+str(iter)+"].addresses.city"
+                                field=f"contact[{iter}].addresses.city"
                                 city=""
                                 if field in contact.columns:
                                     if rowc[field]:
                                         city=rowc[field]
                                 #addresses[0].stateRegion
-                                field="contact.["+str(iter)+"]addresses.stateRegion"
+                                field=f"contact.[{iter}]addresses.stateRegion"
                                 stateRegion=""
                                 if field in contact.columns:
                                     if rowc[field]:
                                         stateRegion=rowc[field]
                                 #addresses[0].zipCode
-                                field="contact["+str(iter)+"].addresses.zipCode"
+                                field=f"contact[{iter}].addresses.zipCode"
                                 zipCode=""
                                 if field in contact.columns:
                                     if rowc[field]:
                                         zipCode=rowc[field]
                                    
-                                field="contact.["+str(iter)+"]addresses.categories["+str(iter)+"]"
+                                field=f"contact.[{iter}]addresses.categories[{iter}]"
                                 country=""
                                 if field in contact.columns:
                                    if rowc[field]:
@@ -604,7 +671,7 @@ class organizations():
                             
                             
                             #"addresses[0].country"
-                                field="contact.["+str(iter)+"]addresses.country"
+                                field=f"contact.[{iter}]addresses.country"
                                 country=""
                                 if field in contact.columns:
                                     if rowc[field]:
@@ -626,22 +693,22 @@ class organizations():
                         sw=True        
                         while sw:
                             categories=[]
-                            field="contact["+str(iter)+"].urls.value"
+                            field=f"contact[{iter}].urls.value"
                             isPrimary=False
                             if field in contact.columns:
                                 url=rowc[field]
                                 #emails[0].description
-                                field="contact.["+str(iter)+"]urls.description"
+                                field=f"contact.[{iter}]urls.description"
                                 desc=""
                                 if field in contact.columns:
                                     desc=rowc[field]
                           
-                                field="contact["+str(iter)+"].urls.note"
+                                field=f"contact[{iter}].urls.note"
                                 note=""
                                 if field in contact.columns:
                                     note=rowc[field]
                                 
-                                field="contact["+str(iter)+"].urls.categories["+str(iter)+"]"
+                                field=f"contact[{iter}].urls.categories[{iter}]"
                                 if field in contact.columns:
                                    if rowc[field]:
                                     if rowc[field]:
@@ -664,7 +731,7 @@ class organizations():
                         #phoneNumbers[0].categories[0]
                         while sw:
                             categories=[]
-                            field="contact["+str(iter)+"].emails.value"
+                            field=f"contact[{iter}].emails.value"
                             isPrimary=False
                             email=""
                             if field in contact.columns:
@@ -672,11 +739,11 @@ class organizations():
                                 if iter==0:
                                     isPrimary=True
                                 #emails[0].description
-                                field="contact.["+str(iter)+"]emails.description"
+                                field=f"contact.[{iter}]emails.description"
                                 desc=""
                                 if field in contact.columns:
                                     desc=str(rowc[field])
-                                field="contact.["+str(iter)+"]emails.categories["+str(iter)+"]"
+                                field=f"contact.[{iter}]emails.categories[{iter}]"
                                 if field in contact.columns:
                                     if rowc[field]:
                                         toSearch=str(rowc[field]).strip()
@@ -696,16 +763,3 @@ class organizations():
             except Exception as ee:
                 print(f"ERROR: Contacts schema:{ee}")                
         return contactsId
-        
-
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
