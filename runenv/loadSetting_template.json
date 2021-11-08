@@ -7,30 +7,116 @@
       "path_logs": "",
       "path_refdata": "",
       "path_data": "",
-      "organizations":[
-          {"org": {"fileName": "", "orderby": "","distinct": [],"sheetName": ""}},
-          {"contacts": {"fileName": "","orderby": "","distinct": [],"foreingKey": "","sheetName": ""}},
-          {"interfaces": {"fileName": "","orderby": "","distinct": [],"foreingKey": "","sheetName": ""}}
-        ],
-      "purchaseOrders":[
-          {"po": {"fileName": "", "orderby": "","distinct": [],"sheetName": "", "sep": ""}},
-          {"poLines": {"fileName": "","orderby": "","distinct": [],"foreingKey": "","sheetName": ""}}
-          ],
+      "organizations": [
+        {
+          "org": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": ""
+          }
+        },
+        {
+          "contacts": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "foreingKey": "",
+            "sheetName": ""
+          }
+        },
+        {
+          "interfaces": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "foreingKey": "",
+            "sheetName": ""
+          }
+        }
+      ],
+      "purchaseOrders": [
+        {
+          "po": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "sep": ""
+          }
+        },
+        {
+          "poLines": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "foreingKey": "",
+            "sheetName": ""
+          }
+        }
+      ],
       "licenses": [
-        {"lic":{"fileName": "","orderby": "","distinct": [""],"licenseId": "","sheetName": ""}}
-        ],
-      "agreement":[
-        {"agree": {"fileName": "","orderby": "","distinct": [""],"agreementid": "","sheetName": ""}}
-        ],
+        {
+          "lic": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "licenseId": "",
+            "sheetName": ""
+          }
+        }
+      ],
+      "agreement": [
+        {
+          "agree": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "agreementid": "",
+            "sheetName": ""
+          }
+        }
+      ],
       "users": [
-        {"user":{"fileName": "","orderby": "","distinct": [""],"userid": "","sheetName": ""}}
-        ],
+        {
+          "user": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "userid": "",
+            "sheetName": ""
+          }
+        }
+      ],
       "notes": [
-        {"fileName": "","orderby": "","distinct": [],"foreingKey": "","sheetName": ""},
-        {"fileName": "","orderby": "","distinct": [],"foreingKey": "","sheetName": ""},
-        {"fileName": "","orderby": "","distinct": [],"foreingKey": "","sheetName": ""},
-        {"fileName": "","orderby": "","distinct": [],"foreingKey": "","sheetName": ""}
-        ]      
+        {
+          "note":{"fileName": "",
+          "orderby": "",
+          "distinct": [],
+          "foreingKey": "",
+          "sheetName": ""
+        }
+        },
+        {"note1": {
+          "fileName": "",
+          "orderby": "",
+          "distinct": [],
+          "foreingKey": "",
+          "sheetName": ""}
+        },
+        { "note2": {"fileName": "",
+          "orderby": "",
+          "distinct": [],
+          "foreingKey": "",
+          "sheetName": ""}
+        },
+        { "note3": {"fileName": "",
+          "orderby": "",
+          "distinct": [],
+          "foreingKey": "",
+          "sheetName": ""}
+        }
+      ]
     }
   ]
 }

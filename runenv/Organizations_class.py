@@ -49,6 +49,7 @@ class organizations():
             print(f"ERROR: {ee}")
             
     def readacquisitionMapping(self):
+        
         self.customerName=pd.dataframe()
         filetoload=self.path_refdata+f"\\acquisitionMapping.xlsx"
         print("Dataframe: Acquisition Method")
@@ -62,6 +63,7 @@ class organizations():
     #def readOrganizations(self, client, dforganizations, dfcontacts, dfinterfaces):
     def readOrganizations(self, client, **kwargs):#dforganizations, dfcontacts, dfinterfaces)
         try:
+            start_time = time.perf_counter()
             vendors=kwargs['dforganizations']
             if 'dfnotes' in kwargs:
                 note=kwargs['dfnotes']
@@ -82,7 +84,7 @@ class organizations():
                 try:
                     orgId=""
                     count+=1
-                    print(f"INFO Processing organization record # {count}")
+                    
                     swname=False
                     swcode=False
                     tic = time.perf_counter()
@@ -109,8 +111,12 @@ class organizations():
                     #ORG NAME
                     org_name=""
                     if 'name' in vendors.columns: 
-                        if row['name']: org_name=str(row['name']).strip()
-                        swname=True
+                        if row['name']: 
+                            org_name=str(row['name']).strip()
+                            swname=True
+                            print(f"INFO Processing organization record # {count} Org-Name: {org_name}")
+                        else:
+                            print(f"WARNING Processing organization record # {count} Org-Name: NOT NAME. it is a field requeried ")
                     org['name']=org_name
                     #ORG DESCRIPTION
                     orgdescription=""
@@ -285,33 +291,35 @@ class organizations():
                         isPrimary=False
                         email=""
                         if field in vendors.columns:
-                            email=row[field]
-                            if iter==0:
-                                isPrimary=True
-                            #emails[0].description
-                            field=f"emails[{iter}].description"
-                            desc=""
-                            if field in vendors.columns:
-                                desc=row[field]
+                            if row[field]:
+                                email=row[field]
+                                if iter==0:
+                                    isPrimary=True
+                                #emails[0].description
+                                field=f"emails[{iter}].description"
+                                desc=""
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        desc=row[field]
                                 
-                            field=f"emails[{iter}].language"
-                            lan=""
-                            language=""
-                            if field in vendors.columns:
-                                if row[field]:
-                                    lan=row[field]
-                                    language=mf.org_languages(value=lan,type=2)
+                                field=f"emails[{iter}].language"
+                                lan=""
+                                language=""
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        lan=row[field]
+                                        language=mf.org_languages(value=lan,type=2)
                                     
-                            field=f"emails[{iter}].categories[{iter}]"
-                            if field in vendors.columns:
-                               if row[field]:
-                                    toSearch=str(row[field]).strip()
-                                    cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
-                                    if cate is None:
-                                        mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
-                                    else:                                         
-                                        categories.append(cate)
-                            orgemails.append(mf.dic(value=email,description=desc,language=language,isPrimary= isPrimary, categories=categories))
+                                field=f"emails[{iter}].categories[{iter}]"
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        toSearch=str(row[field]).strip()
+                                        cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
+                                        if cate is None:
+                                            mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                        else:                                         
+                                            categories.append(cate)
+                                orgemails.append(mf.dic(value=email,description=desc,language=language,isPrimary= isPrimary, categories=categories))
                         else:
                             sw=False
                         iter+=1
@@ -326,7 +334,8 @@ class organizations():
                     while sw:
                         field=f"vendorCurrencies[{iter}]" 
                         if field in vendors.columns:
-                            currency.append(row[field])
+                            if row[field]:
+                                currency.append(row[field])
                         else:
                             sw=False
                         iter+=1
@@ -344,37 +353,39 @@ class organizations():
                         field=f"urls[{iter}].value"
                         isPrimary=False
                         if field in vendors.columns:
-                            url=row[field]
-                            #emails[0].description
-                            field=f"urls[{iter}].description"
-                            desc=""
-                            if field in vendors.columns:
-                                desc=row[field]
-                            
-                            field=f"urls[{iter}].note"
-                            note=""
-                            if field in vendors.columns:
-                                note=row[field]
+                            if row[field]:
+                                url=row[field]
+                                #emails[0].description
+                                field=f"urls[{iter}].description"
+                                desc=""
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        desc=row[field]
+                                field=f"urls[{iter}].note"
+                                note=""
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        note=row[field]
                                 
-                            field=f"urls[{iter}].language"
-                            lan=""
-                            language=""
-                            if field in vendors.columns:
-                                if row[field]:
-                                    lan=row[field]
-                                    language=mf.org_languages(value=lan,type=2)   
+                                field=f"urls[{iter}].language"
+                                lan=""
+                                language=""
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        lan=row[field]
+                                        language=mf.org_languages(value=lan,type=2)   
                                                                 
-                            field=f"urls[{iter}].categories[{iter}]"
-                            if field in vendors.columns:
-                               if row[field]:
-                                    toSearch=str(row[field]).strip()
-                                    cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
-                                    if cate is None:
-                                        mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
-                                    else:                                         
-                                        categories.append(cate)
+                                field=f"urls[{iter}].categories[{iter}]"
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        toSearch=str(row[field]).strip()
+                                        cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
+                                        if cate is None:
+                                            mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                        else:                                         
+                                            categories.append(cate)
                             
-                            orgurls.append(mf.dic(value=url, description=desc,note=note,language=language,categories=categories))                
+                                orgurls.append(mf.dic(value=url, description=desc,note=note,language=language,categories=categories))                
                         else:
                             sw=False
                         iter+=1
@@ -441,16 +452,14 @@ class organizations():
                             sw=False
                         iter+=1    
                     org['accounts']=accounts
-                    if 'dfinterfaces' in kwargs: org['interfaces']=self.readInterfaces(kwargs['dfinterfaces'], vencode)
-                    else: org['interfaces']=[]
-                    if 'dfcontacts' in kwargs: org['contacts']=self.readContacts(client,kwargs['dfcontacts'], vencode) 
-                    else: org['contacts']=[]
+                    org['interfaces']=self.readInterfaces(kwargs['dfinterfaces'], vencode)
+                    org['contacts']=self.readContacts(client,kwargs['dfcontacts'], vencode) 
                     if swname and swcode:               
                         mf.printObject(org,self.path_results,count,"organization_byLine.json",False)
                         orga.append(org)
                     else:
                         mf.printObject(org,self.path_results,count,"worse_organization_byLine.json",False)
-                    print(f"INFO Record: {count} created ")
+                    print(f"INFO Organization record: {count} has been created")
                     
                     if kwargs['dfnotes'] is not None:                        
                         self.customerName.readnotes(client,kwargs['dfnotes'],vencode,orgId)
@@ -466,7 +475,9 @@ class organizations():
                 except Exception as ee:
                     print(f"ERROR: {ee}")
             orgFull['organizations']=orga
-            mf.printObject(orgFull,self.path_results,count,"organization",True)      
+            mf.printObject(orgFull,self.path_results,count,"organization",True)
+            end_time = time.perf_counter()
+            print(f"INFO Organization Execution Time : {end_time - start_time:0.2f}" )      
         except Exception as ee:
             print(f"ERROR: {ee}")
 
@@ -476,7 +487,6 @@ class organizations():
         try:
             count=0
             dfinter = dfinterfaces[dfinterfaces['code']== toSearch]
-            #print("interfaces founds records: ",len(dfinter))
             iter=0
             interfacesId=[]
             for c, cprow in dfinter.iterrows():
@@ -486,6 +496,7 @@ class organizations():
                 field=f"interfaces[{iter}].name"
                 if field in dfinter.columns:
                     if cprow[field]:
+                        print(f"INFO processing interfaces for: {toSearch}",len(dfinter))
                         interId=""
                         interId=str(uuid.uuid4())
                         inter['id']=interId
@@ -547,16 +558,18 @@ class organizations():
         LN=""
         contcategories=""
         contact = dfcontacts[dfcontacts['code']== toSearch]
-        print(f"INFO processing Contacts for {toSearch}: ",len(contact))
+        
         iter=0
         for c, rowc in contact.iterrows():
             try:
+                
                 con={}
                 conId=""
                 #print(contact.columns)
                 field=f"contacts[{iter}].lastName"
                 if field in contact.columns:
                     if rowc[field]:
+                        print(f"INFO processing Contacts for {toSearch}: ",len(contact))
                         con['lastName']=rowc[field]
                         conId=str(uuid.uuid4())
                         con['id']=conId
