@@ -479,8 +479,11 @@ class AcqErm():
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_usersMapping)
                     #print(self.df)
-                    self.customerName=users.users(self.customerName,self.path_dir)
-                    self.customerName.readusers(self.df)
+                    if self.df.empty:
+                        pass
+                    else:
+                        self.customerName=users.users(self.customerName,self.path_dir)
+                        self.customerName.readusers(self.df)
                 elif self.sctr=="n":   
                     self.value="notes"
                     self.value_a="note"

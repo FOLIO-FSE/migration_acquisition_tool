@@ -40,22 +40,23 @@ class organizations():
             #os.mkdir(f"{path_dir}\\refdata")
             self.path_refdata=f"{path_dir}\\refdata"
             self.organizationbyline=self.path_logs+"\\"+self.customerName+"_organizationbyline.json"
-            print(self.organizationbyline)
-            self.organizationbyline=open(self.organizationbyline, 'w')
+            #print(self.organizationbyline)
+            self.organizationbyline=open(self.organizationbyline, 'w')            
+        except Exception as ee:
+            print(f"ERROR: {ee}")
+            
+    def readMappingfile(self):
+        try:       
+            self.customerName=pd.dataframe()
+            filetoload=self.path_refdata+f"\\acquisitionMapping.xlsx"
+            print("INFO Reading mapping file")
+            self.paymentMethodAccount=self.customerName.importDataFrame(filetoload,sheetName="paymentMethodAccount")
+            self.categories=self.customerName.importDataFrame(filetoload,sheetName="categories")
             with open(self.path_refdata+"\\organization_mapping.json") as json_mappingfile:
                 self.mappingdata = json.load(json_mappingfile)
             self.paymentMethod= ["Cash","Credit Card","EFT","Deposit Account","Physical Check","Bank Draft","Internal Transfer","Other"]
         except Exception as ee:
-            print(f"ERROR: {ee}")
-            
-    def readacquisitionMapping(self):
-        
-        self.customerName=pd.dataframe()
-        filetoload=self.path_refdata+f"\\acquisitionMapping.xlsx"
-        print("Dataframe: Acquisition Method")
-        self.paymentMethodAccount=self.customerName.importDataFrame(filetoload,sheetName="paymentMethodAccount")
-        self.categories=self.customerName.importDataFrame(filetoload,sheetName="categories")
-        
+            print(f"ERROR: {ee}")    
 ###########################
 #ORGANIZATIONS
 ###########################
@@ -64,6 +65,7 @@ class organizations():
     def readOrganizations(self, client, **kwargs):#dforganizations, dfcontacts, dfinterfaces)
         try:
             start_time = time.perf_counter()
+            self.readMappingfile()
             vendors=kwargs['dforganizations']
             if 'dfnotes' in kwargs:
                 note=kwargs['dfnotes']

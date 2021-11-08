@@ -8,114 +8,22 @@
       "path_refdata": "",
       "path_data": "",
       "organizations": [
-        {
-          "org": {
-            "fileName": "",
-            "orderby": "",
-            "distinct": [],
-            "sheetName": ""
-          }
-        },
-        {
-          "contacts": {
-            "fileName": "",
-            "orderby": "",
-            "distinct": [],
-            "foreingKey": "",
-            "sheetName": ""
-          }
-        },
-        {
-          "interfaces": {
-            "fileName": "",
-            "orderby": "",
-            "distinct": [],
-            "foreingKey": "",
-            "sheetName": ""
-          }
-        }
-      ],
+        {"org": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
+        {"contacts": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
+        {"interfaces": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}}],
       "purchaseOrders": [
-        {
-          "po": {
-            "fileName": "",
-            "orderby": "",
-            "distinct": [],
-            "sheetName": "",
-            "sep": ""
-          }
-        },
-        {
-          "poLines": {
-            "fileName": "",
-            "orderby": "",
-            "distinct": [],
-            "foreingKey": "",
-            "sheetName": ""
-          }
-        }
-      ],
+        {"po": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
+        {"poLines": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}}],
       "licenses": [
-        {
-          "lic": {
-            "fileName": "",
-            "orderby": "",
-            "distinct": [],
-            "licenseId": "",
-            "sheetName": ""
-          }
-        }
-      ],
+        {"lic": {"fileName": "","orderby": "","distinct": [],"licenseId": "","sheetName": ""}}],
       "agreement": [
-        {
-          "agree": {
-            "fileName": "",
-            "orderby": "",
-            "distinct": [],
-            "agreementid": "",
-            "sheetName": ""
-          }
-        }
-      ],
-      "users": [
-        {
-          "user": {
-            "fileName": "",
-            "orderby": "",
-            "distinct": [],
-            "userid": "",
-            "sheetName": ""
-          }
-        }
-      ],
+        {"agree": {"fileName": "","orderby": "","distinct": [],"agreementid": "","sheetName": ""}}],
+      "users": [{"user": {"fileName": "","orderby": "","distinct": [],"userid": "", "sheetName": ""}}],
       "notes": [
-        {
-          "note":{"fileName": "",
-          "orderby": "",
-          "distinct": [],
-          "foreingKey": "",
-          "sheetName": ""
-        }
-        },
-        {"note1": {
-          "fileName": "",
-          "orderby": "",
-          "distinct": [],
-          "foreingKey": "",
-          "sheetName": ""}
-        },
-        { "note2": {"fileName": "",
-          "orderby": "",
-          "distinct": [],
-          "foreingKey": "",
-          "sheetName": ""}
-        },
-        { "note3": {"fileName": "",
-          "orderby": "",
-          "distinct": [],
-          "foreingKey": "",
-          "sheetName": ""}
-        }
+        {"note[0]":{"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
+        {"note[1]": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
+        {"note[2]": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
+        {"note[3]": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}}
       ]
     }
   ]

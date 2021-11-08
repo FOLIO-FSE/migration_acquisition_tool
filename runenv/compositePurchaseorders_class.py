@@ -23,7 +23,7 @@ import time
 from datetime import datetime
 import yaml
 import shutil
-import main_functions as AcqErm
+
 
 class compositePurchaseorders():
     def __init__(self,client,path_dir):
@@ -43,19 +43,31 @@ class compositePurchaseorders():
         except Exception as ee:
             print(f"ERROR: {ee}")
             
-    def readacquisitionMapping(self):
+    def readMappingfile(self):
         self.customerName=pd.dataframe()
         filetoload=self.path_refdata+f"\\acquisitionMapping.xlsx"
+        print("INFO Reading Mapping file")
         self.acquisitionMethod=self.customerName.importDataFrame(filetoload,sheetName="acquisitionMethod")
+        #print("Dataframe: Order Format")
         self.orderFormat=self.customerName.importDataFrame(filetoload,sheetName="orderFormat")
+        #print("Dataframe: Order Type")
         self.orderType=self.customerName.importDataFrame(filetoload,sheetName="orderType")
+        #print("Dataframe: Payment Status")
         self.paymentStatus=self.customerName.importDataFrame(filetoload,sheetName="paymentStatus")
+        #print("Dataframe: Receipt Status")
         self.receiptStatus=self.customerName.importDataFrame(filetoload,sheetName="receiptStatus")
+        #print("Dataframe: WorkFlowStatus")
         self.workflowStatus=self.customerName.importDataFrame(filetoload,sheetName="workflowStatus")
+        #print("Dataframe: Locations")
         self.locations=self.customerName.importDataFrame(filetoload,sheetName="locations")
+        #print("Dataframe: Funds/Expenses")
         self.fundsExpenseClass=self.customerName.importDataFrame(filetoload,sheetName="fundsExpenseClass")
+        #print("Dataframe: Funds")
         self.funds=self.customerName.importDataFrame(filetoload,sheetName="funds")
+        #print("Dataframe: Organization code to Change - optional")
         self.organizationCodeToChange=self.customerName.importDataFrame(filetoload,sheetName="organizationCodeToChange")
+        with open(self.path_refdata+"\\composite_purchase_order_mapping.json") as json_mappingfile:
+            self.mappingdata = json.load(json_mappingfile)
         
         #print(self.acquisitionMethod)
 ################################
@@ -65,11 +77,11 @@ class compositePurchaseorders():
 #        try:
     def readorders(self, client,dfOrders, dfPolines):
         
-        self.readacquisitionMapping()
+        self.readMappingfile()
         
         orderList=[]      
         orders=dfOrders
-        poLines=dfPolines        
+        #poLines=dfPolines        
         orderDictionary={}      
         list={}
         #customerName=kwargs['client']
@@ -87,7 +99,10 @@ class compositePurchaseorders():
         notesapp=[]
         orderList=[]      
         orderDictionary={}      
+        countvendorerror=0
+        countpolerror=0
         list={}
+        countpol=0
         for i, row in orders.iterrows():
             try:
                 printpoline=True
@@ -119,7 +134,7 @@ class compositePurchaseorders():
                 else:
                     randompoNumber=str(round(random.randint(100, 1000)))
                     poNumber=str(randompoNumber)
-                    mf.write_file(path=self.path_logs+"\\oldNew_ordersID.log",contenido=poNumber)
+                    mf.write_file(ruta=self.path_logs+"\\oldNew_ordersID.log",contenido=poNumber)
 
                     po=poNumber
                 #CHECKING DUPLICATED PO number    
@@ -140,15 +155,23 @@ class compositePurchaseorders():
                 Order["manualPo"]= False
                 #PURCHASE ORDER NOTES
                 notea=[]
-                if 'notes' in orders.columns:
-                    if row['notes']!="":
-                        notea.append(str(row['notes']).strip())
+                iter=0
+                sw=True
+                while sw:
+                    noteField="notes["+str(iter)+"]"
+                    if noteField in orders.columns:
+                        if row[noteField]:
+                            notea.append(str(row[noteField]).strip())
+                    else:
+                        sw=False
+                    iter+=1
+                        
                 Order["notes"]=notea
-
+                if poNumber=="XY117489":
+                    a=1
                 #IS SUSCRIPTION FALSE/TRUE
                 Order_type=""
                 Order_type="One-Time"
-                isongoing=mf.dic(isSubscription=False)
                 isSubscription= False
                 isSuscriptiontem=""
                 interval=365
@@ -156,37 +179,32 @@ class compositePurchaseorders():
                 reviewPeriod=""
                 ongoingNote=""
                 if 'orderType' in orders.columns:
-                    Otype=str(row['orderType']).strip()
-                    self.temp = self.orderType[self.orderType['LEGACY SYSTEM CODE (A,B,C)']== Otype]
-                    #print("poLines founds records: ",len(poLines))
-                    for c, cprow in self.temp.iterrows():
-                        try:
-                            Order_type=cprow['FOLIO']
-                        except Exception as ee:
-                            print(f"ERROR: {ee}")
-                
-                    if Order_type=="One-time" or Order_type=="One-Time" :
-                        isongoing=mf.dic(isSubscription=False)
-                    else:
-                        if 'ongoing.reviewPeriod' in orders.columns:
-                            if row['ongoing.reviewPeriod']:
-                                reviewPeriod=int(row['ongoing.reviewPeriod'])
-                    if 'ongoing.interval' in orders.columns:
-                        if row['ongoing.interval']: interval=int(row['ongoing.interval'])
-                    if 'ongoing.renewalDate' in orders.columns:    
-                        if row['ongoing.renewalDate']: 
-                            renewalDate=mf.timeStamp(row['ongoing.renewalDate'])#f"2022-06-30T00:00:00.00+00:00"
-                    isongoing=mf.dic(interval=interval, isSubscription=True, manualRenewal=True, 
+                    result=""
+                    result=self.mapping(self.orderType,str(row['orderType']).strip())
+                    if result is not None:
+                        if result=="ongoing" or result=="Ongoing":
+                            Order_type="Ongoing"
+                            if 'ongoing.reviewPeriod' in orders.columns:
+                                if row['ongoing.reviewPeriod']:
+                                    reviewPeriod=int(row['ongoing.reviewPeriod'])
+                            if 'ongoing.interval' in orders.columns:
+                                if row['ongoing.interval']: interval=int(row['ongoing.interval'])
+                            if 'ongoing.renewalDate' in orders.columns:    
+                                if row['ongoing.renewalDate']: 
+                                    renewalDate=mf.timeStamp(row['ongoing.renewalDate'])#f"2022-06-30T00:00:00.00+00:00"
+                            isongoing=mf.dic(interval=interval, isSubscription=True, manualRenewal=True, 
                                                    reviewPeriod=reviewPeriod, renewalDate=renewalDate)
+                            Order["ongoing"]=isongoing
+                        
                 Order["orderType"]=Order_type 
-                Order["ongoing"]=isongoing
+                
                 ######################
                 shipTo=""
                 billTo=""
                 if 'billTo' in orders.columns:
-                    Order["billTo"]="5b1f5f52-7ca8-4690-ac78-2d1bf9e410c0"
+                    Order["billTo"]="f1f0acff-8d64-41ad-afdd-f9b923b2b3aa"
                 if 'shipTo' in orders.columns:
-                    Order["shipTo"]="5b1f5f52-7ca8-4690-ac78-2d1bf9e410c0"
+                    Order["shipTo"]="f1f0acff-8d64-41ad-afdd-f9b923b2b3aa"
                 OrganizationUUID=""            
                 #file=self.customerName+"_organizations.json"
                 
@@ -197,7 +215,7 @@ class compositePurchaseorders():
                             vendorToSearch=str(row['vendor']).strip()
                             OrganizationUUID=mf.readJsonfile(self.path_refdata,client+"_organizations.json","organizations",vendorToSearch,"code")
                             if OrganizationUUID is None:
-                                mf.write_file(path=self.path_logs+"\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
+                                mf.write_file(ruta=self.path_logs+"\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
                                 countvendorerror+=1
                                 printpoline=False
                     else:
@@ -210,19 +228,10 @@ class compositePurchaseorders():
                 approvedStatus= False
                 if 'workflowStatus' in orders.columns:
                     if row['workflowStatus']:
-                        workflow=str(row['workflowStatus']).strip()
                         toSearch=str(row['workflowStatus']).strip()
-                        self.temp = workflowStatus[workflowStatus['LEGACY SYSTEM CODE (A,B,C)']== toSearch]
-                        #print("poLines founds records: ",len(poLines))
-                        if len(self.temp)>0:
-                            for c, cprow in self.temp.iterrows():
-                                try:
-                                    Order_type=cprow['FOLIO']
-                                except Exception as ee:
-                                    print(f"ERROR: {ee}")
-                        else:
-                            mf.write_file(path=self.path_logs+"\\workflowNotfound.log",contenido=f"{workflow}")
-                    
+                        workflowStatus=self.mapping(self.workflowStatus,toSearch)
+                        if workflowStatus is not None:
+                            approvedStatus=True
                 Order["approved"]= approvedStatus
                 Order["workflowStatus"]= workflowStatus
 
@@ -234,14 +243,15 @@ class compositePurchaseorders():
                         reencumbertem=reencumbertem.upper()
                         if reencumbertem=="YES":
                             reEncumber=True
-                    Order["needReEncumber"]= reEncumber
+                
+                Order["needReEncumber"]= reEncumber
                 #PURCHASE ORDERS LINES
                 compositePo=[]
                 linkid=""
                 compositePo=""
                 #COMPOSITE_PO_LINES
                 if printpoline:
-                    compositePo=compositePoLines(poLines,poLineNumberfield, notesapp1,notesapp1Pofield, notesapp2, notesapp2Pofield, istherenotesApp, OrganizationUUID,masterPo,poNumber,customerName,path_results,path_refdata,path_logs)
+                    compositePo=self.compositePoLines(dfPolines,OrganizationUUID,masterPo,poNumber,client)
                     if compositePo is not None: 
                         Order["compositePoLines"]=compositePo
                         countpol+=1
@@ -249,24 +259,28 @@ class compositePurchaseorders():
                         Order["compositePoLines"]=[]
                         countpolerror+=1
 
-                    OrganizationUUID=[]
-                    if row['ORDACQUNIT']:
-                        Acquisitionstemp=str(row['ORDACQUNIT']).strip()
-                        OrganizationUUID.append(readJsonfile(path_refdata,f"{customerName}_AcquisitionsUnits.json","AcquisitionsUnits",Acquisitionstemp,"name"))
-                        if len(OrganizationUUID)==0:
-                            write_file(path=f"{path_logs}/AdqNotFound.log",contenido=f"{Acquisitionstemp}")
-                    Order["acqUnitIds"]=OrganizationUUID
+                    acqunituuid=[]
+                    if 'acqUnitIds' in orders.columns:
+                        if row['acqUnitIds']:
+                            Acquisitionstemp=str(row['acqUnitIds']).strip()
+                            acqunituuid.append(mf.readJsonfile(path_refdata,f"{customerName}_AcquisitionsUnits.json","AcquisitionsUnits",Acquisitionstemp,"name"))
+                            if len(acqunituuid)==0:
+                                mf.write_file(ruta=self.path_logs+"/AdqNotFound.log",contenido=f"{Acquisitionstemp}")
+                        Order["acqUnitIds"]=acqunituuid
 
-                    mf.printObject(Order,path_results,count,f"{customerName}_purchaseOrderbyline.json",False)
+                    mf.printObject(Order,self.path_results,count,f"{client}_purchaseOrderbyline.json",False)
                     purchase.append(Order)
+
+                    
             except Exception as ee:
+                mf.printObject(Order,self.path_results,count,f"{client}_purchaseOrderbyline_worse.json",False)
                 print(f"ERROR: {ee}")
+        
         purchaseOrders['purchaseOrders']=purchase    
-        mf.printObject(purchaseOrders,path_results,count,f"{customerName}_purchaseOrders",True)
+        mf.printObject(purchaseOrders,self.path_results,count,f"{client}_purchaseOrders",True)
         print(f"============REPORT======================")
         report=[]
-        print(poLineNumberfield)
-        report=reports(df=orders,plog=path_logs,pdata=path_results,file_report=f"{customerName}_purchaseOrders.json",schema="purchaseOrders",dfFieldtoCompare=poLineNumberfield)
+        #report=reports(df=orders,plog=path_logs,pdata=path_results,file_report=f"{customerName}_purchaseOrders.json",schema="purchaseOrders",dfFieldtoCompare=poLineNumberfield)
         print(f"RESULTS Record processed {count}")
         print(f"RESULTS poLines {countpol}")
         print(f"RESULTS poLines with errors: {countpolerror}")
@@ -276,346 +290,350 @@ class compositePurchaseorders():
 #########################################
 #POLINES FUNCTION             
 #########################################
-    def compositePoLines(self,poLines,poLineNumberfield,
-                     notesapp1,notesapp1Pofield,
+    '''def compositePoLines(self,poLines,notesapp1,notesapp1Pofield,
                      notesapp2,notesapp2Pofield,istherenotesApp,
-                     vendors,masterPo,poLineNumber,customerName,path_results,path_refdata,path_logs):                    
+                     vendors,masterPo,poLineNumber,customerName,path_results,path_refdata,path_logs):                 '''
+        
+    def compositePoLines(self,poLines,vendors,masterPo,poLineNumber,client):
         try:
            #locationMapping={"af":"mnaf","aq":"mnaq","br":"mnbr","ca":"mnca","cv":"mncv","dv":"mndv","ir":"mnir","ns":"mnns","ov":"mnov","ss":"mnss"}
             cpList=[]
             count=1 
-            poLines = poLines[poLines[poLineNumberfield]== masterPo]
+            poLines = poLines[poLines['poNumber']== masterPo]
             print("poLines founds records: ",len(poLines))
             for c, cprow in poLines.iterrows():
                 cp={}
-                if 'UUIDPOLINES' in poLines: linkid=cprow['UUIDPOLINES']#str(uuid.uuid4())
+                if 'UUIDPOLINES' in poLines.columns:
+                    if 'UUIDPOLINES' in poLines: linkid=cprow['UUIDPOLINES']#str(uuid.uuid4())
                 else: linkid=str(uuid.uuid4())
                 cp["id"]=linkid
                 cp["poLineNumber"]=str(poLineNumber)+"-"+str(count)
-                if cprow['Publisher']:
-                    cp["publisher"]=cprow['Publisher']
+                if 'publisher' in poLines.columns: 
+                    if cprow['publisher']:
+                        cp["publisher"]=cprow['publisher']
                 #cp["purchaseOrderId"]=""
                 #cp["id"]=""
                 #cp["edition"]=""
                 checkinItems= False
-                if cprow['checkinItems']:
-                    checkinItemstem=str(cprow['checkinItems']).strip()
-                    checkinItemstem=checkinItemstem.upper()
-                    if checkinItemstem=="YES":
-                        checkinItems= True
+                if 'checkinItems' in poLines.columns:
+                    if cprow['checkinItems']:
+                        checkinItemstem=str(cprow['checkinItems']).strip()
+                        checkinItemstem=checkinItemstem.upper()
+                        if checkinItemstem=="YES":
+                            checkinItems= True
                 cp["checkinItems"]=checkinItems
                 #cp["instanceId"]=""
                 #cp["agreementId"]= ""
                 acquisitionMethod="Purchase"
-                if cprow['Acquisition Method']:
-                    acquisitionMethod=str(cprow['Acquisition Method']).strip()
-                    if acquisitionMethod=="Approval plan":    acquisitionMethod="Approval Plan"
-                    elif acquisitionMethod=="DDA":            acquisitionMethod="Demand Driven Acquisitions (DDA)"
-                    elif acquisitionMethod=="EBA":            acquisitionMethod="Evidence Based Acquisitions (EBA)"
-                    elif acquisitionMethod=="Exchange":       acquisitionMethod="Exchange"
-                    elif acquisitionMethod=="Membership":     acquisitionMethod="Technical"
-                    elif acquisitionMethod=="Gift":           acquisitionMethod="Gift"
-                    elif acquisitionMethod=="Purchase at vendor system":  acquisitionMethod="Purchase At Vendor System"
-                    elif acquisitionMethod=="Purchase":       acquisitionMethod="Purchase"
-                    elif acquisitionMethod=="Depository":     acquisitionMethod="Depository"
-                    else: acquisitionMethod="Purchase At Vendor System"
+                if 'acquisitionMethod' in poLines.columns:
+                    if cprow['acquisitionMethod']:
+                        result=self.mapping(self.acquisitionMethod,str(cprow['acquisitionMethod']).strip())
+                        if result is not None:
+                            acquisitionMethod=result
+                
                 cp["acquisitionMethod"]= acquisitionMethod   
                 #cp["alerts"]=dic(alert="Receipt overdue",id="9a665b22-9fe5-4c95-b4ee-837a5433c95d")
-                cp["cancellationRestriction"]: False
+                cp["cancellationRestriction"]= False
                 #cp["cancellationRestrictionNote"]=""
                 #cp["claims"]=dic()Fa""
                 collection=False
-                if cprow["collection"]:
-                    collection=str(cprow["collection"]).strip()
-                    collection=collection.upper()
-                    if collection=="YES":
-                        collection=True
+                if 'collection' in poLines.columns:
+                    if cprow["collection"]:
+                        collection=str(cprow["collection"]).strip()
+                        collection=collection.upper()
+                        if collection=="YES":
+                            collection=True
                 cp["collection"]=collection
 
                 rush=False
-                if cprow["rush"]:
-                    rush=str(cprow["rush"]).strip()
-                    rush=rush.upper()
-                    if rush=="YES":
-                        rush=True
+                if 'rush' in poLines.columns:
+                    if cprow["rush"]:
+                        rush=str(cprow["rush"]).strip()
+                        rush=rush.upper()
+                        if rush=="YES":
+                            rush=True
                 cp["rush"]=rush
 
                 #cp["contributors"]=[dic()]
 
                 quantityPhysical=1
-                if cprow['Quantity Physical']:
-                    quantityPhysical=int(cprow['Quantity Physical'])
+                if 'quantityPhysical' in poLines.columns:
+                    if cprow['quantityPhysical']:
+                        quantityPhysical=int(cprow['quantityPhysical'])
 
                 quantityElectronic=1
-                if cprow['Quantity electronic']:#if cprow['QUANTITY'] NOT MIGRATED:
-                    quantityElectronic=int(cprow['Quantity electronic'])    
+                if 'quantityElectronic' in poLines.columns:
+                    if cprow['quantityElectronic']:#if cprow['QUANTITY'] NOT MIGRATED:
+                        quantityElectronic=int(cprow['quantityElectronic'])
+                        
+                orderFormat=""     
+                if 'orderFormat' in poLines.columns:
+                    if cprow['orderFormat']:
+                        result=""
+                        result=self.mapping(self.orderFormat,str(cprow['orderFormat']).strip())
+                        if result is not None:
+                            orderFormat=result      
                 ###
                 #LOCATIONS(ORDER)
                 ################################
                 locationId=""
-                locsw=True    
-                if cprow['LOCATION']:
-                    locationtoSearch=str(cprow['LOCATION']).strip()
-                    if locationtoSearch.find(",")==-1:
-                        locsw=True
-                        locationtoSearch=locationtoSearch.replace(" ","")
-                        locationId=readJsonfile(path_refdata,f"{customerName}_locations.json","locations",locationtoSearch,"code")
-                        #locationId=get_locId(locationtoSearch, customerName)
-                        #if locationId is None:
-                        #    locationtoSearch=str(cprow['LOCATION']).strip()
-                        #    vendorrealToSearch=searchKeysByVal(locationMapping,locationtoSearch)
-                        #    locationId=readJsonfile(path_refdata,f"{customerName}_locations.json","locations",vendorrealToSearch,"code")
-                        if locationId is None:
-                            locationId="None"
-                            write_file(path=f"{path_logs}\\locationsNotFounds.log",contenido=locationtoSearch)                            
-                    else:
-                        loca=[]
-                        x = locationtoSearch.split(",")
-                        locsw=False
-                        lc=0
-                        locationIdA=""
-                        for i in x:
-                            locationtoSearch=i
-                            locationId=readJsonfile(path_refdata,"{customerName}_locations.json","locations",locationtoSearch,"code")
-                                #locationId=get_locId(locationtoSearch, customerName)
-                            locationIdA=locationId
-                            #if locationIdA is None:
-                            #    vendorrealToSearch=searchKeysByVal(locationMapping,locationtoSearch)
-                            #    locationId=readJsonfile(path_refdata,"{customerName}_locations.json","locations",vendorrealToSearch,"code")
-                                    #locationIdA=get_locId(vendorrealToSearch, customerName)
-                            if locationIdA is None:
-                                locationIdA="None"
-                                write_file(path=f"{path_logs}\\locationsNotFounds.txt",contenido=f" {poLineNumber} {locationtoSearch} undefined locations")
-
-                            lc+=1
-                            if cprow['Order format']:
-                                orderFormat=str(cprow['Order format']).strip()
-                                #Locations for print/mixed resources
-                                if orderFormat=="Physical":
-                                    loca.append({"locationId":locationIdA,"quantity":(quantityPhysical-1), "quantityPhysical":(quantityPhysical-1)}) 
-                                elif orderFormat=="Electronic Resource":
-                                    loca.append({"locationId":locationIdA,"quantity":(quantityElectronic-1), "quantityElectronic":(quantityElectronic-1)})
-                                else:
-                                    loca.append({"locationId":locationIdA,"quantity":(quantityPhysical-1), "quantityPhysical":(quantityPhysical-1)}) 
+                locsw=True
+                if 'locationId' in poLines.columns:
+                    if cprow['locationId']:
+                        locationtoSearch=str(cprow['locationId']).strip()
+                        if locationtoSearch.find(",")==-1:
+                            locsw=True
+                            locationtoSearch=locationtoSearch.replace(" ","")
+                            result=""
+                            result=self.mapping(self.locations,str(cprow['locationId']).strip())
+                            if result is not None:
+                                locationId=mf.readJsonfile(self.path_refdata,f"{client}_locations.json","locations",result,"code")
+                                if locationId is None:
+                                    locationId="None"
+                                    mf.write_file(ruta=self.path_logs+"\\locationsNotFounds.log",contenido=locationtoSearch)                            
+                        else:
+                            loca=[]
+                            x = locationtoSearch.split(",")
+                            locsw=False
+                            lc=0
                             locationIdA=""
+                            for i in x:
+                                locationtoSearch=i
+                                par=0
+                                par=i.find("(")
+                                if par>1:
+                                    locationtoSearch=i[:par]
+                                    qP=i[par+1]
+                                else:
+                                    qP=1
+                                result=self.mapping(self.locations,locationtoSearch)
+                                if result is not None:
+                                    locid=mf.readJsonfile(self.path_refdata,f"{client}_locations.json","locations",result,"code")
+                                    if locid is None:
+                                        locid="None"
+                                        mf.write_file(ruta=self.path_logs+"\\locationsNotFounds.log",contenido=locationtoSearch)
+                                #loca1.append([str(locid[0]),qP])
+                                if orderFormat=="Physical Resource":
+                                    loca.append({"locationId":locid[0],"quantity":int(qP), "quantityPhysical":int(qP)}) 
+                                elif orderFormat=="Electronic Resource":
+                                    loca.append({"locationId":locid[0],"quantity":int(qP), "quantityElectronic":int(qP)})
+                                else:
+                                    loca.append({"locationId":locid[0],"quantity":int(qP), "quantityPhysical":int(qP)}) 
+                                locid=[]
+                                qP=""
+
+                            #locationIdA=""
                 ##TITLE
                 ispackage=False
-                if cprow['ispackage']:
-                    ispackagetem=str(cprow['ispackage']).strip()
-                    ispackagetem=ispackagetem.upper()
-                    if ispackagetem=="YES":
-                        ispackage=True
+                if 'isPackage' in poLines.columns:
+                    if cprow['isPackage']:
+                        ispackagetem=str(cprow['isPackage']).strip()
+                        ispackagetem=ispackagetem.upper()
+                        if ispackagetem=="YES" or ispackagetem==True:
+                            ispackage=True
                 cp["isPackage"]=ispackage
 
                 titleOrPackage="No Title"
                 enum=["Instance, Holding, Item","Instance, Holding","Instance","None"]
                 instance_holdings_items=enum[3]
-                if cprow['Create inventory']:
-                    instholitem=str(cprow['Create inventory']).strip()
-                    if instholitem=="Instance, Holding, Item":  
-                        instance_holdings_items=enum[0]
-                    elif instholitem=="Instance, Holding":
-                        instance_holdings_items=enum[1]
-                    elif instholitem=="Instance":
-                        instance_holdings_items=enum[2]
-                    else: 
-                        instance_holdings_items=enum[3]
-
-                if cprow['TITLE']:
-                    if ispackage:
-                        titleOrPackage=str(cprow['TITLE']).strip()
-                        cp["titleOrPackage"]=titleOrPackage 
-                    else: 
-                        #ispackage==False:
-                        titleUUID=str(cprow['TITLE']).strip()
-                        ordertitleUUID=get_title(customerName,element="instances",searchValue=titleUUID)
-                        #ordertitleUUID=readJsonfile_identifier(path_refdata,f"{customerName}_instances.json","instances",titleUUID)
-                        if len(ordertitleUUID)!=0:# is None:
-                            #instance_holdings_items="None"
-                            print(ordertitleUUID)
-                            cp["instanceId"]=str(ordertitleUUID[0])
-                            cp["titleOrPackage"]=str(ordertitleUUID[1])
-                            cp["isPackage"]=False
+                if 'physical.createInventory' in poLines.columns:
+                    if cprow['physical.createInventory']:
+                        instholitem=str(cprow['physical.createInventory']).strip()
+                        if instholitem=="Instance, Holding, Item":  
+                            instance_holdings_items=enum[0]
+                        elif instholitem=="Instance, Holding":
+                            instance_holdings_items=enum[1]
+                        elif instholitem=="Instance":
+                            instance_holdings_items=enum[2]
                         else: 
-                            titleOrPackage=cprow['TITLE']
-                            cp["titleOrPackage"]=titleOrPackage
+                            instance_holdings_items=enum[3]
+                
+                if 'titleOrPackage' in poLines.columns:
+                    if cprow['titleOrPackage']:
+                        if ispackage:
+                            titleOrPackage=str(cprow['titleOrPackage']).strip()
+                            cp["titleOrPackage"]=titleOrPackage 
+                        else: 
+                            #ispackage==False:
+                            titleUUID=str(cprow['titleOrPackage']).strip()
+                            ordertitleUUID=self.get_title(client,element="instances",searchValue=titleUUID)
+                        #ordertitleUUID=readJsonfile_identifier(path_refdata,f"{customerName}_instances.json","instances",titleUUID)
+                            if len(ordertitleUUID)!=0:# is None:
                             #instance_holdings_items="None"
-                            #instance_holdings_items="Instance"
-                            write_file(path=f"{path_logs}\\titlesNotFounds.log",contenido=f"{poLineNumber}  {titleUUID} {titleOrPackage}")
-                            instance= {
-                                    "_version": 1,
-                                    "source": "FOLIO",
-                                    "title": titleOrPackage,
-                                    "alternativeTitles": [],
-                                    "editions": [],
-                                    "series": [],
-                                    "identifiers": [
-                                        {"value": str(titleUUID),
-                                        "identifierTypeId": "5e1c71c5-c4ce-4585-a057-88eb3675f353"}
-                                        ],
-                                    "contributors": [],
-                                    "subjects": [],
-                                    "classifications": [],
-                                    "publication": [],
-                                    "publicationFrequency": [],
-                                    "publicationRange": [],
-                                    "electronicAccess": [],
-                                    "instanceTypeId": "30fffe0e-e985-4144-b2e2-1e8179bdb41f",
-                                    "instanceFormatIds": [],
-                                    "instanceFormats": [],
-                                    "physicalDescriptions": [],
-                                    "languages": [],
-                                    "notes": [],
-                                    "discoverySuppress": False,
-                                    "statisticalCodeIds": [],
-                                    "statusId": "26f5208e-110a-4394-be29-1569a8c84a65",
-                                    "tags": {"tagList": []},
-                                    "holdingsRecords2": [],
-                                    "natureOfContentTermIds": []
-                                    }
-                            printObject(instance,path_results,0,f"{customerName}_instances",False)
+                                print(ordertitleUUID)
+                                cp["instanceId"]=str(ordertitleUUID[0])
+                                cp["titleOrPackage"]=str(ordertitleUUID[1])
+                                cp["isPackage"]=False
+                            else: 
+                                titleOrPackage=cprow['titleOrPackage']
+                                cp["titleOrPackage"]=titleOrPackage
+                                #instance_holdings_items="None"
+                                #instance_holdings_items="Instance"
+                                mf.write_file(path=f"{path_logs}\\titlesNotFounds.log",contenido=f"{poLineNumber}  {titleUUID} {titleOrPackage}")
+                                self.createinstance(client,titleOrPackage,titleUUID)
                 else:
                     cp["titleOrPackage"]=titleOrPackage
                 ################################
                 ### ORDER FORMAT
                 ################################            
-                orderFormat=""
+                
                 materialType=""
-                accessProvider=vendors
+                accessProvider=""
                 accessproviderUUID=""
-                if cprow['Access provider']:
-                    accessProvidertosearch=str(cprow['Access provider']).strip()
-                    accessproviderUUID=readJsonfile(path_refdata,f"{customerName}_organizations.json","organizations",accessProvidertosearch,"code")
-                    if accessproviderUUID is None:
-                        write_file(path=f"{path_logs}\\providerNotFounds.log",contenido=f"{accessProvidertosearch}")
-                    else:
-                        accessProvider=accessproviderUUID
+                if 'eresource.activated' in poLines.columns:
+                    if cprow['eresource.activated']:
+                        eresourceactivated=cprow['eresource.activated']
+                        cp["eresource.activated"]=eresourceactivated
+                    
+                
+                if 'eresource.accessProvider' in poLines.columns:
+                    if cprow['eresource.accessProvider']:
+                        accessProvidertosearch=str(cprow['eresource.accessProvider']).strip()
+                        accessproviderUUID=mf.readJsonfile(self.path_refdata,f"{client}_organizations.json","organizations",accessProvidertosearch,"code")
+                        if accessproviderUUID is None:
+                            mf.write_file(ruta=self.path_logs+"\\providerNotFounds.log",contenido=f"{accessProvidertosearch}")
+                        else:
+                            accessProvider=accessproviderUUID
 
-                materialSupplier=vendors        
-                if cprow['(Physical Resource) Material supplier']:
-                    materialaccessProvidertosearch=str(cprow['(Physical Resource) Material supplier']).strip()
-                    accessproviderUUID=readJsonfile(path_refdata,f"{customerName}_organizations.json","organizations",materialaccessProvidertosearch,"code")
-                    if accessproviderUUID is None:
-                        write_file(path=f"{path_logs}\\materialProviderNotFounds.log",contenido=f"{materialaccessProvidertosearch}")
-                    else:
-                        materialSupplier=accessproviderUUID            
+                materialSupplier=vendors[0]        
+                if 'physical.materialSupplier' in poLines.columns:
+                    if cprow['physical.materialSupplier']:
+                        materialaccessProvidertosearch=str(cprow['physical.materialSupplier']).strip()
+                        accessproviderUUID=mf.readJsonfile(self.path_refdata,f"{client}_organizations.json","organizations",materialaccessProvidertosearch,"code")
+                        if accessproviderUUID is None:
+                            mf.write_file(ruta=self.path_logs+"\\materialProviderNotFounds.log",contenido=f"{materialaccessProvidertosearch}")
+                        else:
+                            materialSupplier=accessproviderUUID            
 
 
                 listUnitPrice=0.00
-                if cprow['UNIT PRICE']:
-                    listUnitPrice=float(cprow['UNIT PRICE'])
-
-                if cprow['Order format']:
-                    orderFormat=str(cprow['Order format']).strip()
-                    orderFormat=orderFormat.upper()
-                    #Locations for print/mixed resources
-                    if orderFormat=="PHYSICIAL" or orderFormat=="PHYSICAL" or orderFormat=="PHYSICAL RESOURCE" or orderFormat=="MIXED P/E":
+                if 'cost.listUnitPrice' in poLines.columns:
+                    if cprow['cost.listUnitPrice']:
+                        try:
+                            listUnitPrice=float(cprow['cost.listUnitPrice'])
+                        except Exception as ee:
+                            print(ee)
+                            lP=str(cprow['cost.listUnitPrice'])
+                            lP=lP.replace("NAD$","")
+                            lP=lP.replace(",","")
+                            listUnitPrice=float(lP)
+                
+                currency="NAD"
+                if 'cost.currency' in poLines.columns:
+                    currency=cprow['cost.currency']
+                        
+                #Locations for print/mixed resources
+                materialType=""
+                if orderFormat=="Physical Resource" or orderFormat=="P/E Mix":
                         #Material Type physical
-                        materialType=""
-                        if cprow['(Physical Resource)Material type']:
-                            mtypestosearch=str(cprow['(Physical Resource)Material type']).strip()
-                            materialType=readJsonfile(path_refdata,f"{customerName}_mtypes.json","mtypes",mtypestosearch,"name")
-                            #materialType=get_matId(mtypestosearch,customerName)
-                            if materialType is None:
-                                materialType=get_matId(mtypestosearch,customerName)
-                                write_file(path=f"{path_logs}\\materialTypeNotFounds.log",contenido=f"{poLineNumber} {mtypestosearch}")
+                        #mtypestosearch="unespecified"
+                        if 'physical.materialType' in poLines.columns:
+                            if cprow['physical.materialType']:
+                                mtypestosearch=str(cprow['physical.materialType']).strip()
+                                materialType=mf.readJsonfile(self.path_refdata,f"{customerName}_mtypes.json","mtypes",mtypestosearch,"name")
+                                #materialType=get_matId(mtypestosearch,customerName)
                                 if materialType is None:
-                                    write_file(path=f"{path_logs}\\materialTypeNotFounds.log",contenido=f"{poLineNumber} {mtypestosearch}")
-                                    materialType="materialtypeUndefined"
-
-
-    
+                                    mf.write_file(ruta=self.path_logs+"\\materialTypeNotFounds.log",contenido=f"{poLineNumber} {mtypestosearch}")
+                        #else:
+                            
+                        #    materialType=mf.readJsonfile(self.path_refdata,f"{client}_mtypes.json","mtypes","unspecified","name")
+                        #    ruta=self.path_logs+"\\materialTypeNotFounds.log"
+                        #    mf.write_file(ruta=ruta,contenido=f"{poLineNumber} {mtypestosearch}")
+                        #    if materialType is None:
+                        #        pass
+                                
                         cp["orderFormat"]="Physical Resource"
-                        cp["cost"]=dic(currency="USD",listUnitPrice=listUnitPrice, quantityPhysical=quantityPhysical, poLineEstimatedPrice=listUnitPrice, discountType="percentage")
-                        if materialType: cp["physical"]=dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier, materialType=materialType)
-                        else: cp["physical"]=dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier)
-                        if accessProvider: cp["eresource"]=dic(activated=False,createInventory=instance_holdings_items,trial=False,accessProvider=accessProvider)
-                        else: cp["eresource"]=dic(activated=False,createInventory=instance_holdings_items,trial=False)
+                        cp["cost"]=mf.dic(currency=currency,listUnitPrice=listUnitPrice, quantityPhysical=quantityPhysical, poLineEstimatedPrice=listUnitPrice, discountType="percentage")
+                        if materialType: cp["physical"]=mf.dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier, materialType=materialType)
+                        else: cp["physical"]=mf.dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier)
+                        if accessProvider: cp["eresource"]=mf.dic(activated=False,createInventory=instance_holdings_items,trial=False,accessProvider=accessProvider)
+                        else: cp["eresource"]=mf.dic(activated=False,createInventory=instance_holdings_items,trial=False)
                         if locsw: 
-                            cp["locations"]=[dic(locationId=locationId,quantity=quantityPhysical, quantityPhysical=quantityPhysical)]
+                            cp["locations"]=[mf.dic(locationId=locationId[0],quantity=quantityPhysical, quantityPhysical=quantityPhysical)]
                         else:
                             cp["locations"]=loca
 
-                    elif orderFormat=="ELECTRONIC" or orderFormat=="ELECTRONIC RESOURCE":
+                elif orderFormat=="Electronic Resource":
                         cp["orderFormat"]="Electronic Resource"
                         materialType=""
-                        if cprow['Material type']:
-                            mtypestosearch=""
-                            mtypestosearch=str(cprow['Material type']).strip()
-                            materialType=readJsonfile(path_refdata,f"{path_logs}\\_mtypes.json","mtypes",mtypestosearch,"name")
+                        if 'eresource.materialType' in poLines.columns:
+                            if cprow['eresource.materialType']:
+                                mtypestosearch=""
+                                mtypestosearch=str(cprow['eresource.materialType']).strip()
+                                materialType=mf.readJsonfile(self.path_refdata,self.path_logs+"\\_mtypes.json","mtypes",mtypestosearch,"name")
                             #materialType=get_matId(mtypestosearch,customerName)
                             if materialType is None:
-                                materialType=get_matId(mtypestosearch,customerName)
-                                write_file(path=f"{path_logs}\\materialTypeNotFounds.txt",contenido=f"{poLineNumber} {mtypestosearch}")
-                                if materialType is None:
-                                    write_file(path=f"{path_logs}\\materialTypeNotFounds.txt",contenido=f"{poLineNumber} {mtypestosearch}")
-                                    materialType="materialtypeUndefined"
+                                mf.write_file(ruta=self.path_logs+"\\materialTypeNotFounds.txt",contenido=f"{poLineNumber} {mtypestosearch}")
+                                materialType=mf.readJsonfile(self.path_refdata,f"{client}_mtypes.json","mtypes","unspecified","name")
 
-                        cp["cost"]=dic(currency="USD",listUnitPrice=listUnitPrice,listUnitPriceElectronic=listUnitPrice, quantityElectronic=quantityElectronic, poLineEstimatedPrice=listUnitPrice,discountType="percentage")
+                        cp["cost"]=mf.dic(currency=currency,listUnitPrice=listUnitPrice,listUnitPriceElectronic=listUnitPrice, quantityElectronic=quantityElectronic, poLineEstimatedPrice=listUnitPrice,discountType="percentage")
                         if materialType: 
-                            cp["eresource"]=dic(activated=True,createInventory=instance_holdings_items,trial=False,accessProvider=accessProvider,materialType=materialType)
+                            cp["eresource"]=mf.dic(activated=True,createInventory=instance_holdings_items,trial=False,accessProvider=accessProvider,materialType=materialType)
                         else: 
-                            cp["eresource"]=dic(activated=True,createInventory=instance_holdings_items,trial=False,accessProvider=accessProvider)
+                            cp["eresource"]=mf.dic(activated=True,createInventory=instance_holdings_items,trial=False,accessProvider=accessProvider)
 
                         if locationId: 
                             if locsw:
-                                cp["locations"]=[dic(locationId=locationId,quantity=1, quantityElectronic=quantityElectronic)]
+                                cp["locations"]=[mf.dic(locationId=locationId[0],quantity=1, quantityElectronic=quantityElectronic)]
                             else:
                                 cp["locations"]=loca 
 
-                    elif orderFormat=="Mixed P/E":
-                        cp["orderFormat"]="P/E Mix"
-                        cp["cost"]=dic(currency="USD",listUnitPrice=listUnitPrice,listUnitPriceElectronic=listUnitPrice, quantityPhysical=quantityPhysical, quantityElectronic=1, poLineEstimatedPrice=listUnitPrice,discountType="percentage")
-                        if accessProvider: cp["eresource"]=dic(activated=False,createInventory=instance_holdings_items,trial=False,accessProvider=accessProvider)
-                        else: cp["eresource"]=dic(activated=False,createInventory=instance_holdings_items,trial=False)
-                        cp["locations"]=[dic(locationId=locationId,quantity=2, quantityElectronic=1,quantityPhysical=quantityPhysical)]
-                        if materialType: cp["physical"]=dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier,
+                elif orderFormat=="P/E Mix":
+                    cp["orderFormat"]="P/E Mix"
+                    cp["cost"]=mf.dic(currency=currency,listUnitPrice=listUnitPrice,listUnitPriceElectronic=listUnitPrice, quantityPhysical=quantityPhysical, quantityElectronic=1, poLineEstimatedPrice=listUnitPrice,discountType="percentage")
+                    if accessProvider: cp["eresource"]=mf.dic(activated=False,createInventory=instance_holdings_items,trial=False,accessProvider=accessProvider)
+                    else: cp["eresource"]=mf.dic(activated=False,createInventory=instance_holdings_items,trial=False)
+                    cp["locations"]=[mf.dic(locationId=locationId[0],quantity=2, quantityElectronic=1,quantityPhysical=quantityPhysical)]
+                    if materialType: cp["physical"]=mf.dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier,
                                        expectedReceiptDate="",receiptDue="",materialType=materialType)
-                        else: cp["physical"]=dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier,
+                    else: cp["physical"]=mf.dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier,
                                        expectedReceiptDate="",receiptDue="")
-                    else:   
-                        cp["orderFormat"]="Other"
-                        cp["cost"]=dic(currency="USD",listUnitPrice=listUnitPrice, quantityPhysical=1, poLineEstimatedPrice=listUnitPrice, discountType="percentage")
-                        if materialType: cp["physical"]=dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier, materialType=materialType)
-                        else: cp["physical"]=dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier)
-                        if accessProvider: cp["eresource"]=dic(activated=False,createInventory="None",trial=False,accessProvider=accessProvider)
-                        else: cp["eresource"]=dic(activated=False,createInventory="None",trial=False)
-                        if locationId: 
-                            if locsw:
-                                cp["locations"]=[dic(locationId=locationId,quantity=1, quantityElectronic=quantityElectronic)]
-                            else:
-                                cp["locations"]=loca 
+                else:   
+                    cp["orderFormat"]="Other"
+                    cp["cost"]=mf.dic(currency=currency,listUnitPrice=listUnitPrice, quantityPhysical=1, poLineEstimatedPrice=listUnitPrice, discountType="percentage")
+                    if materialType: cp["physical"]=mf.dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier, materialType=materialType)
+                    else: cp["physical"]=mf.dic(createInventory=instance_holdings_items,volumes=[],materialSupplier=materialSupplier)
+                    if accessProvider: cp["eresource"]=mf.dic(activated=False,createInventory="None",trial=False,accessProvider=accessProvider)
+                    else: cp["eresource"]=mf.dic(activated=False,createInventory="None",trial=False)
+                    if locationId: 
+                        if locsw:
+                            cp["locations"]=[mf.dic(locationId=locationId[0],quantity=1, quantityElectronic=quantityElectronic)]
+                        else:
+                            cp["locations"]=loca 
 
                 #FUNDS DISTRIBUTIONS
-                cp["fundDistribution"]=[]
+                fundDistribution=[]
+                
                 #EXPENSES CLASES
                 #FUND DISTRIBUTION BY RESOURCE
-                codeTosearch=str(cprow['FUND']).strip()
-                codeTosearch=codeTosearch.replace(" ","")
-                if codeTosearch=="none":
-                    codeTosearch=""
-                if codeTosearch:
-                    occurencias=int(codeTosearch.count("%"))
-                    if occurencias==0:
-                        searchExpensesValue=""
-                        expenseClassId=""
-                        if cprow['Expense Class']:
-                            searchtoValue=str(cprow['Expense Class']).strip()
-                            expenseClassId=readJsonfile(path_refdata,f"{customerName}_expenseClasses.json","expenseClasses",searchtoValue,"code")
+                if 'fundDistribution[0].fundId' in poLines.columns:
+                    codeTosearch=str(cprow['fundDistribution[0].fundId']).strip()
+                    codeTosearch=codeTosearch.replace(" ","")
+                    if codeTosearch=="none":
+                        codeTosearch=""
+                    if codeTosearch:
+                        occurencias=int(codeTosearch.count("%"))
+                        if occurencias==0:
+                            searchExpensesValue=""
+                            expenseClassId=""
+                            if 'fundDistribution[0].expenseClassId' in poLines.columns:
+                                if cprow['fundDistribution[0].expenseClassId']:
+                                    searchtoValue=str(cprow['fundDistribution[0].expenseClassId']).strip()
+                                    expenseClassId=mf.readJsonfile(self.path_refdata,f"{client}_expenseClasses.json","expenseClasses",searchtoValue,"code")
                             #expenseClassId=get_Id(customerName,element="expenseClasses",searchValue=searchtoValue)
                         #get_funId(searchValue,orderFormat,client):
-                        fundId=readJsonfile_fund(path_refdata,f"{customerName}_funds.json","funds",codeTosearch,"code")
+                        fundId=mf.readJsonfile_fund(self.path_refdata,f"{client}_funds.json","funds",codeTosearch,"code")
                         #fundId=get_funId(codeTosearch,orderFormat,customerName)
                         if fundId is not None:
                             code=fundId[1]
                             fundId=fundId[0]
                             valuefund=100.0
                             if expenseClassId:
-                                cp["fundDistribution"]=[dic(code=code,fundId=fundId,expenseClassId=expenseClassId,distributionType="percentage",value=valuefund)]
+                                cp["fundDistribution"]=[mf.dic(code=code,fundId=fundId,expenseClassId=expenseClassId,distributionType="percentage",value=valuefund)]
                             else:
-                                cp["fundDistribution"]=[dic(code=code,fundId=fundId,distributionType="percentage",value=valuefund)]
+                                cp["fundDistribution"]=[mf.dic(code=code,fundId=fundId,distributionType="percentage",value=valuefund)]
                         else:
-                            write_file(path=f"{path_logs}\\fundsNotfounds.log",contenido=f"{poLineNumber} {codeTosearch}")
+                            mf.write_file(path=path_logs+"\\fundsNotfounds.log",contenido=f"{poLineNumber} {codeTosearch}")
                             cp["fundDistribution"]=[]
                     else:
                         fundlist=[]
@@ -628,33 +646,40 @@ class compositePurchaseorders():
                             valuefund=cadena[6:10]
                             searchExpensesValue=""
                             expenseClassId=""
-
-                            if cprow['Expense Class']:
-                                searchtoValue=str(cprow['Expense Class']).strip()
-                                expenseClassId=readJsonfile(path_refdata,f"{customerName}_expenseClasses.json","expenseClasses",searchtoValue,"code")
-                                if expenseClassId is None:
-                                    write_file(path=f"{path_logs}\\expensesNotfounds.log",contenido=f"{poLineNumber} {searchtoValue}")
+                            if 'fundDistribution[0].expenseClassId' in poLines.columns:
+                                if cprow['fundDistribution[0].expenseClassId']:
+                                    searchtoValue=str(cprow['fundDistribution[0].expenseClassId']).strip()
+                                    expenseClassId=mf.readJsonfile(self.path_refdata,f"{client}_expenseClasses.json","expenseClasses",searchtoValue,"code")
+                                    if expenseClassId is None:
+                                        mf.write_file(path=path_logs+"\\expensesNotfounds.log",contenido=f"{poLineNumber} {searchtoValue}")
                                 #expenseClassId=get_Id(customerName,element="expenseClasses",searchValue=searchtoValue)
                             #get_funId(searchValue,orderFormat,client):
-                            fundId=readJsonfile_fund(path_refdata,f"{customerName}_funds.json","funds",codeTosearch,"code")
+                            fundId=mf.readJsonfile_fund(self.path_refdata,f"{client}_funds.json","funds",codeTosearch,"code")
                             #fundId=get_funId(codeTosearch,orderFormat,customerName)
                             if fundId is not None:
                                 code=fundId[1]
                                 fundId=fundId[0]
                                 if expenseClassId:
-                                    fundDistribution.append(dic(code=code,fundId=fundId,expenseClassId=expenseClassId,distributionType="percentage",value=valuefund))
+                                    fundDistribution.append(mf.dic(code=code,fundId=fundId,expenseClassId=expenseClassId,distributionType="percentage",value=valuefund))
 
-                        cp["fundDistribution"]=fundDistribution
+                cp["fundDistribution"]=fundDistribution
 
                 #Ongoing
                 receivingNote=""
-                if cprow['receivingNote']: receivingNote=str(cprow['receivingNote'])
+                if 'receiptDate' in poLines.columns:
+                    if cprow['receiptDate']: 
+                        receivingNote=str(cprow['receiptDate'])
+                if 'details.receivingNote' in poLines.columns:
+                    receivingNote=str(cprow['details.receivingNote']).strip()
                 subscriptionFrom=""
                 subscriptionTo=""
                 subscriptionInterval=""
-                if cprow['Subscription from']: subscriptionFrom=timeStamp(cprow['Subscription from'])
-                if cprow['Subscription to']: subscriptionTo=timeStamp(cprow['Subscription to'])
-                if cprow['Subscription interval']: subscriptionInterval=int(cprow['Subscription interval'])
+                if 'details.subscriptionFrom' in poLines.columns:
+                    if cprow['details.subscriptionFrom']: subscriptionFrom=mf.timeStamp(cprow['details.subscriptionFrom'])
+                if 'details.subscriptionInterval' in poLines.columns:
+                    if cprow['details.subscriptionTo']: subscriptionTo=mf.timeStamp(cprow['details.subscriptionTo'])
+                if 'details.subscriptionInterval' in poLines.columns:
+                    if cprow['details.subscriptionInterval']: subscriptionInterval=int(cprow['details.subscriptionInterval'])
                 productIds=[]
                 #if cprow['CODE1']:
                 #    if cprow['CODE1']!="-":
@@ -667,40 +692,58 @@ class compositePurchaseorders():
                 #    reportNumberdata="."+str(cprow['RECORD #(BIBLIO)']).strip()
                 #    productIds.append(dic(productId=reportNumberdata, productIdType="37b65e79-0392-450d-adc6-e2a1f47de452"))
 
-                cp["details"]=dic(receivingNote=receivingNote,productIds=productIds,subscriptionFrom=subscriptionFrom,
+                cp["details"]=mf.dic(receivingNote=receivingNote,productIds=productIds,subscriptionFrom=subscriptionFrom,
                                                            subscriptionInterval=subscriptionInterval, subscriptionTo=subscriptionTo)
 
                 #cp["donor"]=""
-                paymentStatus="Ongoing"
-                if cprow["paymentStatus"]:
-                    cp["paymentStatus"]=cprow["paymentStatus"]
+                
+                paymentStatus="Pending"
+                if 'paymentStatus' in poLines.columns:
+                    if cprow['paymentStatus']:
+                        result=""
+                        result=self.mapping(self.paymentStatus,str(cprow["paymentStatus"]).strip())
+                        if result is not None:
+                            paymentStatus=result
+                cp['paymentStatus']=paymentStatus
+                
                 description=""
-
-                if cprow['Internal Note']:
-                    description=str(cprow['Internal Note']).strip()
-                cp["description"]=description
+                if 'description' in poLines.columns:
+                    if cprow['description']:
+                        description=str(cprow['description']).strip()
+                        cp["description"]=description
 
                 #cp["publicationDate"]=""
                 receiptStatus="Awaiting Receipt"
-                cp["receiptDate"]=""
-                if cprow['receiptDate']:
-                    receitdate=str(cprow['receiptDate'])
-                    M=receitdate[0:2]
-                    D=receitdate[3:5] 
-                    Y=receitdate[6:10]
+                if 'receiptDate' in poLines.columns:
+                    cp["receiptDate"]=""
+                    if cprow['receiptDate']:
+                        receitdate=str(cprow['receiptDate'])
+                        M=receitdate[0:2]
+                        D=receitdate[3:5] 
+                        Y=receitdate[6:10]
                     if Y=="96" or Y=="97" or Y=="98" or Y=="99":
                         Y=f"19{Y}"
                     cp["receiptDate"]=f"{Y}-{M}-{D}T00:00:00.00+00:00"
+                    
+                if 'receiptStatus' in poLines.columns:
+                    receiptStatus=cprow['receiptStatus']
+                    result=""
+                    result=self.mapping(self.receiptStatus,str(cprow["receiptStatus"]).strip())
+                    if result is not None:
+                       receiptStatus=result
+                        
                 cp["receiptStatus"]=receiptStatus
                 #cp["reportingCodes"]=dic(code="",id="",description="")
                 Requester=""
-                if cprow['Requester']:
-                    Requester=str(cprow['Requester'])
-                cp["requester"]=Requester
-                if cprow['Selector']:
-                    cp['selector']=str(cprow['Selector'])
-
-
+                if 'requester' in poLines.columns:
+                    if cprow['requester']:
+                        Requester=str(cprow['requester'])
+                        cp["requester"]=Requester
+                
+                selector=""
+                if 'selector' in poLines.columns:
+                    if cprow['selector']:
+                        cp['selector']=str(cprow['selector'])
 
                 cp["source"]="User"
                 vendorAccount=""
@@ -721,8 +764,8 @@ class compositePurchaseorders():
 
                 #cp["vendorDetail"]=dic(instructions=instrVendor, referenceNumbers=referenceNumbers, vendorAccount="")
                 #NOTES GRAL
-                for nt in istherenotesApp:
-                    notes_single_line(linkid,masterPo, nt,notesapp1Pofield,"PAID","Orders note", path_results,path_refdata,count)
+                #for nt in istherenotesApp:
+                #    notes_single_line(linkid,masterPo, nt,notesapp1Pofield,"PAID","Orders note", path_results,path_refdata,count)
 
 
                 cpList.append(cp)
@@ -731,7 +774,23 @@ class compositePurchaseorders():
             return cpList    
         except Exception as ee:
             print(ee)
-            write_file(path=f"{path_logs}\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")  
+            mf.write_file(path=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")  
+
+    def mapping(self,dftoSearch,toSearch):
+        try:                    
+            dataToreturn=""
+            temp = dftoSearch[dftoSearch['LEGACY SYSTEM']== toSearch]
+            #print("poLines founds records: ",len(temp))
+            if len(temp)>0:
+                for x, cptemp in temp.iterrows():
+                    dataToreturn=cptemp['FOLIO']
+            else:
+                mf.write_file(ruta=self.path_logs+"\\workflowNotfound.log",contenido=f"{toSearch}")
+                dataToreturn=None
+            return dataToreturn
+        
+        except Exception as ee:
+            print(f"ERROR: {ee}")
             
     def check_poNumber(self,value, path):
         try:
@@ -781,3 +840,83 @@ class compositePurchaseorders():
             return value
         except Exception as ee:
             print(f"INFO check_poNumber function failed {ee}")
+            
+    def get_title(self,client,**kwargs):
+        try:
+            pathPattern1=mf.okapiPath(kwargs['element'])
+            element=kwargs['element']
+            pathPattern=pathPattern1[0]
+            searchValue=kwargs['searchValue']
+            client=mf.SearchClient(client)
+            okapi_url=str(client.get('x_okapi_url'))
+            okapi_tenant=str(client.get('x_okapi_tenant'))
+            okapi_token=str(client.get('x_okapi_token'))
+            dic={}
+            #pathPattern="/instance-storage/instances" #?limit=9999&query=code="
+            #https://okapi-ua.folio.ebsco.com/instance-storage/instances?query=hrid=="264227"
+            pathPattern="/instance-storage/instances" #?limit=9999&query=code="
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            length="1"
+            start="1"
+            #element="instances"
+            #https://okapi-trinitycollegelibrarycambridge.folio.ebsco.com/instance-storage/instances?query=(identifiers any ".b10290242")
+            query=f"?query=(identifiers="
+            #query=f"query=hrid=="
+            #/finance/funds?query=name==UMPROQ
+            search='"'+searchValue+'")'
+            #.b10290242
+            #paging_q = f"?{query}"+search
+            paging_q = f"{query} "+search
+            path = pathPattern+paging_q
+            #data=json.dumps(payload)
+            url = okapi_url + path
+            req = requests.get(url, headers=okapi_headers)
+            idhrid=[]
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idhrid.append(l['id'])
+                        idhrid.append(l['title'])            
+            return idhrid
+        except Exception as ee:
+            print(f"INFO get_title function failed {ee}")
+            
+            
+    def createinstance(self, client,titleOrPackage,titleUUID):
+        instance= {
+                                    "_version": 1,
+                                    "source": "FOLIO",
+                                    "title": titleOrPackage,
+                                    "alternativeTitles": [],
+                                    "editions": [],
+                                    "series": [],
+                                    "identifiers": [
+                                        {"value": str(titleUUID),
+                                        "identifierTypeId": "5e1c71c5-c4ce-4585-a057-88eb3675f353"}
+                                        ],
+                                    "contributors": [],
+                                    "subjects": [],
+                                    "classifications": [],
+                                    "publication": [],
+                                    "publicationFrequency": [],
+                                    "publicationRange": [],
+                                    "electronicAccess": [],
+                                    "instanceTypeId": "30fffe0e-e985-4144-b2e2-1e8179bdb41f",
+                                    "instanceFormatIds": [],
+                                    "instanceFormats": [],
+                                    "physicalDescriptions": [],
+                                    "languages": [],
+                                    "notes": [],
+                                    "discoverySuppress": False,
+                                    "statisticalCodeIds": [],
+                                    "statusId": "26f5208e-110a-4394-be29-1569a8c84a65",
+                                    "tags": {"tagList": []},
+                                    "holdingsRecords2": [],
+                                    "natureOfContentTermIds": []
+                                    }
+        mf.printObject(instance,self.path_results,0,f"{client}_instances",False)
