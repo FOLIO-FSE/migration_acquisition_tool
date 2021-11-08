@@ -67,7 +67,7 @@ class notes():
         countnote=1
         noprint=False
         dfnote = self.notes[self.notes['code']== toSearch]
-        print("notes founds records: ",len(dfnote))
+        
         for i, nrow in dfnote.iterrows():
             notes={}
             l=[]
@@ -81,6 +81,7 @@ class notes():
                         mf.write_file(ruta=self.path_logs+"\\notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
                         noteType=""
                     else:
+                        print(f"INFO Processing Notes Org-Name {toSearch} : ",len(dfnote))
                         noteType=cate[1]
                         noprint=True
                         notes["id"]=str(uuid.uuid4())
