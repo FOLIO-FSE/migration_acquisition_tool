@@ -10,8 +10,11 @@ class dataframe():
     def importDataFrame(self,file_path,**kwargs):    
         try:
             start_time = time.perf_counter()
+            print(f"INFO start time: {start_time}")
             sw=True
-            print("\n"+f"INFO Uploading Dataframe")
+            if "dfname" in kwargs: self.dfname=kwargs['dfname']
+            else: self.dfname="Not Name defined"
+            print(f"INFO Uploading Dataframe [[{self.dfname}]]")
             if "orderby" in kwargs: 
                 self.orderby=kwargs['orderby']
             else:
@@ -54,8 +57,13 @@ class dataframe():
                     print(f"INFO File {self.sheet_name} {self.filename} Total rows: {lendf}")
                 else:
                     print(f"INFO File {self.filename} Total rows: {lendf}")
-                #print(f"INFO columns in the file with legacy system fields Names  {self.df.columns}")
+                print(f"INFO columns in the file with legacy system fields Names  {self.df.columns}")
                 self.df = self.df.apply(lambda x: x.fillna(""))
+
+                if self.mapping_file:
+                    self.df_changed=self.changeColumns()
+                    self.df=self.df_changed
+
 
                 if self.distinct: 
                     if len(self.distinct)>0:
@@ -63,11 +71,10 @@ class dataframe():
                         self.df_unique =self.df.drop_duplicates(subset =self.distinct, keep="first", inplace=False,ignore_index=True)
                         print("INFO Total rows not duplicated records: {0}".format(len(self.df_unique)))
                         self.df=self.df_unique
-                if self.mapping_file:
-                    self.df_changed=self.changeColumns()
-                    self.df=self.df_changed
+
                 end_time = time.perf_counter()
                 print(f"INFO Dataframe Execution Time : {end_time - start_time:0.2f}" )
+                
                 return self.df
         except Exception as ee:
             print(f"ERROR: {ee}")
@@ -77,6 +84,7 @@ class dataframe():
         self.dfnew=pd.DataFrame()
         f = open(self.mapping_file,encoding='utf-8')
         data = json.load(f)
+        changelist=[]
         for i in data['data']:
             try:
                 #print(i['legacy_field'])
@@ -84,9 +92,12 @@ class dataframe():
                     folio_field=i['folio_field']
                     legacy_field=i['legacy_field']
                     self.dfnew[folio_field]=self.df[legacy_field]
+                    #print("INFO Dataframe Replacing the following legacy field columns:")
+                    changelist.append(f"{legacy_field} => {folio_field}")
             except Exception as ee:
-                print(f"WARNING: {ee} legacy_field described was not found in the sourceData as column name, check it in the mapping file")
-        print("INFO Column has been renamed"+"\n"+f"{self.dfnew.columns}")
+                print(f"WARNING: {ee} legacy_field was not described as column Name in the sourceData: check the mapping file {self.dfname}")
+        #print(changelist)
+        print(f"INFO Column has been renamed for [[{self.dfname}]]"+"\n+"f"{changelist}")
         #print(self.dfnew)
         return self.dfnew
             

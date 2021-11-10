@@ -30,6 +30,24 @@ import codecs
 
 
     
+def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
+        try:
+            outfilename=""
+            #toPrint=json_validator(objectToPrint)
+            if prettyJson:
+                path_file=path_file=f"{path}\{file_name}.json"
+                #outfilename = json.load(objectToPrint)
+                with codecs.open(path_file,"w+", encoding="utf-8") as outfile:
+                    json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
+            else:
+                path_file=path_file=f"{path}\{file_name}.json"
+                outfilename = json.dumps(objectToPrint)
+                with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
+                    outfile.write(outfilename+"\n")
+            return None
+        except Exception as ee:
+            print(f"ERROR: {ee}")
+            
 def printObject(objectToPrint,path,x,file_name,prettyJson):
         try:
             outfilename=""
@@ -54,19 +72,48 @@ def SearchClient(code_search):
         f = open("okapi_customers.json",)
         data = json.load(f)
         for i in data['okapi']:
-            a_line=str(i)
-            if i['name'] == code_search:
-            #if (a_line.find(code_search) !=-1):
-                 dic=i
-                 del dic['name']
-                 #del dic['user']
-                 #del dic['password']
-                 del dic['x_okapi_version']
-                 del dic['x_okapi_status']
-                 del dic['x_okapi_release']
-                 break
-        f.close()
+            try:
+                a_line=str(i)
+                if i['name'] == code_search:
+                #if (a_line.find(code_search) !=-1):
+                    dic=i
+                    del dic['name']
+                    #del dic['user']
+                    #del dic['password']
+                    del dic['x_okapi_version']
+                    del dic['x_okapi_status']
+                    del dic['x_okapi_release']
+                    break
+                f.close()
+            except ValueError as error:
+                print(f"Error Search Okapi: {error}")
         return dic
+    
+        '''if dict:    
+            
+        else:
+            li={}
+            f = open(f"{self.path_dir}\\runenv\\okapi_customers.json",)
+            data = json.load(f)
+            for li in data['okapi']:
+                li["name"]=input()
+                li["x_okapi_url"]=input()
+                li["x_okapi_tenant"]=inpunt()
+                li["x_okapi_token"]=inpunt()
+            okp.append(li)
+            loadset['okapi']=okp
+            f.close
+            with open(f"{self.path_dir}\\runenv\\okapi_customers.json","w+", encoding="utf-8") as outfile:
+                json.dump(loadset,outfile,indent=2)'''
+def floatHourToTime(fh):
+    h, r = divmod(fh, 1)
+    m, r = divmod(r*60, 1)
+    return (
+        int(h),
+        int(m),
+        int(r*60),
+    )
+        
 def timeStamp(dateTimeObj):
     try:
         #dateTimeObj = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
@@ -278,7 +325,7 @@ class AcqErm():
                         if os.path.exists(f"{self.path_dir}\{arg}\\users_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json")
+                            shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
                         if os.path.exists(f"{self.path_dir}\{arg}\\notes_mapping.json"):
                             pass 
                         else:
@@ -367,7 +414,8 @@ class AcqErm():
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
-                                            mapping_file=self.path_agreementMapping)
+                                            mapping_file=self.path_agreementMapping,
+                                            dfname=self.value)
                     if self.df is not None:
                         self.customerName=agree.Agreements(client,self.path_dir)
                         self.customerName.readagreements(client,self.df)
@@ -391,7 +439,8 @@ class AcqErm():
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
-                                            mapping_file=self.path_organizationsMapping)
+                                            mapping_file=self.path_organizationsMapping,
+                                            dfname=self.value)
                     #Contacts
                     self.value_a="contacts"
                     lsc=self.load_settings()
@@ -400,7 +449,8 @@ class AcqErm():
                                             orderby=lsc[self.value_a]['orderby'],
                                             distinct=lsc[self.value_a]['distinct'],                                            
                                             sheetName=lsc[self.value_a]['sheetName'],
-                                            mapping_file=self.path_organizationsMapping)
+                                            mapping_file=self.path_organizationsMapping,
+                                            dfname=self.value)
                     
                     #Interfaces
                     self.value_a="interfaces"
@@ -410,7 +460,8 @@ class AcqErm():
                                             orderby=lsi[self.value_a]['orderby'],
                                             distinct=lsi[self.value_a]['distinct'],                                            
                                             sheetName=lsi[self.value_a]['sheetName'],
-                                            mapping_file=self.path_organizationsMapping)
+                                            mapping_file=self.path_organizationsMapping,
+                                            dfname=self.value)
                     #Notes
                     iter=0
                     self.value="notes"
@@ -424,7 +475,8 @@ class AcqErm():
                                             orderby=lsn[self.value_a]['orderby'],
                                             distinct=lsn[self.value_a]['distinct'],                                            
                                             sheetName=lsn[self.value_a]['sheetName'],
-                                            mapping_file=self.path_notesMapping)
+                                            mapping_file=self.path_notesMapping,
+                                            dfname=self.value)
                     #print(self.notes)
                     if self.dforganizations is not None:                        
                         self.customerName=org.organizations(client,self.path_dir)
@@ -448,8 +500,9 @@ class AcqErm():
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
-                                            mapping_file=self.path_purchaseMapping)
-                    
+                                            mapping_file=self.path_purchaseMapping,
+                                            dfname=self.value)
+
                         self.value_a="poLines"
                         lsa=self.load_settings()
                         filetoload=f"{self.path_data}\\"+str(lsa[self.value_a]['fileName'])
@@ -457,10 +510,27 @@ class AcqErm():
                                             orderby=lsa[self.value_a]['orderby'],
                                             distinct=lsa[self.value_a]['distinct'],
                                             sheetName=lsa[self.value_a]['sheetName'],
-                                            mapping_file=self.path_purchaseMapping)
-                        if  self.dfpoLines is not None and self.dforders is not None:              
+                                            mapping_file=self.path_purchaseMapping,
+                                            dfname=self.value_a)
+                        #Notes
+                        iter=0
+                        self.value="notes"
+                        self.value_a=f"note[{iter}]"
+                        self.df=self.value
+                        lsn=self.load_settings()
+                        self.customerName=pd.dataframe()
+                        #print(ls[self.value_a])
+                        filetoload=f"{self.path_data}\\"+str(lsn[self.value_a]['fileName'])
+                        self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsn[self.value_a]['orderby'],
+                                            distinct=lsn[self.value_a]['distinct'],                                            
+                                            sheetName=lsn[self.value_a]['sheetName'],
+                                            mapping_file=self.path_notesMapping,
+                                            dfname=self.value)                
+
+                        if self.dforders is not None: 
                             self.customerName=orders.compositePurchaseorders(client,self.path_dir)
-                            self.customerName.readorders(client,self.dforders, self.dfpoLines)
+                            self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes)
                         else:
                             print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")                     
                     except ValueError as error:
@@ -473,17 +543,15 @@ class AcqErm():
                     self.customerName=pd.dataframe()
                     #print(ls[self.value_a])
                     filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
-                    self.df=self.customerName.importDataFrame(filetoload,
+                    self.dfusers=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
-                                            mapping_file=self.path_usersMapping)
-                    #print(self.df)
-                    if self.df.empty:
-                        pass
-                    else:
-                        self.customerName=users.users(self.customerName,self.path_dir)
-                        self.customerName.readusers(self.df)
+                                            mapping_file=self.path_usersMapping,
+                                            dfname=self.value)
+                    #print(self.dfusers)
+                    self.customerName=users.users(client,self.path_dir)
+                    self.customerName.readusers(client,dfusers=self.dfusers)
                 elif self.sctr=="n":   
                     self.value="notes"
                     self.value_a="note"
@@ -496,7 +564,8 @@ class AcqErm():
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
-                                            mapping_file=self.path_notesMapping)
+                                            mapping_file=self.path_notesMapping,
+                                            dfname=self.value)
                     if self.df is not None:
                         self.customerName=note.notes(client,self.path_dir)
                         self.customerName.readnotes(client,self.df)
@@ -1065,14 +1134,7 @@ class AcqErm():
         
     
 
-    def floatHourToTime(self,fh):
-        h, r = divmod(fh, 1)
-        m, r = divmod(r*60, 1)
-        return (
-            int(h),
-            int(m),
-            int(r*60),
-        )
+
 
  
 
@@ -2571,7 +2633,7 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
 def readJsonfileRetor(path,json_file,schema,toSearch,fielTosearch):
     try:
         filetoload=f"{path}\\{json_file}"
-        f = open(filetoload,)
+        f = open(filetoload, encoding="utf-8")
         data = json.load(f)
         count=0
         con={}
