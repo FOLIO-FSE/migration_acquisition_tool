@@ -1,6 +1,5 @@
 import datetime
 import warnings
-from datetime import datetime
 import json
 import uuid
 import os
@@ -12,7 +11,7 @@ import csv
 import time
 import random
 import logging
-import pandas as pd
+import dataframe_class as pd
 import validator
 import ast
 import tkinter as tk
@@ -45,26 +44,32 @@ class users():
         filetoload=self.path_refdata+f"\\userMapping.xlsx"
         print("INFO Reading mapping file")
         self.groups=self.customerName.importDataFrame(filetoload,sheetName="groups")
+        print(self.groups)
         self.departments=self.customerName.importDataFrame(filetoload,sheetName="departments")
         self.userStatus=self.customerName.importDataFrame(filetoload,sheetName="userStatus")
         self.addressType=self.customerName.importDataFrame(filetoload,sheetName="addressType")
         with open(self.path_refdata+"\\users_mapping.json") as json_mappingfile:
             self.mappingdata = json.load(json_mappingfile)
+        
 
         
 
                 
-    def readusers(self,client, dataframe):
+    def readusers(self,client, **kwargs):
         self.readMappingfile()
-        self.users= dataframe
+        users=  kwargs['dfusers']
         #print(self.users)
-        enduser={}
+        barcodelist=[]
         allusers=[]
         count=1
         usuarios={}
-        for i, row in self.users.iterrows():
+        goodusers=0
+        baduser=0
+        for i, row in users.iterrows():
             try:
                 start_time = time.perf_counter()
+                enduser={}
+                worseusers={}
                 firstName=""
                 userName=""
                 lastName="Error No LastName"
@@ -74,84 +79,95 @@ class users():
                 departmentUsers=[]
                 department=""
                 printusers=True
-                per={}
                 patronGroupId="000000-000000-000000-00000-0000000"
-                if 'patronGroup' in self.users.columns:
+                if 'patronGroup' in users.columns:
                     if row['patronGroup']:
-                        result=self.groups(self.groups,str(row['patronGroup']).strip())
-                        if result is not None:
-                            patronuserId=mf.readJsonfile(self.path_refdata,client+"_usergroups.json","usergroups",result,"name")
-                                if patronuserId is None:
-                                    mf.write_file(ruta=self.path_logs+"\\patronusersNotFounds.log",contenido=f"{result}")
-                                    printusers=False
-                                else:
-                                    result=str(row['patronGroup']).strip()
-                                    if result is not None:
-                                        patronuserId=mf.readJsonfile(self.path_refdata,client+"_usergroups.json","usergroups",result,"name")
-                                        if patronuserId is None:
-                                            mf.write_file(ruta=self.path_logs+"\\patronusersNotFounds.log",contenido=f"{result}")
-                                            printusers=False
+                        result=str(row['patronGroup']).strip()
+                        patronuserId=mf.readJsonfile(self.path_refdata,client+"_usergroups.json","usergroups",result,"group")
+                        if patronuserId is None:
+                            mf.write_file(ruta=self.path_logs+"\\patronusersNotFounds.log",contenido=f"{result}")
+                            printusers=False
+                        else:
+                            patronGroupId=str(patronuserId[0])
+                        
+                    enduser['type']="Patron"
+                    if patronGroupId=="000000-000000-000000-00000-0000000":
+                        printusers=False
+                        patronGroupId=result
                     enduser['patronGroup']=patronGroupId
+                    enduser['proxyFor']=[]
+                    userBarcode=""
+                    if 'barcode' in users.columns:
+                        if row['barcode']:
+                            checkbarcode=str(row['barcode']).strip()
+                            countlist = barcodelist.count(str(checkbarcode))
+                            if countlist>0:
+                                printusers=False
+                            else:
+                                userBarcode=checkbarcode                        
+                                barcodelist.append(userBarcode)
+                                enduser['barcode']=userBarcode
+
                     userName=""    
-                    if 'username' in self.users.columns:
+                    if 'username' in users.columns:
                         if row['username']:
                             userName=str(row['username']).strip()
-                            enduser['username']=userName
                         else:
-                            userName="@institution"
+                            userName=userBarcode
+                            
                     enduser['username']=userName
                     externalSystemId=""
-                    if 'externalSystemId' in self.users.columns:
+                    if 'externalSystemId' in users.columns:
                         if row['externalSystemId']:
                             externalSystemId=str(row['externalSystemId']).strip()
                     enduser['externalSystemId']=externalSystemId
-                    activeUser="Active"
-                    if 'active' in self.users.columns:
+                    activeUser=True
+                    if 'active' in users.columns:
                         if row['active']:
-                            activeUser=str(row['active']).strip()
+                            result=self.mapping(self.userStatus,str(row['active']).strip())
+                            if result is not None:
+                                activeUser=result
+                                
                     enduser['active']=activeUser
-                    department=""
-                    if 'departments' in self.users.columns:
+                    departmentUsers=[]
+                    if 'departments' in users.columns:
                         if row['departments']:
-                            department=str(row['departments'])
+                            department=str(row['departments']).strip()
                             departmentId=mf.readJsonfileRetor(self.path_refdata,client+"_departments.json","departments",department,"name")
+                            #C:\Users\asoto\Documents\EBSCO\Migrations\folio\client_data\uai\refdata
                             if departmentId is not None:
                                 departmentUsers.append(departmentId)
                     enduser['departments']=departmentUsers
-                    barcode=""
-                    if 'barcode' in self.users.columns:
-                        if row['barcode']:
-                            barcode=str(row['barcode']).strip()
-                    enduser['barcode']=barcode
-                    
-                    if 'personal.lastName' in self.users.columns:
+                    per={}
+                    if 'personal.lastName' in users.columns:
                         lastName=""
                         if row['personal.lastName']:
+                            print(row['personal.lastName'])
                             lastName=str(row['personal.lastName']).strip()
-                            print(f"INFO Processing user record # {count} User-Name: {lastName}")
+                            print(f"INFO Processing user record # {count} User-LastName: {lastName}")
                             per['lastName']=lastName
                             firstName=""
-                            if 'personal.firstName' in self.users.columns:
+                            if 'personal.firstName' in users.columns:
                                 if row['personal.firstName']:
                                     firstName=str(row['personal.firstName']).strip()
                             per['firstName']=firstName
                             email=""
-                            if 'personal.email' in self.users.columns:
+                            if 'personal.email' in users.columns:
                                 if row['personal.email']:
                                     email=str(row['personal.email']).strip()
                                 else:
-                                    email="@institution"
+                                    email="biblioteca@uai.cl"
                                 per['email']=email
-                            if 'personal.phone' in self.users.columns:
+                            phone=""
+                            if 'personal.phone' in users.columns:
                                 if row['personal.phone']:
                                     phone=str(row['personal.phone']).strip()
                                     per['phone']=phone
                             personalpreferredFirstName=""
-                            if 'personal.preferredFirstName' in self.users.columns:
+                            if 'personal.preferredFirstName' in users.columns:
                                 if row['personal.preferredFirstName']:
                                     personalpreferredFirstName=row['personal.preferredFirstName']
                                     per['personal.preferredFirstName']=personalpreferredFirstName
-                                    
                             addressesarray=[]
                             addressTypeId=""
                             addressLine1=""
@@ -162,68 +178,96 @@ class users():
                             while sw:
                                 addr={}
                                 primaryAddress=False
+                                ptype=""
+                                result="HOME"
                                 field=f"personal.addresses[{iter}].addressTypeId"
-                                if field in self.users.columns:
+                                if field in users.columns:
                                     if row[field]:
-                                        addressTypeId=str(row[field]).strip()
+                                        result=str(row[field]).strip()
+                                        ptype=mf.readJsonfile(self.path_refdata,client+"_usergroups.json","usergroups",result,"group")
+                                        if ptype is None:
+                                            mf.write_file(ruta=self.path_logs+"\\patronusersNotFounds.log",contenido=f"{result}")
+                                            printusers=False
+                                        else:
+                                            patronGroupId=ptype
+                                    else:        
+                                        
                                         addr['addressTypeId']=addressTypeId
                                         field=f"personal.addresses[{iter}].addressLine1"
-                                        if field in self.users.columns:
+                                        if field in users.columns:
                                             if row[field]:
                                                 addressLine1=str(row[field]).strip()
                                                 addr['addressLine1']=addressLine1
                                             if iter==0:
                                                 primaryAddress=True
                                         field=f"personal.addresses[{iter}].addressLine2"
-                                        if field in self.users.columns:
+                                        if field in users.columns:
                                             if row[field]:
                                                 addressLine2=str(row[field]).strip()
                                                 addr['addressLine2']=addressLine2
                                         field=f"personal.addresses[{iter}].city"
-                                        if field in self.users.columns:
+                                        if field in users.columns:
                                             if row[field]:
                                                 city=str(row[field]).strip()                                    
                                                 addr['city']=city
                                         field=f"personal.addresses[{iter}].countryId"
-                                        if field in self.users.columns:
+                                        if field in users.columns:
                                             if row[field]:
                                                 country=str(row[field]).strip()                                    
                                                 addr['country']=country
                                         field=f"personal.addresses[{iter}].postalCode"        
-                                        if field in self.users.columns:
+                                        if field in users.columns:
                                             if row[field]:
                                                 postalCode=str(row[field]).strip()                                    
                                                 addr['postalcode']=postalCode
                                         field=f"personal.addresses[{iter}].region"        
-                                        if field in self.users.columns:
+                                        if field in users.columns:
                                             if row[field]:
                                                 region=str(row[field]).strip()                                    
                                                 addr['region']=region
                                         addressesarray.append(addr)                                    
                                 else:
                                     sw=False
-                                iter+=1           
+                                iter+=1          
+                                per['addresses']= addressesarray
                             dateOfBirth=""
-                            field=f"personal.dateOfBirth"        
-                            if field in self.users.columns:
+                            fecha_dt=""
+                            field=f"personal.dateOfBirth"   
+                                 
+                            if field in users.columns:
                                 if row[field]:
-                                    dateOfBirth=str(row[field]).strip()                                    
+                                    fecha_dt=str(row[field])
+                                    #fecha_dt=fecha_dt.replace("/","-")
+                                    year=fecha_dt[-4:]
+                                    month=fecha_dt[3:5]
+                                    day=fecha_dt[:2]
+                                    dateOfBirth=f"{year}-{month}-{day}T00:00:00.000+00:00"                           
                                     per['dateOfBirth']=dateOfBirth
                             personalemail=""        
                             ##customFields
-                            customFields=[]
-                            customFields=self.customFields()
-                            if len(customFields)>0:
-                                cf={}
-                                for field in customFields:
-                                    if customFields in self.users.columns:
-                                        cf['customFields']=row[customFields]
-                                enduser['customFields']=cf
-                                
-                            enduser['personal']=mf.dic(lastName=lastName,firstName=firstName,email=email,phone=phone,addresses=addressesarray,preferredContactTypeId="002")
+                            per['preferredContactTypeId']="002"
+                            enduser['personal']=per
+                            enrollmentDate=""
+                            if 'enrollmentDate' in users.columns:
+                                if row['enrollmentDate']:
+                                    dateenrollment=row['enrollmentDate']
+                                    enrollmentDate=dateenrollment.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+                                    enduser['enrollmentDate']=enrollmentDate
                             expirationDate=""
+                            customFields=[]
+                            customFieldslist=self.customFields()
+                            if len(customFieldslist)>0:
+                                cf={}
+                                for field in customFieldslist:
+                                    if field in users.columns:
+                                        if row[field]:
+                                            infocustom=str(row[field]).strip()
+                                            infocustom=infocustom.replace(".0","")
+                                            cf[field]=infocustom
+                                enduser['customFields']=cf
+                            
                             fecha_dt=""
-                            if 'expirationDate' in self.users.columns:
+                            if 'expirationDate' in users.columns:
                                 if row['expirationDate']:
                                     expirationDate=row['expirationDate']
                                     fecha_dt=expirationDate.strftime("%Y-%m-%dT00:00:00.000+00:00")
@@ -231,23 +275,27 @@ class users():
                                     print(fecha_dt)
                 
                                 enduser['expirationDate']=fecha_dt
-                
-                     
-                        enduser['type']= "object"    
-                        preferredContactTypeId="002"                
-                        
-                        #enduser['personal']=faf.dic(lastName=lastName,firstName=firstName,email=email,preferredContactTypeId="002")
-                        mf.printObject(enduser,self.path_logs,count,client+"_usersbyline",False)
-                        allusers.append(enduser)
+                        enduser['type']= "object"
+                        worseusers=enduser
+                        if printusers:
+                            mf.printObject(enduser,self.path_results,count,client+"_usersbyline",False)
+                            allusers.append(enduser)
+                            goodusers+=1
+                        else:
+                            mf.printObject(worseusers,self.path_results,count,client+"worse_usersbyline",False)
+                            baduser+=1
+                        printusers=True                        
                         enduser={}
                         count+=1
-                except Exception as ee:
-                    print(f"ERROR: {ee}")
-                usuarios['users']=allusers
-                mf.printObject(usuarios,self.path_results,count,client+"_users",True)
-                print(f"============REPORT======================")
-                print(f"RESULTS Record processed {count}")
-                print(f"RESULTS end")
+            except Exception as ee:
+                print(f"ERROR: {ee}")
+        usuarios['users']=allusers
+        mf.printObject(usuarios,self.path_results,count,client+"_users",True)
+        print(f"============REPORT======================")
+        print(f"RESULTS Record processed {count}")
+        print(f"RESULTS Record processed {goodusers}")
+        print(f"RESULTS bad records processed {baduser}")
+        print(f"RESULTS end")
         
         
     def mapping(self,dftoSearch,toSearch):
@@ -271,7 +319,7 @@ class users():
         for i in self.mappingdata['data']:
             try:
                 if i['value'] == "customFields":
-                    customlist.append(i['legacy_field'])
+                    customlist.append(i['folio_field'])
             except Exception as ee:
                 print(f"ERROR: {ee}")
         return customlist

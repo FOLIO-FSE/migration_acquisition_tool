@@ -25,8 +25,9 @@ import main_functions as mf
 ################################################
 # 
 class notes():
-    def __init__(self,client,path_dir):
-        
+    def __init__(self,client,path_dir, **kwargs):
+        if 'dataframe' in kwargs:
+            self.notes= kwargs['dataframe']
         self.customerName=client
         #os.mkdir(f"{path_dir}\\results")
         self.path_results=f"{path_dir}\\results"
@@ -62,8 +63,15 @@ class notes():
             #print(self.mappingdata)
     #(uuidOrg,typeId,customerName,15,16,17)
     #client,self.path_dir
-    def readnotes(self,client,dataframe,toSearch,linkId):
-        self.notes= dataframe
+    def readnotes(self,client,**kwargs): #dataframe,toSearch,linkId):
+#    def readnotes(self,client,dataframe,toSearch,linkId):
+
+        if 'toSearch' in kwargs:
+            toSearch=kwargs['toSearch']
+        if 'linkId' in kwargs:
+            linkId=kwargs['linkId']
+
+            
         countnote=1
         noprint=False
         dfnote = self.notes[self.notes['code']== toSearch]
@@ -71,6 +79,7 @@ class notes():
         for i, nrow in dfnote.iterrows():
             notes={}
             l=[]
+            linkType=""
             try:
                 countnote+=1
 
@@ -81,7 +90,7 @@ class notes():
                         mf.write_file(ruta=self.path_logs+"\\notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
                         noteType=""
                     else:
-                        print(f"INFO Processing Notes Org-Name {toSearch} : ",len(dfnote))
+                        print(f"INFO Processing Notes for :  {toSearch} : ",len(dfnote))
                         noteType=cate[1]
                         noprint=True
                         notes["id"]=str(uuid.uuid4())
@@ -89,8 +98,17 @@ class notes():
                         if self.valuetitle: notes["title"]=self.valuetitle
                         else: notes["title"]="Notes"
                     
-                        if self.valuedomainId: notes["domain"]=self.valuedomainId
-                        else: notes["domain"]=""
+                        if self.valuedomainId: 
+                            notes["domain"]=self.valuedomainId
+                            if self.valuedomainId.upper()=="ORGANIZATIONS":
+                                linkType="organization"
+                            elif self.valuedomainId.upper()=="ORDERS":
+                                linkType="poLine"
+                            else:
+                                linkType="poLine"
+                                return 
+                        else: 
+                            notes["domain"]=""
                         iter=0
                         sw=True
                         cont=""
@@ -99,13 +117,16 @@ class notes():
                             if field in dfnote.columns:
                                 if nrow[field]:
                                     if nrow[field]!="":
-                                        cont=cont+str(nrow[field])
+                                        if nrow[field]!="    -  -   ":
+                                            contNote=self.readmapping(field)
+                                            cont=f"{cont} {contNote} {nrow[field]}"
                             else:
                                 sw=False
                             iter+=1
                         if cont is not None:
                             notes["content"]=cont
-                        l.append(mf.dic(id=linkId,type=self.valuedomainId[:-1]))
+
+                        l.append(mf.dic(id=linkId,type=linkType))
                         notes["links"]=l
 
                 if noprint:
@@ -161,7 +182,14 @@ class notes():
             except Exception as ee:
                 print(f"ERROR: {ee}")
             
-                            
+    def readmapping(self,toSearch):
+        with open(self.path_refdata+"\\notes_mapping.json") as json_mappingfile:
+            self.mappingdata = json.load(json_mappingfile)
+            for i in self.mappingdata['data']:
+                if i['folio_field']==toSearch:
+                    contentNote=str(i['legacy_field']).strip()+": "
+        return contentNote             
+                    
     def print_notes(self,*kwargs):
         count=1
         try:

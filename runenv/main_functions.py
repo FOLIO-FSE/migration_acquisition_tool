@@ -8,6 +8,7 @@ import windows_class as windows
 import datetime
 import warnings
 from datetime import datetime
+from datetime import date
 import json
 import uuid
 import os
@@ -41,12 +42,16 @@ def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
                     json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
             else:
                 path_file=path_file=f"{path}\{file_name}.json"
-                outfilename = json.dumps(objectToPrint)
+                outfilename = json.dumps(objectToPrint,ensure_ascii=False)
                 with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
                     outfile.write(outfilename+"\n")
             return None
         except Exception as ee:
             print(f"ERROR: {ee}")
+'''with open(ff_name, 'rb') as source_file:
+  with open(target_file_name, 'w+b') as dest_file:
+    contents = source_file.read()
+    dest_file.write(contents.decode('utf-16').encode('utf-8'))'''
             
 def printObject(objectToPrint,path,x,file_name,prettyJson):
         try:
@@ -59,7 +64,7 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
                     json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
             else:
                 path_file=path_file=f"{path}\{file_name}.json"
-                outfilename = json.dumps(objectToPrint)
+                outfilename = json.dumps(objectToPrint,ensure_ascii=False)
                 with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
                     outfile.write(outfilename+"\n")
             return None
@@ -116,23 +121,34 @@ def floatHourToTime(fh):
         
 def timeStamp(dateTimeObj):
     try:
-        #dateTimeObj = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
-        #fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
-        #dateTimeObj = fecha_dt.strftime(format)
-            timestampStr = dateTimeObj.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
-            return timestampStr
-    except ValueError:
-            print("Module folioAcqfunctions organizations time Error: "+str(ValueError))
+        year=""
+        month=""
+        day=""
+        if dateTimeObj.find("/")!=-1:
+            date_object = datetime.strptime(dateTimeObj, "%m/%d/%Y")
+        elif dateTimeObj.find("-")!=-1:
+            date_object = datetime.strptime(dateTimeObj, "%m-%d-%Y")
+        else:
+            pass
+        timestampStr = date_object.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+        return timestampStr
+    except ValueError as error:
+            print(f"Error: {error}")
         
 def timeStampString(dateTimeObj):
         try:
         #dateTimeObj = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
-            fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
-            #dateTimeObj = fecha_dt.strftime(format)
+            a=dateTimeObj.find("-")
+            if a-1:
+                fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
+            elif dateTimeObj.find("/")!=-1:
+                fecha_dt = datetime.strptime(dateTimeObj, '%Y/%m/%d')
+                #dateTimeObj = fecha_dt.strftime(format)
             timestampStr = fecha_dt.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
             return timestampStr
-        except ValueError:
-            print("Module folioAcqfunctions organizations time Error: "+str(ValueError))
+        except ValueError as ee:
+            print(f"Error: {ee}")
+
             
 def write_file(**kwargs):
         try:
@@ -172,10 +188,22 @@ def okapiPath(code_search):
                     break
             f.close()
             return valor
-        except ValueError:
-            print("schema does not found")
+        except ValueError as error:
+            print(f"Error: {error}")
             return 0
 
+def checkURL(code_search):
+    try:
+        a=code_search.find("http://")
+        if a!=-1:
+            urlok=True    
+            return urlok
+        else:
+            urlok=False
+            return urlok
+    except ValueError as error:
+        print(f"Error: {error}")
+        
 #############################
 #ACQ_ERM_MIGRATION TOOLS
 #(customerName=customerName,getrefdata=getrefdata,scriptTorun=scriptTorun,graphicinterfaces=graphicinterfaces)  
@@ -450,7 +478,7 @@ class AcqErm():
                                             distinct=lsc[self.value_a]['distinct'],                                            
                                             sheetName=lsc[self.value_a]['sheetName'],
                                             mapping_file=self.path_organizationsMapping,
-                                            dfname=self.value)
+                                            dfname=self.value_a)
                     
                     #Interfaces
                     self.value_a="interfaces"
@@ -461,7 +489,7 @@ class AcqErm():
                                             distinct=lsi[self.value_a]['distinct'],                                            
                                             sheetName=lsi[self.value_a]['sheetName'],
                                             mapping_file=self.path_organizationsMapping,
-                                            dfname=self.value)
+                                            dfname=self.value_a)
                     #Notes
                     iter=0
                     self.value="notes"
@@ -476,14 +504,14 @@ class AcqErm():
                                             distinct=lsn[self.value_a]['distinct'],                                            
                                             sheetName=lsn[self.value_a]['sheetName'],
                                             mapping_file=self.path_notesMapping,
-                                            dfname=self.value)
+                                            dfname=self.value_a)
                     #print(self.notes)
                     if self.dforganizations is not None:                        
                         self.customerName=org.organizations(client,self.path_dir)
                         if self.notes is not None:
                             self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dforganizations, dfinterfaces=self.dforganizations, dfnotes=self.notes)
                         else:
-                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dforganizations, dfinterfaces=self.dforganizations)
+                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces)
                     else:
                         print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json") 
                     
@@ -530,9 +558,12 @@ class AcqErm():
 
                         if self.dforders is not None: 
                             self.customerName=orders.compositePurchaseorders(client,self.path_dir)
-                            self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes)
+                            if self.notes is not None:
+                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes)
+                            else:
+                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
                         else:
-                            print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")                     
+                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_data}\loadSetting.json")                     
                     except ValueError as error:
                         print(f"Error: {error}")
                 elif self.sctr=="u": 
@@ -2614,7 +2645,7 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
         for i in data[schema]:
             count+=1
             j_content=i
-            if j_content[fielTosearch]==toSearch:
+            if j_content[fielTosearch].upper()==toSearch.upper():
                 id.append(j_content['id'])
                 if "name" in j_content:
                     id.append(j_content['name'])#return j_content
@@ -3855,6 +3886,5 @@ def readagreements(**kwargs):
     print(f"RESULTS Record processed {count}")
     print(f"RESULTS Agreements {countpol}")
     print(f"RESULTS vendor with errors: {countvendorerror}")
-    print(f"RESULTS end")
-    
+    print(f"RESULTS end")  
     
