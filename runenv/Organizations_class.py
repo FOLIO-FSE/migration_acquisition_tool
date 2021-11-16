@@ -1,7 +1,11 @@
 import datetime
+from typing import Collection
 import warnings
 from datetime import datetime
 import dataframe_class as pd
+import backup_restore as br
+import main_functions as mf
+import notes_class as notes
 import json
 import uuid
 import os
@@ -10,16 +14,12 @@ import requests
 import io
 import math
 import csv
-import time
 import random
 import logging
 import validator
 import ast
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
-import backup_restore as br
-import main_functions as mf
-import notes_class as notes
 import time
 from datetime import datetime
 import yaml
@@ -50,8 +50,8 @@ class organizations():
             self.customerName=pd.dataframe()
             filetoload=self.path_refdata+f"\\acquisitionMapping.xlsx"
             print("INFO Reading mapping file")
-            self.paymentMethodAccount=self.customerName.importDataFrame(filetoload,sheetName="paymentMethodAccount")
-            self.categories=self.customerName.importDataFrame(filetoload,sheetName="categories")
+            self.paymentMethodAccount=self.customerName.importDataFrame(filetoload,sheetName="paymentMethodAccount",dfname="Payment Method")
+            self.categories=self.customerName.importDataFrame(filetoload,sheetName="categories", dfname="Categories")
             with open(self.path_refdata+"\\organization_mapping.json") as json_mappingfile:
                 self.mappingdata = json.load(json_mappingfile)
             self.paymentMethod= ["Cash","Credit Card","EFT","Deposit Account","Physical Check","Bank Draft","Internal Transfer","Other"]
@@ -67,9 +67,29 @@ class organizations():
             start_time = time.perf_counter()
             self.readMappingfile()
             vendors=kwargs['dforganizations']
+            self.countcred=0
             if 'dfnotes' in kwargs:
-                note=kwargs['dfnotes']
-                self.customerName=notes.notes(client,self.path_dir)
+                dfnote=kwargs['dfnotes']
+                #print(dfnotes)
+                self.customerName=notes.notes(client,self.path_dir,dataframe=dfnote)
+                swnotes=True
+            else:
+                swnotes=False
+            if 'dfinterfaces' in kwargs:
+                dfinterfaces=kwargs['dfinterfaces'] 
+                if dfinterfaces is None:
+                    dfinterfaces=vendors
+                else:
+                    dfinterfaces=kwargs['dfinterfaces']
+
+
+            if 'dfcontacts' in kwargs:
+                dfcontacts=kwargs['dfcontacts'] 
+                if dfcontacts is None:
+                    dfcontacts=vendors
+                else:
+                    dfcontacts=kwargs['dfcontacts']
+                
             #print(vendors)
             org={}
             list={}
@@ -463,9 +483,8 @@ class organizations():
                         mf.printObject(org,self.path_results,count,"worse_organization_byLine.json",False)
                     print(f"INFO Organization record: {count} has been created")
                     
-                    if kwargs['dfnotes'] is not None:                        
-                        self.customerName.readnotes(client,kwargs['dfnotes'],vencode,orgId)
-                        #self.readnotes(self,client,)
+                    if swnotes:
+                        self.customerName.readnotes(client,toSearch=vencode,linkId=orgId)                      
                     
                     org={}
                     #addnoteapp=False
@@ -479,7 +498,8 @@ class organizations():
             orgFull['organizations']=orga
             mf.printObject(orgFull,self.path_results,count,"organization",True)
             end_time = time.perf_counter()
-            print(f"INFO Organization Execution Time : {end_time - start_time:0.2f}" )      
+            print(f"INFO Organization Execution Time : {end_time - start_time:0.2f}" )
+            print(f"Interfaces processed : {self.countcred}")
         except Exception as ee:
             print(f"ERROR: {ee}")
 
@@ -492,59 +512,101 @@ class organizations():
             iter=0
             interfacesId=[]
             for c, cprow in dfinter.iterrows():
-                
                 inter={}
                 cred={}
-                field=f"interfaces[{iter}].name"
+                print(f"INFO Processing interfaces for the {toSearch} organization")
+                intername=" "
+                interId=""
+                field=f"interfaces[0].name"
                 if field in dfinter.columns:
                     if cprow[field]:
-                        print(f"INFO processing interfaces for: {toSearch}",len(dfinter))
-                        interId=""
-                        interId=str(uuid.uuid4())
-                        inter['id']=interId
-                        print(f"INFO Processing interfaces for the {toSearch} organization, Interface record {c}")
-                        inter['name']=cprow[field]
-                        field=f"interfaces[{iter}].uri"
-                        if field in dfinter.columns:
-                            inter['uri']=cprow[field]
-                        field=f"interfaces[{iter}].notes"
-                        if field in dfinter.columns:
-                            inter['notes']=cprow[field] 
-                        field=f"interfaces[{iter}].available"
-                        if field in dfinter.columns: inter['available']=cprow[field]
-                        else:inter['available']="Available"
-                        field=f"interfaces[{iter}].deliveryMethod"
-                        deliverM="Online"
-                        deliverMethodvalue=["Online", "FTP", "Email", "Other"]
-                        if field in dfinter.columns:
-                            deliverMethodtosearch=cprow[field]
-                            countlist = deliverMethodvalue.count(str(deliverMethodtosearch))
-                            if countlist>0: inter['deliveryMethod']=deliverMethodtosearch
-                            else: inter['deliveryMethod']=deliverM
+                        intername=str(cprow[field])
+                        inter['name']=intername
+                interId=str(uuid.uuid4())
+                inter['id']=interId                        
+                uri=""
+                field=f"interfaces[0].uri"
+                if field in dfinter.columns:
+                    if cprow[field]:
+                        uri=cprow[field]
+                        if mf.checkURL(uri): inter['uri']=uri
+                        else: inter['uri']="http://"+uri
+                field=f"interfaces[0].notes"
+                if field in dfinter.columns:
+                    if cprow[field]:
+                        iternotes=str(cprow[field])
+                        inter['notes']=iternotes
+                interava=True
+                iava=""
+                field=f"interfaces[0].available"
+                if field in dfinter.columns: 
+                    if cprow[field]:
+                        iava=cprow[field]
+                        if iava=="FALSE":
+                            interava=False
+                inter['available']=interava
                 
-                        field=f"interfaces[{iter}].statisticsFormat"
-                        if field in dfinter.columns:
-                            inter['statisticsFormat']=cprow[field]  
-                        field=f"interfaces[{iter}].onlineLocation"
-                        if field in dfinter.columns:
-                            inter['onlineLocation']=cprow[field]
-                        field=f"interfaces[{iter}].statisticsNotes"
-                        if field in dfinter.columns:
-                            inter['statisticsNotes']=cprow[field]
-                        field=f"interfaces[{iter}].username"
-                        if field in dfinter.columns:
-                            cred['username']=cprow[field]
-                            siuser=True
-                        field=f"interfaces[{iter}].password"
-                        if field in dfinter.columns:
-                            cred['password']=cprow[field]
-                            sicre=True 
-                        if siuser:
-                            cred['id']=str(uuid.uuid4())
-                            cred['interfaceId']=interId
-                            mf.printObject(cred,self.path_results,count,"credentials",False)
-                        mf.printObject(inter,self.path_results,count,"interfaces",False)   
-                        interfacesId.append(interId)
+                interfacetype=[]
+                enuminterfacetype=["Admin","End user","Reports","Orders","Invoices","Other"]
+                field=f"interfaces[0].type"
+                if field in dfinter.columns:
+                    itype=str(cprow[field]).strip()
+                    x=itype.split(",")
+                    for cadenatype in x:                            
+                        countlist = enuminterfacetype.count(str(cadenatype))
+                        if countlist>0: 
+                            interfacetype.append(cadenatype)
+
+                inter['type']=interfacetype
+                
+                deliverM="Online"
+                deliverMethodvalue=["Online", "FTP", "Email", "Other"]
+                field=f"interfaces[0].deliveryMethod"
+                if field in dfinter.columns:
+                    deliverMethodtosearch=cprow[field]
+                    countlist = deliverMethodvalue.count(str(deliverMethodtosearch))
+                    if countlist>0: inter['deliveryMethod']=deliverMethodtosearch
+                    else: inter['deliveryMethod']=deliverM
+                
+                field=f"interfaces[0].statisticsFormat"
+                if field in dfinter.columns:
+                    if cprow[field]:
+                        inter['statisticsFormat']=str(cprow[field]).strip()
+                onlineLocation=""
+                
+                field=f"interfaces[0].onlineLocation"
+                if field in dfinter.columns:
+                    if cprow[field]:
+                        onlineLocation=str(cprow[field]).strip()
+                        inter['onlineLocation']=cprow[field]
+                statisticsNotes=""
+                field=f"interfaces[0].statisticsNotes"
+                if field in dfinter.columns:
+                    if cprow[field]:
+                        statisticsNotes=cprow[field]
+                        inter['statisticsNotes']=statisticsNotes
+                username=""        
+                field=f"interfaces[0].username"
+                if field in dfinter.columns:
+                    if cprow[field]:
+                        username=str(cprow[field]).strip()
+                        cred['username']=username
+                        siuser=True
+                        self.countcred+=1
+                password=""
+                field=f"interfaces[0].password"
+                if field in dfinter.columns:
+                    if cprow[field]:
+                        password=str(cprow[field]).strip()
+                        cred['password']=password
+                        sicre=True 
+                if siuser:
+                    cred['id']=str(uuid.uuid4())
+                    cred['interfaceId']=interId
+                    mf.printObject(cred,self.path_results,self.countcred,"credentials",False)
+                    mf.printObject(inter,self.path_results,self.countcred,"interfaces",False)
+                iter+=1   
+                interfacesId.append(interId)
             return interfacesId
         except Exception as ee:
             print(f"ERROR: Interfaces schema:{ee}")
