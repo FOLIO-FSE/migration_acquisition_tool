@@ -42,7 +42,8 @@ class organizations():
             self.path_refdata=f"{path_dir}\\refdata"
             self.organizationbyline=self.path_logs+"\\"+self.customerName+"_organizationbyline.json"
             #print(self.organizationbyline)
-            self.organizationbyline=open(self.organizationbyline, 'w')            
+            self.organizationbyline=open(self.organizationbyline, 'w')
+            self.interfaces_created = 0
         except Exception as ee:
             print(f"ERROR: {ee}")
             
@@ -507,7 +508,9 @@ class organizations():
             end_time = time.perf_counter()
             print(f"\nINFO Organization Execution Time : {end_time - start_time:0.2f}" )
             print(f"Organizations created: {count}")
-            print(f"Interfaces processed: {self.countcred}")
+            print(f"Interfaces created: {self.interfaces_created}")
+            print(f"Credentials processed: {self.countcred}")
+
         except Exception as ee:
             print(f"ERROR: {ee}")
 
@@ -593,7 +596,9 @@ class organizations():
                     if cprow[field]:
                         statisticsNotes=cprow[field]
                         inter['statisticsNotes']=statisticsNotes
-                username=""        
+                username=""
+                siuser=False
+                sicre=False    
                 field=f"interfaces[0].username"
                 if field in dfinter.columns:
                     if cprow[field]:
@@ -608,13 +613,17 @@ class organizations():
                         password=str(cprow[field]).strip()
                         cred['password']=password
                         sicre=True 
-                if siuser:
+                #"required": ["interfaceId","username", "password"]
+                if siuser and sicre:
                     cred['id']=str(uuid.uuid4())
                     cred['interfaceId']=interId
                     mf.printObject(cred,self.path_results,self.countcred,"credentials",False)
-                    mf.printObject(inter,self.path_results,self.countcred,"interfaces",False)
+                
+                #Interfaces "required": ["createdDate"]    
+                mf.printObject(inter,self.path_results,self.countcred,"interfaces",False)
                 iter+=1   
                 interfacesId.append(interId)
+                self.interfaces_created +=1
             return interfacesId
         except UnboundLocalError as ule:
             print(f"ERROR: No username for {intername} No credentials created. / Interfaces schema: {ule}")
