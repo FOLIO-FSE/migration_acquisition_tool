@@ -16,7 +16,7 @@ if __name__ == "__main__":
     graphicinterfaces=False#False
     #Insert the script to run (o=organizations/p=purchase orders/l=licenses/a=Agreements / u=Users / i=instance)
     print(f"##########################################################################################")
-    scriptTorun="p"#"o"    
+    scriptTorun="o"#"o"    
     if customerName=="": 
         print("Client code: ") 
         customerName = str(input())

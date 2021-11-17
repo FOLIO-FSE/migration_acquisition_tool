@@ -76,7 +76,7 @@ def SearchClient(code_search):
         dic= {}
         f = open("okapi_customers.json",)
         data = json.load(f)
-        print("INFO reading OKAPI DATA from okapi_customer.json file")
+        #print("INFO reading OKAPI DATA from okapi_customer.json file")
         for i in data['okapi']:
             try:
                 a_line=str(i)
