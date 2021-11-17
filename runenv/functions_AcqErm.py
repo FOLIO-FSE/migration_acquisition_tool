@@ -1,6 +1,14 @@
+import dataframe_class as pd
+import agreement_class as agree
+import users_class as users
+import notes_class as notes
+import compositePurchaseorders_class as orders
+import organizations_class as org
+import windows_class as windows
 import datetime
 import warnings
 from datetime import datetime
+from datetime import date
 import json
 import uuid
 import os
@@ -12,185 +20,1167 @@ import csv
 import time
 import random
 import logging
-import pandas as pd
 import validator
 import ast
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
 import time
 from datetime import datetime
 import yaml
 import shutil
-
-class window:
-    def __init__(self, master,titlewin,geometrywin, customerName):
-        master.title(titlewin)
-        master.geometry(geometrywin)
-        self.head=""
-        self.frame1 = tk.LabelFrame(master, bd=5,text="Data")
-        self.frame1.place(height=250, width=1000)
-        # Frame for open file dialog
-        self.file_frame = tk.LabelFrame(master, text="Open File")
-        self.file_frame.place(height=100, width=600, rely=0.50, relx=0)
-        # Frame for mapping
-        self.map_frame = tk.LabelFrame(master, text="Mapping")
-        self.map_frame.place(height=100, width=400, rely=0.50, relx=0.6)
-        
-        # Buttons Browse files
-        self.button1 = tk.Button(self.file_frame, text="Browse a file", command=lambda: self.File_dialog())
-        self.button1.place(rely=0.65, relx=0.30)
-        #Load file
-        self.button2 = tk.Button(self.file_frame, text="Load File", command=lambda: self.Load_excel_data())
-        self.button2.place(rely=0.65, relx=0.65)
-        #Transform data
-        self.button3 = tk.Button(self.file_frame, text="Transform File", command=lambda: self.read_orders(customerName))
-        self.button3.place(rely=0.65, relx=0.85)
-        #self.button4 = tk.Button(self.file_frame, text="Mapping", command=lambda: self.readOrganizations())
-        #self.button4.place(rely=0.65, relx=0.95)
-        
-        # The file/file path text
-        self.label_file = tk.Label(self.file_frame, text="No File Selected")
-        self.label_file.place(rely=0, relx=0)
-
-        ## Treeview Widget
-        self.tv1 = ttk.Treeview(self.frame1)
-
-        self.tv1.place(relheight=1, relwidth=1) # set the height and width of the widget to 100% of its container (frame1).
-
-        self.treescrolly = tk.Scrollbar(self.frame1, orient="vertical", command=self.tv1.yview) # command means update the yaxis view of the widget
-        self.treescrollx = tk.Scrollbar(self.frame1, orient="horizontal", command=self.tv1.xview) # command means update the xaxis view of the widget
-        self.tv1.configure(xscrollcommand=self.treescrollx.set, yscrollcommand=self.treescrolly.set) # assign the scrollbars to the Treeview Widget
-        self.treescrollx.pack(side="bottom", fill="x") # make the scrollbar fill the x axis of the Treeview widget
-        self.treescrolly.pack(side="right", fill="y") # make the scrollbar fill the y axis of the Treeview widget
+import codecs
 
 
-    def File_dialog(self):
-        """This Function will open the file explorer and assign the chosen file path to label_file"""
-        filename = filedialog.askopenfilename(initialdir="/",
-                                          title="Select A File",
-                                          filetype=(("xlsx files", "*.xlsx"),("All Files", "*.*")))
-        self.label_file["text"] = filename
-        return None
-
-
-    def Load_excel_data(self):
-        """If the file selected is valid this will load the file into the Treeview"""
-        file_path =self.label_file["text"]
-        customerName="utm"
-        
-        
-        try:
-            excel_filename = r"{}".format(file_path)
-            if excel_filename[-4:] == ".csv":
-                df = pd.read_csv(excel_filename)
-            else:
-                df = pd.read_excel(excel_filename)
-            
-        except ValueError:
-            self.messagebox.showerror("Information", "The file you have chosen is invalid")
-            return None
-        except FileNotFoundError:
-            self.messagebox.showerror("Information", f"No such file as {file_path}")
-            return None
-
-        self.clear_data()
-                #combobox
-        #self.vlist=["option 1", "option 2", "option 3"]'''
-
-        self.head=list(df.columns.values)
-        self.vlist=self.head
-        #ll=len(self.head)
-        #for index in ll:
-        #    combo=ttk.Combobox(self.map_frame, values=self.vlist)
-        #    combo.set("Pick an Option")
-        #    combo.pack(padx=5, pady=5)'''
-        
-        
-        self.tv1["column"] = list(df.columns)
-        self.tv1["show"] = "headings"
-        
-        for column in self.tv1["columns"]:
-            self.tv1.heading(column, text=column) # let the column heading = column name
-
-        df_rows = df.to_numpy().tolist() # turns the dataframe into a list of lists
-        for row in df_rows:
-            self.tv1.insert("", "end", values=row) # inserts each list into the treeview. For parameters see https://docs.python.org/3/library/tkinter.ttk.html#tkinter.ttk.Treeview.insert
-        
-        return None
-
-    def read_orders(self, customerName):
-        readorders(rootpath=createdFolderStructure(customerName,False),customerName=customerName)
-        
-    def clear_data(self):
-        self.tv1.delete(*self.tv1.get_children())
-        return None
-#############################
-#GENERAL FUNCTIONS
-#############################
-
-def json_validator(data):
-    try:
-        json_data = ast.literal_eval(json.dumps(str(data)))
-        #print(data)
-        #json.loads(str(data))
-        return True
-    except ValueError as error:
-        print("invalid json: %s" % error)
-        return False
     
-#Print Object with Jscon validator.
-
-#Print a json file_name
-#prettyJson=True indent=2
-#PrettyJson=False print record by line
+def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
+        try:
+            outfilename=""
+            #toPrint=json_validator(objectToPrint)
+            if prettyJson:
+                path_file=path_file=f"{path}\{file_name}.json"
+                #outfilename = json.load(objectToPrint)
+                with codecs.open(path_file,"w+", encoding="utf-8") as outfile:
+                    json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
+            else:
+                path_file=path_file=f"{path}\{file_name}.json"
+                outfilename = json.dumps(objectToPrint,ensure_ascii=False)
+                with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
+                    outfile.write(outfilename+"\n")
+            return None
+        except Exception as ee:
+            print(f"ERROR: {ee}")
+'''with open(ff_name, 'rb') as source_file:
+  with open(target_file_name, 'w+b') as dest_file:
+    contents = source_file.read()
+    dest_file.write(contents.decode('utf-16').encode('utf-8'))'''
+            
 def printObject(objectToPrint,path,x,file_name,prettyJson):
-    try:
-        outfilename=""
-        #toPrint=json_validator(objectToPrint)
-        if prettyJson:
-            path_file=path_file=f"{path}\{file_name}.json"
-            #outfilename = json.load(objectToPrint)
-            with open(path_file,"w+", encoding="utf-8") as outfile:
-                json.dump(objectToPrint,outfile,indent=2)
+        try:
+            outfilename=""
+            #toPrint=json_validator(objectToPrint)
+            if prettyJson:
+                path_file=path_file=f"{path}\{file_name}.json"
+                #outfilename = json.load(objectToPrint)
+                with codecs.open(path_file,"w+", encoding="utf-8") as outfile:
+                    json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
+            else:
+                path_file=path_file=f"{path}\{file_name}.json"
+                outfilename = json.dumps(objectToPrint,ensure_ascii=False)
+                with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
+                    outfile.write(outfilename+"\n")
+            return None
+        except Exception as ee:
+            print(f"ERROR: {ee}")
+            
+def SearchClient(code_search):
+        # Opening JSON file
+        dic= {}
+        f = open("okapi_customers.json",)
+        data = json.load(f)
+        print("INFO reading OKAPI DATA from okapi_customer.json file")
+        for i in data['okapi']:
+            try:
+                a_line=str(i)
+                if i['name'] == code_search:
+                #if (a_line.find(code_search) !=-1):
+                    dic=i
+                    del dic['name']
+                    #del dic['user']
+                    #del dic['password']
+                    del dic['x_okapi_version']
+                    del dic['x_okapi_status']
+                    del dic['x_okapi_release']
+                    break
+                f.close()
+            except ValueError as error:
+                print(f"Error Search Okapi: {error}")
+        return dic
+    
+        '''if dict:    
+            
         else:
-            path_file=path_file=f"{path}\{file_name}.json"
-            outfilename = json.dumps(objectToPrint)
-            with open(path_file,"a+", encoding="utf-8") as outfile:
-                outfile.write(outfilename+"\n")
-        return None
-    except Exception as ee:
-        print(f"ERROR: {ee}")
-
-def csv(**kwargs):
+            li={}
+            f = open(f"{self.path_dir}\\runenv\\okapi_customers.json",)
+            data = json.load(f)
+            for li in data['okapi']:
+                li["name"]=input()
+                li["x_okapi_url"]=input()
+                li["x_okapi_tenant"]=inpunt()
+                li["x_okapi_token"]=inpunt()
+            okp.append(li)
+            loadset['okapi']=okp
+            f.close
+            with open(f"{self.path_dir}\\runenv\\okapi_customers.json","w+", encoding="utf-8") as outfile:
+                json.dump(loadset,outfile,indent=2)'''
+def floatHourToTime(fh):
+    h, r = divmod(fh, 1)
+    m, r = divmod(r*60, 1)
+    return (
+        int(h),
+        int(m),
+        int(r*60),
+    )
+        
+def timeStamp(dateTimeObj):
     try:
-        ext=kwargs['path']
-        extension=ext[-3:]
-        if extension=="csv":
-            row=kwargs['contenido']
-            with open(kwargs['path'],"a", encoding="utf8") as outfile:
-                writer = csv.writer(outfile)
-                writer.writerow(row)
-    except Exception as ee:
-        print(f"ERROR: {ee}")  
+        year=""
+        month=""
+        day=""
+        if dateTimeObj.find("/")!=-1:
+            date_object = datetime.strptime(dateTimeObj, "%m/%d/%Y")
+        elif dateTimeObj.find("-")!=-1:
+            date_object = datetime.strptime(dateTimeObj, "%m-%d-%Y")
+        else:
+            pass
+        timestampStr = date_object.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+        return timestampStr
+    except ValueError as error:
+            print(f"Error: {error}")
+        
+def timeStampString(dateTimeObj):
+        try:
+        #dateTimeObj = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
+            a=dateTimeObj.find("-")
+            if a-1:
+                fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
+            elif dateTimeObj.find("/")!=-1:
+                fecha_dt = datetime.strptime(dateTimeObj, '%Y/%m/%d')
+                #dateTimeObj = fecha_dt.strftime(format)
+            timestampStr = fecha_dt.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+            return timestampStr
+        except ValueError as ee:
+            print(f"Error: {ee}")
 
-#PRINT FILES
+            
 def write_file(**kwargs):
+        try:
+            if 'ruta' in kwargs:
+                ext=kwargs['ruta']
+                extension=ext[-3:]
+                if extension=="csv":
+                    if 'contenido' in kwargs:
+                        row=kwargs['contenido']
+                    else:
+                        row=""
+                    with open(kwargs['ruta'],"a+", encoding="utf8") as outfile:
+                        writer = csv.writer(outfile)
+                        writer.writerow(row)
+                else:
+                    if 'contenido' in kwargs:
+                        data=kwargs['contenido']
+                    else: 
+                        data=""
+                with open(kwargs['ruta'],"a+", encoding="utf8") as outfile:
+                    outfile.write(data+"\n")
+        except Exception as ee:
+            print(f"ERROR: {ee}")
+            
+def okapiPath(code_search):
+        valor=[]
+        try:
+            #valor="0"
+            f = open("setting_data.json",)
+            data = json.load(f)
+            for i in data['settings']:
+                a_line=str(i)
+                if i['name'] == code_search:
+                #if (a_line.find(code_search) !=-1):
+                    valor.append(i['pathPattern'])
+                    valor.append(i['name'])
+                    break
+            f.close()
+            return valor
+        except ValueError as error:
+            print(f"Error: {error}")
+            return 0
+
+def checkURL(code_search):
     try:
-        ext=kwargs['path']
-        extension=ext[-3:]
-        if extension=="csv":
-            row=kwargs['contenido']
-            with open(kwargs['path'],"a+", encoding="utf8") as outfile:
-                writer = csv.writer(outfile)
-                writer.writerow(row)
+        a=code_search.find("http://")
+        if a!=-1:
+            urlok=True    
+            return urlok
         else:
-            data=kwargs['contenido']
-            with open(kwargs['path'],"a+", encoding="utf8") as outfile:
-                outfile.write(data+"\n")
+            urlok=False
+            return urlok
+    except ValueError as error:
+        print(f"Error: {error}")
+        
+#############################
+#ACQ_ERM_MIGRATION TOOLS
+#(customerName=customerName,getrefdata=getrefdata,scriptTorun=scriptTorun,graphicinterfaces=graphicinterfaces)  
+#############################
+class AcqErm():    
+    def __init__(self,customertosearch):
+        self.customerName=customertosearch
+        
+    def okapi_customer(self):
+        try:
+            data={}
+            data=SearchClient(self.customerName)
+            if len(data)!=0:
+                self.x_okapi_url= data["x_okapi_url"]
+                self.x_okapi_tenant= data["x_okapi_tenant"]
+                self.x_okapi_token= data["x_okapi_token"]
+                self.content_type= "application/json"
+                self.user=data["user"]
+                self.password=data["password"]
+                return True
+            else:
+                return False
+        except ValueError as error:
+            print(f"Error: {error}")
+
+    def createdFolderStructure(self):
+        self.exist=True
+        now = datetime.now()
+        client={}
+        path=os.path.abspath(os.getcwd())
+        self.path_original=path
+        x=path.find("runenv")
+        self.path=path[:x-1]
+        self.path_dir=f"{self.path}\\client_data\\{self.customerName}"
+        self.createDirectory(self.path_dir)
+        self.path_data=f"{self.path_dir}\\data"
+        self.path_refdata=f"{self.path_dir}\\refdata"
+        self.path_logs=f"{self.path_dir}\\logs"
+        self.path_results=f"{self.path_dir}\\results"
+        folder=["logs","results","data","refdata"]
+        print("\n"+"Folders")
+        date_time = now.strftime("%m_%d_%y_(%H_%M)")
+        for arg in folder:
+            try: 
+                os.mkdir(f"{self.path_dir}\{arg}")
+                print(f"INFO creating folder {arg} for {self.customerName}")
+                self.exist=False
+                if arg=="logs":
+                    errorVendors=open(f"{self.path_dir}\{arg}\\vendorsNotFounds.log", 'w')
+                    errorLocations=open(f"{self.path_dir}\{arg}\\locationsNotFounds.log", 'w')
+                    errorProvider=open(f"{self.path_dir}\{arg}\\providerNotFounds.log", 'w')
+                    errorMatProvider=open(f"{self.path_dir}\{arg}\\materialProviderNotFounds.log", 'w')
+                    errorTitles=open(f"{self.path_dir}\{arg}\\titlesNotFounds.log", 'w')
+                    errorMaterialtype=open(f"{self.path_dir}\{arg}\\materialTypeNotFounds.log", 'w')
+                    poClean=open(f"{self.path_dir}\{arg}\\oldNew_ordersID.log", "w")
+                    errornofound=open(f"{self.path_dir}\{arg}\\fundsNotfounds.log", "w")
+                    errornoexpenses=open(f"{self.path_dir}\{arg}\\expensesNotfounds.log", "w")
+                    errorAdq=open(f"{self.path_dir}\{arg}\\AdqNotFounds.log", 'w')
+                    errorrecordNotcreated=open(f"{self.path_dir}\{arg}\\recordNotcreated.log","w")
+                    errorrecordNotcreated=open(f"{self.path_dir}\{arg}\\licenseNotfound.log","w")
+                elif arg=="results":
+                    purchaseOrderbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_purchaseorderbyline", 'w')
+                    organizationbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_organizationsbyline", 'w')
+                    agreementbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_agreementbyline", 'w')
+                    licensebyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_licensebyline", 'w')
+                    #userbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_userbyline", 'w')
+                    notesbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_notesbyline", 'w')
+                elif arg=="refdata":
+                    shutil.copy(f"{self.path_original}\\loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
+                    dic= []
+                    loadset={}
+                    f = open(f"{self.path_dir}\\{arg}\\loadSetting.json",)
+                    data = json.load(f)
+                    for i in data['loadSetting']:
+                        #a_line=str(i)
+                        i['customer']=self.customerName
+                        i['path_root']=f"{self.path_dir}"
+                        i['path_results']=f"{self.path_results}"
+                        i['path_logs']=f"{self.path_logs}"
+                        i['path_refdata']=f"{self.path_refdata}"
+                        i['path_data']=f"{self.path_data}"
+                    dic.append(i)
+                    loadset['loadSetting']=dic
+                    f.close
+                    with open(f"{self.path_dir}\\{arg}\\loadSetting.json","w+", encoding="utf-8") as outfile:
+                        json.dump(loadset,outfile,indent=2)
+                    shutil.copy(f"{self.path_original}\\acquisitionMapping_template.xlsx", f"{self.path_dir}\{arg}\\acquisitionMapping.xlsx")
+                    refnumt=[]
+                    refNumberType={}
+                    refnumt.append({"Vendor continuation reference number":"","Vendor order reference number":"","Vendor subscription reference number":"","Vendor internal number":"","Vendor title number":""})
+                    refNumberType['refNumberType']=refnumt
+                    printObject(refNumberType,f"{self.path_dir}\{arg}",0,"refNumberType",True)
+                    shutil.copy(f"{self.path_original}\\composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
+                    shutil.copy(f"{self.path_original}\\organization_mapping_template.json", f"{self.path_dir}\{arg}\\organization_mapping.json")
+                    shutil.copy(f"{self.path_original}\\agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")
+                    shutil.copy(f"{self.path_original}\\license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
+                    shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
+                    shutil.copy(f"{self.path_original}\\notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json") 
+                    self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"
+                    self.path_licenseMapping=f"{self.path_dir}\{arg}\\license_mapping.json"
+                    self.path_agreementMapping=f"{self.path_dir}\{arg}\\agreement_mapping.json"
+                    self.path_notesMapping=f"{self.path_dir}\{arg}\\notes_mapping.json"
+                    self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
+                    self.path_organizationsMapping=f"{self.path_dir}\{arg}\\organization_mapping.json"
+               
+            except OSError as error: 
+                print(f"INFO client folder /{arg} for {self.customerName} found")
+                if arg=="refdata":
+                    try:
+                        if os.path.exists(f"{self.path_dir}\{arg}\loadSetting.json"):
+                            pass
+                        else:
+                            shutil.copy(f"{self.path_original}\\loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
+                            dic= []
+                            loadset={}
+                            f = open(f"{self.path_dir}\\{arg}\\loadSetting.json",)
+                            data = json.load(f)
+                            for i in data['loadSetting']:
+                                #a_line=str(i)
+                                i['customer']=self.customerName
+                                i['path_root']=f"{self.path_dir}"
+                                i['path_results']=f"{self.path_dir}\\results"
+                                i['path_logs']=f"{self.path_dir}\\logs"
+                                i['path_refdata']=f"{self.path_dir}\\refdata"
+                                i['path_data']=f"{self.path_dir}\\data"
+                            dic.append(i)
+                            loadset['loadSetting']=dic
+                            f.close
+                            with open(f"{self.path_dir}\\{arg}\\loadSetting.json","w+", encoding="utf-8") as outfile:
+                                json.dump(loadset,outfile,indent=2)
+                        if os.path.exists(f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"):
+                            self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
+                        else:
+                            shutil.copy(f"{self.path_original}\\composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
+                        if os.path.exists(f"{self.path_dir}\{arg}\\organization_mapping.json"):
+                            pass
+                        else:
+                            shutil.copy(f"{self.path_original}\\organization_mapping_template.json", f"{self.path_dir}\{arg}\\organization_mapping.json")
+                        if os.path.exists(f"{self.path_dir}\{arg}\\agreement_mapping.json"):
+                            pass 
+                        else:
+                            shutil.copy(f"{self.path_original}\\agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")                    
+                        if os.path.exists(f"{self.path_dir}\{arg}\license_mapping.json"):
+                            pass 
+                        else:
+                            shutil.copy(f"{self.path_original}\\license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
+                        if os.path.exists(f"{self.path_dir}\{arg}\\users_mapping.json"):
+                            pass 
+                        else:
+                            shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
+                        if os.path.exists(f"{self.path_dir}\{arg}\\notes_mapping.json"):
+                            pass 
+                        else:
+                            shutil.copy(f"{self.path_original}\\notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json")
+
+                        
+                        self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"                
+                        self.path_licenseMapping=f"{self.path_dir}\{arg}\\license_mapping.json"
+                        self.path_agreementMapping=f"{self.path_dir}\{arg}\\agreement_mapping.json"
+                        self.path_notesMapping=f"{self.path_dir}\{arg}\\notes_mapping.json"
+                        self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
+                        self.path_organizationsMapping=f"{self.path_dir}\{arg}\\organization_mapping.json"
+                    except OSError as error:
+                        print(f"INFO client mapping files /{arg} for {self.customerName} found")
+        print("\n"+f"INFO: Reference Data: Update reference data from server: {self.getrefdata}")
+        if self.getrefdata:
+            schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments"]
+            #print(f"INFO Getting Okapi customer from okapi_customer files")
+            #client=br.SearchClient(self.customerName)
+            if self.customerName is not None:
+                self.refdata_path=f"{self.path_dir}\\refdata"
+                queryString=""
+                for arv in schemas:
+                    try:
+                    #(Pattern,okapi_url, okapi_tenant, okapi_token,queryString,json_file,path):
+                        #print(arv)
+                        pattern=br.get_one_schema(str(arv))
+                        totalrecs=br.backup.make_get(pattern[0],self.x_okapi_url, self.x_okapi_tenant, self.x_okapi_token,queryString,f"{self.customerName}_{arv}",self.refdata_path)
+                        print(f"INFO schema: {arv} total records: {totalrecs}")
+                    except Exception as ee:
+                        print(f"ERROR: schema: {arv} {ee}")
+            else:
+                print(f"ERROR: Client Name was't found in /runenv/okapi_customers.json file, it needs to be included: {upd}")
+        return self.path_dir
                 
-    except Exception as ee:
-        print(f"ERROR: {ee}")           
+    def createdFolderStructureenv(self):
+        client={}
+        path=os.path.abspath(os.getcwd())
+        folder=["logs","results"]
+        print("\n"+"Folders")
+        for arg in folder:
+            try: 
+                os.mkdir(f"{path}\{arg}\{self.customerName}")
+                print(f"INFO creating folder {arg} for {self.customerName}")  
+            except OSError as error: 
+                print(f"INFO folder {arg} for {self.customerName} found")
+        return None
+    
+    def createDirectory(self,dirname):
+        try:
+            os.mkdir(f"{dirname}")
+        except OSError as error: 
+            pass
+        
+    def menu(self,**kwargs):
+        try: 
+            self.sctr=kwargs['scriptTorun']
+            self.getrefdata=kwargs['getrefdata']
+            self.graphicinterfaces=kwargs['graphicinterfaces']
+            print(f"INFO CUSTOMER: {self.customerName} | SCRIPT  {self.sctr} | DOWNLOAD ACQ/ERM REFDATA {self.getrefdata} | GRAPHIC {self.graphicinterfaces}")
+            client=self.customerName
+            self.createdFolderStructureenv()
+            self.createdFolderStructure()
+            #if self.graphicinterfaces:
+            if self.exist==False:
+                #root = Tk()
+                #e = windows.window(root,"Purchase Orders","1000x500", self.customerName)
+                #root.mainloop()
+                print(f"INFO the FOLDERS for {self.customerName}  were created in..{self.path_data}")
+                print(f"Warning:")
+                print(f"INFO 1. Check the ..{self.path_data}\loadSetting.json file be sure to include the file name to read")
+                print(f"INFO 2. Need to include the mapping file too in ..{self.path_refdata}")
+                print(f"INFO 3. Run again the script...")
+                
+                return
+            else:
+                if self.sctr=="a":   
+                    self.value="agreement"
+                    self.value_a="agree"
+                    self.df=self.value
+                    ls=self.load_settings()
+                    self.customerName=pd.dataframe()
+                    #print(ls[self.value_a])
+                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    self.df=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_agreementMapping,
+                                            dfname=self.value)
+                    if self.df is not None:
+                        self.customerName=agree.Agreements(client,self.path_dir)
+                        self.customerName.readagreements(client,self.df)
+                    else:
+                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")   
+                elif self.sctr=="l": 
+                    self.value="licenses"
+                    self.value_a="lic"
+                elif self.sctr=="o":
+                    swnotes=False
+                    self.value="organizations"
+                    self.value_a="org"
+                    self.value_b="contacts"
+                    self.value_c="interfaces"
+                    self.df=self.value
+                    ls=self.load_settings()
+                    self.customerName=pd.dataframe()
+                    #print(ls[self.value_a])
+                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    self.dforganizations=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_organizationsMapping,
+                                            dfname=self.value)
+                    #Contacts
+                    self.value_a="contacts"
+                    lsc=self.load_settings()
+                    filetoload=f"{self.path_data}\\"+str(lsc[self.value_a]['fileName'])
+                    self.dfcontacts=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsc[self.value_a]['orderby'],
+                                            distinct=lsc[self.value_a]['distinct'],                                            
+                                            sheetName=lsc[self.value_a]['sheetName'],
+                                            mapping_file=self.path_organizationsMapping,
+                                            dfname=self.value_a)
+                    
+                    #Interfaces
+                    self.value_a="interfaces"
+                    lsi=self.load_settings()
+                    filetoload=f"{self.path_data}\\"+str(lsi[self.value_a]['fileName'])
+                    self.dfinterfaces=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsi[self.value_a]['orderby'],
+                                            distinct=lsi[self.value_a]['distinct'],                                            
+                                            sheetName=lsi[self.value_a]['sheetName'],
+                                            mapping_file=self.path_organizationsMapping,
+                                            dfname=self.value_a)
+                    #Notes
+                    iter=0
+                    self.value="notes"
+                    self.value_a=f"note[{iter}]"
+                    self.df=self.value
+                    lsn=self.load_settings()
+                    self.customerName=pd.dataframe()
+                    #print(ls[self.value_a])
+                    filetoload=f"{self.path_data}\\"+str(lsn[self.value_a]['fileName'])
+                    self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsn[self.value_a]['orderby'],
+                                            distinct=lsn[self.value_a]['distinct'],                                            
+                                            sheetName=lsn[self.value_a]['sheetName'],
+                                            mapping_file=self.path_notesMapping,
+                                            dfname=self.value_a)
+                    #print(self.notes)
+                    if self.dforganizations is not None:                        
+                        self.customerName=org.organizations(client,self.path_dir)
+                        if self.notes is not None:
+                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dforganizations, dfinterfaces=self.dforganizations, dfnotes=self.notes)
+                        else:
+                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces)
+                    else:
+                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json") 
+                    
+                elif self.sctr=="p":
+                    try:
+                        self.value="purchaseOrders"
+                        self.value_a="po"                    
+                        self.df=self.value
+                        ls=self.load_settings()
+                        self.customerName=pd.dataframe()
+                        #print(ls[self.value_a])
+                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                        self.dforders=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_purchaseMapping,
+                                            dfname=self.value)
+
+                        self.value_a="poLines"
+                        lsa=self.load_settings()
+                        filetoload=f"{self.path_data}\\"+str(lsa[self.value_a]['fileName'])
+                        self.dfpoLines=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsa[self.value_a]['orderby'],
+                                            distinct=lsa[self.value_a]['distinct'],
+                                            sheetName=lsa[self.value_a]['sheetName'],
+                                            mapping_file=self.path_purchaseMapping,
+                                            dfname=self.value_a)
+                        #Notes
+                        iter=0
+                        self.value="notes"
+                        self.value_a=f"note[{iter}]"
+                        self.df=self.value
+                        lsn=self.load_settings()
+                        self.customerName=pd.dataframe()
+                        #print(ls[self.value_a])
+                        filetoload=f"{self.path_data}\\"+str(lsn[self.value_a]['fileName'])
+                        self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsn[self.value_a]['orderby'],
+                                            distinct=lsn[self.value_a]['distinct'],                                            
+                                            sheetName=lsn[self.value_a]['sheetName'],
+                                            mapping_file=self.path_notesMapping,
+                                            dfname=self.value)                
+
+                        if self.dforders is not None: 
+                            self.customerName=orders.compositePurchaseorders(client,self.path_dir)
+                            if self.notes is not None:
+                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes)
+                            else:
+                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
+                        else:
+                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_data}\loadSetting.json")                     
+                    except ValueError as error:
+                        print(f"Error: {error}")
+                elif self.sctr=="u": 
+                    self.value="users"
+                    self.value_a="user"
+                    self.df=self.value
+                    ls=self.load_settings()
+                    self.customerName=pd.dataframe()
+                    #print(ls[self.value_a])
+                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    self.dfusers=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_usersMapping,
+                                            dfname=self.value)
+                    #print(self.dfusers)
+                    self.customerName=users.users(client,self.path_dir)
+                    self.customerName.readusers(client,dfusers=self.dfusers)
+                elif self.sctr=="n":   
+                    self.value="notes"
+                    self.value_a="note"
+                    self.df=self.value
+                    ls=self.load_settings()
+                    self.customerName=pd.dataframe()
+                    #print(ls[self.value_a])
+                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    self.df=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_notesMapping,
+                                            dfname=self.value)
+                    if self.df is not None:
+                        self.customerName=note.notes(client,self.path_dir)
+                        self.customerName.readnotes(client,self.df)
+                    else:
+                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")   
+                else:
+                    print(f"ERROR: you have selected the script wrong")
+
+        except ValueError as error:
+            print(f"Error: {error}")
+
+#    class path_importer():
+    def load_settings(self):
+        #def readagreements(**kwargs):
+        #CUSTOMER CONFIGURATION FILE (PATHS, PURCHASE ORDER FILE NAME AND FILTERS)
+        #path_root=f"{kwargs['rootpath']}"
+        #customerName=kwargs['customerName']
+        f = open(f"{self.path_refdata}\\loadSetting.json",)
+        settingdata = json.load(f)
+        countpol=0
+        countpolerror=0
+        countvendorerror=0
+        #READING THE LOADSETTING JSON FILE FROM "/CUSTOMER/REFDATA" FOLDER
+        print("\n"+f"Loading settings from loadSetting.json file....")
+        istherenotesApp=[]
+        load_file=""
+        lf={}
+        for i in settingdata['loadSetting']:
+            try:
+                for lf in i[self.value]:
+                    #print(lf[self.value_a])
+                    #print(lf)
+                    if self.value_a in lf:
+                        load_file=str(lf[self.value_a]['fileName'])
+                        f.close()
+                        return lf
+
+                    #keyslist=lf.get('fileName')
+                    
+                    #if str(lf[self.value_a]==self.value_a):
+                    #   load_file=str(lf[self.value_a]['fileName'])
+                    #   f.close()
+                    #   return lf 
+                            
+            except ValueError as error:
+                print(f"Error: {error}")
+        if load_file!="":
+            print("\n"+f"INFO file to import found: {load_file}")
+            return lf
+        else:
+            print(f"Error: Opps the {self.value} file Name is not include in {self.path_refdata}\loadSetting.json  file, please include the {self.value} file name to continue")
+            return None
+          
+    def json_validator(self,data):
+        try:
+            json_data = ast.literal_eval(json.dumps(str(data)))
+            #print(data)
+            #json.loads(str(data))
+            return True
+        except ValueError as error:
+            print("invalid json: %s" % error)
+            return False
+        
+    def csv(self,**kwargs):
+        try:
+            ext=kwargs['path']
+            extension=ext[-3:]
+            if extension=="csv":
+                row=kwargs['contenido']
+                with open(kwargs['path'],"a", encoding="utf8") as outfile:
+                    writer = csv.writer(outfile)
+                    writer.writerow(row)
+        except Exception as ee:
+            print(f"ERROR: {ee}")  
+            
+    def SearchMappingDetails(self,**kwargs):
+        #field,schema,file_name
+        # Opening JSON file
+        dic =dic= {}
+        f = open(kwargs['file_name'],)
+        data = json.load(f)
+        for i in data['organizationMapping']:
+            a_line=str(i)
+            if i[field] == kwargs['file_name']:
+                 dic=i
+                 break
+        f.close()
+        return dic['legacyName']
+    
+
+    
+
+    #CHECK PO NUMBER
+    #THE PO NUMBER CANNOT INCLUDE SPECIAL CHARACTER    
+    def check_poNumber(self, value, path):
+        try:
+            #define input string
+            input_string = value
+            final_string = "" #define string for ouput
+            for character in input_string:
+                if(character.isalnum()):
+                # if character is alphanumeric concat to final_string
+                    final_string = final_string + character
+                    value=final_string
+            valuefix=""
+            Newmpol=""
+            keepit=False
+            #sp_chars = [';', ':', '!', "*","<","/","_","-","(",")","|"," ","@","¿","?","=","#","!"] 
+            #valuefix = filter(lambda i: i not in sp_chars, value)
+            if value.find(" ")!=-1: value=value.replace(" ","")
+            if value.find("#")!=-1: value=value.replace("#","")
+            if value.find(">")!=-1: value=value.replace(">","")
+            if value.find("<")!=-1: value=value.replace("<","")
+            if value.find("/")!=-1: value=value.replace("/","")
+            if value.find(":")!=-1: value=value.replace(":","")
+            if value.find("-")!=-1: value=value.replace("-","")
+            if value.find("_")!=-1: value=value.replace("_","")
+            if value.find("(")!=-1: value=value.replace("(","")
+            if value.find(")")!=-1: value=value.replace(")","")
+            if value.find("&")!=-1: value=value.replace("&","")
+            if value.find(".")!=-1: value=value.replace(".","")
+            if value.find("'")!=-1: value=value.replace("'","")
+            if value.find(",")!=-1: value=value.replace(",","")
+            if value.find("|")!=-1: value=value.replace("|","")
+            if value.find("!")!=-1: value=value.replace("!","")
+            if value.find("=")!=-1: value=value.replace("=","")
+            if value.find("@")!=-1: value=value.replace("@","")
+            if value.find("?")!=-1: value=value.replace("?","")
+            if value.find("¿")!=-1: value=value.replace("¿","")
+            if value.find("*")!=-1: value=value.replace("*","")
+            if len(value)>18: 
+                value=""
+                keepit=True
+                for i in range(2):
+                    Newmpol=str(random.randint(100, 1000))
+                    with open(path+"\oldNew_ordersID.txt", "a") as clean:
+                        clean.write(str(value)+"/"+str(Newmpol)+"\n")
+                    value=Newmpol            
+            return value
+        except Exception as ee:
+            print(f"INFO check_poNumber function failed {ee}")        
+        
+    def searchKeysByVal(self,dict, byVal):
+        try:
+            keysList = ""
+            keyslist=dict.get(byVal)
+            return keyslist
+        except Exception as ee:
+            print(f"INFO csearchKeysByVal function failed {ee}")    
+
+    def tsv_To_dic(self,path):
+        try:
+            with open(path, mode='r') as infile:
+                reader = csv.reader(infile)
+                mydict = {rows[0]:rows[1] for rows in reader}
+            return mydict            
+        except Exception as ee:
+            print(f"INFO tsv_To_dic function failed {ee}")   
+
+
+        
+    def getId(self,namesearchValue,path,elementtosearch,okapi_url,okapi_token,okapi_tenant):
+        try:
+            if namesearchValue is None: searchValue="undefined"
+            if namesearchValue=="NULL": searchValue="undefined"
+            if namesearchValue=="": searchValue="undefined"
+            dic={}
+            path1=""        
+            pathPattern=path
+            #pathPattern1="/organizations/organizations" #?limit=9999&query=code="
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            length="1"
+            start="1"
+            element=elementtosearch
+            query=f"query=name=="
+            #/organizations-storage/organizations?query=code==UMPROQ
+            paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+            #paging_q = f"?{query}"+search_string
+            path1 = pathPattern1+paging_q
+            #data=json.dumps(payload)
+            url1 = okapi_url + path1
+            req = requests.get(url1, headers=okapi_headers)
+            idorg=""
+            #Search by name
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idorg=l['id']
+                        return idorg
+        except requests.exceptions.HTTPError as err:
+            print("error Organization GET")    
+
+  
+    def get_OrgId(self,searchValue,customerName):
+        try:
+            searchValue=searchValue.replace("&","")
+            searchValue=searchValue.replace("+","")
+            client=SearchClient(customerName)
+            okapi_url=str(client.get('x_okapi_url'))
+            okapi_tenant=str(client.get('x_okapi_tenant'))
+            okapi_token=str(client.get('x_okapi_token'))
+            dic={}
+            path1=""        
+            #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
+            pathPattern1="/organizations/organizations" #?limit=9999&query=code="
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            length="1"
+            start="1"
+            element="organizations"
+            query=f"query=code=="
+            #/organizations-storage/organizations?query=code==UMPROQ
+            paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+            #paging_q = f"?{query}"+search_string
+            path1 = pathPattern1+paging_q
+            #data=json.dumps(payload)
+            url1 = okapi_url + path1
+            req = requests.get(url1, headers=okapi_headers)
+            idorg=""
+            #Search by name
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idorg=l['id']
+                    return idorg
+            #Search by code
+                elif (total_recs==0):
+                    query=f"query=name=="
+                    paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+                    #paging_q = f"?{query}"+orgname
+                    path1 = pathPattern1+paging_q
+                    #data=json.dumps(payload)
+                    url1 = okapi_url + path1
+                    req = requests.get(url1, headers=okapi_headers)
+                    json_str = json.loads(req.text)
+                    total_recs = int(json_str["totalRecords"])
+                    if (total_recs!=0):
+                        rec=json_str[element]
+                        #print(rec)
+                        l=rec[0]
+                        if 'id' in l:
+                            idorg=l['id']
+                        return idorg
+        except requests.exceptions.HTTPError as err:
+            print(f"error Organization GET {err}")
+        
+    def get_OrgId_license(self,searchValue,customerName):
+        try:
+            client=SearchClient(customerName)
+            okapi_url=str(client.get('x_okapi_url'))
+            okapi_tenant=str(client.get('x_okapi_tenant'))
+            okapi_token=str(client.get('x_okapi_token'))
+            dic={}
+            path1=""        
+            #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
+            pathPattern1="/organizations/organizations" #?limit=9999&query=code="
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            length="1"
+            start="1"
+            element="organizations"
+            query=f"query=name=="
+            #/organizations-storage/organizations?query=code==UMPROQ
+            paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+            #paging_q = f"?{query}"+search_string
+            path1 = pathPattern1+paging_q
+            #data=json.dumps(payload)
+            url1 = okapi_url + path1
+            req = requests.get(url1, headers=okapi_headers)
+            idorg=[]
+            #Search by name
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idorg.append(l['id'])
+                        idorg.append(l['name'])
+                    return idorg
+            #Search by code
+                elif (total_recs==0):
+                    searchValue=searchValue.replace(" ","")
+                    searchValue=searchValue.replace(",","")
+                    searchValue=searchValue.replace(".","")
+                    searchValue=searchValue.replace("&","")
+                    searchValue=searchValue.replace("'","")
+                    query=f"query=code=="
+                    paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+                    #paging_q = f"?{query}"+orgname
+                    path1 = pathPattern1+paging_q
+                    #data=json.dumps(payload)
+                    url1 = okapi_url + path1
+                    req = requests.get(url1, headers=okapi_headers)
+                    json_str = json.loads(req.text)
+                    total_recs = int(json_str["totalRecords"])
+                    if (total_recs!=0):
+                        rec=json_str[element]
+                        #print(rec)
+                        l=rec[0]
+                        if 'id' in l:
+                            idorg.append(l['id'])
+                            idorg.append(l['name'])
+                            return idorg
+        except requests.exceptions.HTTPError as err:
+            print("error Organization GET")
+               
+    def to_string(self,value):
+        try:
+            valueR=""
+            if int(value):
+            #print("numero")
+                valueR=str(round(value))
+            elif float(value):
+            #print("decimal")
+                valueR=str(round(value))
+            else:
+                valueR=value
+            return valueR
+        except requests.exceptions.HTTPError as err:
+            print(f"error Organization GET {err}")
+    
+    def get_funId(self,searchValue,orderFormat,client):
+        try:
+            client=SearchClient(client)
+            okapi_url=str(client.get('x_okapi_url'))
+            okapi_tenant=str(client.get('x_okapi_tenant'))
+            okapi_token=str(client.get('x_okapi_token'))
+            dic={}
+            path1=""        
+            #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
+            pathPattern1="/finance/funds" #?limit=9999&query=code="
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            length="1"
+            start="1"
+            element="funds"
+            query=f"query=code=="
+            #/organizations-storage/organizations?query=code==UMPROQ
+            paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+            #paging_q = f"?{query}"+search_string
+            path1 = pathPattern1+paging_q
+            #data=json.dumps(payload)
+            url1 = okapi_url + path1
+            req = requests.get(url1, headers=okapi_headers)
+            idorg=[]
+            #Search by name
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idorg.append(l['id'])
+                        idorg.append(l['code'])
+                        return idorg
+            #Search by code
+                elif (total_recs==0):
+                    query=f"query=name=="
+                    paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+                    #paging_q = f"?{query}"+orgname
+                    path1 = pathPattern1+paging_q
+                    #data=json.dumps(payload)
+                    url1 = okapi_url + path1
+                    req = requests.get(url1, headers=okapi_headers)
+                    json_str = json.loads(req.text)
+                    total_recs = int(json_str["totalRecords"])
+                    if (total_recs!=0):
+                        rec=json_str[element]
+                        #print(rec)
+                        l=rec[0]
+                        if 'id' in l:
+                            idorg.append(l['id'])
+                            idorg.append(l['code'])
+                            return idorg
+        except requests.exceptions.HTTPError as err:
+            print(f"error Organization GET {err}")
+    
+    def get_matId(self,searchValue,client):
+        try:
+            client=SearchClient(client)
+            okapi_url=str(client.get('x_okapi_url'))
+            okapi_tenant=str(client.get('x_okapi_tenant'))
+            okapi_token=str(client.get('x_okapi_token'))
+            dic={}
+            path1=""        
+            #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
+            pathPattern1="/material-types" #?limit=9999&query=code="
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            length="1"
+            start="1"
+            element="mtypes"
+            query=f"query=name=="
+            #/organizations-storage/organizations?query=code==UMPROQ
+            paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+            #paging_q = f"?{query}"+search_string
+            path1 = pathPattern1+paging_q
+            #data=json.dumps(payload)
+            url1 = okapi_url + path1
+            req = requests.get(url1, headers=okapi_headers)
+            idorg=""
+            #Search by name
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idorg=l['id']
+                        return idorg
+            #Search by code
+                elif (total_recs==0):
+                    query=f"query=code=="
+                    paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+                    #paging_q = f"?{query}"+orgname
+                    path1 = pathPattern1+paging_q
+                    #data=json.dumps(payload)
+                    url1 = okapi_url + path1
+                    req = requests.get(url1, headers=okapi_headers)
+                    json_str = json.loads(req.text)
+                    total_recs = int(json_str["totalRecords"])
+                    if (total_recs!=0):
+                        rec=json_str[element]
+                        #print(rec)
+                        l=rec[0]
+                        if 'id' in l:
+                            idorg=l['id']
+                            return idorg
+        except requests.exceptions.HTTPError as err:
+            print(f"error Organization GET {err}")
+
+    def get_funId_no_name(self, searchValue,client):
+        try:
+            client=SearchClient(client)
+            okapi_url=str(client.get('x_okapi_url'))
+            okapi_tenant=str(client.get('x_okapi_tenant'))
+            okapi_token=str(client.get('x_okapi_token'))
+            dic={}
+            path1=""        
+            #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
+            pathPattern1="/finance/funds" #?limit=9999&query=code="
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            length="1"
+            start="1"
+            element="funds"
+            query=f"query=code=="
+            #/organizations-storage/organizations?query=code==UMPROQ
+            paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+            #paging_q = f"?{query}"+search_string
+            path1 = pathPattern1+paging_q
+            #data=json.dumps(payload)
+            url1 = okapi_url + path1
+            req = requests.get(url1, headers=okapi_headers)
+            idorg=""
+            #Search by name
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idorg=l['id']
+                        return idorg
+            #Search by code
+                elif (total_recs==0):
+                    query=f"query=name=="
+                    paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+                    #paging_q = f"?{query}"+orgname
+                    path1 = pathPattern1+paging_q
+                    #data=json.dumps(payload)
+                    url1 = okapi_url + path1
+                    req = requests.get(url1, headers=okapi_headers)
+                    json_str = json.loads(req.text)
+                    total_recs = int(json_str["totalRecords"])
+                    if (total_recs!=0):
+                        rec=json_str[element]
+                        #print(rec)
+                        l=rec[0]
+                        if 'id' in l:
+                            idorg=l['id']
+                            return idorg
+        except requests.exceptions.HTTPError as err:
+            print(f"error Organization GET {err}")
+    
+    def get_locId(self, searchValue,client):
+        try:
+            client=SearchClient(client)
+            okapi_url=str(client.get('x_okapi_url'))
+            okapi_tenant=str(client.get('x_okapi_tenant'))
+            okapi_token=str(client.get('x_okapi_token'))
+            dic={}
+            path1=""        
+            #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
+            pathPattern1="/locations" #?limit=9999&query=code="
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            length="1"
+            start="1"
+            element="locations"
+            query=f"query=code=="
+            #/organizations-storage/organizations?query=code==UMPROQ
+            paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+            #paging_q = f"?{query}"+search_string
+            path1 = pathPattern1+paging_q
+            #data=json.dumps(payload)
+            url1 = okapi_url + path1
+            req = requests.get(url1, headers=okapi_headers)
+            idorg=""
+            #Search by name
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idorg=l['id']
+                        return idorg
+            #Search by code
+                elif (total_recs==0):
+                    query=f"query=code=="
+                    paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
+                    #paging_q = f"?{query}"+orgname
+                    path1 = pathPattern1+paging_q
+                    #data=json.dumps(payload)
+                    url1 = okapi_url + path1
+                    req = requests.get(url1, headers=okapi_headers)
+                    json_str = json.loads(req.text)
+                    total_recs = int(json_str["totalRecords"])
+                    if (total_recs!=0):
+                        rec=json_str[element]
+                        #print(rec)
+                        l=rec[0]
+                        if 'id' in l:
+                            idorg=l['id']
+                            return idorg
+        except requests.exceptions.HTTPError as err:
+            print(f"error Organization GET {err}")
+        
+
+        
+       
+    def order_closeReason(self,reasonvalue, reasonnote):
+        try:
+            reason={}    
+            reason["reason"]=""
+            reason["note"]= ""
+            return reason
+        except ValueError:
+            print("Concat Error")
+        
+    
+
+
+
+ 
+
+    def timeStampStringSimple(self,dateTimeObj):
+        try:
+            fecha_dt = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
+        #fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
+        #dateTimeObj = fecha_dt.strftime(format)
+            timestampStr = fecha_dt.strftime("%Y-%m-%d")
+            return timestampStr
+        except ValueError:
+            print("Module folioAcqfunctions organizations time Error: "+str(ValueError)) 
+    #PRINT FILES
+           
 
     # write a row to the csv file
 
@@ -403,639 +1393,7 @@ def orderDetails(**kwargs):
         print("Error")
 
 #READ MAPPING FILE
-def SearchMappingDetails(**kwargs):
-    #field,schema,file_name
-        # Opening JSON file
-        dic =dic= {}
-        f = open(kwargs['file_name'],)
-        data = json.load(f)
-        for i in data['organizationMapping']:
-            a_line=str(i)
-            if i[field] == kwargs['file_name']:
-                 dic=i
-                 break
-        f.close()
-        return dic['legacyName']
-    
-def SearchClient(code_search):
-        # Opening JSON file
-        dic= {}
-        f = open("okapi_customers.json",)
-        data = json.load(f)
-        for i in data['okapi']:
-            a_line=str(i)
-            if i['name'] == code_search:
-            #if (a_line.find(code_search) !=-1):
-                 dic=i
-                 del dic['name']
-                 del dic['user']
-                 del dic['password']
-                 del dic['x_okapi_version']
-                 del dic['x_okapi_status']
-                 del dic['x_okapi_release']
-                 break
-        f.close()
-        return dic
-    
-def okapiPath(code_search):
-    valor=[]
-    try:
-        #valor="0"
-        f = open("setting_data.json",)
-        data = json.load(f)
-        for i in data['settings']:
-            a_line=str(i)
-            if i['name'] == code_search:
-            #if (a_line.find(code_search) !=-1):
-                valor.append(i['pathPattern'])
-                valor.append(i['name'])
-                break
-        f.close()
-        return valor
-    except ValueError:
-        print("schema does not found")
-        return 0
-#CHECK PO NUMBER
-#THE PO NUMBER CANNOT INCLUDE SPECIAL CHARACTER    
-def check_poNumber(value, path):
-    try:
-        #define input string
-        input_string = value
-        final_string = "" #define string for ouput
-        for character in input_string:
-            if(character.isalnum()):
-            # if character is alphanumeric concat to final_string
-                final_string = final_string + character
-                value=final_string
 
-        valuefix=""
-        Newmpol=""
-        keepit=False
-        #sp_chars = [';', ':', '!', "*","<","/","_","-","(",")","|"," ","@","¿","?","=","#","!"] 
-        #valuefix = filter(lambda i: i not in sp_chars, value)
-        if value.find(" ")!=-1: value=value.replace(" ","")
-        if value.find("#")!=-1: value=value.replace("#","")
-        if value.find(">")!=-1: value=value.replace(">","")
-        if value.find("<")!=-1: value=value.replace("<","")
-        if value.find("/")!=-1: value=value.replace("/","")
-        if value.find(":")!=-1: value=value.replace(":","")
-        if value.find("-")!=-1: value=value.replace("-","")
-        if value.find("_")!=-1: value=value.replace("_","")
-        if value.find("(")!=-1: value=value.replace("(","")
-        if value.find(")")!=-1: value=value.replace(")","")
-        if value.find("&")!=-1: value=value.replace("&","")
-        if value.find(".")!=-1: value=value.replace(".","")
-        if value.find("'")!=-1: value=value.replace("'","")
-        if value.find(",")!=-1: value=value.replace(",","")
-        if value.find("|")!=-1: value=value.replace("|","")
-        if value.find("!")!=-1: value=value.replace("!","")
-        if value.find("=")!=-1: value=value.replace("=","")
-        if value.find("@")!=-1: value=value.replace("@","")
-        if value.find("?")!=-1: value=value.replace("?","")
-        if value.find("¿")!=-1: value=value.replace("¿","")
-        if value.find("*")!=-1: value=value.replace("*","")
-        if len(value)>18: 
-            value=""
-            keepit=True
-            for i in range(2):
-                Newmpol=str(random.randint(100, 1000))
-                with open(path+"\oldNew_ordersID.txt", "a") as clean:
-                    clean.write(str(value)+"/"+str(Newmpol)+"\n")
-                value=Newmpol            
-        return value
-    except Exception as ee:
-        print(f"INFO check_poNumber function failed {ee}")        
-        
-def searchKeysByVal(dict, byVal):
-    try:
-        keysList = ""
-        keyslist=dict.get(byVal)
-        return keyslist
-    except Exception as ee:
-        print(f"INFO csearchKeysByVal function failed {ee}")    
-
-def tsv_To_dic(path):
-    try:
-        with open(path, mode='r') as infile:
-            reader = csv.reader(infile)
-            mydict = {rows[0]:rows[1] for rows in reader}
-        return mydict            
-    except Exception as ee:
-        print(f"INFO tsv_To_dic function failed {ee}")   
-
-
-        
-def getId(namesearchValue,path,elementtosearch,okapi_url,okapi_token,okapi_tenant):
-        try:
-            if namesearchValue is None: searchValue="undefined"
-            if namesearchValue=="NULL": searchValue="undefined"
-            if namesearchValue=="": searchValue="undefined"
-            dic={}
-            path1=""        
-            pathPattern=path
-            #pathPattern1="/organizations/organizations" #?limit=9999&query=code="
-            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-            length="1"
-            start="1"
-            element=elementtosearch
-            query=f"query=name=="
-            #/organizations-storage/organizations?query=code==UMPROQ
-            paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-            #paging_q = f"?{query}"+search_string
-            path1 = pathPattern1+paging_q
-            #data=json.dumps(payload)
-            url1 = okapi_url + path1
-            req = requests.get(url1, headers=okapi_headers)
-            idorg=""
-            #Search by name
-            if req.status_code != 201:
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idorg=l['id']
-                        return idorg
-        except requests.exceptions.HTTPError as err:
-            print("error Organization GET")    
-
-  
-def get_OrgId(searchValue,customerName):
-    try:
-        searchValue=searchValue.replace("&","")
-        searchValue=searchValue.replace("+","")
-        client=SearchClient(customerName)
-        okapi_url=str(client.get('x_okapi_url'))
-        okapi_tenant=str(client.get('x_okapi_tenant'))
-        okapi_token=str(client.get('x_okapi_token'))
-        dic={}
-        path1=""        
-        #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
-        pathPattern1="/organizations/organizations" #?limit=9999&query=code="
-        okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-        length="1"
-        start="1"
-        element="organizations"
-        query=f"query=code=="
-        #/organizations-storage/organizations?query=code==UMPROQ
-        paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-        #paging_q = f"?{query}"+search_string
-        path1 = pathPattern1+paging_q
-        #data=json.dumps(payload)
-        url1 = okapi_url + path1
-        req = requests.get(url1, headers=okapi_headers)
-        idorg=""
-        #Search by name
-        if req.status_code != 201:
-            json_str = json.loads(req.text)
-            total_recs = int(json_str["totalRecords"])
-            if (total_recs!=0):
-                rec=json_str[element]
-                #print(rec)
-                l=rec[0]
-                if 'id' in l:
-                    idorg=l['id']
-
-                    return idorg
-            #Search by code
-            elif (total_recs==0):
-                query=f"query=name=="
-                paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-                #paging_q = f"?{query}"+orgname
-                path1 = pathPattern1+paging_q
-                #data=json.dumps(payload)
-                url1 = okapi_url + path1
-                req = requests.get(url1, headers=okapi_headers)
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idorg=l['id']
-
-                        return idorg
-    except requests.exceptions.HTTPError as err:
-        print(f"error Organization GET {err}")
-        
-def get_OrgId_license(searchValue,customerName):
-    try:
-        client=SearchClient(customerName)
-        okapi_url=str(client.get('x_okapi_url'))
-        okapi_tenant=str(client.get('x_okapi_tenant'))
-        okapi_token=str(client.get('x_okapi_token'))
-        dic={}
-        path1=""        
-        #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
-        pathPattern1="/organizations/organizations" #?limit=9999&query=code="
-        okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-        length="1"
-        start="1"
-        element="organizations"
-        query=f"query=name=="
-        #/organizations-storage/organizations?query=code==UMPROQ
-        paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-        #paging_q = f"?{query}"+search_string
-        path1 = pathPattern1+paging_q
-        #data=json.dumps(payload)
-        url1 = okapi_url + path1
-        req = requests.get(url1, headers=okapi_headers)
-        idorg=[]
-        #Search by name
-        if req.status_code != 201:
-            json_str = json.loads(req.text)
-            total_recs = int(json_str["totalRecords"])
-            if (total_recs!=0):
-                rec=json_str[element]
-                #print(rec)
-                l=rec[0]
-                if 'id' in l:
-                    idorg.append(l['id'])
-                    idorg.append(l['name'])
-                  
-                return idorg
-            #Search by code
-            elif (total_recs==0):
-                searchValue=searchValue.replace(" ","")
-                searchValue=searchValue.replace(",","")
-                searchValue=searchValue.replace(".","")
-                searchValue=searchValue.replace("&","")
-                searchValue=searchValue.replace("'","")
-                query=f"query=code=="
-                paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-                #paging_q = f"?{query}"+orgname
-                path1 = pathPattern1+paging_q
-                #data=json.dumps(payload)
-                url1 = okapi_url + path1
-                req = requests.get(url1, headers=okapi_headers)
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idorg.append(l['id'])
-                        idorg.append(l['name'])
-                        return idorg
-    except requests.exceptions.HTTPError as err:
-        print("error Organization GET")
-               
-def to_string(value):
-    try:
-        valueR=""
-        if int(value):
-            #print("numero")
-            valueR=str(round(value))
-        elif float(value):
-            #print("decimal")
-            valueR=str(round(value))
-        else:
-            valueR=value
-        return valueR
-    except requests.exceptions.HTTPError as err:
-        print(f"error Organization GET {err}")
-    
-def get_funId(searchValue,orderFormat,client):
-    try:
-        if searchValue=="7444" and orderFormat=="Physical Resource":
-            searchValue=searchValue+"-Print"
-        elif searchValue=="7444" and orderFormat=="Mixed P/E":
-            searchValue=searchValue+"-Electronic"
-        elif searchValue=="7444" and orderFormat=="Electronic Resource":
-            searchValue=searchValue+"-Electronic"
-        elif searchValue=="7443" and orderFormat=="S":
-            searchValue=searchValue+"-Sub"
-        elif searchValue=="7443" and orderFormat=="A":
-            searchValue=searchValue+"-Fees"
-        elif searchValue=="7441":
-            searchValue=searchValue+"-Sub"
-        elif searchValue=="7447":
-            searchValue=searchValue+"-Sub"
-            
-        #7442
-        #7023
-        #7046
-        #7047
-        #7049
-        client=SearchClient(client)
-        okapi_url=str(client.get('x_okapi_url'))
-        okapi_tenant=str(client.get('x_okapi_tenant'))
-        okapi_token=str(client.get('x_okapi_token'))
-        dic={}
-        path1=""        
-        #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
-        pathPattern1="/finance/funds" #?limit=9999&query=code="
-        okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-        length="1"
-        start="1"
-        element="funds"
-        query=f"query=code=="
-        #/organizations-storage/organizations?query=code==UMPROQ
-        paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-        #paging_q = f"?{query}"+search_string
-        path1 = pathPattern1+paging_q
-        #data=json.dumps(payload)
-        url1 = okapi_url + path1
-        req = requests.get(url1, headers=okapi_headers)
-        idorg=[]
-        #Search by name
-        if req.status_code != 201:
-            json_str = json.loads(req.text)
-            total_recs = int(json_str["totalRecords"])
-            if (total_recs!=0):
-                rec=json_str[element]
-                #print(rec)
-                l=rec[0]
-                if 'id' in l:
-                    idorg.append(l['id'])
-                    idorg.append(l['code'])
-                    return idorg
-            #Search by code
-            elif (total_recs==0):
-                query=f"query=name=="
-                paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-                #paging_q = f"?{query}"+orgname
-                path1 = pathPattern1+paging_q
-                #data=json.dumps(payload)
-                url1 = okapi_url + path1
-                req = requests.get(url1, headers=okapi_headers)
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idorg.append(l['id'])
-                        idorg.append(l['code'])
-                        return idorg
-    except requests.exceptions.HTTPError as err:
-        print(f"error Organization GET {err}")
-    
-def get_matId(searchValue,client):
-    try:
-        client=SearchClient(client)
-        okapi_url=str(client.get('x_okapi_url'))
-        okapi_tenant=str(client.get('x_okapi_tenant'))
-        okapi_token=str(client.get('x_okapi_token'))
-        dic={}
-        path1=""        
-        #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
-        pathPattern1="/material-types" #?limit=9999&query=code="
-        okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-        length="1"
-        start="1"
-        element="mtypes"
-        query=f"query=name=="
-        #/organizations-storage/organizations?query=code==UMPROQ
-        paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-        #paging_q = f"?{query}"+search_string
-        path1 = pathPattern1+paging_q
-        #data=json.dumps(payload)
-        url1 = okapi_url + path1
-        req = requests.get(url1, headers=okapi_headers)
-        idorg=""
-        #Search by name
-        if req.status_code != 201:
-            json_str = json.loads(req.text)
-            total_recs = int(json_str["totalRecords"])
-            if (total_recs!=0):
-                rec=json_str[element]
-                #print(rec)
-                l=rec[0]
-                if 'id' in l:
-                    idorg=l['id']
-                    return idorg
-            #Search by code
-            elif (total_recs==0):
-                query=f"query=code=="
-                paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-                #paging_q = f"?{query}"+orgname
-                path1 = pathPattern1+paging_q
-                #data=json.dumps(payload)
-                url1 = okapi_url + path1
-                req = requests.get(url1, headers=okapi_headers)
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idorg=l['id']
-                        return idorg
-    except requests.exceptions.HTTPError as err:
-        print(f"error Organization GET {err}")
-
-def get_funId_no_name(searchValue,client):
-    try:
-        client=SearchClient(client)
-        okapi_url=str(client.get('x_okapi_url'))
-        okapi_tenant=str(client.get('x_okapi_tenant'))
-        okapi_token=str(client.get('x_okapi_token'))
-        dic={}
-        path1=""        
-        #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
-        pathPattern1="/finance/funds" #?limit=9999&query=code="
-        okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-        length="1"
-        start="1"
-        element="funds"
-        query=f"query=code=="
-        #/organizations-storage/organizations?query=code==UMPROQ
-        paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-        #paging_q = f"?{query}"+search_string
-        path1 = pathPattern1+paging_q
-        #data=json.dumps(payload)
-        url1 = okapi_url + path1
-        req = requests.get(url1, headers=okapi_headers)
-        idorg=""
-        #Search by name
-        if req.status_code != 201:
-            json_str = json.loads(req.text)
-            total_recs = int(json_str["totalRecords"])
-            if (total_recs!=0):
-                rec=json_str[element]
-                #print(rec)
-                l=rec[0]
-                if 'id' in l:
-                    idorg=l['id']
-                    return idorg
-            #Search by code
-            elif (total_recs==0):
-                query=f"query=name=="
-                paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-                #paging_q = f"?{query}"+orgname
-                path1 = pathPattern1+paging_q
-                #data=json.dumps(payload)
-                url1 = okapi_url + path1
-                req = requests.get(url1, headers=okapi_headers)
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idorg=l['id']
-                        return idorg
-    except requests.exceptions.HTTPError as err:
-        print(f"error Organization GET {err}")
-    
-def get_locId(searchValue,client):
-    try:
-        client=SearchClient(client)
-        okapi_url=str(client.get('x_okapi_url'))
-        okapi_tenant=str(client.get('x_okapi_tenant'))
-        okapi_token=str(client.get('x_okapi_token'))
-        dic={}
-        path1=""        
-        #pathPattern="/organizations-storage/organizations" #?limit=9999&query=code="
-        pathPattern1="/locations" #?limit=9999&query=code="
-        okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-        length="1"
-        start="1"
-        element="locations"
-        query=f"query=code=="
-        #/organizations-storage/organizations?query=code==UMPROQ
-        paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-        #paging_q = f"?{query}"+search_string
-        path1 = pathPattern1+paging_q
-        #data=json.dumps(payload)
-        url1 = okapi_url + path1
-        req = requests.get(url1, headers=okapi_headers)
-        idorg=""
-        #Search by name
-        if req.status_code != 201:
-            json_str = json.loads(req.text)
-            total_recs = int(json_str["totalRecords"])
-            if (total_recs!=0):
-                rec=json_str[element]
-                #print(rec)
-                l=rec[0]
-                if 'id' in l:
-                    idorg=l['id']
-                    return idorg
-            #Search by code
-            elif (total_recs==0):
-                query=f"query=code=="
-                paging_q = f"?{query}"+'"'+f"{searchValue}"+'"'
-                #paging_q = f"?{query}"+orgname
-                path1 = pathPattern1+paging_q
-                #data=json.dumps(payload)
-                url1 = okapi_url + path1
-                req = requests.get(url1, headers=okapi_headers)
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idorg=l['id']
-                        return idorg
-    except requests.exceptions.HTTPError as err:
-        print(f"error Organization GET {err}")
-        
-def get_title(client,**kwargs):
-    try:
-        pathPattern1=okapiPath(kwargs['element'])
-        element=kwargs['element']
-        pathPattern=pathPattern1[0]
-        searchValue=kwargs['searchValue']
-        client=SearchClient(client)
-        okapi_url=str(client.get('x_okapi_url'))
-        okapi_tenant=str(client.get('x_okapi_tenant'))
-        okapi_token=str(client.get('x_okapi_token'))
-        dic={}
-        #pathPattern="/instance-storage/instances" #?limit=9999&query=code="
-        #https://okapi-ua.folio.ebsco.com/instance-storage/instances?query=hrid=="264227"
-        pathPattern="/instance-storage/instances" #?limit=9999&query=code="
-        okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-        length="1"
-        start="1"
-        #element="instances"
-        #https://okapi-trinitycollegelibrarycambridge.folio.ebsco.com/instance-storage/instances?query=(identifiers any ".b10290242")
-        query=f"?query=(identifiers="
-        #query=f"query=hrid=="
-        #/finance/funds?query=name==UMPROQ
-        search='"'+searchValue+'")'
-        #.b10290242
-        #paging_q = f"?{query}"+search
-        paging_q = f"{query} "+search
-        path = pathPattern+paging_q
-        #data=json.dumps(payload)
-        url = okapi_url + path
-        req = requests.get(url, headers=okapi_headers)
-        idhrid=[]
-        if req.status_code != 201:
-            json_str = json.loads(req.text)
-            total_recs = int(json_str["totalRecords"])
-            if (total_recs!=0):
-                rec=json_str[element]
-                #print(rec)
-                l=rec[0]
-                if 'id' in l:
-                    idhrid.append(l['id'])
-                    idhrid.append(l['title'])            
-        return idhrid
-    except Exception as ee:
-        print(f"INFO get_title function failed {ee}")
-        
-       
-def order_closeReason(reasonvalue, reasonnote):
-    try:
-        reason={}    
-        reason["reason"]=""
-        reason["note"]= ""
-        return reason
-    except ValueError:
-        print("Concat Error")
-        
-    
-
-def floatHourToTime(fh):
-    h, r = divmod(fh, 1)
-    m, r = divmod(r*60, 1)
-    return (
-        int(h),
-        int(m),
-        int(r*60),
-    )
-
-def timeStamp(dateTimeObj):
-    try:
-        #dateTimeObj = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
-        #fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
-        #dateTimeObj = fecha_dt.strftime(format)
-        timestampStr = dateTimeObj.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
-        return timestampStr
-    except ValueError:
-        print("Module folioAcqfunctions organizations time Error: "+str(ValueError))
-        
-def timeStampString(dateTimeObj):
-    try:
-        #dateTimeObj = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
-        fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
-        #dateTimeObj = fecha_dt.strftime(format)
-        timestampStr = fecha_dt.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
-        return timestampStr
-    except ValueError:
-        print("Module folioAcqfunctions organizations time Error: "+str(ValueError)) 
-
-def timeStampStringSimple(dateTimeObj):
-    try:
-        fecha_dt = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
-        #fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
-        #dateTimeObj = fecha_dt.strftime(format)
-        timestampStr = fecha_dt.strftime("%Y-%m-%d")
-        return timestampStr
-    except ValueError:
-        print("Module folioAcqfunctions organizations time Error: "+str(ValueError)) 
     
     
 ################################################
@@ -1055,13 +1413,20 @@ def org_aliases(**kwargs):
             print(f"ERROR: {ee}")
     return aliaR
 
-def org_languages(value):
+def org_languages(**kwargs):
     try:
-        value=value.upper()
+        value=kwargs['value'].upper()
+        type=kwargs['type']
         if value=="ENGLISH":
-            valueR="eng"
+            if type==1:
+                valueR="eng"
+            elif type==2:
+                valueR="eng-us"
         elif value=="SPANISH":
-            valueR="spa"
+            if type==1:
+                valueR="spa"
+            elif type==2:
+                valueR="es-es"
         elif value=="NULL":
             valueR="eng"
         elif value is None:
@@ -1069,7 +1434,10 @@ def org_languages(value):
         elif value=="":
             valueR=""
         else:
-            valueR="eng"
+            if type==1:
+                valueR="eng"
+            elif type==2:
+                valueR="eng-us"
         return valueR
     
     except ValueError:
@@ -1787,154 +2155,6 @@ def readfunds(path,sheetName,customerName):
         except ValueError as error:
             print("Error: %s" % error)                 
 
-def exportDataFrame(df,file_path,**kwargs):
-    pathprint=file_path[:-5]
-    df.to_csv(pathprint, index = False)
-
-def createDataFrame(columnsDataframe):
-    df = pd.DataFrame(columns = columnsDataframe)
-    return df
-
-def importDataFrame(file_path,**kwargs):    
-    try:
-        if "orderby" in kwargs: orderby=kwargs['orderby']
-        if "distinct" in kwargs: distinct=kwargs['distinct']
-        filename = r"{}".format(file_path)
-        sheetN="" 
-        if filename[-4:] == ".csv":
-            df = pd.read_csv(filename)
-            #print(f"INFO Importing File {filename}")
-        elif filename[-5:] == ".json":
-            df = pd.read_json(filename)
-        elif filename[-4:] == ".tsv":
-            if "delimiter" in kwargs:
-                sep=kwargs['delimiter']
-                #print(f"INFO Importing File {filename}")
-                if sep: df = pd.read_csv(filename, sep='\t')
-                else: df = pd.read_csv(filename)
-        else:            
-            if "sheetName" in kwargs: df = pd.read_excel(filename, engine='openpyxl', sheet_name=kwargs['sheetName'])
-            else: df = pd.read_excel(filename, engine='openpyxl')
-        lendf=len(df)
-        
-        print(f"INFO File {sheetN} {filename} Total rows: {lendf}")
-        #print(f"INFO File Total rows: {lendf}".format(len(df)))
-        #print(df.shape)
-        print(f"---->INFO columns in the file  {df.columns}")
-        df = df.apply(lambda x: x.fillna(""))
-        #de= df.sort_values(orderby, inplace = True)
-        #print(df)
-        #print(type(df))
-        #df = df.infer_objects()
-        #df[distinct]=df[distinct].astype('str')
-        if "distinct" in kwargs: 
-            if len(distinct)>0:
-                df_unique =df.drop_duplicates(subset =distinct, keep="first", inplace=False,ignore_index=True)
-                print("INFO Total rows not duplicated records: {0}".format(len(df_unique)))
-                df=df_unique
-                #df_unique =df.drop_duplicates(subset =distinct, keep="first", inplace=True,ignore_index=True) 
-                #df_unique =df.drop_duplicates(subset =orderby, keep="first", inplace=True,ignore_index=True) 
-                #df_unique = df.drop_duplicates(subset=orderby, keep="first", inplace=True)
-                #print("Total rows: {0}".format(len(df)))
-                #print(df)
-                #duplicates = df[df.duplicated(['PO number', 'Subscription from', 'Subscription to'])]
-                #print(duplicates)
-                #duplicate = df[df['PO number'].duplicated(keep=False)]['PO number'].tolist()
-                #set_duplicate = set(duplicate)
-                #for r in set_duplicate:
-                #    dup = df[df['PO number'] == r]
-                #    print(dup)
-                
-                #    df.loc[dup.iloc[1,:].name, 'PO number'] = str(df.loc[dup.iloc[1,:].name]['PO number'])+"z"
-                #print(df.duplicated().sum())
-                #print(df)
-                #dfdropped=df.drop_duplicates(subset=distinct, keep='first')
-                #df_nodup = df.groupby(by=distinct).first()
-                #print("Total rows: {0}".format(len(df_nodup)))
-            
-                #df = df.merge(df_nodup, left_on=[distinct], right_index=True, suffixes=('', '_dupindex'))
-                #print("Total rows: {0}".format(len(dfdropped)))
-                #print(dfdropped)
-                #df=dfdropped
-                #dfdropped=df.drop_duplicates(distinct)
-                #dfdropped = dfdropped.apply(lambda x: x.fillna(""))
-                #print(dfdropped)
-                #print("Total rows: {0}".format(len(df_nodup)))
-            
-                #print('\n'*5)
-                #Cleaning licenses section for vendorsframe
-                #Replacing NaN content by blank
-        
-                #df = df.replace("-","", regex=True)
-                #print(df.to_string(index=False,max_rows=5))
-                #duplicate = df[df.duplicated(['PO number', 'Subscription from', 'Subscription to'])]
-                #duplicate = df[df.duplicated([orderby])]
-                #duplicated=df[df.duplicated()]
-                #print("Duplicate records"+str(duplicate))
-                #print("Total duplicated records= ",df.duplicated(subset = orderby).sum())
-                #group=duplicate.groupby(orderby).first()
-                #print("agrupados: "+str(group))
-                #df.concat(g for _, g in df.groupby(orderby) if len(g) > 1)
-                #is there duplicated content in the orgCode?
-                #print("Duplicate vendors= ",df.duplicated(subset = 'RECORD #(LICENSE)').sum())
-        return df
-    except Exception as ee:
-        print(f"ERROR: {ee}")      
-
-
-
-def readFileToDataFrame(file_path,**kwargs):
-    try:
-
-        orderby=kwargs['orderby']
-        distinct=kwargs['distinct']
-        sep=kwargs['sep']
-        filename = r"{}".format(file_path)
-        if filename[-4:] == ".csv":
-                if sep:
-                    df = pd.read_csv(filename, sep='\t')
-                else:
-                    df = pd.read_csv(filename)
-        else:
-                df = pd.read_excel(filename, engine='openpyxl')
-        #license = license.sort_values(by="RECORD #(LICENSE)", ascending=False)
-        print("Total rows: {0}".format(len(df)))
-        print(df.columns)
-        if len(distinct)>0:
-            dfdropped=df.drop_duplicates(distinct)
-            print(dfdropped)
-            print("Total rows: {0}".format(len(dfdropped)))
-            print("Total duplicated records= ",dfdropped.duplicated(subset = orderby).sum())
-        #print('\n'*5)
-        #Cleaning licenses section for vendorsframe
-        #Replacing NaN content by blank
-        df = df.apply(lambda x: x.fillna(""))
-        #df = df.replace("-","", regex=True)
-        print(df.to_string(index=False,max_rows=10))
-        #duplicate = df[df.duplicated(['PO number', 'Subscription from', 'Subscription to'])]
-        #duplicate = df[df.duplicated([orderby])]
-        #duplicated=df[df.duplicated()]
-        #print("Duplicate records"+str(duplicate))
-        #print("Total duplicated records= ",df.duplicated(subset = orderby).sum())
-        #group=duplicate.groupby(orderby).first()
-        #print("agrupados: "+str(group))
-        #df.concat(g for _, g in df.groupby(orderby) if len(g) > 1)
-        #is there duplicated content in the orgCode?
-        #print("Duplicate vendors= ",df.duplicated(subset = 'RECORD #(LICENSE)').sum())
-        return df
-    except ValueError as error:
-            print("Error: %s" % error)   
-
-#def acquisitionMethod(value):
-#    try:
-#        acquisition_Method={"A":"Approval Plan", 
-#                            "DDA":"Demand Driven Acquisitions (DDA)",
-#                            "D":"Depository", "EBA":"Evidence Based Acquisitions (EBA)",
-#                            "E":"Exchange", "Gift":"Gift",
-#                            "Purchase At Vendor System":"Purchase At Vendor System", "Technical":"Technical"
-#                            }
-#    except ValueError as error:
-#            print("Error: %s" % error)
 
 def get_Id(customerName, **kwargs):
     try:
@@ -2426,12 +2646,18 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
         for i in data[schema]:
             count+=1
             j_content=i
-            if j_content[fielTosearch]==toSearch:
+            if j_content[fielTosearch].upper()==toSearch.upper():
                 id.append(j_content['id'])
-                id.append(j_content['name'])#return j_content
-                if "code" in j_content:
+                if "name" in j_content:
+                    id.append(j_content['name'])#return j_content
+                    return id                    
+                elif "code" in j_content:
                     id.append(j_content['code'])
-                return id
+                    return id
+                elif "type" in j_content:
+                    id.append(j_content['type'])
+                elif "id" in j_content:
+                    return id
     except Exception as err:
         print(f"INFO error {err}")
         return None
@@ -2439,7 +2665,7 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
 def readJsonfileRetor(path,json_file,schema,toSearch,fielTosearch):
     try:
         filetoload=f"{path}\\{json_file}"
-        f = open(filetoload,)
+        f = open(filetoload, encoding="utf-8")
         data = json.load(f)
         count=0
         con={}
@@ -2517,133 +2743,6 @@ def readJsonfile_fund(path,json_file,schema,toSearch,fielTosearch):
         return None
         print("error ", str(err))
 
-def createdFolderStructureenv(customer):
-    client={}
-    path=os.path.abspath(os.getcwd())
-    folder=["logs","results"]
-    print("\n"+"Folders")
-    for arg in folder:
-        try: 
-            os.mkdir(f"{path}\{arg}\{customer}")
-            print(f"INFO creating folder {arg} for {customer}")  
-        except OSError as error: 
-            print(f"INFO folder {arg} for {customer} found")
-    return None
-
-def createDirectory(dirname):
-    try:
-        os.mkdir(f"{dirname}")
-    except OSError as error: 
-        pass
-
-
-def createdFolderStructure(customer,upd):
-    now = datetime.now()
-    client={}
-    path=os.path.abspath(os.getcwd())
-    path_original=path
-    x=path.find("runenv")
-    path=path[:x-1]
-    path_dir=f"{path}\\client_data\\{customer}"
-    createDirectory(path_dir)
-    path_data=f"{path_dir}\\data"
-    folder=["logs","results","data","refdata"]
-    print("\n"+"Folders")
-    date_time = now.strftime("%m_%d_%y_(%H_%M)")
-    for arg in folder:
-        try: 
-            os.mkdir(f"{path_dir}\{arg}")
-            print(f"INFO creating folder {arg} for {customer}")
-            if arg=="logs":
-                errorVendors=open(f"{path_dir}\{arg}\\vendorsNotFounds.log", 'w')
-                errorLocations=open(f"{path_dir}\{arg}\\locationsNotFounds.log", 'w')
-                errorProvider=open(f"{path_dir}\{arg}\\providerNotFounds.log", 'w')
-                errorMatProvider=open(f"{path_dir}\{arg}\\materialProviderNotFounds.log", 'w')
-                errorTitles=open(f"{path_dir}\{arg}\\titlesNotFounds.log", 'w')
-                errorMaterialtype=open(f"{path_dir}\{arg}\\materialTypeNotFounds.log", 'w')
-                poClean=open(f"{path_dir}\{arg}\\oldNew_ordersID.log", "w")
-                errornofound=open(f"{path_dir}\{arg}\\fundsNotfounds.log", "w")
-                errornoexpenses=open(f"{path_dir}\{arg}\\expensesNotfounds.log", "w")
-                errorAdq=open(f"{path_dir}\{arg}\\AdqNotFounds.log", 'w')
-                errorrecordNotcreated=open(f"{path_dir}\{arg}\\recordNotcreated.log","w")
-                errorrecordNotcreated=open(f"{path_dir}\{arg}\\licenseNotfound.log","w")
-            elif arg=="results":
-                purchaseOrderbyline=open(f"{path_dir}\{arg}\\{customer}_purchaseOrderbyline", 'w')
-                notesbyline=open(f"{path_dir}\{arg}\\{customer}_notes", 'w')
-            elif arg=="refdata":
-                shutil.copy(f"{path_original}\\loadSetting_template.json", f"{path_dir}\{arg}\\loadSetting.json")
-                dic= []
-                loadset={}
-                f = open(f"{path_dir}\\{arg}\\loadSetting.json",)
-                data = json.load(f)
-                for i in data['loadSetting']:
-                    #a_line=str(i)
-                    i['customer']=customer
-                    i['path_root']=f"{path_dir}"
-                    i['path_results']=f"{path_dir}\\results"
-                    i['path_logs']=f"{path_dir}\\logs"
-                    i['path_refdata']=f"{path_dir}\\refdata"
-                    i['path_data']=f"{path_dir}\\data"
-                dic.append(i)
-                loadset['loadSetting']=dic
-                f.close
-                with open(f"{path_dir}\\{arg}\\loadSetting.json","w+", encoding="utf-8") as outfile:
-                    json.dump(loadset,outfile,indent=2)
-                shutil.copy(f"{path_original}\\acquisitionMapping_template.xlsx", f"{path_dir}\{arg}\\acquisitionMapping_{customer}.xlsx")
-                refnumt=[]
-                refNumberType={}
-                refnumt.append({"Vendor continuation reference number":"","Vendor order reference number":"","Vendor subscription reference number":"","Vendor internal number":"","Vendor title number":""})
-                refNumberType['refNumberType']=refnumt
-                printObject(refNumberType,f"{path_dir}\{arg}",0,"refNumberType",True)
-        except OSError as error: 
-            print(f"INFO client folder /{arg} for {customer} found")
-            if arg=="refdata":
-                try:
-                    if os.path.exists(f"{path_dir}\{arg}\loadSetting.json"):
-                        pass
-                    else:
-                        shutil.copy(f"{path_original}\\loadSetting_template.json", f"{path_dir}\{arg}\\loadSetting.json")
-                        dic= []
-                        loadset={}
-                        f = open(f"{path_dir}\\{arg}\\loadSetting.json",)
-                        data = json.load(f)
-                        for i in data['loadSetting']:
-                            #a_line=str(i)
-                            i['customer']=customer
-                            i['path_root']=f"{path_dir}"
-                            i['path_results']=f"{path_dir}\\results"
-                            i['path_logs']=f"{path_dir}\\logs"
-                            i['path_refdata']=f"{path_dir}\\refdata"
-                            i['path_data']=f"{path_dir}\\data"
-                        dic.append(i)
-                        loadset['loadSetting']=dic
-                        f.close
-                        with open(f"{path_dir}\\{arg}\\loadSetting.json","w+", encoding="utf-8") as outfile:
-                            json.dump(loadset,outfile,indent=2)
-                except OSError as error:
-                    print(f"INFO client loadSetting file /{arg} for {customer} found")
-                    
-    print("\n"+f"INFO: Reference Data: Update reference data from server: {upd}")
-    if upd:
-        schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups"]
-        #print(f"INFO Getting Okapi customer from okapi_customer files")
-        client=br.SearchClient(customer)
-        if client is not None:
-            refdata_path=f"{path_dir}\\refdata"
-            queryString=""
-            for arv in schemas:
-                try:
-                   #(Pattern,okapi_url, okapi_tenant, okapi_token,queryString,json_file,path):
-                    #print(arv)
-                    pattern=br.get_one_schema(str(arv))
-                    totalrecs=br.backup.make_get(pattern[0],client.get('x_okapi_url'), client.get('x_okapi_tenant'), client.get('x_okapi_token'),queryString,f"{customer}_{arv}",refdata_path)
-                    print(f"INFO schema: {arv} total records: {totalrecs}")
-                except Exception as ee:
-                    print(f"ERROR: schema: {arv} {ee}")
-        else:
-            print(f"ERROR: Client Name was't found in /runenv/okapi_customers.json file, it needs to be included: {upd}")
-
-    return path_dir
 
 
 
@@ -3788,4 +3887,5 @@ def readagreements(**kwargs):
     print(f"RESULTS Record processed {count}")
     print(f"RESULTS Agreements {countpol}")
     print(f"RESULTS vendor with errors: {countvendorerror}")
-    print(f"RESULTS end")
+    print(f"RESULTS end")  
+    

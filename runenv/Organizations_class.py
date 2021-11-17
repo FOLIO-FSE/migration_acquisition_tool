@@ -585,7 +585,9 @@ class organizations():
                     if cprow[field]:
                         statisticsNotes=cprow[field]
                         inter['statisticsNotes']=statisticsNotes
-                username=""        
+                username=""
+                siuser=False
+                sicre=False    
                 field=f"interfaces[0].username"
                 if field in dfinter.columns:
                     if cprow[field]:
@@ -600,11 +602,14 @@ class organizations():
                         password=str(cprow[field]).strip()
                         cred['password']=password
                         sicre=True 
-                if siuser:
+                #"required": ["interfaceId","username", "password"]
+                if siuser and sicre:
                     cred['id']=str(uuid.uuid4())
                     cred['interfaceId']=interId
                     mf.printObject(cred,self.path_results,self.countcred,"credentials",False)
-                    mf.printObject(inter,self.path_results,self.countcred,"interfaces",False)
+                
+                #Interfaces "required": ["createdDate"]    
+                mf.printObject(inter,self.path_results,self.countcred,"interfaces",False)
                 iter+=1   
                 interfacesId.append(interId)
             return interfacesId

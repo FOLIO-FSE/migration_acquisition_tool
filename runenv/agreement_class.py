@@ -23,7 +23,7 @@ import time
 from datetime import datetime
 import yaml
 import shutil
-import main_functions as AcqErm
+import functions_AcqErm as mf
 
 ################################
 ##AGREEMENT FUNCTION
