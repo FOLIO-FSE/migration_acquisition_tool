@@ -24,6 +24,7 @@ import time
 from datetime import datetime
 import yaml
 import shutil
+import traceback
 
 
 class organizations():
@@ -495,6 +496,7 @@ class organizations():
                     toc = time.perf_counter()
                 except Exception as ee:
                     print(f"ERROR: {ee}")
+                    print(traceback.format_exc())
             orgFull['organizations']=orga
             mf.printObject(orgFull,self.path_results,count,"organization",True)
             end_time = time.perf_counter()
