@@ -3,7 +3,7 @@ import agreement_class as agree
 import users_class as users
 import notes_class as notes
 import compositePurchaseorders_class as orders
-import organizations_class as org
+import Organizations_class as org
 import windows_class as windows
 import datetime
 import warnings
@@ -509,7 +509,7 @@ class AcqErm():
                     if self.dforganizations is not None:                        
                         self.customerName=org.organizations(client,self.path_dir)
                         if self.notes is not None:
-                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dforganizations, dfinterfaces=self.dforganizations, dfnotes=self.notes)
+                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dforganizations, dfnotes=self.notes)
                         else:
                             self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces)
                     else:

@@ -38,18 +38,13 @@ class dataframe():
                 self.df = pd.read_json(self.filename)
             elif self.filename[-4:] == ".tsv":
                 self.df = pd.read_csv(self.filename, sep='\t')
-            elif self.filename[-4:] == ".xls":            
-                if self.sheet_name: 
-                    self.df = pd.read_excel(self.filename, engine='openpyxl', sheet_name=self.sheet_name)
-                else: 
-                    self.df = pd.read_excel(self.filename, engine='openpyxl')
-            elif self.filename[-5:] == ".xlsx":            
+            elif self.filename[-4:] == ".xls" or self.filename[-5:] == ".xlsx":            
                 if self.sheet_name: 
                     self.df = pd.read_excel(self.filename, engine='openpyxl', sheet_name=self.sheet_name)
                 else: 
                     self.df = pd.read_excel(self.filename, engine='openpyxl')
             else:
-                print("ERROR there is not a file to read in ../settings file")
+                print(f"ERROR The \"{self.dfname}\" data file must have one of the following endings: csv, tsv, json, xls, xlsx")
                 sw=False
             if sw:
                 lendf=len(self.df)

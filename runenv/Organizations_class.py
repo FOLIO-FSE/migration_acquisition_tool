@@ -24,6 +24,7 @@ import time
 from datetime import datetime
 import yaml
 import shutil
+import traceback
 
 
 class organizations():
@@ -83,13 +84,12 @@ class organizations():
                     dfinterfaces=kwargs['dfinterfaces']
 
 
-            if 'dfcontacts' in kwargs:
-                dfcontacts=kwargs['dfcontacts'] 
-                if dfcontacts is None:
-                    dfcontacts=vendors
-                else:
-                    dfcontacts=kwargs['dfcontacts']
-                
+            if any(kwargs['dfcontacts']):
+                dfcontacts=kwargs['dfcontacts']
+            else:
+                dfcontacts=vendors
+
+            print("\nCreating organizations...")
             #print(vendors)
             org={}
             list={}
@@ -136,7 +136,7 @@ class organizations():
                         if row['name']: 
                             org_name=str(row['name']).strip()
                             swname=True
-                            print(f"INFO Processing organization record # {count} Org-Name: {org_name}")
+                            # print(f"INFO Processing organization record # {count} Org-Name: {org_name}")
                         else:
                             print(f"WARNING Processing organization record # {count} Org-Name: NOT NAME. it is a field requeried ")
                     org['name']=org_name
@@ -473,15 +473,21 @@ class organizations():
                         else:
                             sw=False
                         iter+=1    
-                    org['accounts']=accounts
-                    org['interfaces']=self.readInterfaces(kwargs['dfinterfaces'], vencode)
-                    org['contacts']=self.readContacts(client,kwargs['dfcontacts'], vencode) 
+                    try:
+                        org['accounts']=accounts
+                        org['interfaces']=self.readInterfaces(kwargs['dfinterfaces'], vencode)
+                        org['contacts']=self.readContacts(client,kwargs['dfcontacts'], vencode)
+                    except Exception as ee:
+                        print(f"Uhoh! There was an error reading one of your source files. See stacktrace.")
+                        print(traceback.format_exc())
+
                     if swname and swcode:               
                         mf.printObject(org,self.path_results,count,"organization_byLine.json",False)
                         orga.append(org)
                     else:
                         mf.printObject(org,self.path_results,count,"worse_organization_byLine.json",False)
-                    print(f"INFO Organization record: {count} has been created")
+                    if count % 20 == 0:
+                        print(f"INFO Organization record: {count} has been created")
                     
                     if swnotes:
                         self.customerName.readnotes(client,toSearch=vencode,linkId=orgId)                      
@@ -495,11 +501,13 @@ class organizations():
                     toc = time.perf_counter()
                 except Exception as ee:
                     print(f"ERROR: {ee}")
+                    print(traceback.format_exc())
             orgFull['organizations']=orga
             mf.printObject(orgFull,self.path_results,count,"organization",True)
             end_time = time.perf_counter()
-            print(f"INFO Organization Execution Time : {end_time - start_time:0.2f}" )
-            print(f"Interfaces processed : {self.countcred}")
+            print(f"\nINFO Organization Execution Time : {end_time - start_time:0.2f}" )
+            print(f"Organizations created: {count}")
+            print(f"Interfaces processed: {self.countcred}")
         except Exception as ee:
             print(f"ERROR: {ee}")
 
@@ -514,7 +522,7 @@ class organizations():
             for c, cprow in dfinter.iterrows():
                 inter={}
                 cred={}
-                print(f"INFO Processing interfaces for the {toSearch} organization")
+                # print(f"INFO Processing interfaces for the {toSearch} organization")
                 intername=" "
                 interId=""
                 field=f"interfaces[0].name"
@@ -613,8 +621,11 @@ class organizations():
                 iter+=1   
                 interfacesId.append(interId)
             return interfacesId
-        except Exception as ee:
-            print(f"ERROR: Interfaces schema:{ee}")
+        except UnboundLocalError as ule:
+            print(f"ERROR: No username for {intername} No credentials created. / Interfaces schema: {ule}")
+        except Exception:
+            print(traceback.format_exc())
+
 
 
 
@@ -638,7 +649,7 @@ class organizations():
                 field=f"contacts[{iter}].lastName"
                 if field in contact.columns:
                     if rowc[field]:
-                        print(f"INFO processing Contacts for {toSearch}: ",len(contact))
+                        # print(f"INFO processing Contacts for {toSearch}: ",len(contact))
                         con['lastName']=rowc[field]
                         conId=str(uuid.uuid4())
                         con['id']=conId
