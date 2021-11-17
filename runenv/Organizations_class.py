@@ -41,7 +41,8 @@ class organizations():
             self.path_refdata=f"{path_dir}\\refdata"
             self.organizationbyline=self.path_logs+"\\"+self.customerName+"_organizationbyline.json"
             #print(self.organizationbyline)
-            self.organizationbyline=open(self.organizationbyline, 'w')            
+            self.organizationbyline=open(self.organizationbyline, 'w')
+            self.interfaces_created = 0
         except Exception as ee:
             print(f"ERROR: {ee}")
             
@@ -506,7 +507,9 @@ class organizations():
             end_time = time.perf_counter()
             print(f"\nINFO Organization Execution Time : {end_time - start_time:0.2f}" )
             print(f"Organizations created: {count}")
-            print(f"Interfaces processed: {self.countcred}")
+            print(f"Interfaces created: {self.interfaces_created}")
+            print(f"Credentials processed: {self.countcred}")
+
         except Exception as ee:
             print(f"ERROR: {ee}")
 
@@ -619,6 +622,7 @@ class organizations():
                 mf.printObject(inter,self.path_results,self.countcred,"interfaces",False)
                 iter+=1   
                 interfacesId.append(interId)
+                self.interfaces_created +=1
             return interfacesId
         except UnboundLocalError as ule:
             print(f"ERROR: No username for {intername} No credentials created. / Interfaces schema: {ule}")
