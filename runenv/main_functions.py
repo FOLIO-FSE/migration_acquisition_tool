@@ -3,7 +3,7 @@ import agreement_class as agree
 import users_class as users
 import notes_class as notes
 import compositePurchaseorders_class as orders
-import Organizations_class as org
+import organizations_class as org
 import windows_class as windows
 import datetime
 import warnings
