@@ -153,11 +153,18 @@ class organizations():
                     aliases=[]
                     iter=0
                     sw=True
+                    ali={}
                     while sw:
                         field=f"aliases[{iter}].value"
                         if field in vendors.columns:
                             if row[field]:
-                                aliases.append(str(row[field]).strip())
+                                ali['value']=str(row[field]).strip()
+                                field=f'aliases[{iter}].description'
+                                if field in vendors.columns:
+                                    if row[field]:
+                                        ali['description']=""
+                                aliases.append(ali)
+                                ali={}
                         else:
                             sw=False
                         iter+=1
