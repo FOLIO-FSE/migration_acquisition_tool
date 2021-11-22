@@ -487,7 +487,21 @@ class organizations():
                     except Exception as ee:
                         print(f"Uhoh! There was an error reading one of your source files. See stacktrace.")
                         print(traceback.format_exc())
-
+                    iter=0
+                    sw=True
+                    tagList=[]
+                    tags={}
+                    while sw:
+                        field=f"tags.tagList[{iter}]"
+                        if field in vendors.columns:
+                            if row[field]:
+                                tagList.append(str(row[field]).strip())
+                        else:
+                            sw=0
+                            iter+=1
+                    if len(tagList)>0:
+                        tags['tagList']=tagList
+                        org['tags']=tags
                     if swname and swcode:               
                         mf.printObject(org,self.path_results,count,"organization_byLine.json",False)
                         orga.append(org)
