@@ -1,0 +1,9 @@
+{
+    "python.pythonPath": "C:\\Users\\asoto\\.virtualenvs\\runenv-Wsoj9bU4\\Scripts\\python.exe",
+    "markdownlint.config": {
+        "MD028": false,
+        "MD025": {
+            "front_matter_title": ""
+        }
+    }
+}

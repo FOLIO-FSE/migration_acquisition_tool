@@ -74,7 +74,7 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
 def SearchClient(code_search):
         # Opening JSON file
         dic= {}
-        f = open("okapi_customers.json",)
+        f = open("okapi_customers.json","r")
         data = json.load(f)
         #print("INFO reading OKAPI DATA from okapi_customer.json file")
         for i in data['okapi']:
@@ -228,7 +228,7 @@ class AcqErm():
             else:
                 return False
         except ValueError as error:
-            print(f"Error: {error}")
+            print(f"Error Critical in okapi customer function : {error}")
 
     def createdFolderStructure(self):
         self.exist=True
