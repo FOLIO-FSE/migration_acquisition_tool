@@ -1,4 +1,5 @@
 import dataframe_class as pd
+import backup_restore as br
 import agreement_class as agree
 import users_class as users
 import notes_class as notes
@@ -28,7 +29,6 @@ from datetime import datetime
 import yaml
 import shutil
 import codecs
-
 
     
 def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
@@ -95,22 +95,6 @@ def SearchClient(code_search):
                 print(f"Error Search Okapi: {error}")
         return dic
     
-        '''if dict:    
-            
-        else:
-            li={}
-            f = open(f"{self.path_dir}\\runenv\\okapi_customers.json",)
-            data = json.load(f)
-            for li in data['okapi']:
-                li["name"]=input()
-                li["x_okapi_url"]=input()
-                li["x_okapi_tenant"]=inpunt()
-                li["x_okapi_token"]=inpunt()
-            okp.append(li)
-            loadset['okapi']=okp
-            f.close
-            with open(f"{self.path_dir}\\runenv\\okapi_customers.json","w+", encoding="utf-8") as outfile:
-                json.dump(loadset,outfile,indent=2)'''
 def floatHourToTime(fh):
     h, r = divmod(fh, 1)
     m, r = divmod(r*60, 1)
@@ -122,16 +106,8 @@ def floatHourToTime(fh):
         
 def timeStamp(dateTimeObj):
     try:
-        year=""
-        month=""
-        day=""
-        if dateTimeObj.find("/")!=-1:
-            date_object = datetime.strptime(dateTimeObj, "%m/%d/%Y")
-        elif dateTimeObj.find("-")!=-1:
-            date_object = datetime.strptime(dateTimeObj, "%m-%d-%Y")
-        else:
-            pass
-        timestampStr = date_object.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+        date_object = datetime.timestamp(dateTimeObj)
+        timestampStr = date_object.strptime("%Y-%m-%dT%H:%M:%S.000+00:00")
         return timestampStr
     except ValueError as error:
             print(f"Error: {error}")
@@ -245,7 +221,7 @@ class AcqErm():
         self.path_logs=f"{self.path_dir}\\logs"
         self.path_results=f"{self.path_dir}\\results"
         folder=["logs","results","data","refdata"]
-        print("\n"+"Folders")
+        print("\n"+"Folders CLIENT_DATA")
         date_time = now.strftime("%m_%d_%y_(%H_%M)")
         for arg in folder:
             try: 
@@ -369,7 +345,8 @@ class AcqErm():
                         self.path_organizationsMapping=f"{self.path_dir}\{arg}\\organization_mapping.json"
                     except OSError as error:
                         print(f"INFO client mapping files /{arg} for {self.customerName} found")
-        print("\n"+f"INFO: Reference Data: Update reference data from server: {self.getrefdata}")
+        print("\n"+f"Reference Data")
+        print(f"INFO: Reference Data:{self.getrefdata}")
         if self.getrefdata:
             schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments"]
             #print(f"INFO Getting Okapi customer from okapi_customer files")
@@ -394,7 +371,7 @@ class AcqErm():
         client={}
         path=os.path.abspath(os.getcwd())
         folder=["logs","results"]
-        print("\n"+"Folders")
+        print("\n"+"Folders RUNENV")
         for arg in folder:
             try: 
                 os.mkdir(f"{path}\{arg}\{self.customerName}")
@@ -431,6 +408,7 @@ class AcqErm():
                 
                 return
             else:
+                print("\n"+f"INFO LOADING DATAFRAMES")
                 if self.sctr=="a":   
                     self.value="agreement"
                     self.value_a="agree"

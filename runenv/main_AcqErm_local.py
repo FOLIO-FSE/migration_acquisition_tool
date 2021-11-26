@@ -1,6 +1,4 @@
-#import folioAcqfunctions as faf
 import functions_AcqErm as ma
-import agreement_class as ac
 from tkinter import *
 from tkinter import filedialog, messagebox, ttk
 import argparse
