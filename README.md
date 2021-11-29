@@ -12,7 +12,7 @@ optional arguments:
   -h, --help     show this help message and exit
 ```
 
-For example, to create Orders for the Alexandria library, without fetching reference data from FOLIO
+For example, to create Orders for the Alexandria library, without fetching reference data from FOLIO.
 
 ```
 python main_AcqErm.py alexandria p no_ref
