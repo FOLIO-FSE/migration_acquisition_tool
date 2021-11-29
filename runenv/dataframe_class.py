@@ -95,7 +95,8 @@ class dataframe():
 
                 self.changeDataType()
                 end_time = time.perf_counter()
-                print(f"INFO Dataframe Execution Time for {lendf} record: {end_time} - {start_time}:{0.2}f")
+                total_time= (end_time - start_time) 
+                print(f"INFO Dataframe Execution Time for {lendf} record: {total_time}")
                 
                 return self.df
         except Exception as ee:

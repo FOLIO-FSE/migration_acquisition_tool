@@ -28,37 +28,37 @@ class notes():
     def __init__(self,client,path_dir, **kwargs):
         if 'dataframe' in kwargs:
             self.notes= kwargs['dataframe']
-        self.customerName=client
-        #os.mkdir(f"{path_dir}\\results")
-        self.path_results=f"{path_dir}\\results"
-        #os.mkdir(f"{path_dir}\\data")
-        self.path_data=f"{path_dir}\\data"
-        #os.mkdir(f"{path_dir}\\logs")
-        self.path_logs=f"{path_dir}\\logs"
-        #os.mkdir(f"{path_dir}\\refdata")
-        self.path_refdata=f"{path_dir}\\refdata"
-        self.valuetitle=""
-        self.valuetypeId=""
-        self.valuedomainId=""
-        v=""
-        typev=""
-        typed=""
-        with open(self.path_refdata+"\\notes_mapping.json") as json_mappingfile:
-            self.mappingdata = json.load(json_mappingfile)
-            for i in self.mappingdata['data']:
-                if i['folio_field']=='title':
-                    v=str(i['value']).strip()
-                    if v is not None: 
-                        self.valuetitle=v
-                if i['folio_field']=='typeId':
-                    typev=str(i['value']).strip()
-                    if typev is not None: 
-                        self.valuetypeId=typev
-                if i['folio_field']=='domain':
-                    typed=str(i['value']).strip()
-                    if typed is not None: 
-                        self.valuedomainId=typed
-        return            
+            self.customerName=client
+            #os.mkdir(f"{path_dir}\\results")
+            self.path_results=f"{path_dir}\\results"
+            #os.mkdir(f"{path_dir}\\data")
+            self.path_data=f"{path_dir}\\data"
+            #os.mkdir(f"{path_dir}\\logs")
+            self.path_logs=f"{path_dir}\\logs"
+            #os.mkdir(f"{path_dir}\\refdata")
+            self.path_refdata=f"{path_dir}\\refdata"
+            self.valuetitle=""
+            self.valuetypeId=""
+            self.valuedomainId=""
+            v=""
+            typev=""
+            typed=""
+            with open(self.path_refdata+"\\notes_mapping.json") as json_mappingfile:
+                self.mappingdata = json.load(json_mappingfile)
+                for i in self.mappingdata['data']:
+                    if i['folio_field']=='title':
+                        v=str(i['value']).strip()
+                        if v is not None: 
+                            self.valuetitle=v
+                    if i['folio_field']=='typeId':
+                        typev=str(i['value']).strip()
+                        if typev is not None: 
+                            self.valuetypeId=typev
+                    if i['folio_field']=='domain':
+                        typed=str(i['value']).strip()
+                        if typed is not None: 
+                            self.valuedomainId=typed
+                return            
                         
             #print(self.mappingdata)
     #(uuidOrg,typeId,customerName,15,16,17)
@@ -75,7 +75,8 @@ class notes():
         countnote=1
         noprint=False
         dfnote = self.notes[self.notes['code']== toSearch]
-        
+        dt = datetime.now()
+        dt=dt.strftime('%Y%m%d-%H-%M')
         for i, nrow in dfnote.iterrows():
             notes={}
             l=[]
@@ -92,7 +93,7 @@ class notes():
                     else:
                         print(f"INFO Processing Notes for :  {toSearch} : ",len(dfnote))
                         noteType=cate[1]
-                        noprint=True
+                        noprint=False
                         notes["id"]=str(uuid.uuid4())
                         notes['type']=noteType
                         if self.valuetitle: notes["title"]=self.valuetitle
@@ -104,8 +105,12 @@ class notes():
                                 linkType="organization"
                             elif self.valuedomainId.upper()=="ORDERS":
                                 linkType="poLine"
+                            elif self.valuedomainId.upper()=="LICENSES":
+                                linkType="license"
+                            elif self.valuedomainId.upper()=="AGREEMENTS":
+                                linkType="agreement"
                             else:
-                                linkType="poLine"
+                                linkType="error"
                                 return 
                         else: 
                             notes["domain"]=""
@@ -124,15 +129,18 @@ class notes():
                                 sw=False
                             iter+=1
                         if cont is not None:
-                            notes["content"]=cont
+                            if cont!="":
+                                notes["content"]=cont
+                                noprint=True
 
+                                
                         l.append(mf.dic(id=linkId,type=linkType))
                         notes["links"]=l
 
                 if noprint:
-                    mf.printObject(notes,self.path_results,countnote,client+"_notes",False)
+                    mf.printObject(notes,self.path_results,countnote,client+f"_notes",False)
                 else:
-                    mf.printObject(notes,self.path_results,countnote,client+"worse_notes",False)
+                    mf.printObject(notes,self.path_results,countnote,client+f"worse_notes",False)
             except Exception as ee:
                 print(f"ERROR: {ee}")                 
              
@@ -143,7 +151,7 @@ class notes():
          for i, row in self.notes.iterrows():
             notes={}
             try:
-                print(f"Record No. {count}")
+                print(f"INFO Record No. {count}")
                 agreetosearch=""
                 noprint=False
                 idtolink=""
