@@ -1,5 +1,5 @@
 # migration_acquisition_tool
-Prerequisites
+Prerequisites for purchase Orders script
 1. must include the okapi customer parameters in the ../runenv/okapi_customers.json
 2. be sure that previusly you have worked the adquisitionsMapping.xsls file with the customer to including: orderType, orderFormat, paymentMethod, locations, etc.
 3. with the tsv or csv file prepare the composite_purchase_order_mapping.json you can use the following tool: https://data-mapping-file-creator.folio.ebsco.com/data_mapping_creation .
