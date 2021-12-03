@@ -13,7 +13,7 @@ if __name__ == "__main__":
     getrefdata=False#False
     #Insert True/False if you want to use GUI / command line. by default command Line FALSE
     graphicinterfaces=False#False
-    #Insert the script to run (o=organizations/p=purchase orders/l=licenses/a=Agreements / u=Users / i=instance)
+    #Insert the script to run (o=organizations/p=purchase orders/l=licenses/a=Agreements)
     scriptTorun="p"#"o"    
     if customerName=="": 
         print("Client code: ") 

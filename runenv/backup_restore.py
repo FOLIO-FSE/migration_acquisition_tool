@@ -7,7 +7,6 @@ from requests.exceptions import HTTPError
 import time
 from datetime import datetime
 import functions_AcqErm as faf
-import backup_restore as br
 import os
 import os.path
 
@@ -1031,7 +1030,8 @@ def main():
             token=str(client.get('x_okapi_token'))
             opt=1
             path_data=""
-            faf.createdFolderStructureenv(cuts_name)
+            client=faf.AcqErm(client)
+            #client.createdFolderStructureenv(client)
             while opt!=0:
                 print("0. Exit"+"\n"+"1. GET"+"\n"+"11 GET CREDENTIAL"+"\n"+" 13 GET BY UUID"+"\n"+"2. POST"+"\n"+"  21 POST by line"+"  22 POST credential by line"+"\n"+"3.PUT"+"\n"+"31. PUT by line"+"\n"+"32. GET and PUT"+"\n"+"4.DEL"+"\n"+"   41 DEL by Line"+"\n"+"   42 DEL + POST"+"\n"+"5.GET TOKEN")
                 opt = int(input())

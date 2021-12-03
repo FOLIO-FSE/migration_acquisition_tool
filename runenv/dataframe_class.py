@@ -19,13 +19,13 @@ class dataframe():
     def importDataFrame(self, file_path, **kwargs):
         try:
             start_time = time.perf_counter()
-            print(f"INFO start time: {start_time}")
+            #print(f"INFO start time: {start_time}")
             sw = True
             if "dfname" in kwargs:
                 self.dfname = kwargs['dfname']
             else:
                 self.dfname = "Not Name defined"
-            print(f"INFO Uploading Dataframe [[{self.dfname}]]")
+            #print(f"INFO Uploading Dataframe [[{self.dfname}]]")
             if "orderby" in kwargs: 
                 self.orderby = kwargs['orderby']
             else:
@@ -72,10 +72,10 @@ class dataframe():
             if sw:
                 lendf = len(self.df)
                 if self.sheet_name:      
-                    print(f"INFO File {self.sheet_name} {self.filename} Total rows: {lendf}")
+                    print(f"INFO File <<{self.dfname}>>")
                 else:
-                    print(f"INFO File {self.filename} Total rows: {lendf}")
-                print(f"INFO columns in the file with legacy system fields Names  {self.df.columns}")
+                    print(f"INFO File <<{self.dfname}>>")
+                #print(f"INFO columns in the file with legacy system fields Names  {self.df.columns}")
                 self.df = self.df.apply(lambda x: x.fillna(""))
 
                 if self.mapping_file:
@@ -95,8 +95,8 @@ class dataframe():
 
                 self.changeDataType()
                 end_time = time.perf_counter()
-                total_time= (end_time - start_time) 
-                print(f"INFO Dataframe Execution Time for {lendf} record: {total_time}")
+                total_time= round((end_time - start_time)) 
+                print(f"INFO Dataframe <<{self.dfname}>> Execution Time {total_time} seconds, for {lendf} records")
                 
                 return self.df
         except Exception as ee:
@@ -124,16 +124,19 @@ class dataframe():
                 try:
                     #print(i['legacy_field'])
                     if str(i['legacy_field'])!="Not mapped":
-                        folio_field=i['folio_field']
-                        legacy_field=i['legacy_field']
-                        self.dfnew[folio_field]=self.df[legacy_field]
-                        #print("INFO Dataframe Replacing the following legacy field columns:")
-                        changelist.append(f"{legacy_field} => {folio_field}")
+                        if i['legacy_field']:
+                            folio_field=i['folio_field']
+                            legacy_field=i['legacy_field']
+                            self.dfnew[folio_field]=self.df[legacy_field]
+                            #print("INFO Dataframe Replacing the following legacy field columns:")
+                            changelist.append(f"{legacy_field} => {folio_field}")
                 except Exception as ee:
                     print(f"WARNING: {ee} legacy_field was not described as column Name in the sourceData: check the mapping file {self.dfname}")
 
             #print(changelist)
-            print(f"INFO Column has been renamed for [[{self.dfname}]]"+"\n+"f"{changelist}")
+            print(f"INFO Column has been renamed for <<{self.dfname}>>")
+            for li in changelist:
+                print(li)
             #print(self.dfnew)
             return self.dfnew
         except pd.errors.EmptyDataError:

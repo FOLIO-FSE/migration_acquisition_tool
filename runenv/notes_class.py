@@ -1,5 +1,6 @@
 import datetime
 import warnings
+import datetime
 from datetime import datetime
 import json
 import uuid
@@ -64,19 +65,17 @@ class notes():
     #(uuidOrg,typeId,customerName,15,16,17)
     #client,self.path_dir
     def readnotes(self,client,**kwargs): #dataframe,toSearch,linkId):
-#    def readnotes(self,client,dataframe,toSearch,linkId):
-
         if 'toSearch' in kwargs:
-            toSearch=kwargs['toSearch']
+            toSearch=str(kwargs['toSearch']).strip()
         if 'linkId' in kwargs:
-            linkId=kwargs['linkId']
-
-            
+            linkId=str(kwargs['linkId']).strip()
         countnote=1
         noprint=False
-        dfnote = self.notes[self.notes['code']== toSearch]
-        dt = datetime.now()
-        dt=dt.strftime('%Y%m%d-%H-%M')
+        #print(self.notes['code'])
+        dfnote = self.notes[self.notes['code']== str(toSearch)]
+        totalnotes=len(dfnote)
+        #print(f"INFO Notes for :{toSearch} =>{totalnotes} records")
+        returnNote=f"Notes: {totalnotes} records"
         for i, nrow in dfnote.iterrows():
             notes={}
             l=[]
@@ -91,7 +90,7 @@ class notes():
                         mf.write_file(ruta=self.path_logs+"\\notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
                         noteType=""
                     else:
-                        print(f"INFO Processing Notes for :  {toSearch} : ",len(dfnote))
+                        
                         noteType=cate[1]
                         noprint=False
                         notes["id"]=str(uuid.uuid4())
@@ -141,8 +140,10 @@ class notes():
                     mf.printObject(notes,self.path_results,countnote,client+f"_notes",False)
                 else:
                     mf.printObject(notes,self.path_results,countnote,client+f"worse_notes",False)
+                
+                return returnNote
             except Exception as ee:
-                print(f"ERROR: {ee}")                 
+                print(f"ERROR: Notes Class {ee}")                 
              
     def agreementReadnotes(self,client,dataframe):
          self.notes= dataframe

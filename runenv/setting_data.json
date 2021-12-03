@@ -11,6 +11,16 @@
             "filexport": "ledger.json"
         },
         {
+            "name": "tenant.addresses",
+            "pathPattern": "/configurations/entries?limit=500&query=(module=TENANT and configName=tenant.addresses)",
+            "schema": "configs",
+            "app": "tenant",
+            "type": "ref",
+            "methods": "get",
+            "permissionsRequired": [false],
+            "filexport": ""
+        },        
+        {
             "name": "noteTypes",
             "pathPattern": "/note-types",
             "schema": "notes",

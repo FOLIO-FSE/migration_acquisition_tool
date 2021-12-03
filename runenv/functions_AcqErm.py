@@ -5,7 +5,9 @@ import users_class as users
 import notes_class as notes
 import compositePurchaseorders_class as orders
 import organizations_class as org
+import license_class as lic
 import windows_class as windows
+import time
 import datetime
 import warnings
 from datetime import datetime
@@ -18,14 +20,10 @@ import requests
 import io
 import math
 import csv
-import time
 import random
 import logging
 import validator
 import ast
-
-import time
-from datetime import datetime
 import yaml
 import shutil
 import codecs
@@ -52,7 +50,7 @@ def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
   with open(target_file_name, 'w+b') as dest_file:
     contents = source_file.read()
     dest_file.write(contents.decode('utf-16').encode('utf-8'))'''
-            
+#function to print json files            
 def printObject(objectToPrint,path,x,file_name,prettyJson):
         try:
             outfilename=""
@@ -69,7 +67,7 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
                     outfile.write(outfilename+"\n")
             return None
         except Exception as ee:
-            print(f"ERROR: {ee}")
+            print(f"ERROR: (printObject function) {ee}")
             
 def SearchClient(code_search):
         # Opening JSON file
@@ -116,14 +114,19 @@ def timeStamp(dateTimeObj):
 def timeStampString(dateTimeObj):
         try:
         #dateTimeObj = dateTimeObj.strptime(dateTimeObj, "%Y-%m-%d").strftime("%d-%m-%Y")
-            a=dateTimeObj.find("-")
-            if a-1:
-                fecha_dt = datetime.strptime(dateTimeObj, '%Y-%m-%d')
-            elif dateTimeObj.find("/")!=-1:
-                fecha_dt = datetime.strptime(dateTimeObj, '%Y/%m/%d')
-                #dateTimeObj = fecha_dt.strftime(format)
-            timestampStr = fecha_dt.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
-            return timestampStr
+            dateTimeObj=dateTimeObj.replace("/","-")
+            if dateTimeObj.find("-")!=-1: 
+                a=dateTimeObj.split("-")
+                day=a[0]
+                if len(day)==1:
+                    day=f"0{day}"
+                month=a[1]
+                if len(month)==1:
+                    month=f"0{month}"
+                year=a[2]
+                my_string=f"{year}-{month}-{day}"
+                date1 = datetime.strptime(my_string, "%Y-%m-%d")
+            return date1
         except ValueError as ee:
             print(f"Error: {ee}")
 
@@ -349,7 +352,7 @@ class AcqErm():
         print("\n"+f"Reference Data")
         print(f"INFO: Reference Data:{self.getrefdata}")
         if self.getrefdata:
-            schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments"]
+            schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments","tenant.addresses"]
             #print(f"INFO Getting Okapi customer from okapi_customer files")
             #client=br.SearchClient(self.customerName)
             if self.customerName is not None:
@@ -405,8 +408,7 @@ class AcqErm():
                 print(f"Warning:")
                 print(f"INFO 1. Check the ..{self.path_data}\loadSetting.json file be sure to include the file name to read")
                 print(f"INFO 2. Need to include the mapping file too in ..{self.path_refdata}")
-                print(f"INFO 3. Run again the script...")
-                
+                print(f"INFO 3. Run again the script...")                
                 return
             else:
                 print("\n"+f"INFO LOADING DATAFRAMES")
@@ -432,6 +434,26 @@ class AcqErm():
                 elif self.sctr=="l": 
                     self.value="licenses"
                     self.value_a="lic"
+                    self.df=self.value
+                    ls=self.load_settings()
+                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    self.dflicense=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_licenseMapping,
+                                            dfname=self.value)
+                    
+                    if self.dflicense is not None:                        
+                        self.customerName=lic.licenses(client,self.path_dir)
+                        if self.notes is not None:
+                            self.customerName.readlicenses(client,dflicense=self.dflicense, dfnotes=self.notes)
+                        else:
+                            self.customerName.readlinceses(client,dflicense=self.dflicense)
+                    else:
+                        print(f"INFO file Name must be included in the ..{self.path_refdata}\loadSetting.json") 
+
+                    
                 elif self.sctr=="o":
                     swnotes=False
                     self.value="organizations"
@@ -493,7 +515,7 @@ class AcqErm():
                         else:
                             self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces)
                     else:
-                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json") 
+                        print(f"INFO file Name must be included in the ..{self.path_refdata}\loadSetting.json") 
                     
                 elif self.sctr=="p":
                     try:
@@ -543,7 +565,7 @@ class AcqErm():
                             else:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
                         else:
-                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_data}\loadSetting.json")                     
+                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_refdata}\loadSetting.json")                     
                     except ValueError as error:
                         print(f"Error: {error}")
                 elif self.sctr=="u": 
