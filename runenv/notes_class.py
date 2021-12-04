@@ -118,12 +118,16 @@ class notes():
                         cont=""
                         while sw:
                             field=f"content[{iter}]"
+                            info=""
                             if field in dfnote.columns:
                                 if nrow[field]:
                                     if nrow[field]!="":
                                         if nrow[field]!="    -  -   ":
                                             contNote=self.readmapping(field)
-                                            cont=f"{cont} {contNote} {nrow[field]}"
+                                            info=nrow[field]
+                                            if type(info) is datetime.date:
+                                                info=info.strftime("%Y-%m-%d")
+                                            cont=f"{cont} {contNote} {info}"
                             else:
                                 sw=False
                             iter+=1
@@ -196,7 +200,7 @@ class notes():
             self.mappingdata = json.load(json_mappingfile)
             for i in self.mappingdata['data']:
                 if i['folio_field']==toSearch:
-                    contentNote=str(i['legacy_field']).strip()+": "
+                    contentNote=str(i['description']).strip()+" "
         return contentNote             
                     
     def print_notes(self,*kwargs):

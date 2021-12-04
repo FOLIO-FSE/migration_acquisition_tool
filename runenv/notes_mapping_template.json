@@ -1,8 +1,14 @@
 {
    "data": [
       {
-         "folio_field": "content",
-         "legacy_field": "org_note",
+         "folio_field": "code",
+         "legacy_field": "",
+         "value": "",
+         "description": "field related with master data"
+      },
+      {
+         "folio_field": "content[0]",
+         "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
@@ -32,7 +38,7 @@
       },
       {
          "folio_field": "id",
-         "legacy_field": "vendor_code",
+         "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
@@ -57,14 +63,14 @@
       {
          "folio_field": "title",
          "legacy_field": "Not mapped",
-         "value": "Sierra organization note",
-         "description": ""
+         "value": "",
+         "description": "Note title-insert in value field by all"
       },
       {
          "folio_field": "typeId",
          "legacy_field": "Not mapped",
-         "value": "10bc689f-df06-4e6e-ac92-a91b38b1f8e6",
-         "description": ""
+         "value": "",
+         "description": "uuid note type ID"
       },
       {
          "folio_field": "updater.firstName",

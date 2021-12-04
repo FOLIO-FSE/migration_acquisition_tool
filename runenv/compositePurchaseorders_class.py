@@ -496,6 +496,7 @@ class compositePurchaseorders():
                             ordersidmapping["folio_id"]=poNumber
                             mf.printObject(ordersidmapping,self.path_results,self.count,f"{client}_ordersIdMapping_{self.dt}",False)
                     except Exception as ee:
+                        Worder=Order
                         mf.printObject(Worder,self.path_results,self.count,f"{client}_purchaseOrderbyline_worse_{self.dt}",False)
                         print(f"ERROR: {ee}")
                         self.noprint=False
@@ -718,7 +719,7 @@ class compositePurchaseorders():
                         titleOrPackage=str(cprow[field]).strip()
                         titleUUID=str(cprow[field]).strip()
                         ordertitleUUID=self.get_title(client,element="instances",searchValue=titleUUID)
-                        if len(ordertitleUUID)!=0:# is None:
+                        if ordertitleUUID is not None:
                             #print(f"    InstanceId / Title: {ordertitleUUID}")
                             #self.ordertitleUUID=ordertitleUUID
                             cp["instanceId"]=str(ordertitleUUID[0])
@@ -1161,8 +1162,12 @@ class compositePurchaseorders():
             return cpList    
         except Exception as ee:
             print(ee)
-            print(self.po_poLineNumber)
-            mf.write_file(ruta=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")  
+            print(self.poLineNumber)
+            mf.write_file(ruta=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")
+        except ValueError:
+            print(self.poLineNumber)
+            mf.write_file(ruta=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")
+            print(f"General Error on GET: {self.req.text} {self.req.status_code}")
 
     def mapping(self,dftoSearch,toSearch):
         try:
@@ -1174,7 +1179,7 @@ class compositePurchaseorders():
                 for x, cptemp in temp.iterrows():
                     dataToreturn=str(cptemp['FOLIO']).strip()
             else:
-                mf.write_file(ruta=self.path_logs+"\\workflowNotfound.log",contenido=f"{toSearch} {self.po_poLineNumber}")
+                mf.write_file(ruta=self.path_logs+"\\workflowNotfound.log",contenido=f"{toSearch} {self.poLineNumber}")
                 self.noprint=False
                 dataToreturn=None
             return dataToreturn
@@ -1261,22 +1266,25 @@ class compositePurchaseorders():
             #data=json.dumps(payload)
             url = okapi_url + path
             req = requests.get(url, headers=okapi_headers)
-            idhrid=[]
-            if req.status_code != 201:
-                json_str = json.loads(req.text)
-                total_recs = int(json_str["totalRecords"])
-                if (total_recs!=0):
-                    rec=json_str[element]
-                    #print(rec)
-                    l=rec[0]
-                    if 'id' in l:
-                        idhrid.append(l['id'])
-                        idhrid.append(l['title'])            
-            return idhrid
+            try:
+                idhrid=[]
+                self.req.status_code=req.status_code
+                if req.status_code != 201:
+                    json_str = json.loads(req.text)
+                    self.req.text=req.text
+                    total_recs = int(json_str["totalRecords"])
+                    if (total_recs!=0):
+                        rec=json_str[element]
+                        #print(rec)
+                        l=rec[0]
+                        if 'id' in l:
+                            idhrid.append(l['id'])
+                            idhrid.append(l['title'])
+            except Exception as ee:
+                print(f"General Error on GET:{req.text} Error Number:  {req.status_code}")
+            return idhrid            
         except Exception as ee:
-            print(f"INFO critical get_title function failed "+"+\n"+f"{ee}")
-            
-            
+            print(f"ERROR: mapping {ee}")    
     def createinstance(self, client,titleOrPackage,titleUUID):
         print(f"INFO Creating instance for title {titleOrPackage} {titleUUID}")
         instance= {

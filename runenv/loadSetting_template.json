@@ -12,7 +12,7 @@
         {"contacts": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
         {"interfaces": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}}],
       "purchaseOrders": [
-        {"po": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
+        {"po": {"fileName": "","orderby": "","distinct": ["poNumber"],"sheetName": ""}},
         {"poLines": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}}],
       "licenses": [
         {"lic": {"fileName": "","orderby": "","distinct": [],"licenseId": "","sheetName": ""}}],

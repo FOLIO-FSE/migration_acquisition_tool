@@ -73,7 +73,7 @@ def SearchClient(code_search):
         # Opening JSON file
         dic= {}
         pathfile=os.path.abspath(os.getcwd())
-        f = open(f"{pathfile}\\okapi_customers.json","r")
+        f = open(f"{pathfile}\\runenv\\okapi_customers.json","r")
         data = json.load(f)
         #print("INFO reading OKAPI DATA from okapi_customer.json file")
         for i in data['okapi']:
@@ -217,7 +217,7 @@ class AcqErm():
         path=os.path.abspath(os.getcwd())
         self.path_original=path
         x=path.find("runenv")
-        self.path=path[:x-1]
+        self.path=path
         self.path_dir=f"{self.path}\\client_data\\{self.customerName}"
         self.createDirectory(self.path_dir)
         self.path_data=f"{self.path_dir}\\data"
