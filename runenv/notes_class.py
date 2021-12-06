@@ -69,6 +69,10 @@ class notes():
             toSearch=str(kwargs['toSearch']).strip()
         if 'linkId' in kwargs:
             linkId=str(kwargs['linkId']).strip()
+        if 'filenamenotes' in kwargs:
+            filenamenotes=str(kwargs['filenamenotes']).strip()
+        else:
+            filenamenotes="_notes"
         countnote=1
         noprint=False
         #print(self.notes['code'])
@@ -141,9 +145,9 @@ class notes():
                         notes["links"]=l
 
                 if noprint:
-                    mf.printObject(notes,self.path_results,countnote,client+f"_notes",False)
+                    mf.printObject(notes,self.path_results,countnote,client+f"_{filenamenotes}",False)
                 else:
-                    mf.printObject(notes,self.path_results,countnote,client+f"worse_notes",False)
+                    mf.printObject(notes,self.path_results,countnote,client+f"worse_notes_without_content",False)
                 
                 return returnNote
             except Exception as ee:

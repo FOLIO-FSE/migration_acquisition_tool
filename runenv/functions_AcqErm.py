@@ -68,7 +68,7 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
             return None
         except Exception as ee:
             print(f"ERROR: (printObject function) {ee}")
-            
+                
 def SearchClient(code_search):
         # Opening JSON file
         dic= {}
@@ -158,7 +158,9 @@ def okapiPath(code_search):
         valor=[]
         try:
             #valor="0"
-            f = open("setting_data.json",)
+            pathfile=os.path.abspath(os.getcwd())
+            
+            f = open(f"{pathfile}\\runenv\\setting_data.json",)
             data = json.load(f)
             for i in data['settings']:
                 a_line=str(i)
@@ -2651,14 +2653,18 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
                 id.append(j_content['id'])
                 if "name" in j_content:
                     id.append(j_content['name'])#return j_content
-                    return id                    
+                    
                 elif "code" in j_content:
                     id.append(j_content['code'])
-                    return id
+
                 elif "type" in j_content:
                     id.append(j_content['type'])
                 elif "id" in j_content:
-                    return id
+                    id.append(j_content['id'])
+        if len(id)>0:
+            return id
+        else:
+            return None
     except Exception as err:
         print(f"INFO error {err}")
         return None

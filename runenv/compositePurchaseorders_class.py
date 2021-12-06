@@ -17,6 +17,7 @@ import random
 import logging
 import validator
 import ast
+#from tabulate import tabulate
 #import tkinter as tk
 #from tkinter import filedialog, messagebox, ttk
 import yaml
@@ -28,7 +29,9 @@ import shutil
 
 class compositePurchaseorders():
     def __init__(self,client,path_dir):
-        try:    
+        try:
+            dt = datetime.datetime.now()
+            self.dt=dt.strftime('%Y%m%d-%H-%M')    
             self.customerName=client
             self.path_dir=path_dir
             #os.mkdir(f"{path_dir}\\results")
@@ -39,6 +42,8 @@ class compositePurchaseorders():
             self.path_logs=f"{path_dir}\\logs"
             #os.mkdir(f"{path_dir}\\refdata")
             self.path_refdata=f"{path_dir}\\refdata"
+            logging.basicConfig(filename=f"{self.path_logs}\\composite_purchaseorders-{self.dt}.log", encoding='utf-8', level=logging.INFO)
+            logging.basicConfig(filename=f"{self.path_logs}\\composite_purchaseorders-DEBUG-{self.dt}.log", encoding='utf-8', level=logging.DEBUG)
             mappingfile=self.path_refdata+"\\composite_purchase_order_mapping.json"
             if os.path.exists(mappingfile):  
                 with open(mappingfile) as json_mappingfile:
@@ -54,97 +59,144 @@ class compositePurchaseorders():
              
     def checkspreadsheetvsdata(self, **kwargs):
         try:
-            if 'schematosearch' in kwargs:
-                schematosearch=kwargs['schematosearch']
+            flag=True
+            swpolines=kwargs['swpolines']
             if 'fieldtosearch' in kwargs:
-                    fieldtosearch=kwargs['fieldtosearch']
-            field=fieldtosearch        
-            if field in self.orders.columns:
-                print(f"{schematosearch} | counter")
-                print(self.orders[field].value_counts())
-            fundsnotfound=[]
-            self.flag=False
-            tupA = self.orders[fieldtosearch].unique()
-            if schematosearch=="orderType":
-                tupB = self.orderType['LEGACY SYSTEM'].unique()
-            elif schematosearch=="orderFormat":
-                tupB = self.orderFormat['LEGACY SYSTEM'].unique()
-            elif schematosearch=="paymentStatus":
-                tupB = self.paymentStatus['LEGACY SYSTEM'].unique()
-            elif schematosearch=="receiptStatus":
-                tupB = self.receiptStatus['LEGACY SYSTEM'].unique()
-            elif schematosearch=="workflowStatus":
-                tupB = self.workflowStatus['LEGACY SYSTEM'].unique()
-            elif schematosearch=="acquisitionMethod":
-                tupB = self.acquisitionMethod['LEGACY SYSTEM'].unique()
-            for i in tupA:
-                if i in tupB:
-                    pass
-                else:
-                    fundsnotfound.append(i)
-            
-            if len(fundsnotfound)>0:
-                print(f"INFO {self.client} Mapping critical Error the following {schematosearch} does not exist  {fundsnotfound} please include it in the mapping {self.path_refdata}//acquisitionMapping.xlsx file (spreadsheet)")
-                self.flag=False
-            else:
-                print(f"INFO {self.client} Mapping {schematosearch} OK")
-                self.flag=True
-            return self.flag
+                fieldtosearch=kwargs['fieldtosearch']
+                field=fieldtosearch        
+                if field in self.orders.columns:
+                    if 'schematosearch' in kwargs:
+                        schematosearch=kwargs['schematosearch']
+                    if 'dfmapping' in kwargs:
+                        self.dfmapping=kwargs['dfmapping']
+                    print(f"{schematosearch} | counter")
+                    if swpolines:
+                        print(self.dfPolines[field].value_counts())
+                        logging.info(f"{schematosearch}")
+                        logging.info(f"{schematosearch} | counter")
+                        logging.info(self.dfPolines[field].value_counts())
+                        tupA = self.dfPolines[field].unique()
+                    else:
+                        print(self.orders[field].value_counts())                        
+                        logging.info(f"{schematosearch}")
+                        logging.info(f"{schematosearch} | counter")
+                        logging.info(self.orders[field].value_counts())
+                        tupA = self.orders[field].unique()
+                    fundsnotfound=[]
+                    self.flag=False                    
+                    tupB = self.dfmapping['LEGACY SYSTEM'].unique()
+                    for i in tupA:
+                        if i in tupB:
+                            toSearch=str(i).strip()
+                            newvalue=self.mapping(self.dfmapping,toSearch)
+                            if swpolines:
+                                self.dfPolines[fieldtosearch] = self.dfPolines[fieldtosearch].replace([i],newvalue)
+                            else:
+                                self.orders[fieldtosearch] = self.orders[fieldtosearch].replace([i],newvalue)
+                        else:
+                            fundsnotfound.append(i)
+                
+                    if len(fundsnotfound)>0:
+                        print(f"INFO {self.client} Mapping critical Error the following {schematosearch} does not exist  {fundsnotfound} please include it in the mapping {self.path_refdata}//acquisitionMapping.xlsx file (spreadsheet)")
+                        logging.info("INFO {self.client} Mapping critical Error the following {schematosearch} does not exist  {fundsnotfound} please include it in the mapping {self.path_refdata}//acquisitionMapping.xlsx file (spreadsheet)")
+                        flag=False
+                    else:
+                        logging.info(f"{schematosearch}")
+                        logging.info(f"{schematosearch} | counter")
+                        if swpolines:
+                            print(self.dfPolines[field].value_counts())
+                            logging.info(self.dfPolines[field].value_counts())
+                        else:
+                            print(self.orders[field].value_counts())                            
+                            logging.info(self.orders[field].value_counts())
+                        print(f"INFO {self.client} Mapping {schematosearch} OK")
+                        logging.info(f"INFO {self.client} Mapping {schematosearch} OK")
+
+
+                return flag
         
         except Exception as ee:
             print(f"ERROR: Checking {schematosearch} // {ee}")                  
-            return self.flag
+            return flag
 
                         
     def checkingparameters(self, **kwargs):
         try:
-            if 'schematosearch' in kwargs:
-                schematosearch=kwargs['schematosearch']
+            flag=True
+            swpolines=kwargs['swpolines']
+            sw=True
+            tupla_order=[]
+            tupla_mapping=[]        
+            temp=[]    
+            recordnotfound=[]
+            dictem=[]
             if 'fieldtosearch' in kwargs:
                 fieldtosearch=kwargs['fieldtosearch']
-            self.flag=False
-            fundsToSearch=""
-            tuplafunds=[]
-            fundsnotfound=[]
-            mappingfile=self.path_refdata+f"\\{self.client}_{schematosearch}.json"
-            if os.path.exists(mappingfile):
-                f = open(self.path_refdata+f"\\{self.client}_{schematosearch}.json","r")
-                data = json.load(f)
-                if data['totalRecords']!=0:
-                    for i in data[schematosearch]:
-                        tuplafunds.append(i['code'])
-                    field=fieldtosearch
-                    if field in self.orders.columns:
-                        print(f"{schematosearch} | counter")
-                        print(self.orders[field].value_counts())
-                        if self.funds.empty:
-                            self.dfa = self.orders[field].unique() 
+                if fieldtosearch in self.orders.columns:
+                    schematosearch=kwargs['schematosearch']
+                    print(f"{schematosearch} | counter")
+                    if swpolines:
+                        print(self.dfPolines[fieldtosearch].value_counts())
+                        tupla_order = self.dfPolines[fieldtosearch].unique()
+                    else:
+                        print(self.orders[fieldtosearch].value_counts())
+                        tupla_order = self.orders[fieldtosearch].unique()
+                    logging.info(f"{schematosearch}")
+                    logging.info(f"{schematosearch} | counter")
+                    logging.info(tupla_order)
+                    if 'dfmapping' in kwargs:
+                        dfmapping=kwargs['dfmapping']
+                        if dfmapping.empty:
+                            for i in tupla_order:
+                                result=[]
+                                ToSearch=str(i).strip()
+                                result=mf.readJsonfile(self.path_refdata,f"{self.client}_{schematosearch}.json",schematosearch,ToSearch,"code")
+                                if result is None:
+                                    recordnotfound.append(ToSearch)
+                                else:
+                                    newvalue=str(result[0]).strip()
+                                    newvalue2=str(result[1]).strip()
+                                    if swpolines:
+                                        self.dfPolines[fieldtosearch] = self.dfPolines[fieldtosearch].replace([i],newvalue)
+                                    else:
+                                        self.orders[fieldtosearch] = self.orders[fieldtosearch].replace([i],newvalue)
                         else:
-                            self.dfa=self.funds['FOLIO'].unique()
-                        for i in self.dfa:
-                            fundToSearch=str(i).strip()
-                            if fundToSearch!="":
-                                existfund = tuplafunds.count(fundToSearch)
-                                if existfund==0:
-                                    mf.write_file(ruta=self.path_logs+"\\fundsNot{schematosearch}.log",contenido=f"{fundsToSearch}")
-                                    checkorg=False
-                                    fundsnotfound.append(fundToSearch)
-                                    self.countfoundrerror+=1
-
-                if len(fundsnotfound)>0:
-                    print(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {fundsnotfound}, please check the the log in {self.path_logs}\\{schematosearch}NotFounds.log file")
-                elif len(fundsnotfound)==0:
-                    print(f"INFO {self.client} {schematosearch} were not found")
-                else:
-                    print(f"INFO Mapping {schematosearch} OK")
-                    self.flag=True
+                            tupla_mapping = self.dfmapping['LEGACY SYSTEM'].unique()
+                            for i in tupla_order:
+                                if i in tupla_mapping:
+                                    toSearch=str(i).strip()
+                                    newvalue=self.mapping(self.dfmapping,toSearch)
+                                    self.dfmapping[fieldtosearch] = self.dfmapping[fieldtosearch].replace([i],newvalue)
+                                else:
+                                    recordnotfound.append(toSearch)
+                                    sw=False
+                          
+                    if len(recordnotfound)>0:
+                            print(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
+                            logging.info(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
+                            flag=False
+                    else:
+                        print(f"INFO Mapping {schematosearch} OK")
+                        logging.info(f"INFO Mapping {schematosearch} OK")
+                        print(f"{schematosearch} | counter")
+                        logging.info(f"{schematosearch}")
+                        logging.info(f"{schematosearch} | counter")
+                        if swpolines:
+                            print(self.dfPolines[fieldtosearch].value_counts())
+                            logging.info(self.dfPolines[fieldtosearch].value_counts()) 
+                        else:
+                            print(self.orders[fieldtosearch].value_counts())
+                            logging.info(self.orders[fieldtosearch].value_counts()) 
             else:
-                print(f"ERROR the {self.path_refdata}\composite_purchase_order_mapping.json")
-                self.flag=False
-                
-            return self.flag
+                print(f"field no exist, not mappend")
+                if schematosearch=='vendor':
+                   flag=False 
+            return flag
         except Exception as ee:
-            print(f"ERROR: Checking {schematosearch} // {ee}")
+            print(f"ERROR: Checking {schematosearch} // {ee}")                  
+            return flag                        
+                            
+                           
                                    
     def readcompositepurchaseorderMapping(self, **kwargs):
         try:
@@ -188,6 +240,11 @@ class compositePurchaseorders():
                 self.funds=self.customerName.importDataFrame(filetoload,sheetName="funds",dfname="Funds")
                 #print("Dataframe: Organization code to Change - optional")
                 self.organizationCodeToChange=self.customerName.importDataFrame(filetoload,sheetName="organizationCodeToChange", dfname="Organization Change Codes")
+                #mappingfile=self.path_refdata+"\\{client}_organizations.json"
+                #if os.path.exists(mappingfile):  
+                #    with open(mappingfile) as json_mappingfile:
+                #        OrganizationUUID=mf.readJsonfile(self.path_refdata,client+"_organizations.json","organizations",vendorToSearch,"code")
+                #        self.organizations = json.load(json_mappingfile)
             else:
                 self.flag=False
                 return self.flag
@@ -204,34 +261,40 @@ class compositePurchaseorders():
             return self.flag
     
     def readorders(self, client, **kwargs):
+        logging.info(f"INFO READING ORDERS")
         self.noprint=True
         self.client=client
         self.flag=True
+        self.po_countworse=0
+        self.po_count=0
         self.count=0
         countpol=0
         countpolerror=0
         self.countvendorerror=0
         self.countfoundrerror=0 
+        self.po_count_new_instance=0
         self.flag=self.readMappingfile()
         if self.flag:
             if 'dfOrders' in kwargs:      
                 self.orders=kwargs['dfOrders']
-                self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[0].code")
-                self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="vendor")
-                self.flag=self.checkingparameters(schematosearch="locations", fieldtosearch="compositePoLines[0].locations[0].locationId")
-                self.flag=self.checkspreadsheetvsdata(schematosearch="orderType", fieldtosearch="orderType")
-                self.flag=self.checkspreadsheetvsdata(schematosearch="orderFormat", fieldtosearch="compositePoLines[0].orderFormat")
-                self.flag=self.checkspreadsheetvsdata(schematosearch="paymentStatus", fieldtosearch="compositePoLines[0].paymentStatus")
-                self.flag=self.checkspreadsheetvsdata(schematosearch="receiptStatus", fieldtosearch="compositePoLines[0].receiptStatus")
-                self.flag=self.checkspreadsheetvsdata(schematosearch="workflowStatus", fieldtosearch="workflowStatus")
-                self.flag=self.checkspreadsheetvsdata(schematosearch="acquisitionMethod", fieldtosearch="compositePoLines[0].acquisitionMethod")
-                self.flag=True                    
-            if self.flag:
-                if 'dfOrders' in kwargs: 
-                    dfPolines=kwargs['dfPolines']
+                if 'dfPolines' in kwargs: 
+                    self.dfPolines=kwargs['dfPolines']
                 else:
-                    dfPolines=kwargs['dfOrders'] 
- 
+                    self.dfPolines=kwargs['dfOrders'] 
+                #PO
+                if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="vendor",dfmapping=self.organizationCodeToChange,swpolines=False)
+                if self.flag: self.flag=self.checkspreadsheetvsdata(schematosearch="workflowStatus", fieldtosearch="workflowStatus",dfmapping=self.workflowStatus,swpolines=False)
+                if self.flag: self.flag=self.checkspreadsheetvsdata(schematosearch="orderType", fieldtosearch="orderType",dfmapping=self.orderType,swpolines=False)                
+                #POLINES
+                if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[0].code",dfmapping=self.funds,swpolines=True)
+                if self.flag: self.flag=self.checkingparameters(schematosearch="fundsExpenseClass", fieldtosearch="compositePoLines[0].fundDistribution[0].expenseClassId",dfmapping=self.fundsExpenseClass,swpolines=True)
+                if self.flag: self.flag=self.checkingparameters(schematosearch="locations", fieldtosearch="compositePoLines[0].locations[0].locationId",dfmapping=self.locations,swpolines=True)
+                if self.flag: self.flag=self.checkspreadsheetvsdata(schematosearch="orderFormat", fieldtosearch="compositePoLines[0].orderFormat",dfmapping=self.orderFormat,swpolines=True)
+                if self.flag: self.flag=self.checkspreadsheetvsdata(schematosearch="paymentStatus", fieldtosearch="compositePoLines[0].paymentStatus",dfmapping=self.paymentStatus,swpolines=True)
+                if self.flag: self.flag=self.checkspreadsheetvsdata(schematosearch="receiptStatus", fieldtosearch="compositePoLines[0].receiptStatus",dfmapping=self.receiptStatus,swpolines=True)
+                if self.flag: self.flag=self.checkspreadsheetvsdata(schematosearch="acquisitionMethod", fieldtosearch="compositePoLines[0].acquisitionMethod",dfmapping=self.acquisitionMethod,swpolines=True)
+                
+            if self.flag:
                 if 'dfnotes' in kwargs:
                     self.dfnotes=kwargs['dfnotes']
                     #print(dfnotes)
@@ -258,9 +321,8 @@ class compositePurchaseorders():
                 orderList=[]      
                 orderDictionary={}      
                 list={}
-                dt = datetime.datetime.now()
-                self.dt=dt.strftime('%Y%m%d-%H-%M')
                 self.totalrows=len(self.orders)
+                logging.info(f"Orders Total Rows {self.totalrows}")
                 print(f"INFO ORDERS Total: {self.totalrows}") 
                 for i, row in self.orders.iterrows():
                     try:
@@ -272,6 +334,8 @@ class compositePurchaseorders():
                         Order={}
                         tic = time.perf_counter()
                         self.count+=1
+                        if self.count==15:
+                            a=1
                         #Order Number
                         poNumberSuffix=""
                         poNumberPrefix=""
@@ -349,9 +413,7 @@ class compositePurchaseorders():
                         reviewPeriod=""
                         ongoingNote=""
                         if 'orderType' in self.orders.columns:
-                            ot=str(row['orderType']).strip()
-                            result=""
-                            result=self.mapping(self.orderType,ot)
+                            result=str(row['orderType']).strip()
                             if result is not None:
                                 if result=="ongoing" or result=="Ongoing":
                                     Order_type="Ongoing"
@@ -384,40 +446,7 @@ class compositePurchaseorders():
                         organizationID=""
                         if 'vendor' in self.orders.columns:
                             if row['vendor']:
-                                vendorToSearch=str(row['vendor']).strip()
-                                #if vendorToSearch!="none" and vendorToSearch!="train":
-                                #    vendorToSearch=int(vendorToSearch)
-                                
-                                if len(self.organizationCodeToChange)>0:
-                                    result=""
-                                    result=self.mapping(self.organizationCodeToChange,vendorToSearch)
-                                    if result is not None:
-                                        vendorToSearch=result
-                                        OrganizationUUID=mf.readJsonfile(self.path_refdata,client+"_organizations.json","organizations",vendorToSearch,"code")
-                                        if OrganizationUUID is None:
-                                            mf.write_file(ruta=self.path_logs+"\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
-                                            self.countvendorerror+=1
-                                            #printpoline=False
-                                            self.noprint=False
-                                            organizationID="undefined"
-                                        else:
-                                            organizationID=OrganizationUUID[0]
-                                else:
-                                    OrganizationUUID=mf.readJsonfile(self.path_refdata,client+"_organizations.json","organizations",vendorToSearch,"code")
-                                    if OrganizationUUID is None:
-                                        mf.write_file(ruta=self.path_logs+"\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
-                                        self.countvendorerror+=1
-                                        #printpoline=False
-                                        self.noprint=False
-                                        organizationID="undefined"
-                                    else:
-                                        organizationID=OrganizationUUID[0]
-                            else:
-                                print(f"ERROR Organization id must be present ")
-                                printpoline=False
-                                self.noprint=False
-
-
+                                organizationID=str(row['vendor']).strip()
                         Order["vendor"]=organizationID
 
                         workflowStatus="Pending"
@@ -426,8 +455,7 @@ class compositePurchaseorders():
                         #row[0]
                         if field in self.orders.columns:
                             if row[field]:
-                                toSearch=str(row[field]).strip()
-                                workflowStatus=self.mapping(self.workflowStatus,toSearch)                        
+                                workflowStatus=str(row[field]).strip()                 
                                 if workflowStatus is not None:
                                     approvedStatus=True
                             
@@ -451,7 +479,7 @@ class compositePurchaseorders():
                         compositePo=""
                         #COMPOSITE_PO_LINES
                         if printpoline:
-                            compositePo=self.compositePoLines(dfPolines,organizationID,masterPo,poNumber,client)
+                            compositePo=self.compositePoLines(self.dfPolines,organizationID,masterPo,poNumber,client)
                             if compositePo is not None: 
                                 Order["compositePoLines"]=compositePo
                                 countpol+=1
@@ -478,19 +506,23 @@ class compositePurchaseorders():
                                 if self.nointance:
                                     mf.printObject(instanceOrder,self.path_results,self.count,f"{client}_purchaseOrderbyline_with_new_instance_{self.dt}",False)
                                     self.printstatus="New instance"
+                                    self.po_count_new_instance+=1
                                 else:
                                     mf.printObject(Order,self.path_results,self.count,f"{client}_purchaseOrderbyline_{self.dt}",False)
                                     purchase.append(Order)
                                     self.printstatus="Instance linked"
+                                    self.po_count+=1
 
                             else:
                                 mf.printObject(Worder,self.path_results,self.count,f"{client}_worse_purchaseOrderbyline_{self.dt}",False)
                                 self.printstatus="Worse"
+                                self.po_countworse+=1
                             myobj = datetime.datetime.now()
                             self.dobj=myobj.strftime('%T')
                             tend = time.perf_counter()
                             totaltime=round((tend - tini))    
                             print(f"{self.dobj} RECORD # {self.count}/{self.totalrows} created | printStatus: {self.printstatus} | Instance:{self.nointance} | poNumber:{poNumber} poLines:{self.poLineTotal} | {self.returnnotes} | (Time:{totaltime} sec.)") 
+                            logging.info(f"{self.dobj} RECORD # {self.count}/{self.totalrows} created | printStatus: {self.printstatus} | Instance:{self.nointance} | poNumber:{poNumber} poLines:{self.poLineTotal} | {self.returnnotes} | (Time:{totaltime} sec.)")
                             ordersidmapping={}
                             ordersidmapping["legacy_id"]=orderId
                             ordersidmapping["folio_id"]=poNumber
@@ -503,17 +535,26 @@ class compositePurchaseorders():
                     purchaseOrders['purchaseOrders']=purchase
                     report=[]
                     #report=reports(df=orders,plog=path_logs,pdata=path_results,file_report=f"{customerName}_purchaseself.orders.json",schema="purchaseOrders",dfFieldtoCompare=poLineNumberfield)
-        else:
-            print(f"ERROR critical does not exist {self.path_refdata}\\acquisitionMapping.xlsx file")
+            else:
+                print(f"ERROR critical does not exist {self.path_refdata}\\acquisitionMapping.xlsx file")
+                logging.info(f"ERROR critical does not exist {self.path_refdata}\\acquisitionMapping.xlsx file")
         if self.flag:
             mf.printObject(purchaseOrders,self.path_results,self.count,f"{client}_purchaseOrders_{self.dt}",True)
         print(f"============REPORT======================")
         print(f"RESULTS Record processed {self.count}")
-        print(f"RESULTS poLines {countpol}")
+        logging.info(f"RESULTS Record processed {self.count}")
+        print(f"RESULTS purchase orders {self.po_count}")
+        logging.info("RESULTS purchase orders {self.po_count}")
+        print(f"RESULTS purchase orders with new instance{self.po_count_new_instance}")
+        logging.info("RESULTS purchase orders with new instance{self.po_count_new_instance}")
+        print(f"RESULTS worse purchase  {self.po_countworse}")
+        logging.info(f"RESULTS worse purchase  {self.po_countworse}")
         print(f"RESULTS poLines with errors: {countpolerror}")
+        logging.info(f"RESULTS poLines with errors: {countpolerror}")
         print(f"RESULTS vendor with errors: {self.countvendorerror}")
-        print(f"RESULTS funds with errors: {self.countfoundrerror}")
+        logging.info(f"RESULTS funds with errors: {self.countfoundrerror}")
         print(f"RESULTS end")
+        logging.info(f"RESULTS end")
     
 #########################################
 #POLINES FUNCTION             
@@ -524,6 +565,7 @@ class compositePurchaseorders():
         
     def compositePoLines(self,poLines,vendors,masterPo,poLineNumber,client):
         try:
+            self.printnote=True
             cpList=[]
             self.po_LineNumber=""
             self.poLineTotal=0
@@ -562,7 +604,7 @@ class compositePurchaseorders():
                 acquisitionMethod="Purchase"
                 if field in poLines.columns:
                     if cprow[field]:
-                        result=self.mapping(self.acquisitionMethod,str(cprow[field]).strip())
+                        result=str(cprow[field]).strip()
                         if result is not None:
                             acquisitionMethod=result
                 cp["acquisitionMethod"]= acquisitionMethod
@@ -625,10 +667,8 @@ class compositePurchaseorders():
                 field="compositePoLines[0].orderFormat"     
                 if field in poLines.columns:
                     if cprow[field]:
-                        result=""
-                        result=self.mapping(self.orderFormat,str(cprow[field]).strip())
-                        if result is not None:
-                            orderFormat=result
+                        result=cprow[field]
+                        orderFormat=result
                 ###
                 #LOCATIONS(ORDER)
                 ################################
@@ -719,18 +759,21 @@ class compositePurchaseorders():
                         titleOrPackage=str(cprow[field]).strip()
                         titleUUID=str(cprow[field]).strip()
                         ordertitleUUID=self.get_title(client,element="instances",searchValue=titleUUID)
-                        if ordertitleUUID is not None:
-                            #print(f"    InstanceId / Title: {ordertitleUUID}")
-                            #self.ordertitleUUID=ordertitleUUID
-                            cp["instanceId"]=str(ordertitleUUID[0])
-                            cp["titleOrPackage"]=str(ordertitleUUID[1])
-                            cp["isPackage"]=False
-                        else: 
+                        if ordertitleUUID is None:
                             print(f"INFO Title: {titlepoLine}")
                             cp["titleOrPackage"]=titlepoLine
                             mf.write_file(ruta=f"{self.path_logs}\\titlesNotFounds.log",contenido=f"{self.po_LineNumber}  {titleUUID} {titlepoLine}")
                             self.createinstance(client,titlepoLine,titleUUID)                            
                             self.nointance=True
+                            self.printnote=False
+                        else: 
+                            #print(f"    InstanceId / Title: {ordertitleUUID}")
+                            #self.ordertitleUUID=ordertitleUUID
+                            cp["instanceId"]=str(ordertitleUUID[0])
+                            cp["titleOrPackage"]=str(ordertitleUUID[1])
+                            cp["isPackage"]=False
+                            self.nointance=False
+                            
                 else:
                     cp["titleOrPackage"]=titlepoLine
                     
@@ -1069,10 +1112,8 @@ class compositePurchaseorders():
                 field="compositePoLines[0].paymentStatus"
                 if field in poLines.columns:
                     if cprow[field]:
-                        result=""
-                        result=self.mapping(self.paymentStatus,str(cprow[field]).strip())
-                        if result is not None:
-                            paymentStatus=result
+                        result=str(cprow[field]).strip()
+                        paymentStatus=result
                 cp['paymentStatus']=paymentStatus
                 
                 descriptionnote=""
@@ -1094,12 +1135,9 @@ class compositePurchaseorders():
                 receiptDate=""                                    
                 field="compositePoLines[0].receiptStatus"
                 if field in poLines.columns:
-                    receiptStatus=cprow[field]
-                    result=""
-                    result=self.mapping(self.receiptStatus,str(cprow[field]).strip())
-                    if result is not None:
-                       receiptStatus=result
-                        
+                    if cprow[field]:
+                        receiptStatus=str(cprow[field]).strip()
+                    
                 cp["receiptStatus"]=receiptStatus
                 #cp["reportingCodes"]=dic(code="",id="",description="")
                 Requester=""
@@ -1155,19 +1193,24 @@ class compositePurchaseorders():
                 self.returnnotes="-"       
                 if self.swnotes:      #dataframe,toSearch,linkId):
                     masterPo="o"+masterPo
-                    self.returnnotes=self.customerName.readnotes(client,dataframe=self.dfnotes,toSearch=masterPo,linkId=linkId)
+                    if self.printnote:
+                        self.returnnotes=self.customerName.readnotes(client,dataframe=self.dfnotes,toSearch=masterPo,linkId=linkId,filenamenotes="_notes")
+                    else:
+                        self.returnnotes=self.customerName.readnotes(client,dataframe=self.dfnotes,toSearch=masterPo,linkId=linkId,filenamenotes="_notes_with_new_instance")
                 cpList.append(cp)
                 #cpList.append(linkid)
                 poCount+=1
             return cpList    
         except Exception as ee:
             print(ee)
-            print(self.poLineNumber)
+            print(self.po_LineNumber)
             mf.write_file(ruta=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")
+            logging.info(f"ERROR POLINE:{masterPo} | {self.po_LineNumber} | {ee}")   
         except ValueError:
-            print(self.poLineNumber)
+            print(self.po_LineNumber)
             mf.write_file(ruta=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")
             print(f"General Error on GET: {self.req.text} {self.req.status_code}")
+            logging.info(f"General Error on GET:{masterPo} | {self.po_LineNumber} | {ee}")   
 
     def mapping(self,dftoSearch,toSearch):
         try:
@@ -1231,10 +1274,12 @@ class compositePurchaseorders():
                     Newmpol=str(random.randint(100, 1000))
                     with open(path+"\oldNew_ordersID.txt", "a") as clean:
                         clean.write(str(value)+"/"+str(Newmpol)+"\n")
-                    value=Newmpol            
+                    logging.info(f"NEW PO NUMBER {value} | {Newmpol}")   
+                    value=Newmpol
             return value
         except Exception as ee:
-            print(f"INFO check_poNumber function failed {ee} field {field}")
+            print(f"INFO check_poNumber function failed {ee}")
+            
             
     def get_title(self,client,**kwargs):
         try:
@@ -1266,57 +1311,67 @@ class compositePurchaseorders():
             #data=json.dumps(payload)
             url = okapi_url + path
             req = requests.get(url, headers=okapi_headers)
-            try:
-                idhrid=[]
-                self.req.status_code=req.status_code
-                if req.status_code != 201:
-                    json_str = json.loads(req.text)
-                    self.req.text=req.text
-                    total_recs = int(json_str["totalRecords"])
-                    if (total_recs!=0):
-                        rec=json_str[element]
-                        #print(rec)
-                        l=rec[0]
-                        if 'id' in l:
-                            idhrid.append(l['id'])
-                            idhrid.append(l['title'])
-            except Exception as ee:
-                print(f"General Error on GET:{req.text} Error Number:  {req.status_code}")
-            return idhrid            
+            idhrid=[]
+            #print(req.text)
+            if req.status_code != 201:
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                if (total_recs!=0):
+                    rec=json_str[element]
+                    #print(rec)
+                    l=rec[0]
+                    if 'id' in l:
+                        idhrid.append(l['id'])
+                        idhrid.append(l['title'])
+                
+            if len(idhrid)==0:
+                return None
+            elif len(idhrid)>0:
+                return idhrid            
+            else:
+                return None
         except Exception as ee:
-            print(f"ERROR: mapping {ee}")    
+            print(f"ERROR: GET TITLE {ee}")
+            logging.info(f"ERROR: GET TITLE {ee}")    
+            
+            
     def createinstance(self, client,titleOrPackage,titleUUID):
-        print(f"INFO Creating instance for title {titleOrPackage} {titleUUID}")
-        instance= {
-                                    "id": str(uuid.uuid4()),
-                                    "_version": 1,
-                                    "source": "FOLIO",
-                                    "title": titleOrPackage,
-                                    "alternativeTitles": [],
-                                    "editions": [],
-                                    "series": [],
-                                    "identifiers": [
-                                        {"value": str(titleUUID),
-                                        "identifierTypeId": "5e1c71c5-c4ce-4585-a057-88eb3675f353"}
-                                        ],
-                                    "contributors": [],
-                                    "subjects": [],
-                                    "classifications": [],
-                                    "publication": [],
-                                    "publicationFrequency": [],
-                                    "publicationRange": [],
-                                    "electronicAccess": [],
-                                    "instanceTypeId": "30fffe0e-e985-4144-b2e2-1e8179bdb41f",
-                                    "instanceFormatIds": [],
-                                    "instanceFormats": [],
-                                    "physicalDescriptions": [],
-                                    "languages": [],
-                                    "notes": [],
-                                    "discoverySuppress": False,
-                                    "statisticalCodeIds": [],
-                                    "statusId": "26f5208e-110a-4394-be29-1569a8c84a65",
-                                    "tags": {"tagList": []},
-                                    "holdingsRecords2": [],
-                                    "natureOfContentTermIds": []
-                                    }
-        mf.printObject(instance,self.path_results,0,f"{client}_instances_{self.dt}",False)
+        try:
+            print(f"INFO Creating instance for title {titleOrPackage} {titleUUID}")
+            idinstance=str(uuid.uuid4())
+            instance= {
+                                        "id": idinstance,
+                                        "_version": 1,
+                                        "source": "FOLIO",
+                                        "title": titleOrPackage,
+                                        "alternativeTitles": [],
+                                        "editions": [],
+                                        "series": [],
+                                        "identifiers": [
+                                            {"value": str(titleUUID),
+                                            "identifierTypeId": "5e1c71c5-c4ce-4585-a057-88eb3675f353"}
+                                            ],
+                                        "contributors": [],
+                                        "subjects": [],
+                                        "classifications": [],
+                                        "publication": [],
+                                        "publicationFrequency": [],
+                                        "publicationRange": [],
+                                        "electronicAccess": [],
+                                        "instanceTypeId": "30fffe0e-e985-4144-b2e2-1e8179bdb41f",
+                                        "instanceFormatIds": [],
+                                        "instanceFormats": [],
+                                        "physicalDescriptions": [],
+                                        "languages": [],
+                                        "notes": [],
+                                        "discoverySuppress": False,
+                                        "statisticalCodeIds": [],
+                                        "statusId": "26f5208e-110a-4394-be29-1569a8c84a65",
+                                        "tags": {"tagList": []},
+                                        "holdingsRecords2": [],
+                                        "natureOfContentTermIds": []
+                                        }
+            logging.info(f"INFO: Title created {titleOrPackage} | {idinstance}") 
+            mf.printObject(instance,self.path_results,0,f"{client}_instances_{self.dt}",False)
+        except Exception as ee:
+            print(f"ERROR: GET TITLE {ee}")
