@@ -1,5 +1,4 @@
 import dataframe_class as pd
-import backup_restore as br
 import agreement_class as agree
 import users_class as users
 import notes_class as notes
@@ -73,7 +72,7 @@ def SearchClient(code_search):
         # Opening JSON file
         dic= {}
         pathfile=os.path.abspath(os.getcwd())
-        f = open(f"{pathfile}\\runenv\\okapi_customers.json","r")
+        f = open(f"{pathfile}\\runenv\\okapi_customers.json","r", encoding="utf-8")
         data = json.load(f)
         #print("INFO reading OKAPI DATA from okapi_customer.json file")
         for i in data['okapi']:
@@ -94,6 +93,89 @@ def SearchClient(code_search):
                 print(f"Error Search Okapi: {error}")
         return dic
     
+def get_one_schema(code_search):
+    valor=[]
+    try:
+        pathfile=os.path.abspath(os.getcwd())
+        f = open(f"{pathfile}\\runenv\\setting_data.json","r", encoding="utf-8")
+        data = json.load(f)
+        for i in data['settings']:
+            a_line=str(i)
+            if i['name'] == code_search:
+            #if (a_line.find(code_search) !=-1):
+                valor.append(i['pathPattern'])
+                valor.append(i['name'])
+                break
+        f.close()
+        return valor
+    except ValueError:
+        print("schema does not found")
+        return 0
+    
+def make_get(Pattern,okapi_url, okapi_tenant, okapi_token,queryString,json_file,refdatapath):
+    try:
+        dt = datetime.now()
+        dt=dt.strftime('%d_%m_%Y_%H_%M')
+        pathPattern=Pattern
+        okapi_url=okapi_url
+        json_file=json_file
+        okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+        #username="folio"
+        #password="Madison"
+        #payload = {'username': username, 'password': password}
+        length="99999"
+        #typein="General note Orders"
+        ##fc="&metadata.createdByUserId='2bd750b9-1362-4807-bd73-2be9d8d63436'"
+        start="0"
+        if queryString!="":
+            #paging_q = f"?limit={length}#&offset={start}"
+            paging_q = f"?limit={length}&query={queryString}" # f"/notes?query=type=="General note Orders""
+           #paging_q = f"?limit={length}&query=type=={typein}"
+           #paging_q = f"?limit={length}&domain=orders"
+        else:
+            paging_q = f"?limit={length}"
+            path = pathPattern+paging_q
+            #data=json.dumps(payload)
+            url = okapi_url + path
+            req = requests.get(url, headers=okapi_headers,timeout=40)
+    except requests.ConnectionError as e:
+           print("OOPS!! Connection Error. Make sure you are connected to Internet. Technical Details given below.\n")
+           print(str(e))            
+    except requests.Timeout as e:
+           print("OOPS!! Timeout Error")
+           print(str(e))
+    except requests.RequestException as e:
+           print("OOPS!! General Error")
+           print(str(e))
+    except KeyboardInterrupt:
+              print("Someone closed the program")
+    else:
+        if req.status_code != 201:
+            #print(req.encoding)
+            #print(req.text)
+            #print(req.headers)
+            if req.status_code==200:
+                #print(f"INFO Downloading schema: {Pattern} for {url} = {req}")
+                json_str = json.loads(req.text)
+                total_recs = int(json_str["totalRecords"])
+                printObject(json_str,refdatapath,0,f"{json_file}",True)
+                #archivo=open(json_file, 'w',encoding='utf8')
+                #
+                   #total_recs = int(json_str["totalRecords"])
+                   #archivo.write(json.dumps(json_str, indent=2))
+                   #archivo.write(json.dumps(json_str)+"\n")
+                   #print('Datos en formato JSON',json.dumps(json_str, indent=2))
+                   #archivo.close()
+                return total_recs
+            elif req.status_code==500:
+                print(req.text)
+            elif req.status_code==502:
+                print(req.text)
+            elif req.status_code==504:
+                print(req.text)
+            elif req.status_code==403:
+                print(req.text)
+                       
 def floatHourToTime(fh):
     h, r = divmod(fh, 1)
     m, r = divmod(r*60, 1)
@@ -364,8 +446,8 @@ class AcqErm():
                     try:
                     #(Pattern,okapi_url, okapi_tenant, okapi_token,queryString,json_file,path):
                         #print(arv)
-                        pattern=br.get_one_schema(str(arv))
-                        totalrecs=br.backup.make_get(pattern[0],self.x_okapi_url, self.x_okapi_tenant, self.x_okapi_token,queryString,f"{self.customerName}_{arv}",self.refdata_path)
+                        pattern=get_one_schema(str(arv))
+                        totalrecs=make_get(pattern[0],self.x_okapi_url, self.x_okapi_tenant, self.x_okapi_token,queryString,f"{self.customerName}_{arv}",self.refdata_path)
                         print(f"INFO schema: {arv} total records: {totalrecs}")
                     except Exception as ee:
                         print(f"ERROR: schema: {arv} {ee}")

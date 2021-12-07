@@ -77,6 +77,7 @@ class dataframe():
                     print(f"INFO File <<{self.dfname}>>")
                 #print(f"INFO columns in the file with legacy system fields Names  {self.df.columns}")
                 self.df = self.df.apply(lambda x: x.fillna(""))
+                
 
                 if self.mapping_file:
                     self.df_changed = self.changeColumns()
@@ -107,10 +108,56 @@ class dataframe():
         try:
             if 'poNumber' in self.df:
                 self.df['poNumber']=self.df['poNumber'].astype('string')
+                self.df['poNumber']=self.df['poNumber'].str.strip()           
             if 'code' in self.df:
                 self.df['code']=self.df['code'].astype('string')
+                self.df['code']=self.df['code'].str.strip()
             if 'vendor' in self.df:
                 self.df['vendor'] = self.df['vendor'].astype('string')
+                self.df['vendor'] = self.df['vendor'].str.strip()
+            if 'orderType' in self.df:
+                self.df['orderType'] = self.df['orderType'].astype('string')
+                self.df['orderType'] = self.df['orderType'].str.strip()
+            if 'workflowStatus' in self.df:
+                self.df['workflowStatus'] = self.df['workflowStatus'].astype('string')
+                self.df['workflowStatus'] = self.df['workflowStatus'].str.strip()
+            if 'compositePoLines[0].fundDistribution[0].code' in self.df:
+                self.df['compositePoLines[0].fundDistribution[0].code'] = self.df['compositePoLines[0].fundDistribution[0].code'].astype('string')
+                self.df['compositePoLines[0].fundDistribution[0].code'] = self.df['compositePoLines[0].fundDistribution[0].code'].str.strip()
+            if 'compositePoLines[0].fundDistribution[0].expenseClassId' in self.df:
+                self.df['compositePoLines[0].fundDistribution[0].expenseClassId'] = self.df['compositePoLines[0].fundDistribution[0].expenseClassId'].astype('string')
+                self.df['compositePoLines[0].fundDistribution[0].expenseClassId'] = self.df['compositePoLines[0].fundDistribution[0].expenseClassId'].str.strip()
+            if 'compositePoLines[0].locations[0].locationId' in self.df:
+                self.df['compositePoLines[0].locations[0].locationId'] = self.df['compositePoLines[0].locations[0].locationId'].astype('string')
+                self.df['compositePoLines[0].locations[0].locationId'] = self.df['compositePoLines[0].locations[0].locationId'].str.strip()
+            if 'compositePoLines[0].orderFormat' in self.df:
+                self.df['compositePoLines[0].orderFormat'] = self.df['compositePoLines[0].orderFormat'].astype('string')
+                self.df['compositePoLines[0].orderFormat'] = self.df['compositePoLines[0].orderFormat'].str.strip()
+            if 'compositePoLines[0].paymentStatus' in self.df:
+                self.df['compositePoLines[0].paymentStatus'] = self.df['compositePoLines[0].paymentStatus'].astype('string')
+                self.df['compositePoLines[0].paymentStatus'] = self.df['compositePoLines[0].paymentStatus'].str.strip()
+            if 'compositePoLines[0].receiptStatus' in self.df:
+                self.df['compositePoLines[0].receiptStatus'] = self.df['compositePoLines[0].receiptStatus'].astype('string')
+                self.df['compositePoLines[0].receiptStatus'] = self.df['compositePoLines[0].receiptStatus'].str.strip()
+            if 'compositePoLines[0].acquisitionMethod' in self.df:
+                self.df['compositePoLines[0].acquisitionMethod'] = self.df['compositePoLines[0].acquisitionMethod'].astype('string')
+                self.df['compositePoLines[0].acquisitionMethod'] = self.df['compositePoLines[0].acquisitionMethod'].str.strip()
+            if 'compositePoLines[0].eresource.materialType' in self.df:
+                self.df['compositePoLines[0].eresource.materialType'] = self.df['compositePoLines[0].eresource.materialType'].astype('string')
+                self.df['compositePoLines[0].eresource.materialType'] = self.df['compositePoLines[0].eresource.materialType'].str.strip()                
+            if 'compositePoLines[0].physical.materialType' in self.df:
+                self.df['compositePoLines[0].physical.materialType'] = self.df['compositePoLines[0].physical.materialType'].astype('string')
+                self.df['compositePoLines[0].physical.materialType'] = self.df['compositePoLines[0].physical.materialType'].str.strip() 
+            if 'LEGACY SYSTEM' in self.df:
+                self.df['LEGACY SYSTEM'] = self.df['LEGACY SYSTEM'].str.strip()
+                self.df['LEGACY SYSTEM'] = self.df['LEGACY SYSTEM'].str.strip()
+            if 'FOLIO' in self.df:
+                self.df['FOLIO'] = self.df['FOLIO'].str.strip()
+                self.df['FOLIO'] = self.df['FOLIO'].str.strip()
+                
+            
+                
+            
         except pd.errors.EmptyDataError:
             print(f"ERROR DATAFRAME distinct :{pd.errors.EmptyDataError}")
 

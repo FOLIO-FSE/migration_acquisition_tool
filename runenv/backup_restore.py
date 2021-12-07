@@ -659,12 +659,12 @@ def printbadrecords(data,custom,schemas):
     records={}
     records['errors']=data
     outfilename = json.dumps(records,indent=2)
-    with open("logs//"+custom+"_"+schemas+"_records_No_uploaded.json","w") as outfile:
+    with open("runenv//logs//"+custom+"_"+schemas+"_records_No_uploaded.json","w") as outfile:
         json.dump(records,outfile)
     outfile.close()
     
 def printworserecords(data,custom,schemas,file_name):
-    with open(f"logs//{custom}//{file_name}.json","a+") as outfile:
+    with open(f"runenv//logs//{custom}//{file_name}.json","a+") as outfile:
         outfile.write(json.dumps(data)+ "\n")
     outfile.close()
     
@@ -943,7 +943,8 @@ def Clients():
     try:
         # Opening JSON file
         dic=[]
-        f = open("okapi_customers.json",)
+        pathfile=os.path.abspath(os.getcwd())
+        f = open(f"{pathfile}\\runenv\\okapi_customers.json",)
         data = json.load(f)
         for i in data['okapi']:
             a_line=str(i)
@@ -956,7 +957,8 @@ def Clients():
 def schemas():
         # Opening JSON file
         dic=[]
-        f = open("setting_data.json",)
+        pathfile=os.path.abspath(os.getcwd())
+        f = open(f"{pathfile}\\runenv\\setting_data.json",)
         data = json.load(f)
         for i in data['settings']:
             a_line=str(i)
@@ -968,7 +970,8 @@ def get_one_schema(code_search):
     valor=[]
     try:
         #valor="0"
-        f = open("setting_data.json",)
+        pathfile=os.path.abspath(os.getcwd())
+        f = open(f"{pathfile}\\runenv\\setting_data.json",)
         data = json.load(f)
         for i in data['settings']:
             a_line=str(i)
@@ -995,7 +998,8 @@ def get_all_schemas(self,code_search):
 def SearchClient(code_search):
         # Opening JSON file
         dic =dic= {}
-        f = open("okapi_customers.json",)
+        pathfile=os.path.abspath(os.getcwd())
+        f = open(f"{pathfile}\\runenv\\okapi_customers.json",)
         data = json.load(f)
         for i in data['okapi']:
             a_line=str(i)
@@ -1042,8 +1046,8 @@ def main():
                 schema_name=str(sn)
                 paths=get_one_schema(schema_name)
                 load_data=os.path.abspath(os.getcwd())
-                path_data=f"{load_data}\\data"
-                path_refdata=f"{load_data}\\results\\{cuts_name}"
+                path_data=f"{load_data}\\runenv\\data"
+                path_refdata=f"{load_data}\\runenv\\results\\{cuts_name}"
                 if len(paths)>0:
                     print("the path has been found "+schema_name)
                     pathschema=paths[0]
