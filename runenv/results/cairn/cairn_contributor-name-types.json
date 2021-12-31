@@ -1,0 +1,38 @@
+{
+  "contributorNameTypes": [
+    {
+      "id": "2b94c631-fca9-4892-a730-03ee529ffe2a",
+      "name": "Personal name",
+      "ordering": "1",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:15.509+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:15.509+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "e8b311a6-3b21-43f2-a269-dd9310cb2d0a",
+      "name": "Meeting name",
+      "ordering": "3",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:15.511+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:15.511+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "2e48e713-17f3-4c13-a9f8-23845bb210aa",
+      "name": "Corporate name",
+      "ordering": "2",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:15.516+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:15.516+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    }
+  ],
+  "totalRecords": 3
+}

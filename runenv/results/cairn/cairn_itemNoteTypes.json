@@ -1,0 +1,148 @@
+{
+  "itemNoteTypes": [
+    {
+      "id": "f3ae3823-d096-4c65-8734-0c1efd2ffea8",
+      "name": "Electronic bookplate",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:20.816+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:20.816+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "8d0a5eca-25de-4391-81a9-236eeefdd20b",
+      "name": "Note",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:20.817+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:20.817+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "0e40884c-3523-4c6d-8187-d578e3d2794e",
+      "name": "Action note",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:20.821+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:20.821+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "acb3a58f-1d72-461d-97c3-0e7119e8d544",
+      "name": "Reproduction",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:20.824+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:20.824+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "c3a539b9-9576-4e3a-b6de-d910200b2919",
+      "name": "Provenance",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:20.826+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:20.826+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "87c450be-2033-41fb-80ba-dd2409883681",
+      "name": "Binding",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:20.831+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:20.831+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "1dde7141-ec8a-4dae-9825-49ce14c728e7",
+      "name": "Copy note",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-09-08T17:38:20.832+00:00",
+        "createdByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d",
+        "updatedDate": "2021-09-08T17:38:20.832+00:00",
+        "updatedByUserId": "ae65dd95-3ee2-4d1e-808b-c53ad8b5037d"
+      }
+    },
+    {
+      "id": "73e13d1d-bd04-47e2-a21f-492b6d082d4b",
+      "name": "Retention",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-11-16T14:40:54.616+00:00",
+        "createdByUserId": "ed078eb4-1a55-4425-93b1-144bf5429414",
+        "updatedDate": "2021-11-16T14:40:54.616+00:00",
+        "updatedByUserId": "ed078eb4-1a55-4425-93b1-144bf5429414"
+      }
+    },
+    {
+      "id": "b80c0023-f551-48ee-8866-35559803f737",
+      "name": "From Sierra",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-11-16T14:58:35.775+00:00",
+        "createdByUserId": "ed078eb4-1a55-4425-93b1-144bf5429414",
+        "updatedDate": "2021-11-16T14:58:35.775+00:00",
+        "updatedByUserId": "ed078eb4-1a55-4425-93b1-144bf5429414"
+      }
+    },
+    {
+      "id": "2a4d3e81-259d-4a55-b004-a7b689e71d73",
+      "name": "Missing On Search",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-11-16T15:00:37.759+00:00",
+        "createdByUserId": "ed078eb4-1a55-4425-93b1-144bf5429414",
+        "updatedDate": "2021-11-16T15:01:45.685+00:00",
+        "updatedByUserId": "ed078eb4-1a55-4425-93b1-144bf5429414"
+      }
+    },
+    {
+      "id": "b6ebace9-6757-43f4-b638-c683b265d333",
+      "name": "Condition",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-11-16T15:11:10.124+00:00",
+        "createdByUserId": "ed078eb4-1a55-4425-93b1-144bf5429414",
+        "updatedDate": "2021-11-16T15:11:10.124+00:00",
+        "updatedByUserId": "ed078eb4-1a55-4425-93b1-144bf5429414"
+      }
+    },
+    {
+      "id": "bd7279c5-1e8a-4209-8c2f-890a8ccae2b3",
+      "name": "TOT CHKOUT",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-11-20T19:20:01.959+00:00",
+        "createdByUserId": "26287f46-96bb-4297-8672-2340fc3325d5",
+        "updatedDate": "2021-11-20T19:20:01.959+00:00",
+        "updatedByUserId": "26287f46-96bb-4297-8672-2340fc3325d5"
+      }
+    },
+    {
+      "id": "69e1df28-c9f1-477e-aeca-2a0288cccf88",
+      "name": "INVDA",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-11-20T19:20:29.981+00:00",
+        "createdByUserId": "26287f46-96bb-4297-8672-2340fc3325d5",
+        "updatedDate": "2021-11-20T19:20:29.981+00:00",
+        "updatedByUserId": "26287f46-96bb-4297-8672-2340fc3325d5"
+      }
+    }
+  ],
+  "totalRecords": 13
+}

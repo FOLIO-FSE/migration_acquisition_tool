@@ -1,0 +1,588 @@
+{
+  "instanceNoteTypes": [
+    {
+      "id": "0dc69a30-6d2b-40df-a50e-e4982bda86f4",
+      "name": "Nota de información de la encuadernación",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:02.893+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:02.893+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "794f19f1-d00b-4b4b-97e9-0de5a34495a0",
+      "name": "Datos  matemáticos cartográficos",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:03.880+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:03.880+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "7929eee7-6822-4199-8df4-bb2ae773e4cd",
+      "name": "Nota de calidad de los datos",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:04.944+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:04.944+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "b73cc9c2-c9fa-49aa-964f-5ae1aa754ecd",
+      "name": "Nota de tesis",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:05.918+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:05.918+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "1cb8ac76-01fa-49be-8b9c-fcdaf17458a5",
+      "name": "Nota de información de entidad y sus atributos",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:06.888+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:06.888+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "6a2533a7-4de2-4e64-8466-074c2fa9308c",
+      "name": "Nota general",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:08.688+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:08.688+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "13047c94-7d2c-4c41-9658-abacfa97a5c8",
+      "name": "Nota de información sobre la documentación",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:09.547+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:09.547+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "49475f04-35ef-4f8a-aa7f-92773594ca76",
+      "name": "Nota de entidad emisora",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:10.395+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:10.395+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "c6340b85-d048-426a-89aa-163cfb801a56",
+      "name": "Nota de localización de originales/duplicados",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:11.347+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:11.347+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "02b5b0c6-3375-4912-ac75-ad9f552362b2",
+      "name": "Nota de metodología",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:12.190+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:12.190+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "06489647-c7b7-4b6c-878a-cb7c1178e9ca",
+      "name": "Nota de información del programa de estudio",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:13.036+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:13.036+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "10e2e11b-450f-45c8-b09b-0f819999966e",
+      "name": "Nota de resumen",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:13.869+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:13.869+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "95f62ca7-5df5-4a51-9890-d0ec3a34665f",
+      "name": "Nota de detalles del sistema",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:14.750+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:14.750+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "f677d908-69c6-4450-94a6-abbcf94a1ee5",
+      "name": "Nota de condiciones de uso y reproducción",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:15.595+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:15.595+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "f939b820-4a23-43d1-84ba-101add6e1456",
+      "name": "Nota de tipo de reporte y período cubierto",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:16.521+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:16.521+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "06b44741-888e-4b15-a75e-cb29e27752d1",
+      "name": "Nota de encuadernado o publicado con",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:17.348+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:17.348+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "1c7acba3-523d-4237-acd2-e88549bfc660",
+      "name": "Nota de acumulación y fecuencia de uso.",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:18.178+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:18.178+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "1d51e8b2-dee7-43f5-983c-a40757b9cdfa",
+      "name": "Nota de formato físico adicional disponible",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:19.118+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:19.118+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "fda2f2e3-965f-4220-8a2b-93d35ce6d582",
+      "name": "Nota de índices acumulativos/herramientas de recuperación",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:19.959+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:19.959+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "43295b78-3bfa-4c28-bc7f-8d924f63493f",
+      "name": "Nota de fecha/hora y lugar de un evento",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:20.922+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:20.922+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "806cb024-80d2-47c2-8bbf-b91091c85f68",
+      "name": "Nota de relación compleja con el título anterior",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:21.891+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:21.891+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "265c4910-3997-4242-9269-6a4a2e91392b",
+      "name": "Notas locales",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:22.733+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:22.733+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "1c017b8d-c783-4f63-b620-079f7a5b9c07",
+      "name": "Nota de acción",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:23.767+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:23.767+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "c636881b-8927-4480-ad1b-8d7b27b4bbfe",
+      "name": "Datos biográficos o históricos",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:24.591+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:24.591+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "ec9f8285-6bf9-4e6c-a3cb-38ef17f0317f",
+      "name": "Nota de identificación de ejemplar y versión",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:25.424+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:25.424+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "9b56b954-7f3b-4e4b-8ed0-cf40aef13975",
+      "name": "Nota de participante o intérprete",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:26.267+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:26.267+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "aecfda7a-e8aa-46d6-9046-9b0b8c231b85",
+      "name": "Nota de suplemento",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:27.103+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:27.103+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "3d931c23-6ae8-4e5a-8802-dc8c2e21ea19",
+      "name": "Nota de tipo de archivo o datos de computador",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:28.070+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:28.070+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "6f76f4e7-9c0b-4138-9371-09b36136372d",
+      "name": "Nota de características del archivo de casos",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:29.029+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:29.029+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "6ca9df3f-454d-4b5b-9d41-feb5d5030b99",
+      "name": "Nota de citas o referencias bibliográficas",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:29.873+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:29.873+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "9f08c9b7-500a-43e0-b00f-ba02396b198f",
+      "name": "Nota de créditos de creación/producción",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:30.700+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:30.700+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "5ba8e385-0e27-462e-a571-ffa1fa34ea54",
+      "name": "Nota de contenido con formato preestablecido",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:31.636+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:31.636+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "42be8949-6f69-4c55-874b-60b744ac1103",
+      "name": "Nota de versión original",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:32.518+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:32.518+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "e814a32e-02da-4773-8f3a-6629cdb7ecdf",
+      "name": "Nota de restricciones de acceso",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:33.341+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:33.341+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "66ea8f28-d5da-426a-a7c9-739a5d676347",
+      "name": "Nota de la fuente de la descripción",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:34.183+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:34.183+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "a6a5550f-4981-4b48-b821-a57d5c8ca3b3",
+      "name": "Nota de Accesibilidad",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:35.016+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:35.016+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "e8cdc2fe-c53c-478a-a7f3-47f2fc79c6d4",
+      "name": "Nota de premios",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:35.847+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:35.847+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "86b6e817-e1bc-42fb-bab0-70e7547de6c1",
+      "name": "Nota de bibliografía",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:36.670+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:36.670+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "0ed2da88-3f81-42f5-b688-91b70919d9bb",
+      "name": "Nota de exposiciones",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:37.500+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:37.500+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "28e12ad3-4a8d-48cc-b56c-a5ded22fc844",
+      "name": "Nota de cobertura geográfica",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:38.329+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:38.329+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "86c4bd09-16de-45ee-89d3-b6d32fae6de9",
+      "name": "Nota de fuente inmediata de adquisición",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:39.155+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:39.155+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "654be0fd-bba2-4791-afa3-ae60300d7043",
+      "name": "Información relacionada al estado del copyright",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:39.982+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:39.982+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "7356cde5-ec6b-4961-9cb0-961c48a37af4",
+      "name": "Nota de idioma",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:40.815+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:40.815+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "779c22a2-311c-4ebb-b71e-b246c7ee574d",
+      "name": "Nota de relación compleja del asiento ligado",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:41.658+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:41.658+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "9a4b39f4-a7d5-4c4d-abc6-5ccf1fc1d78c",
+      "name": "Nota de ubicación de otros materiales de archivo",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:42.724+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:42.724+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "cf635f41-29e7-4dd0-8598-33f230157074",
+      "name": "Nota de peculiaridades de la numeración",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:43.550+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:43.550+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "56cf513e-a738-40c5-a3ab-b0c60ba07e15",
+      "name": "Nota sobre la historia de la propiedad y custodia",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:44.378+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:44.378+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "09812302-92f7-497e-9120-ed25de458ea5",
+      "name": "Nota de citación preferida de los materiales descritos",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:45.207+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:45.207+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "e0ea861c-959f-4912-8579-5e9ea8a69454",
+      "name": "Nota de publicaciones sobre los materiales descritos",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:46.030+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:46.030+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "72c611ab-f353-4c09-a0cc-33ff96cc3bef",
+      "name": "Nota de escala para material gráfico",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:47.733+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:47.733+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "922fdcde-952d-45c2-b9ea-5fc8959ad116",
+      "name": "Nota de audiencia",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:48.583+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-17T03:28:48.583+00:00",
+        "updatedByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd"
+      }
+    },
+    {
+      "id": "d548fdff-b71c-4359-8055-f1c008c30f01",
+      "name": "Nota de reproduccion",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:46.904+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-26T17:28:17.986+00:00",
+        "updatedByUserId": "ecae83e3-bc97-4271-b47f-99e77b1d791e"
+      }
+    },
+    {
+      "id": "f289c02b-9515-4c3f-b242-ffd071e82135",
+      "name": "Nota de informacion sobre financiamiento",
+      "source": "folio",
+      "metadata": {
+        "createdDate": "2021-11-17T03:28:07.729+00:00",
+        "createdByUserId": "8c9dfc73-3719-4989-9786-d4a8d3c788fd",
+        "updatedDate": "2021-11-26T17:34:04.293+00:00",
+        "updatedByUserId": "ecae83e3-bc97-4271-b47f-99e77b1d791e"
+      }
+    }
+  ],
+  "totalRecords": 53
+}

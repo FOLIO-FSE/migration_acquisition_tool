@@ -71,8 +71,8 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
 def SearchClient(code_search):
         # Opening JSON file
         dic= {}
-        pathfile=os.path.abspath(os.getcwd())
-        f = open(f"{pathfile}\\runenv\\okapi_customers.json","r", encoding="utf-8")
+        pathfile=os.path.dirname(os.path.realpath(__file__))
+        f = open(f"{pathfile}\\okapi_customers.json","r", encoding="utf-8")
         data = json.load(f)
         #print("INFO reading OKAPI DATA from okapi_customer.json file")
         for i in data['okapi']:
@@ -96,8 +96,8 @@ def SearchClient(code_search):
 def get_one_schema(code_search):
     valor=[]
     try:
-        pathfile=os.path.abspath(os.getcwd())
-        f = open(f"{pathfile}\\runenv\\setting_data.json","r", encoding="utf-8")
+        pathfile=os.path.dirname(os.path.realpath(__file__))
+        f = open(f"{pathfile}\\setting_data.json","r", encoding="utf-8")
         data = json.load(f)
         for i in data['settings']:
             a_line=str(i)
@@ -240,9 +240,9 @@ def okapiPath(code_search):
         valor=[]
         try:
             #valor="0"
-            pathfile=os.path.abspath(os.getcwd())
+            pathfile=os.path.dirname(os.path.realpath(__file__))
             
-            f = open(f"{pathfile}\\runenv\\setting_data.json",)
+            f = open(f"{pathfile}\\setting_data.json",)
             data = json.load(f)
             for i in data['settings']:
                 a_line=str(i)
@@ -298,17 +298,18 @@ class AcqErm():
         self.exist=True
         now = datetime.now()
         client={}
-        path=os.path.abspath(os.getcwd())
+        path=os.path.dirname(os.path.realpath(__file__))
         self.path_original=path
         x=path.find("runenv")
-        self.path=path
+        self.path=path[:46]
         self.path_dir=f"{self.path}\\client_data\\{self.customerName}"
         self.createDirectory(self.path_dir)
         self.path_data=f"{self.path_dir}\\data"
         self.path_refdata=f"{self.path_dir}\\refdata"
         self.path_logs=f"{self.path_dir}\\logs"
         self.path_results=f"{self.path_dir}\\results"
-        folder=["logs","results","data","refdata"]
+        self.path_mapping_files=f"{self.path_dir}\\mapping_files"
+        folder=["logs","results","data","refdata","mapping_files"]
         print("\n"+"Folders CLIENT_DATA")
         date_time = now.strftime("%m_%d_%y_(%H_%M)")
         for arg in folder:
@@ -316,27 +317,7 @@ class AcqErm():
                 os.mkdir(f"{self.path_dir}\{arg}")
                 print(f"INFO creating folder {arg} for {self.customerName}")
                 self.exist=False
-                if arg=="logs":
-                    errorVendors=open(f"{self.path_dir}\{arg}\\vendorsNotFounds.log", 'w')
-                    errorLocations=open(f"{self.path_dir}\{arg}\\locationsNotFounds.log", 'w')
-                    errorProvider=open(f"{self.path_dir}\{arg}\\providerNotFounds.log", 'w')
-                    errorMatProvider=open(f"{self.path_dir}\{arg}\\materialProviderNotFounds.log", 'w')
-                    errorTitles=open(f"{self.path_dir}\{arg}\\titlesNotFounds.log", 'w')
-                    errorMaterialtype=open(f"{self.path_dir}\{arg}\\materialTypeNotFounds.log", 'w')
-                    poClean=open(f"{self.path_dir}\{arg}\\oldNew_ordersID.log", "w")
-                    errornofound=open(f"{self.path_dir}\{arg}\\fundsNotfounds.log", "w")
-                    errornoexpenses=open(f"{self.path_dir}\{arg}\\expensesNotfounds.log", "w")
-                    errorAdq=open(f"{self.path_dir}\{arg}\\AdqNotFounds.log", 'w')
-                    errorrecordNotcreated=open(f"{self.path_dir}\{arg}\\recordNotcreated.log","w")
-                    errorrecordNotcreated=open(f"{self.path_dir}\{arg}\\licenseNotfound.log","w")
-                elif arg=="results":
-                    purchaseOrderbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_purchaseorderbyline", 'w')
-                    organizationbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_organizationsbyline", 'w')
-                    agreementbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_agreementbyline", 'w')
-                    licensebyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_licensebyline", 'w')
-                    #userbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_userbyline", 'w')
-                    notesbyline=open(f"{self.path_dir}\{arg}\\{self.customerName}_notesbyline", 'w')
-                elif arg=="refdata":
+                if arg=="mapping_files":
                     shutil.copy(f"{self.path_original}\\loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
                     dic= []
                     loadset={}
@@ -350,6 +331,7 @@ class AcqErm():
                         i['path_logs']=f"{self.path_logs}"
                         i['path_refdata']=f"{self.path_refdata}"
                         i['path_data']=f"{self.path_data}"
+                        i['mapping_files']=f"{self.path_mapping_files}"
                     dic.append(i)
                     loadset['loadSetting']=dic
                     f.close
@@ -376,7 +358,7 @@ class AcqErm():
                
             except OSError as error: 
                 print(f"INFO client folder /{arg} for {self.customerName} found")
-                if arg=="refdata":
+                if arg=="mapping_files":
                     try:
                         if os.path.exists(f"{self.path_dir}\{arg}\loadSetting.json"):
                             pass
@@ -394,6 +376,7 @@ class AcqErm():
                                 i['path_logs']=f"{self.path_dir}\\logs"
                                 i['path_refdata']=f"{self.path_dir}\\refdata"
                                 i['path_data']=f"{self.path_dir}\\data"
+                                i['path_mapping_files']=f"{self.path_dir}\\mapping_files"
                             dic.append(i)
                             loadset['loadSetting']=dic
                             f.close
@@ -700,7 +683,7 @@ class AcqErm():
         #CUSTOMER CONFIGURATION FILE (PATHS, PURCHASE ORDER FILE NAME AND FILTERS)
         #path_root=f"{kwargs['rootpath']}"
         #customerName=kwargs['customerName']
-        f = open(f"{self.path_refdata}\\loadSetting.json",)
+        f = open(f"{self.path_mapping_files}\\loadSetting.json",)
         settingdata = json.load(f)
         countpol=0
         countpolerror=0
@@ -733,7 +716,7 @@ class AcqErm():
             print("\n"+f"INFO file to import found: {load_file}")
             return lf
         else:
-            print(f"Error: Opps the {self.value} file Name is not include in {self.path_refdata}\loadSetting.json  file, please include the {self.value} file name to continue")
+            print(f"Error: Opps the {self.value} file Name is not include in {self.mapping_files}\loadSetting.json  file, please include the {self.value} file name to continue")
             return None
           
     def json_validator(self,data):
@@ -2718,7 +2701,28 @@ def readJsonfile_mls(path,json_file,schema):
             printObject(id+","+name,path,str(count),"michigan_location_codes",False)
     except Exception as err:
         print("error ", str(err))
-        
+
+def jsontotupla(**kwargs):
+    tupla=[]
+    schema=kwargs['schema']
+    json_file=kwargs['json_file']
+    with open(json_file, "r", encoding="utf") as file_j:
+        data = json.load(file_j)
+        for i in data[schema]:
+            if 'id' in i:
+                id=i['id']
+            if 'name' in i:
+                name=i['name']
+            if 'code' in i:
+                code=i['code']
+            else:
+                code="None"
+            tupla.append([id,code,name,data])
+    #print(tupla)
+    return tupla
+
+
+    
 def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
     try:
         filetoload=f"{path}\\{json_file}"

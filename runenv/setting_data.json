@@ -207,7 +207,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "callNumberTypes",
+            "name": "call-number-types",
             "pathPattern": "/call-number-types",
             "app": "inventory",
             "type": "ref",
@@ -223,7 +223,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "circulation_rules",
+            "name": "circulation-rules-storage",
             "pathPattern": "/circulation-rules-storage",
             "app": "inventory",
             "type": "ref",
@@ -231,7 +231,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "classificationTypes",
+            "name": "classification-types",
             "pathPattern": "/classification-types",
             "app": "inventory",
             "type": "ref",
@@ -239,7 +239,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "contributorNameTypes",
+            "name": "contributor-name-types",
             "pathPattern": "/contributor-name-types",
             "app": "inventory",
             "type": "ref",
@@ -247,7 +247,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "contributorTypes",
+            "name": "contributor-types",
             "pathPattern": "/contributor-types",
             "app": "inventory",
             "type": "ref",
@@ -263,7 +263,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "counter_report",
+            "name": "counter-reports",
             "pathPattern": "/counter-reports",
             "app": "inventory",
             "type": "",
@@ -376,7 +376,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "identifierTypes",
+            "name": "identifier-types",
             "pathPattern": "/identifier-types",
             "app": "inventory",
             "type": "ref",
@@ -392,7 +392,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "holdingsTypes",
+            "name": "holdings-types",
             "pathPattern": "/holdings-types",
             "app": "inventory",
             "type": "ref",
@@ -408,7 +408,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "instanceFormats",
+            "name": "instance-formats",
             "pathPattern": "/instance-formats",
             "app": "inventory",
             "type": "ref",
@@ -424,7 +424,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "instanceTypes",
+            "name": "instancetypes",
             "pathPattern": "/instance-types",
             "app": "inventory",
             "type": "ref",
@@ -574,7 +574,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "issuanceModes",
+            "name": "modes-of-issuance",
             "pathPattern": "/modes-of-issuance",
             "app": "inventory",
             "type": "ref",
@@ -598,7 +598,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "natureOfContentTerms",
+            "name": "nature-of-content-terms",
             "pathPattern": "/nature-of-content-terms",
             "app": "inventory",
             "type": "ref",

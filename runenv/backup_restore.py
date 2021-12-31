@@ -602,7 +602,12 @@ def make_post_byline(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file,
 
 def make_post(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file, schema,client):
         try:
+            #myobj = datetime.datetime.now()
+            #dobj=myobj.strftime('%T')
+            tend = time.perf_counter()
+            
             now = datetime.now()
+            dobj=now
             error=[]
             count=0
             #rec={}
@@ -620,14 +625,15 @@ def make_post(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file, schema
             date_time = now.strftime("%m_%d_%y_(%H_%M)")
             for i in data[schema]:
                 try:
+                    tini = time.perf_counter()
                     j_content=i
                     #print(j_content)
                     #j_content =json.loads(line)
                     countrecord+=1
                     #print("Record no: "+str(countrecord))
                     url = okapi_url + path
-                    tini = time.perf_counter()
                     req = requests.post(url, json=j_content, headers=okapi_headers,timeout=40)
+                    tend = time.perf_counter()
                     #print(req.status_code)
                     #print(req.text)
                     code=str(req.status_code)
@@ -639,11 +645,11 @@ def make_post(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file, schema
                         #cod=json_strErr['errors'][0]['code']
                         printErrorMessages(str(countrecord),j_content, outfile,client, schema,date_time)
                     elif  code=="5":
-                        print(str(countrecord)+" Record: "+str(id)+" not imported")
+                        print(f"{dobj} Record: {countrecord} not imported  ({totaltime} seconds)")
                         printworserecords(j_content,client,schema,date_time+"http_error_500")
                     else:
-                        tend = time.perf_counter()
-                        print(str(countrecord)+" Record: "+str(id)+" imported")
+                        totaltime=round((tend - tini))
+                        print(f"{dobj} Record: {countrecord} imported  ({totaltime} seconds)")
                         count+=1
                     id+=1
                 except Exception as ee:
@@ -807,7 +813,7 @@ def make_put_byline(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file, 
                 for line in data:
                     line= data.readline()
                     line=line.replace("\n","")
-                    idreplace=line[8:44]
+                    idreplace=line[:44]
                     #print(line)
                     path=path.replace("{id}",idreplace)
                     j_content =json.loads(line)
@@ -943,8 +949,8 @@ def Clients():
     try:
         # Opening JSON file
         dic=[]
-        pathfile=os.path.abspath(os.getcwd())
-        f = open(f"{pathfile}\\runenv\\okapi_customers.json",)
+        pathfile=os.path.dirname(os.path.realpath(__file__))
+        f = open(f"{pathfile}\\okapi_customers.json",)
         data = json.load(f)
         for i in data['okapi']:
             a_line=str(i)
@@ -957,8 +963,8 @@ def Clients():
 def schemas():
         # Opening JSON file
         dic=[]
-        pathfile=os.path.abspath(os.getcwd())
-        f = open(f"{pathfile}\\runenv\\setting_data.json",)
+        pathfile=os.path.dirname(os.path.realpath(__file__))
+        f = open(f"{pathfile}\\setting_data.json",)
         data = json.load(f)
         for i in data['settings']:
             a_line=str(i)
@@ -970,8 +976,8 @@ def get_one_schema(code_search):
     valor=[]
     try:
         #valor="0"
-        pathfile=os.path.abspath(os.getcwd())
-        f = open(f"{pathfile}\\runenv\\setting_data.json",)
+        pathfile=os.path.dirname(os.path.realpath(__file__))
+        f = open(f"{pathfile}\\setting_data.json",)
         data = json.load(f)
         for i in data['settings']:
             a_line=str(i)
@@ -998,8 +1004,8 @@ def get_all_schemas(self,code_search):
 def SearchClient(code_search):
         # Opening JSON file
         dic =dic= {}
-        pathfile=os.path.abspath(os.getcwd())
-        f = open(f"{pathfile}\\runenv\\okapi_customers.json",)
+        pathfile=os.path.dirname(os.path.realpath(__file__))
+        f = open(f"{pathfile}\\okapi_customers.json",)
         data = json.load(f)
         for i in data['okapi']:
             a_line=str(i)
@@ -1045,9 +1051,9 @@ def main():
                 #print("searching the path in setting file...")
                 schema_name=str(sn)
                 paths=get_one_schema(schema_name)
-                load_data=os.path.abspath(os.getcwd())
-                path_data=f"{load_data}\\runenv\\data"
-                path_refdata=f"{load_data}\\runenv\\results\\{cuts_name}"
+                load_data=os.path.dirname(os.path.realpath(__file__))
+                path_data=f"{load_data}\\data"
+                path_refdata=f"{load_data}\\results\\{cuts_name}"
                 if len(paths)>0:
                     print("the path has been found "+schema_name)
                     pathschema=paths[0]

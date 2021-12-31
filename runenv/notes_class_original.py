@@ -10,7 +10,6 @@ import requests
 import io
 import math
 import csv
-import datetime
 import time
 import random
 import logging
@@ -21,7 +20,6 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
 import functions_AcqErm as mf
-import logging
 
 ################################################
 ### NOTES
@@ -30,9 +28,6 @@ import logging
 class notes():
     def __init__(self,client,path_dir, **kwargs):
         if 'dataframe' in kwargs:
-            dt = datetime.datetime.now()
-            self.dtnote=dt.strftime('%Y%m%d-%H-%M') 
-                        
             self.notes= kwargs['dataframe']
             self.customerName=client
             #os.mkdir(f"{path_dir}\\results")
@@ -43,26 +38,19 @@ class notes():
             self.path_logs=f"{path_dir}\\logs"
             #os.mkdir(f"{path_dir}\\refdata")
             self.path_refdata=f"{path_dir}\\refdata"
-            self.path_mapping_files=f"{path_dir}\\mapping_files"
-            logging.basicConfig(filename=f"{self.path_logs}\\notes.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
-            
             self.valuetitle=""
             self.valuetypeId=""
             self.valuedomainId=""
             v=""
             typev=""
             typed=""
-            logging.info(f"INFO NOTES LOG {client}") 
-            mappingfile=self.path_mapping_files+"\\notes_mapping.json"
+            mappingfile=self.path_refdata+"\\notes_mapping.json"
             if os.path.exists(mappingfile):  
                 with open(mappingfile) as json_mappingfile:
                     self.mappingdata = json.load(json_mappingfile)
-                logging.info(f"INFO Reading {mappingfile} OK") 
             else:
-                print("INFO Notes Script: include: {self.path_mapping_files}\\notes_mapping.json file")
-                logging.info(f"INFO Reading {mappingfile} ERROR") 
+                print("INFO Notes Script: include: {self.path_refdata}\\notes_mapping.json file")
                 flag=False
-                
             
             return          
                         
@@ -70,7 +58,6 @@ class notes():
     #(uuidOrg,typeId,customerName,15,16,17)
     #client,self.path_dir
     def readnotes(self,client,**kwargs): #dataframe,toSearch,linkId):
-        notes={}
         self.totalnotes=0
         if 'toSearch' in kwargs:
             toSearch=str(kwargs['toSearch']).strip()
@@ -84,7 +71,6 @@ class notes():
         noprint=False
         #print(self.notes['code'])
         dfnote = self.notes[self.notes['code']== str(toSearch)]
-        #dfnote = self.notes[self.notes['code']== str(toSearch)]
         self.totalnotes=len(dfnote)
         #print(f"INFO Notes for :{toSearch} =>{totalnotes} records")
         field="typeId"
@@ -97,52 +83,47 @@ class notes():
         valuenote=self.readmappingjson(folio_field=field)
         if valuenote:
             self.valuedomainId=valuenote.get("value")
-            notes["typeId"]=self.valuetypeId
         returnNote=[]
-        l=[]
-        linkType=""
-        cont=""
-        if self.valuetypeId:
-            cate=mf.readJsonfile(self.path_refdata,client+"_noteTypes.json","noteTypes",self.valuetypeId,"id")
-            if cate is None:
-                mf.write_file(ruta=self.path_logs+"\\notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
-                noteType=""
-        contall=""
-        noprint=False
-        if 'linkId' in kwargs:
-            linkId=str(kwargs['linkId']).strip()
-        if 'idold' in kwargs:
-            notes["id"]=str(kwargs['idold'])
-        else:  
-            notes["id"]=str(uuid.uuid4())
-        noteType=cate[1]    
-        notes['type']=noteType
-
         for i, nrow in dfnote.iterrows():
+            notes={}
+            l=[]
+            linkType=""
+            cont=""
             try:
                 countnote+=1
-                
-                if self.valuetitle: notes["title"]=self.valuetitle
-                else: notes["title"]="Notes"
-                if self.valuedomainId: 
-                    notes["domain"]=self.valuedomainId
-                    if self.valuedomainId.upper()=="ORGANIZATIONS":
-                        linkType="organization"
-                    elif self.valuedomainId.upper()=="ORDERS":
-                        linkType="poLine"
-                    elif self.valuedomainId.upper()=="LICENSES":
-                        linkType="license"
-                    elif self.valuedomainId.upper()=="AGREEMENTS":
-                        linkType="agreement"
+
+                if self.valuetypeId: 
+                    notes["typeId"]=self.valuetypeId
+                    cate=mf.readJsonfile(self.path_refdata,client+"_noteTypes.json","noteTypes",self.valuetypeId,"id")
+                    if cate is None:
+                        mf.write_file(ruta=self.path_logs+"\\notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
+                        noteType=""
                     else:
-                        linkType="error"
-                        return 
-                else: 
-                    notes["domain"]=""
-                iter=0
-                sw=True
-                cont=""
-                while sw:
+                        noteType=cate[1]
+                        noprint=False
+                        notes["id"]=str(uuid.uuid4())
+                        notes['type']=noteType
+                        if self.valuetitle: notes["title"]=self.valuetitle
+                        else: notes["title"]="Notes"
+                        if self.valuedomainId: 
+                            notes["domain"]=self.valuedomainId
+                            if self.valuedomainId.upper()=="ORGANIZATIONS":
+                                linkType="organization"
+                            elif self.valuedomainId.upper()=="ORDERS":
+                                linkType="poLine"
+                            elif self.valuedomainId.upper()=="LICENSES":
+                                linkType="license"
+                            elif self.valuedomainId.upper()=="AGREEMENTS":
+                                linkType="agreement"
+                            else:
+                                linkType="error"
+                                return 
+                        else: 
+                            notes["domain"]=""
+                        iter=0
+                        sw=True
+                        cont=""
+                        while sw:
                             field=f"content[{iter}]"
                             info=""
                             if field in dfnote.columns:
@@ -164,36 +145,23 @@ class notes():
                                             if valuenote:
                                                 notecaption=valuenote.get("legacy_field")
                                             info=str(info).strip()
-                                            cont=cont+f"<li><strong>{notecaption}:</strong> {info}</li>"
+                                            cont=cont+f"{notecaption}: {info} "
                             else:
                                 sw=False
                             iter+=1
+                        if cont is not None:
+                            if cont!="":
+                                notes["content"]=cont
+                                noprint=True
+                        l.append(mf.dic(id=linkId,type=linkType))
+                        notes["links"]=l
+                if noprint:
+                    mf.printObject(notes,self.path_results,countnote,client+f"_{filenamenotes}",False)
+                else:
+                    mf.printObject(notes,self.path_results,countnote,client+f"worse_notes_without_content",False)
             except Exception as ee:
-                print(f"ERROR: Notes Class {ee}")
-                        
-            if cont is not None:
-                if cont!="":
-                    noprint=True
-                    #print(f" {cont}")
-                    contall=contall+cont+"\n"
-                    cont=""        
-
-        #print(contall)
-        if self.totalnotes>0:
-            notes["content"]=f"<ul>{contall}</ul>"
-            l.append(mf.dic(id=linkId,type=linkType))      
-            notes["links"]=l
-              
-        
-        if noprint:
-            mf.printObject(notes,self.path_results,countnote,client+f"_{filenamenotes}",False)
-            logging.info(f"INFO Reading {toSearch} | Notes: {self.totalnotes}") 
-            return self.totalnotes
-        else:
-            mf.printObject(notes,self.path_results,countnote,client+f"worse_notes_without_content",False)
-            logging.info(f"INFO Reading {toSearch} | NO Notes: {self.totalnotes}") 
-            return self.totalnotes
-
+                print(f"ERROR: Notes Class {ee}")      
+        return self.totalnotes
                
                 
     def readmappingjson(self, **kwargs):

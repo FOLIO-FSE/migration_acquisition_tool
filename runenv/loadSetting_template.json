@@ -7,6 +7,7 @@
       "path_logs": "",
       "path_refdata": "",
       "path_data": "",
+      "mapping_files":"",
       "organizations": [
         {"org": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
         {"contacts": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
@@ -20,10 +21,10 @@
         {"agree": {"fileName": "","orderby": "","distinct": [],"agreementid": "","sheetName": ""}}],
       "users": [{"user": {"fileName": "","orderby": "","distinct": [],"userid": "", "sheetName": ""}}],
       "notes": [
-        {"note[0]":{"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
-        {"note[1]": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
-        {"note[2]": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
-        {"note[3]": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}}
+        {"note[0]":{"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":""}},
+        {"note[1]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":""}},
+        {"note[2]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":""}},
+        {"note[3]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":""}}
       ]
     }
   ]
