@@ -519,8 +519,6 @@ class AcqErm():
                             self.customerName.readlinceses(client,dflicense=self.dflicense)
                     else:
                         print(f"INFO file Name must be included in the ..{self.path_refdata}\loadSetting.json") 
-
-                    
                 elif self.sctr=="o":
                     swnotes=False
                     self.value="organizations"
@@ -2709,16 +2707,28 @@ def jsontotupla(**kwargs):
     with open(json_file, "r", encoding="utf") as file_j:
         data = json.load(file_j)
         for i in data[schema]:
-            if 'id' in i:
-                id=i['id']
-            if 'name' in i:
-                name=i['name']
-            if 'code' in i:
-                code=i['code']
-            else:
-                code="None"
-            tupla.append([id,code,name,data])
-    #print(tupla)
+            try:
+                if 'id' in i: 
+                    id=i['id']
+                else: 
+                    id=""
+                if 'name' in i:
+                    name=i['name']
+                else: 
+                    name=""
+                if 'code' in i: 
+                    code=i['code']
+                else: 
+                    code=""
+                if 'value' in i: 
+                    value=i['value']
+                else: 
+                    value=""
+                tupla.append([id,code,name,value,data])
+                #if schema=="organizations":
+                #    print(tupla)
+            except Exception as err:
+                print("error ", str(err))#print(tupla)
     return tupla
 
 

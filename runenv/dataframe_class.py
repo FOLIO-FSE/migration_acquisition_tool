@@ -91,9 +91,6 @@ class dataframe():
                 except pd.errors.EmptyDataError:
                     print(f"ERROR DATAFRAME:{pd.errors.EmptyDataError}")
             else:
-                if len(self.filename)>0:
-                    self.df.DataFrame(self.filename, columns=self.customizecolumns)
-                else:
                     print(f"ERROR The \"{self.dfname}\" data file must have one of the following endings: csv, tsv, json, xls, xlsx")
                     sw = False
             if sw:
@@ -192,7 +189,7 @@ class dataframe():
             if 'FOLIO' in self.df:
                 self.df['FOLIO'] = self.df['FOLIO'].str.strip()
                 self.df['FOLIO'] = self.df['FOLIO'].str.strip()
-            if 'compositePoLines[0].cost.listUnitPrice' in self.df:
+            '''if 'compositePoLines[0].cost.listUnitPrice' in self.df:
                 self.df['compositePoLines[0].cost.listUnitPrice'] = self.df['compositePoLines[0].cost.listUnitPrice'].str.strip()
                 self.df['compositePoLines[0].cost.listUnitPrice'] = self.df['compositePoLines[0].cost.listUnitPrice'].replace({'$':''}, regex=True)
             if 'compositePoLines[0].cost.quantityPhysical' in self.df:
@@ -200,7 +197,7 @@ class dataframe():
                 self.df['compositePoLines[0].cost.quantityPhysical'] = self.df['compositePoLines[0].cost.quantityPhysical'].replace({'$':''}, regex=True)
             if 'compositePoLines[0].cost.quantityElectronic' in self.df:
                 self.df['compositePoLines[0].cost.quantityElectronic'] = self.df['compositePoLines[0].cost.quantityElectronic'].str.strip()
-                self.df['compositePoLines[0].cost.quantityElectronic'] = self.df['compositePoLines[0].cost.quantityElectronic'].replace({'$':''}, regex=True)
+                self.df['compositePoLines[0].cost.quantityElectronic'] = self.df['compositePoLines[0].cost.quantityElectronic'].replace({'$':''}, regex=True)'''
         except Exception as ee:
             print(f"ERROR: Change Columns {ee}") 
 

@@ -44,8 +44,7 @@ class notes():
             #os.mkdir(f"{path_dir}\\refdata")
             self.path_refdata=f"{path_dir}\\refdata"
             self.path_mapping_files=f"{path_dir}\\mapping_files"
-            logging.basicConfig(filename=f"{self.path_logs}\\notes.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
-            
+            logging.basicConfig(filename=f"{self.path_logs}\\notes.log", encoding='utf-8', level=logging.INFO,format='%(message)s')            
             self.valuetitle=""
             self.valuetypeId=""
             self.valuedomainId=""
@@ -62,8 +61,6 @@ class notes():
                 print("INFO Notes Script: include: {self.path_mapping_files}\\notes_mapping.json file")
                 logging.info(f"INFO Reading {mappingfile} ERROR") 
                 flag=False
-                
-            
             return          
                         
             #print(self.mappingdata)
@@ -193,8 +190,6 @@ class notes():
             mf.printObject(notes,self.path_results,countnote,client+f"worse_notes_without_content",False)
             logging.info(f"INFO Reading {toSearch} | NO Notes: {self.totalnotes}") 
             return self.totalnotes
-
-               
                 
     def readmappingjson(self, **kwargs):
         try:

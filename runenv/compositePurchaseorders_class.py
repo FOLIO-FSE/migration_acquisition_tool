@@ -108,47 +108,55 @@ class compositePurchaseorders():
                     logging.info(tupla_order)
                     if 'dfmapping' in kwargs:
                         dfmapping=kwargs['dfmapping']
+                        #print(dfmapping)
                         #tupla_mapping = dfmapping['LEGACY SYSTEM'].unique()
-                        if dfmapping.empty:
-                            for i in tupla_order:
-                                toSearch=str(i).strip()
-                                newvalue=self.replace(dfmapping,toSearch)
-
-                                if newvalue is None:
-                                    if toSearch!="":
-                                        recordnotfound.append(i)
+                    if dfmapping.empty:
+                        for i in tupla_order:
+                            toSearch=str(i).strip()
+                            newvalue=self.replace(dfmapping,toSearch)
+                            if newvalue is None:
+                                if toSearch!="":
+                                    recordnotfound.append(i)
+                            else:
+                                if swpolines:
+                                    self.dfPolines[fieldtosearch] = self.dfPolines[fieldtosearch].replace([i],newvalue)
                                 else:
-                                    if swpolines:
-                                        self.dfPolines[fieldtosearch] = self.dfPolines[fieldtosearch].replace([i],newvalue)
-                                    else:
-                                        self.orders[fieldtosearch] = self.orders[fieldtosearch].replace([i],newvalue)
-                                        tempmap[i]=newvalue
-                        else:
-                            for i in tupla_order:
-                                toSearch=str(i).strip()
-                                newvalue=self.replace(dfmapping,toSearch)
-                                if schematosearch=="organizations":
-                                    toSearchnewvalue=newvalue
-                                    newvalue=self.replace(self.dforg,toSearchnewvalue)
-                                elif schematosearch=="locations":
-                                    toSearchnewvalue=newvalue
-                                    newvalue=self.replace(self.dflocations,toSearchnewvalue)
-                                elif schematosearch=="funds":
-                                    toSearchnewvalue=newvalue
-                                    newvalue=self.replace(self.dffunds,toSearchnewvalue)
-                                elif schematosearch=="fundsExpenseClass":
-                                    toSearchnewvalue=newvalue
-                                    newvalue=self.replace(self.fundsExpenseClass,toSearchnewvalue)
-                                    
-                                if newvalue is None:
-                                    if toSearch!="":
-                                        recordnotfound.append(i)
+                                    self.orders[fieldtosearch] = self.orders[fieldtosearch].replace([i],newvalue)
+                                    tempmap[i]=newvalue
+                    else:
+                        for i in tupla_order:
+                            toSearch=str(i).strip()
+                            newvalue=self.replace(dfmapping,toSearch)
+                            if schematosearch=="organizations":
+                                toSearchnewvalue=str(newvalue).strip()
+                                #newvalue=self.replace(self.dforg,toSearchnewvalue)
+                                #print(self.dforg.columns)
+                                #print(len(self.dforg))
+                                #print(self.dforg)
+                                newvalue=self.searchdata_dataframe(self.dforg,"code","id",toSearchnewvalue) 
+                                #newvalue=self.replace(self.dforg,toSearchnewvalue)
+                            elif schematosearch=="locations":
+                                toSearchnewvalue=str(newvalue).strip()
+                                #newvalue=self.replace(self.dflocations,toSearchnewvalue)
+                                newvalue=self.searchdata_dataframe(self.dflocations,"code","id",toSearchnewvalue) 
+                            elif schematosearch=="funds":
+                                toSearchnewvalue=str(newvalue).strip()
+                                newvalue=self.replace(self.dffunds,toSearchnewvalue)
+                            elif schematosearch=="fundsExpenseClass":
+                                toSearchnewvalue=newvalue
+                                newvalue=self.replace(self.fundsExpenseClass,toSearchnewvalue)
+                            elif schematosearch=="mtype":
+                                toSearchnewvalue=str(toSearch).strip()
+                                newvalue=self.searchdata_dataframe(self.dfmtype,"name","id",toSearchnewvalue)  
+                            if newvalue is None:
+                                if toSearch!="":
+                                    recordnotfound.append(i)
+                            else:
+                                if swpolines:
+                                    self.dfPolines[fieldtosearch] = self.dfPolines[fieldtosearch].replace([i],newvalue)
                                 else:
-                                    if swpolines:
-                                        self.dfPolines[fieldtosearch] = self.dfPolines[fieldtosearch].replace([i],newvalue)
-                                    else:
-                                        self.orders[fieldtosearch] = self.orders[fieldtosearch].replace([i],newvalue)
-                                        tempmap[i]=newvalue
+                                    self.orders[fieldtosearch] = self.orders[fieldtosearch].replace([i],newvalue)
+                                    tempmap[i]=newvalue
                                         
                     if len(recordnotfound)>0:
                             print(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
@@ -250,19 +258,21 @@ class compositePurchaseorders():
                 self.dfpaymentStatus=self.customerName.importupla(tupla=self.workflowStatusEnum,dfname="FOLIO Work Flow Status",columns=["name"])
                 #print("Dataframe: Locations")
                 self.locations=self.customerName.importDataFrame(filetoload,sheetName="locations", dfname="locations")
-                self.dflocations=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_locations.json",schema="locations"),dfname="locations",columns=["id", "code","name","json"])
+                self.dflocations=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_locations.json",schema="locations"),dfname="locations",columns=["id", "code","name","value","json"])
                 #print("Dataframe: Funds/Expenses")
-                self.fundsExpenseClass=self.customerName.importDataFrame(filetoload,sheetName="fundsExpenseClass", dfname="Expense Class",columns=["id", "code","name","json"])
+                self.fundsExpenseClass=self.customerName.importDataFrame(filetoload,sheetName="fundsExpenseClass", dfname="Expense Class",columns=["id", "code","name","value","json"])
                 #print("Dataframe: Funds")
                 self.funds=self.customerName.importDataFrame(filetoload,sheetName="funds",dfname="Funds")
-                self.dffunds=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_funds.json",schema="funds"),dfname="funds",columns=["id", "code","name","json"])
+                self.dffunds=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_funds.json",schema="funds"),dfname="funds",columns=["id", "code","name","value","json"])
                 tupladistributionType=["amount","percentage"]
                 self.dfdistributionType=self.customerName.importupla(tupla=tupladistributionType,dfname="FOLIO Fund Distribution Type",columns=["name"])
                 #print("Dataframe: Organization code to Change - optional")
                 self.organizationCodeToChange=self.customerName.importDataFrame(filetoload,sheetName="organizationCodeToChange", dfname="Organization Change Codes")
-                self.dforg=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_organizations.json",schema="organizations"),dfname="Organizations",columns=["id", "code","name","json"])
-                self.dfmtype=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_mtypes.json",schema="mtypes"),dfname="Material Type",columns=["id", "code","name","json"])
-                self.dfexpense=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_expenseClasses.json",schema="expenseClasses"),dfname="Expense Classes",columns=["id", "code","name","json"])
+                self.dforg=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_organizations.json",schema="organizations"),dfname="Organizations",columns=["id", "code","name","value","json"])
+                self.dfmtype=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_mtypes.json",schema="mtypes"),dfname="Material Type",columns=["id", "code","name","value","json"])
+                self.dfexpense=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_expenseClasses.json",schema="expenseClasses"),dfname="Expense Classes",columns=["id", "code","name","value","json"])
+                #self.acqUnits=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_acquisitionsUnits.json",schema="acquisitionsUnits"),dfname="acquisitionsUnits",columns=["id", "code","name","json"])
+                self.billtoshipto=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_tenant.addresses.json",schema="configs"),dfname="tenant addresses",columns=["id", "code","name","value","json"])
             else:
                 logging.info(f"ERROR Acquisition Mapping spreadsheet does not exist: {filetoload} check")
                 print(f"ERROR Acquisition Mapping spreadsheet does not exist: {filetoload}")
@@ -318,9 +328,10 @@ class compositePurchaseorders():
                     if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].physical.materialSupplier",dfmapping=self.organizationCodeToChange,swpolines=False)                
                 if self.flag: self.flag=self.checkingparameters(schematosearch="workflowStatus", fieldtosearch="workflowStatus",dfmapping=self.workflowStatus,swpolines=False)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="orderType", fieldtosearch="orderType",dfmapping=self.orderType,swpolines=False)                
+                #if self.flag: self.flag=self.checkingparameters(schematosearch="acqUnits", fieldtosearch="id",dfmapping=self.acqUnits,swpolines=False)                
                 #POLINES
-                if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].eresource.materialType",swpolines=True)   
-                if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].physical.materialType",swpolines=True)                
+                if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].eresource.materialType",dfmapping=self.dfmtype,swpolines=True)   
+                if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].physical.materialType",dfmapping=self.dfmtype,swpolines=True)                
                 if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[0].code",dfmapping=self.funds,swpolines=True)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[1].code",dfmapping=self.funds,swpolines=True)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[2].code",dfmapping=self.funds,swpolines=True)
@@ -473,9 +484,15 @@ class compositePurchaseorders():
                                             reviewPeriod=int(row['ongoing.reviewPeriod'])
                                     if 'ongoing.interval' in self.orders.columns:
                                         if row['ongoing.interval']: interval=int(row['ongoing.interval'])
-                                    if 'ongoing.renewalDate' in self.orders.columns:    
-                                        if row['ongoing.renewalDate']: 
-                                            renewalDate=mf.timeStamp(row['ongoing.renewalDate'])#f"2022-06-30T00:00:00.00+00:00"
+                                    field="ongoing.renewalDate"
+                                    if field in self.orders.columns:    
+                                        if row[field]:
+                                            if row[field]!="":
+                                                dater=""
+                                                dater=row[field]                               
+                                                renewalDate=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
+                                    if 'ongoing.isSubscription' in self.orders.columns:
+                                        if str(row['ongoing.isSubscription']).upper()=="TRUE":
                                             isongoing=mf.dic(interval=interval, isSubscription=True, manualRenewal=True, 
                                                     reviewPeriod=reviewPeriod, renewalDate=renewalDate)
                                     Order["ongoing"]=isongoing                        
@@ -484,10 +501,22 @@ class compositePurchaseorders():
                         ######################
                         shipTo=""
                         billTo=""
-                        if 'billTo' in self.orders.columns:
-                            Order["billTo"]=""
-                        if 'shipTo' in self.orders.columns:
-                            Order["shipTo"]=""
+                        field="billTo"
+                        if field in self.orders.columns:
+                            toSearch=self.billtoshipto()
+                            billTotemp=self.searchdata_dataframe(self.billtoshipto,"name","id",toSearch)
+                            if billTotemp is not None:
+                                billTo=billTotemp
+                        Order["billTo"]=billTo
+                            
+                        field="ShipTo"    
+                        if field in self.orders.columns:
+                            toSearch=self.billtoshipto()
+                            shipTotemp=self.searchdata_dataframe(self.billtoshipto,"name","id",toSearch)
+                            if shipTo is not None:
+                                shipTo=shipTotemp
+                        Order["shipTo"]=shipTo
+
                         OrganizationUUID=""            
                         #file=self.customerName+"_organizations.json"
                     
@@ -540,60 +569,67 @@ class compositePurchaseorders():
                             else: 
                                 Order["compositePoLines"]=[]
                                 countpolerror+=1
+                        acqunituuid=[]
+                        field="acqUnitIds"
+                        if field in self.orders.columns:
+                            if row[field]:
+                                acqunituuid=row[field]
+                                acqunituuid.append(adqvaluetemp)
+                                #tosearch in dataframe
+                        else:
+                            adqvalue=self.readcompositepurchaseorderMapping(folio_field=field)    
+                            adqvaluetemp=adqvalue.get("value")
+                            if adqvaluetemp:
+                                acqunituuid.append(adqvaluetemp)
                             
-
-                            acqunituuid=[]
-                            field="acqUnitIds"
-                            if field in self.orders.columns:
-                                if row[field]:
-                                    Acquisitionstemp=str(row[field]).strip()
-                                    acqunituuid.append(mf.readJsonfile(self.path_refdata,client+"_AcquisitionsUnits.json","AcquisitionsUnits",Acquisitionstemp,"name"))
-                                    if len(acqunituuid)==0:
-                                        mf.write_file(ruta=self.path_logs+"/AdqNotFound.log",contenido=f"{Acquisitionstemp}")
-                                Order["acqUnitIds"]=acqunituuid
-                            #PRINT NOTES
-                        
-                            Worder=Order
-                            instanceOrder=Order
-
-                            if self.noprint: 
-                                if self.nointance:
-                                    mf.printObject(instanceOrder,self.path_results,self.count,f"{client}_purchaseOrderbyline_with_new_instance_{self.dt}",False)
-                                    self.printstatus="New instance"
-                                    self.po_count_new_instance+=1
-                                else:
-                                    mf.printObject(Order,self.path_results,self.count,f"{client}_purchaseOrderbyline_{self.dt}",False)
-                                    purchase.append(Order)
-                                    self.printstatus="Instance linked"
-                                    self.po_count+=1
-
+                        Order["acqUnitIds"]=acqunituuid
+                               
+                        #PRINT NOTES
+                        Worder=Order
+                        instanceOrder=Order
+                        if self.noprint: 
+                            if self.nointance:
+                                mf.printObject(instanceOrder,self.path_results,self.count,f"{client}_purchaseOrderbyline_with_new_instance_{self.dt}",False)
+                                self.printstatus="New instance"
+                                self.po_count_new_instance+=1
                             else:
-                                mf.printObject(Worder,self.path_results,self.count,f"{client}_worse_purchaseOrderbyline_{self.dt}",False)
-                                self.printstatus="Worse"
-                                self.po_countworse+=1
-                            myobj = datetime.datetime.now()
-                            self.dobj=myobj.strftime('%T')
-                            tend = time.perf_counter()
-                            totaltime=round((tend - tini))
-                            if self.returnnotes>0:
-                                countnote=self.returnnotes
-                                self.counternotes+=countnote
-                            else:
-                                countnote=self.returnnotes
+                                mf.printObject(Order,self.path_results,self.count,f"{client}_purchaseOrderbyline_{self.dt}",False)
+                                purchase.append(Order)
+                                self.printstatus="Instance linked"
+                                self.po_count+=1
+                        else:
+                            mf.printObject(Worder,self.path_results,self.count,f"{client}_worse_purchaseOrderbyline_{self.dt}",False)
+                            self.printstatus="Worse"
+                            self.po_countworse+=1
+                        myobj = datetime.datetime.now()
+                        self.dobj=myobj.strftime('%T')
+                        tend = time.perf_counter()
+                        totaltime=round((tend - tini))
+                        if self.returnnotes>0:
+                            countnote=self.returnnotes
+                            self.counternotes+=countnote
+                        else:
+                            countnote=self.returnnotes
                                 
-                            print(f"{self.dobj} RECORD # {self.count}/{self.totalrows} created | printStatus: {self.printstatus} | Instance:{self.nointance} | poNumber:{poNumber} poLines:{self.poLineTotal} | Note: {countnote} | (Time:{totaltime} sec.)") 
-                            logging.info(f"{self.dobj} RECORD # {self.count}/{self.totalrows} created | printStatus: {self.printstatus} | Instance:{self.nointance} | poNumber:{poNumber} poLines:{self.poLineTotal} | Note: {countnote} | (Time:{totaltime} sec.)")
-                            ordersidmapping={}
-                            #ordersidmapping["legacy_id"]=mf.dic(legacy_id=poNumber, folio_id=orderId,folio_poLines=folio_poLines.append(mf.dic(compositePo['poLineNumber'])))
-                            #ordersidmapping["legacy_id"]=poNumber
-                            #ordersidmapping["folio_id"]=orderId
-                            #ordersidmapping["folio_id"]=orderId
-                            mf.printObject(ordersidmapping,self.path_results,self.count,f"{client}_ordersIdMapping_{self.dt}",False)
+                        print(f"{self.dobj} RECORD # {self.count}/{self.totalrows} created | printStatus: {self.printstatus} | Instance:{self.nointance} | poNumber:{poNumber} poLines:{self.poLineTotal} | Note: {countnote} | (Time:{totaltime} sec.)") 
+                        logging.info(f"{self.dobj} RECORD # {self.count}/{self.totalrows} created | printStatus: {self.printstatus} | Instance:{self.nointance} | poNumber:{poNumber} poLines:{self.poLineTotal} | Note: {countnote} | (Time:{totaltime} sec.)")
+                        ordersidmapping={}
+                        #ordersidmapping["po_"]=mf.dic(legacy_id=poNumber, folio_id=orderId,folio_poLines=folio_poLines.append(mf.dic(compositePo['poLineNumber'])))
+                        compositeOrder=[]
+                        ordersidmapping["po_Number"]=poNumber
+                        ordersidmapping["folio_id"]=orderId
+                        for xl in compositePo:
+                            compoId=xl["id"]
+                            compositeOrder.append(compoId)    
+                        ordersidmapping["compositePoLines"]=compositeOrder
+                            
+                        mf.printObject(ordersidmapping,self.path_results,self.count,f"{client}_legacyId{self.dt}",False)
                     except Exception as ee:
                         Worder=Order
                         mf.printObject(Worder,self.path_results,self.count,f"{client}_purchaseOrderbyline_worse_{self.dt}",False)
                         print(f"ERROR: {ee}")
                         self.noprint=False
+                    
                     purchaseOrders['purchaseOrders']=purchase
                     report=[]
                     #report=reports(df=orders,plog=path_logs,pdata=path_results,file_report=f"{customerName}_purchaseself.orders.json",schema="purchaseOrders",dfFieldtoCompare=poLineNumberfield)
@@ -837,11 +873,13 @@ class compositePurchaseorders():
                         ordertitleUUID=self.get_title(client,element="instances",searchValue=titleUUID)
                         if ordertitleUUID is None:
                             print(f"INFO Title: {titlepoLine}")
+                            newinstanceid=self.createinstance(client,titlepoLine,titleUUID,linkId,self.po_LineNumber)
+                            cp["instanceId"]=str(newinstanceid)
                             cp["titleOrPackage"]=titlepoLine
-                            mf.write_file(ruta=f"{self.path_logs}\\titlesNotFounds.log",contenido=f"{self.po_LineNumber}  {titleUUID} {titlepoLine}")
-                            self.createinstance(client,titlepoLine,titleUUID)                            
+                            cp["isPackage"]=False
                             self.nointance=True
                             self.printnote=False
+                            mf.write_file(ruta=f"{self.path_logs}\\titlesNotFounds.log",contenido=f"{self.po_LineNumber}    {titleUUID} {titlepoLine}   instance ID:    {newinstanceid}")
                         else: 
                             #print(f"    InstanceId / Title: {ordertitleUUID}")
                             #self.ordertitleUUID=ordertitleUUID
@@ -1016,8 +1054,7 @@ class compositePurchaseorders():
                         if cprow[field]:
                             fundId=str(cprow[field]).strip()
                             fundcode=""
-                            #print(self.dffunds)
-                            fundcode=self.fundcodetosearch(fundId)                            
+                            fundcode=self.searchdata_dataframe(self.dffunds,"id","code",fundId)            
                             if fundcode is not None:
                                 code=fundcode
                                 field=f"compositePoLines[0].fundDistribution[{iter}].value"
@@ -1050,9 +1087,18 @@ class compositePurchaseorders():
                 if field in poLines.columns:
                     if cprow[field]:
                         if cprow[field]!="  -  -  ":
-                            dater=""
-                            dater=cprow[field]
-                            receiptDate=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+                            if client!="michstate_prod":
+                                dater=""
+                                dater=cprow[field]                               
+                                receiptDate=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
+                            else:
+                                receitdate=cprow[field]
+                                M=receitdate[0:2]
+                                D=receitdate[3:5] 
+                                Y=receitdate[6:10]
+                                dater=f"{Y}-{M}-{D}"   
+                                receiptDate=f"{Y}-{M}-{D}T00:00:00.000+00:00"
+                            
 
                 cp['receiptDate']=receiptDate
                 
@@ -1229,12 +1275,12 @@ class compositePurchaseorders():
                     cp["vendorDetail"]=vendetails
                 self.returnnotes=0       
                 if self.swnotes:      #dataframe,toSearch,linkId):
-                    if client=="washcoll":
+                    if client=="washcoll" or "michstate_prod":
                         masterPo="o"+masterPo
                     if client=="massey":
                         masterPo=masterPo[:-1]
-                    if self.printnote:
-                        self.returnnotes=self.customerName.readnotes(client,dataframe=self.dfnotes,toSearch=masterPo,linkId=linkId,filenamenotes="_notes")
+                    if self.printnote:                        
+                        self.returnnotes=self.customerName.readnotes(client,dataframe=self.dfnotes,toSearch=masterPo,linkId=linkId,filenamenotes="_notes")                        
                     else:
                         self.returnnotes=self.customerName.readnotes(client,dataframe=self.dfnotes,toSearch=masterPo,linkId=linkId,filenamenotes="_notes_with_new_instance")
                 cpList.append(cp)
@@ -1285,18 +1331,21 @@ class compositePurchaseorders():
                 else:
                     dataToreturn=self.replace_error(dftoSearch,toSearch)
         return dataToreturn'''
-    def fundcodetosearch(self,toSearch):
-        temp = self.dffunds[self.dffunds['id']== toSearch]
-        fieldtoreturn="code"
-        #print("Mapping found: ",len(temp))
-        error_dataToreturn=None
-        if len(temp)>0:
-            for x, cptemp in temp.iterrows():
-                error_dataToreturn=str(cptemp[fieldtoreturn]).strip()
-        return error_dataToreturn
-    
+    def searchdata_dataframe(self,dftosearchtemp,fieldtosearch,fieldtoreturn,toSearch):
+        try:
+            tempo = dftosearchtemp[dftosearchtemp[fieldtosearch]== toSearch]
+            #fieldtoreturn=fieldtoreturn
+            #print("Mapping found: ",len(temp))
+            error_dataToreturn=None
+            if len(tempo)>0:
+                for x, cptemp in tempo.iterrows():
+                    error_dataToreturn=str(cptemp[fieldtoreturn]).strip()
+            return error_dataToreturn
+        except Exception as ee:
+            print(f"ERROR: mapping {ee}")
     
     def replace(self,dftoSearch,toSearch):
+        
         if 'LEGACY SYSTEM' in dftoSearch:
             temp = dftoSearch[dftoSearch['LEGACY SYSTEM']== toSearch]
             fieldtoreturn="FOLIO"
@@ -1306,6 +1355,7 @@ class compositePurchaseorders():
         elif 'id' in dftoSearch:
             temp = dftoSearch[dftoSearch['id']== toSearch]
             fieldtoreturn="code"
+          
         #print("Mapping found: ",len(temp))
         error_dataToreturn=None
         if len(temp)>0:
@@ -1439,8 +1489,10 @@ class compositePurchaseorders():
             logging.info(f"ERROR: GET TITLE {ee}")    
             
             
-    def createinstance(self, client,titleOrPackage,titleUUID):
+    def createinstance(self, client,titleOrPackage,titleUUID,linkId,poNumbertitle):
         try:
+            idinstance=""
+            self.createinstanid=True
             print(f"INFO Creating instance for title {titleOrPackage} {titleUUID}")
             idinstance=str(uuid.uuid4())
             instance= {
@@ -1475,10 +1527,34 @@ class compositePurchaseorders():
                                         "holdingsRecords2": [],
                                         "natureOfContentTermIds": []
                                         }
+            
             logging.info(f"INFO: Title created {titleOrPackage} | {idinstance}") 
             mf.printObject(instance,self.path_results,0,f"{client}_instances_{self.dt}",False)
+            self.createordertitle(client,idinstance,titleOrPackage,linkId,poNumbertitle)
+            return idinstance
         except Exception as ee:
             print(f"ERROR: GET TITLE {ee}")
+            
+    def createordertitle(self, client,idinstance,titleOrPackage,linkId,poNumbertitle):
+        try:
+            self.createordertit=True
+            idtitleorder=str(uuid.uuid4())        
+            ordertitle={
+                    "id": idtitleorder,
+                    "title": titleOrPackage,
+                    "poLineId": linkId,
+                    "instanceId": idinstance,
+                    "contributors": [],
+                    "isAcknowledged": True,
+                    "productIds": [],
+                    "poLineNumber": poNumbertitle
+                    }
+            mf.printObject(ordertitle,self.path_results,0,f"{client}_orders-storage-titles_{self.dt}",False)
+            logging.info(f"INFO: Title created {titleOrPackage} | {idinstance}") 
+        except Exception as ee:
+            print(f"ERROR: GET TITLE {ee}")        
+            
+            
     def lup(self,value):
         lup=""
         lup=str(value).strip()
