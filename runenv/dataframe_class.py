@@ -1,7 +1,10 @@
 import json
+import os
 import logging
 import pandas as pd
 import time
+from xlsx2csv import Xlsx2csv
+from io import StringIO
 
 class dataframe():    
     def __init__(self):
@@ -40,7 +43,8 @@ class dataframe():
     def importDataFrame(self, file_path, **kwargs):
         try:
             start_time = time.perf_counter()
-            #print(f"INFO start time: {start_time}")
+            file_size = os.path.getsize(file_path)
+            print(f"INFO file size: {file_size} bytes")
             sw = True
             if "dfname" in kwargs:
                 self.dfname = kwargs['dfname']
@@ -65,6 +69,7 @@ class dataframe():
                 self.mapping_file = ""
 
 
+
             self.filename = r"{}".format(file_path)
             if self.filename[-4:] == ".csv":
                 try:
@@ -83,10 +88,13 @@ class dataframe():
                     print(f"ERROR DATAFRAME:{pd.errors.EmptyDataError}")
             elif self.filename[-4:] == ".xls" or self.filename[-5:] == ".xlsx":
                 try:
-                    if self.sheet_name:
-                        self.df = pd.read_excel(self.filename, engine='openpyxl', sheet_name=self.sheet_name)
+                    if file_size> 10000:
+                        self.df=self.exceltodataframe()
                     else:
-                        self.df = pd.read_excel(self.filename, engine='openpyxl')
+                        if self.sheet_name:
+                            self.df = pd.read_excel(self.filename, engine='openpyxl', sheet_name=self.sheet_name)
+                        else:
+                            self.df = pd.read_excel(self.filename, engine='openpyxl')
 
                 except pd.errors.EmptyDataError:
                     print(f"ERROR DATAFRAME:{pd.errors.EmptyDataError}")
@@ -240,7 +248,23 @@ class dataframe():
         #df = pd.DataFrame(data, label_rows, label_cols)                
         df = pd.DataFrame(columns = columnsDataframe)
         return df
-    
+
+
+    def exceltodataframe(self):
+        try:
+            buffer = StringIO()
+            if self.sheet_name:
+                Xlsx2csv(self.filename, outputencoding="utf-8", sheet_name=self.sheet_name).convert(buffer)
+            else:
+                Xlsx2csv(self.filename, outputencoding="utf-8").convert(buffer)
+            buffer.seek(0)
+            self.dftocsv = pd.read_csv(buffer)
+            #self.csv_data = buffer.to_csv(f"{self.filename}_.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
+        except pd.errors.EmptyDataError:
+            print(f"ERROR DATAFRAME:{pd.errors.EmptyDataError}")
+            return None
+        
+        return self.dftocsv
     #def report(self,columnsDataframe):
         #label_rows=
         #df = pd.DataFrame(data, label_rows, label_cols)     

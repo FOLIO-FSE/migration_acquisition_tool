@@ -197,57 +197,40 @@ class backup:
         except KeyboardInterrupt:
             print("Someone closed the program")
                                      
-    def make_get_by_uuid(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file):
+    def make_get_by_uuid(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file,path_result,schema,ale):
         try:
             pathPattern=pathPattern
             okapi_url=okapi_url
             json_file=json_file
             okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
-            #username="folio"
-            #password="Madison"
-            #payload = {'username': username, 'password': password}
             length="9999"
-            #typein="General note Orders"
-            ##fc="&metadata.createdByUserId='2bd750b9-1362-4807-bd73-2be9d8d63436'"
             start="0"
-            #paging_q = f"?limit={length}#&offset={start}"
-            #paging_q = f"/notes?query=type=="General note Orders""
-            #paging_q = f"?limit={length}&query=type=={typein}"
-            #paging_q = f"?limit={length}&domain=orders"
-            fichero = open('ejemplo.txt')
-            lineas = fichero.readlines()
-            for linea in lineas:
-                print(linea)
-                paging_q = f"?limit={length}"
-                path = pathPattern+paging_q
-                path=path.replace("{id}",id)
-                #data=json.dumps(payload)
-                url = okapi_url + path
-                print(url)
-                req = requests.get(url, headers=okapi_headers,timeout=40)
-                print(req)
-                if req.status_code != 201:
-                    print(req)
-                    print(req.encoding)
-                    #print(req.text)
-                    print(req.headers)
-                    if req.status_code==200:
-                        archivo=open(json_file, 'a',encoding='utf8')
-                        json_str = json.loads(req.text)
-                        #total_recs = int(json_str["totalRecords"])
-                        archivo.write(json.dumps(json_str, indent=2))
-                        #archivo.write(json.dumps(json_str)+"\n")
-                        #print('Datos en formato JSON',json.dumps(json_str, indent=2))
-                        archivo.close()
-                        print('Success!')
-                    elif req.status_code==500:
-                        print(req.text)
-                    elif req.status_code==502:
-                        print(req.text)
-                    elif req.status_code==504:
-                        print(req.text)
-                    elif req.status_code==403:
-                        print(req.text)
+            count=0
+            with open(json_file, "r", encoding="utf") as file_j:
+                for linea in file_j:
+                    count+=1
+                    print(f"INFO Reading record # {count}")
+                    recitem=linea
+                    recitem=recitem.replace(",\n", "")
+                    data = json.loads(recitem)
+                    if 'id' in data:
+                        id=str(data['id'])
+                    if 'code' in data:
+                        id=str(data['code'])
+                    paging_q = id #f"?limit={length}"
+                    path = f"{pathPattern}/{paging_q}"
+                    path=path.replace("{id}",id)
+                    #data=json.dumps(payload)
+                    url = okapi_url + path
+                    #print(url)
+                    req = requests.get(url, headers=okapi_headers,timeout=40)
+                    code=str(req.status_code)
+                    code=code[0]
+                    if code=="4" or code=="5":
+                        #not exist
+                        print(f"INFO  Getting record #: {count} Not exist")                        
+                        printObject(data,f"{path_result}",count,f"{schema}_records_missingOntenant",False)
+
         except KeyboardInterrupt:
             print("Someone closed the program")
             
@@ -559,38 +542,41 @@ def make_post_byline(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file,
         httperr=0
         totallines=0
         dateTime = now.strftime("%m_%d_%y_(%H_%M)")
-        with open(json_file) as fp:
-            data = fp.readlines()
-            for line1 in fp: 
-                totallines+=1
-                print(f"Total lines to be uploaded: {totallines} for file: {json_file}")
-            for line in data:
-                try:
-                    recNum+=1
-                    j_content=json.loads(line)
-                    tini = time.perf_counter()
-                    req = requests.post(url, json=j_content, headers=okapi_headers,timeout=40)
-                    #print(req.status_code)
-                    #print(req.text)
-                    code=str(req.status_code)
-                    code=code[0]
-                    if code=="4":
-                        #json_strErr=json.loads(req.text)
-                        #cod=json_strErr['errors'][0]['code']
-                        #(recNum,j_content, reqtext, client, schema,date_time):
-                        outfile = json.dumps(req.text)
-                        printErrorMessages(recNum,j_content, outfile, client, schema,dateTime)
-                        witherr+=1
-                    elif  code=="5":
-                        printworserecords(j_content,client,schema,dateTime+"http_error_500")
-                        print(f"{recNum} Record: not imported Error http 500")
-                        httperr+=1
-                    else:
-                        tend = time.perf_counter()
-                        print(f"{recNum} Record: imported")                        
-                        count+=1
-                except Exception as ee:
-                    print(f"ERROR: {ee}")
+        with open(json_file, encoding="utf8") as fp:
+            try:
+                data = fp.readlines()
+                for line1 in fp: 
+                    totallines+=1
+                    print(f"Total lines to be uploaded: {totallines} for file: {json_file}")
+                for line in data:
+                    try:
+                        recNum+=1
+                        j_content=json.loads(line)
+                        tini = time.perf_counter()
+                        req = requests.post(url, json=j_content, headers=okapi_headers,timeout=40)
+                        #print(req.status_code)
+                        #print(req.text)
+                        code=str(req.status_code)
+                        code=code[0]
+                        if code=="4":
+                            #json_strErr=json.loads(req.text)
+                            #cod=json_strErr['errors'][0]['code']
+                            #(recNum,j_content, reqtext, client, schema,date_time):
+                            outfile = json.dumps(req.text)
+                            printErrorMessages(recNum,j_content, outfile, client, schema,dateTime)
+                            witherr+=1
+                        elif  code=="5":
+                            printworserecords(j_content,client,schema,dateTime+"http_error_500")
+                            print(f"{recNum} Record: not imported Error http 500")
+                            httperr+=1
+                        else:
+                            tend = time.perf_counter()
+                            print(f"{recNum} Record: imported")                        
+                            count+=1
+                    except Exception as ee:
+                        print(f"ERROR: {ee}")
+            except Exception as ee:
+                print(f"ERROR: {ee}")
         print(f"Imported records: {count} / {totallines}")
         print(f"Not Imported records {witherr} / {totallines}")
         print(f"Not Imported records (Error: http 500): {httperr} / {totallines}")
@@ -670,7 +656,8 @@ def printbadrecords(data,custom,schemas):
     outfile.close()
     
 def printworserecords(data,custom,schemas,file_name):
-    with open(f"runenv//logs//{custom}//{file_name}.json","a+") as outfile:
+    path=os.path.dirname(os.path.realpath(__file__))
+    with open(f"{path}//logs//{custom}//{file_name}.json","a+") as outfile:
         outfile.write(json.dumps(data)+ "\n")
     outfile.close()
     
@@ -881,6 +868,7 @@ def filebyline(filetoformat,schema,client):
             
 #printErrorMessages(str(id),req.status_code,str(j_content),client+"_"+schema+"_"+"Errors.txt")
 def printErrorMessages(recNum,j_content, reqtext, client, schema,date_time):
+    path=os.path.dirname(os.path.realpath(__file__))
     if "PO Number already exists" in reqtext:
         printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_poNumberNotUnique")
         print(f"Record: {recNum} Not imported")                       
@@ -938,7 +926,7 @@ def printErrorMessages(recNum,j_content, reqtext, client, schema,date_time):
     else:
         print(f"Record: {recNum} Not imported")
         printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_worse_records")
-    with open(f"logs\\{client}\\{client}_{date_time}_all_errors.log", "a", encoding="utf-8") as out_file1:
+    with open(f"{path}\\logs\\{client}\\{client}_{date_time}_all_errors.log", "a", encoding="utf-8") as out_file1:
         content=f"Record: {recNum} {reqtext}"
         out_file1.write(content+"\n")
     out_file1.close()
@@ -1089,10 +1077,10 @@ def main():
                         print("file to read: ")
                         filename=input()
                         a=backup()
-                        backup.make_get_id(pathschema,okapi,tenant,token,f"{path_data}\\{filename}",f"{path_refdata}",nameschema,ale)
+                        backup.make_get_by_uuid(pathschema,okapi,tenant,token,f"{path_data}\\{filename}",f"{path_refdata}",nameschema,ale)
+                        #backup.make_get_id(pathschema,okapi,tenant,token,f"{path_data}\\{filename}",f"{path_refdata}",nameschema,ale)
                         toc = time.perf_counter()
                         print(f"Getting time in {toc - tic:0.4f} seconds")          
-                    
                     elif opt==2:
                         tic = time.perf_counter()
                         #michstate_test_
