@@ -6,7 +6,7 @@ import sys
 from requests.exceptions import HTTPError
 import time
 from datetime import datetime
-import functions_AcqErm as faf
+#import functions_AcqErm as faf
 import os
 import os.path
 
@@ -197,7 +197,7 @@ class backup:
         except KeyboardInterrupt:
             print("Someone closed the program")
                                      
-    def make_get_by_uuid(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file):
+    def make_get_by_uuid(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file,path_result,schema,ale):
         try:
             pathPattern=pathPattern
             okapi_url=okapi_url
@@ -214,42 +214,28 @@ class backup:
             #paging_q = f"/notes?query=type=="General note Orders""
             #paging_q = f"?limit={length}&query=type=={typein}"
             #paging_q = f"?limit={length}&domain=orders"
-            fichero = open('ejemplo.txt')
-            lineas = fichero.readlines()
-            for linea in lineas:
-                print(linea)
-                paging_q = f"?limit={length}"
-                path = pathPattern+paging_q
-                path=path.replace("{id}",id)
-                #data=json.dumps(payload)
-                url = okapi_url + path
-                print(url)
-                req = requests.get(url, headers=okapi_headers,timeout=40)
-                print(req)
-                if req.status_code != 201:
-                    print(req)
-                    print(req.encoding)
-                    #print(req.text)
-                    print(req.headers)
-                    if req.status_code==200:
-                        archivo=open(json_file, 'a',encoding='utf8')
-                        json_str = json.loads(req.text)
-                        #total_recs = int(json_str["totalRecords"])
-                        archivo.write(json.dumps(json_str, indent=2))
-                        #archivo.write(json.dumps(json_str)+"\n")
-                        #print('Datos en formato JSON',json.dumps(json_str, indent=2))
-                        archivo.close()
-                        print('Success!')
-                    elif req.status_code==500:
-                        print(req.text)
-                    elif req.status_code==502:
-                        print(req.text)
-                    elif req.status_code==504:
-                        print(req.text)
-                    elif req.status_code==403:
-                        print(req.text)
+            count=0
+            with open(json_file,"r", encoding="utf") as file_j:
+                for linea in file_j:
+                    count+=1
+                    print(f"INFO record {count}")
+                    recitem=linea
+                    recitem=recitem.replace(",\n","")
+                    data=json.loads(recitem)
+                    if 'id' in data:
+                        id=str(data['id'])
+                    paging_q= id
+                    path= f"{pathPattern}/{paging_q}"
+                    path=path.replace("{id}",id)
+                    url = okapi_url + path
+                    print(url)
+                    req = requests.get(url, headers=okapi_headers, timeout=40)
+                    code=str(req.status_code)
+                    if code=="4" or code=="5":
+                        print(f"INFO record {count} does not exist")
+                        printObject(data, f"{path_result}",count,f"{schema}_records_missing",False)
         except KeyboardInterrupt:
-            print("Someone closed the program")
+            print("close program")
             
     def make_del_post(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file, schema,client):
         try:
@@ -559,7 +545,8 @@ def make_post_byline(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file,
         httperr=0
         totallines=0
         dateTime = now.strftime("%m_%d_%y_(%H_%M)")
-        with open(json_file) as fp:
+        print(f"reading file")
+        with open(json_file, encoding="utf8") as fp:
             data = fp.readlines()
             for line1 in fp: 
                 totallines+=1
@@ -581,6 +568,7 @@ def make_post_byline(pathPattern,okapi_url, okapi_tenant, okapi_token,json_file,
                         outfile = json.dumps(req.text)
                         printErrorMessages(recNum,j_content, outfile, client, schema,dateTime)
                         witherr+=1
+                        print(f"{recNum} Record: Not imported")
                     elif  code=="5":
                         printworserecords(j_content,client,schema,dateTime+"http_error_500")
                         print(f"{recNum} Record: not imported Error http 500")
@@ -665,12 +653,13 @@ def printbadrecords(data,custom,schemas):
     records={}
     records['errors']=data
     outfilename = json.dumps(records,indent=2)
-    with open("runenv//logs//"+custom+"_"+schemas+"_records_No_uploaded.json","w") as outfile:
+    with open("runenv/logs/{custom}/"+custom+"_"+schemas+"_records_No_uploaded.json","w") as outfile:
         json.dump(records,outfile)
     outfile.close()
     
 def printworserecords(data,custom,schemas,file_name):
-    with open(f"runenv//logs//{custom}//{file_name}.json","a+") as outfile:
+    pathfile=os.path.dirname(os.path.realpath(__file__))
+    with open(f"{pathfile}/logs/{custom}/{file_name}.json","a+") as outfile:
         outfile.write(json.dumps(data)+ "\n")
     outfile.close()
     
@@ -883,13 +872,13 @@ def filebyline(filetoformat,schema,client):
 def printErrorMessages(recNum,j_content, reqtext, client, schema,date_time):
     if "PO Number already exists" in reqtext:
         printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_poNumberNotUnique")
-        print(f"Record: {recNum} Not imported")                       
+        print(f"Record: {recNum} Not imported PO number already exist")                       
     elif "id value already exists in table" in reqtext: 
         printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_uuiIdDuplicated")
-        print(f"Record: {recNum} Not imported")
+        print(f"Record: {recNum} Not imported id value already exit")
     elif "Order cannot be open as the associated access provider not found" in reqtext:
         printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_accessProviderNotFound")
-        print(f"Record: {recNum} Not imported")
+        print(f"Record: {recNum} Not imported order cannot be open")
     elif "Budget expense class not found" in reqtext:
         printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_budgetexpenseclassNotfound")
         print(f"Record: {recNum} imported with errors")
@@ -934,11 +923,13 @@ def printErrorMessages(recNum,j_content, reqtext, client, schema,date_time):
         print(f"Record:{recNum} Not imported")
         printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_physical.materialTypeBlank")
     elif "" in reqtext:
-        pass
-    else:
-        print(f"Record: {recNum} Not imported")
+        print(f"Record:{recNum} Not imported blank record")
         printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_worse_records")
-    with open(f"logs\\{client}\\{client}_{date_time}_all_errors.log", "a", encoding="utf-8") as out_file1:
+    else:
+        print(f"Record: {recNum} Not imported {reqtext}")
+        printworserecords(j_content,client,schema,client+"_"+schema+"_"+date_time+"_worse_records")
+    pathfile=os.path.dirname(os.path.realpath(__file__))
+    with open(f"{pathfile}/logs/{client}/{client}_{date_time}_all_errors.log", "a", encoding="utf-8") as out_file1:
         content=f"Record: {recNum} {reqtext}"
         out_file1.write(content+"\n")
     out_file1.close()
@@ -950,7 +941,7 @@ def Clients():
         # Opening JSON file
         dic=[]
         pathfile=os.path.dirname(os.path.realpath(__file__))
-        f = open(f"{pathfile}\\okapi_customers.json",)
+        f = open(f"{pathfile}/okapi_customers.json",)
         data = json.load(f)
         for i in data['okapi']:
             a_line=str(i)
@@ -964,7 +955,7 @@ def schemas():
         # Opening JSON file
         dic=[]
         pathfile=os.path.dirname(os.path.realpath(__file__))
-        f = open(f"{pathfile}\\setting_data.json",)
+        f = open(f"{pathfile}/setting_data.json",)
         data = json.load(f)
         for i in data['settings']:
             a_line=str(i)
@@ -977,7 +968,7 @@ def get_one_schema(code_search):
     try:
         #valor="0"
         pathfile=os.path.dirname(os.path.realpath(__file__))
-        f = open(f"{pathfile}\\setting_data.json",)
+        f = open(f"{pathfile}/setting_data.json",)
         data = json.load(f)
         for i in data['settings']:
             a_line=str(i)
@@ -1005,7 +996,7 @@ def SearchClient(code_search):
         # Opening JSON file
         dic =dic= {}
         pathfile=os.path.dirname(os.path.realpath(__file__))
-        f = open(f"{pathfile}\\okapi_customers.json",)
+        f = open(f"{pathfile}/okapi_customers.json",)
         data = json.load(f)
         for i in data['okapi']:
             a_line=str(i)
@@ -1040,7 +1031,7 @@ def main():
             token=str(client.get('x_okapi_token'))
             opt=1
             path_data=""
-            client=faf.AcqErm(client)
+#            client=faf.AcqErm(client)
             #client.createdFolderStructureenv(client)
             while opt!=0:
                 print("0. Exit"+"\n"+"1. GET"+"\n"+"11 GET CREDENTIAL"+"\n"+" 13 GET BY UUID"+"\n"+"2. POST"+"\n"+"  21 POST by line"+"  22 POST credential by line"+"\n"+"3.PUT"+"\n"+"31. PUT by line"+"\n"+"32. GET and PUT"+"\n"+"4.DEL"+"\n"+"   41 DEL by Line"+"\n"+"   42 DEL + POST"+"\n"+"5.GET TOKEN")
@@ -1052,8 +1043,8 @@ def main():
                 schema_name=str(sn)
                 paths=get_one_schema(schema_name)
                 load_data=os.path.dirname(os.path.realpath(__file__))
-                path_data=f"{load_data}\\data"
-                path_refdata=f"{load_data}\\results\\{cuts_name}"
+                path_data=f"{load_data}/data"
+                path_refdata=f"{load_data}/results/{cuts_name}"
                 if len(paths)>0:
                     print("the path has been found "+schema_name)
                     pathschema=paths[0]
@@ -1089,7 +1080,8 @@ def main():
                         print("file to read: ")
                         filename=input()
                         a=backup()
-                        backup.make_get_id(pathschema,okapi,tenant,token,f"{path_data}\\{filename}",f"{path_refdata}",nameschema,ale)
+                        #backup.make_get_id(pathschema,okapi,tenant,token,f"{path_data}\\{filename}",f"{path_refdata}",nameschema,ale)
+                        backup.make_get_by_uuid(pathschema,okapi,tenant,token,f"{path_data}/{filename}",f"{path_refdata}",nameschema,ale)
                         toc = time.perf_counter()
                         print(f"Getting time in {toc - tic:0.4f} seconds")          
                     
@@ -1102,7 +1094,7 @@ def main():
                         fileN = input()
                         if fileN!="":
                             filename=fileN
-                        make_post(pathschema,okapi,tenant,token,f"{path_data}\\{filename}",nameschema,ale)
+                        make_post(pathschema,okapi,tenant,token,f"{path_data}/{filename}",nameschema,ale)
                         toc = time.perf_counter()
                         print(f"Getting time in {toc - tic:0.4f} seconds hours")
                     elif opt==21:
@@ -1113,8 +1105,9 @@ def main():
                         filename = input()
                         #bbb = input()
                         #a=backup()
+                        print(f"{path_data}/{filename}")
                         
-                        make_post_byline(pathschema,okapi,tenant,token,f"{path_data}\\{filename}",nameschema,ale)
+                        make_post_byline(pathschema,okapi,tenant,token,f"{path_data}/{filename}",nameschema,ale)
                         toc = time.perf_counter()
                         print(f"Getting time in {toc - tic:0.4f} seconds hours")
                     elif opt==22:
@@ -1215,7 +1208,7 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
         #toPrint=json_validator(objectToPrint)
         if prettyJson:
             try:
-                path_file=f"{path}\{file_name}.json"
+                path_file=f"{path}/{file_name}.json"
                 #outfilename = json.load(objectToPrint)
                 with open(path_file,"w+", encoding="utf-8") as outfile:
                     json.dump(objectToPrint,outfile,indent=2)
