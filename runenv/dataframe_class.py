@@ -68,8 +68,6 @@ class dataframe():
             else:
                 self.mapping_file = ""
 
-
-
             self.filename = r"{}".format(file_path)
             if self.filename[-4:] == ".csv":
                 try:
@@ -88,13 +86,13 @@ class dataframe():
                     print(f"ERROR DATAFRAME:{pd.errors.EmptyDataError}")
             elif self.filename[-4:] == ".xls" or self.filename[-5:] == ".xlsx":
                 try:
-                    if file_size> 10000:
-                        self.df=self.exceltodataframe()
+                    if self.sheet_name:
+                        self.df = pd.read_excel(self.filename, engine='openpyxl', sheet_name=self.sheet_name)
                     else:
-                        if self.sheet_name:
-                            self.df = pd.read_excel(self.filename, engine='openpyxl', sheet_name=self.sheet_name)
-                        else:
-                            self.df = pd.read_excel(self.filename, engine='openpyxl')
+                        #if file_size> 10000:
+                        #    self.df=self.exceltodataframe()
+                    #        print(f"INFO converting file from xls to tsv")   
+                        self.df = pd.read_excel(self.filename, engine='openpyxl')
 
                 except pd.errors.EmptyDataError:
                     print(f"ERROR DATAFRAME:{pd.errors.EmptyDataError}")
@@ -244,19 +242,19 @@ class dataframe():
         self.df.to_csv(self.df, index = False)
         return df
 
-    def createDataFrame(self,columnsDataframe):
+    def createDataFrame(self,columns):
         #df = pd.DataFrame(data, label_rows, label_cols)                
-        df = pd.DataFrame(columns = columnsDataframe)
+        df = pd.DataFrame(columns = columns)
         return df
 
 
     def exceltodataframe(self):
         try:
             buffer = StringIO()
-            if self.sheet_name:
-                Xlsx2csv(self.filename, outputencoding="utf-8", sheet_name=self.sheet_name).convert(buffer)
-            else:
-                Xlsx2csv(self.filename, outputencoding="utf-8").convert(buffer)
+            #if self.sheet_name:
+            #    Xlsx2csv(self.filename, outputencoding="utf-8", sheet_name=self.sheet_name).convert(buffer)
+            #else:
+            Xlsx2csv(self.filename, outputencoding="utf-8").convert(buffer)
             buffer.seek(0)
             self.dftocsv = pd.read_csv(buffer)
             #self.csv_data = buffer.to_csv(f"{self.filename}_.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
