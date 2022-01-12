@@ -1,7 +1,7 @@
 import dataframe_class as pd
 import agreement_class as agree
 import users_class as users
-import notes_class as notes
+import notes_class as appnotes
 import compositePurchaseorders_class as orders
 import organizations_class as org
 import license_class as lic
@@ -45,10 +45,7 @@ def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
             return None
         except Exception as ee:
             print(f"ERROR: {ee}")
-'''with open(ff_name, 'rb') as source_file:
-  with open(target_file_name, 'w+b') as dest_file:
-    contents = source_file.read()
-    dest_file.write(contents.decode('utf-16').encode('utf-8'))'''
+
 #function to print json files            
 def printObject(objectToPrint,path,x,file_name,prettyJson):
         try:
@@ -565,6 +562,7 @@ class AcqErm():
                     lsn=self.load_settings()
                     self.customerName=pd.dataframe()
                     #print(ls[self.value_a])
+                    
                     filetoload=f"{self.path_data}\\"+str(lsn[self.value_a]['fileName'])
                     self.notes=self.customerName.importDataFrame(filetoload,
                                             orderby=lsn[self.value_a]['orderby'],
@@ -616,13 +614,22 @@ class AcqErm():
                         self.customerName=pd.dataframe()
                         #print(ls[self.value_a])
                         filetoload=f"{self.path_data}\\"+str(lsn[self.value_a]['fileName'])
-                        self.notes=self.customerName.importDataFrame(filetoload,
+                        mappingnotes=f"{self.path_data}\\"+str(lsn[self.value_a]['mappingfile'])
+                        if mappingnotes=="":
+                            self.notes=self.customerName.importDataFrame(filetoload,
                                             orderby=lsn[self.value_a]['orderby'],
                                             distinct=lsn[self.value_a]['distinct'],                                            
                                             sheetName=lsn[self.value_a]['sheetName'],
                                             mapping_file=self.path_notesMapping,
                                             dfname=self.value)                
-
+                        else:
+                            self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=lsn[self.value_a]['orderby'],
+                                            distinct=lsn[self.value_a]['distinct'],                                            
+                                            sheetName=lsn[self.value_a]['sheetName'],
+                                            mapping_file=mappingnotes,
+                                            dfname=self.value)  
+                            
                         if self.dforders is not None: 
                             self.customerName=orders.compositePurchaseorders(client,self.path_dir)
                             if self.notes is not None:
@@ -651,24 +658,55 @@ class AcqErm():
                     self.customerName=users.users(client,self.path_dir)
                     self.customerName.readusers(client,dfusers=self.dfusers)
                 elif self.sctr=="n":   
-                    self.value="notes"
-                    self.value_a="note"
-                    self.df=self.value
-                    ls=self.load_settings()
-                    self.customerName=pd.dataframe()
-                    #print(ls[self.value_a])
-                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
-                    self.df=self.customerName.importDataFrame(filetoload,
+                    iter=0
+                    swno=True
+                    
+                    while swno:
+                        self.value="notes"
+                        self.value_a=f"note[{iter}]"
+                        print(f"INFO NOTE NO. {self.value_a}===================")
+                        self.df=self.value
+                        try:
+                            ls=self.load_settings()
+                        except ValueError as error:
+                            print(f"INFO No Notes")
+                            swno=False
+                            
+                        
+                        #print(ls[self.value_a])
+                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                        if filetoload!="":
+                            self.customerName=pd.dataframe()
+                            filenametoprint=str(ls[self.value_a]['fileName'])
+                            readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
+                            linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
+                            if readmapping=="":
+                                self.df=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_notesMapping,
                                             dfname=self.value)
-                    if self.df is not None:
-                        self.customerName=note.notes(client,self.path_dir)
-                        self.customerName.readnotes(client,self.df)
-                    else:
-                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")   
+                            else:
+                                self.df=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=readmapping,
+                                            dfname=self.value)        
+                            if self.df is not None:
+                            #def __init__(self,client,path_dir, **kwargs):
+                                if linkidfilewithid!="":
+                                    self.customerName=appnotes.notes(client,self.path_dir,dataframe=self.df, notes_mapping_file=readmapping,linkidfile=linkidfilewithid)
+                                else:
+                                    self.customerName=appnotes.notes(client,self.path_dir,dataframe=self.df, notes_mapping_file=readmapping)
+                                self.customerName.readfile(readmapping,dfwithids=self.df,filenamenotes=self.value_a)
+                        #self.customerName=notes.notes(client,self.path_dir,dataframe=self.df)
+                        
+                        else:
+                            swno=False
+                            print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")   
+                        iter+=1
                 else:
                     print(f"ERROR: you have selected the script wrong")
 
@@ -677,29 +715,30 @@ class AcqErm():
 
 #    class path_importer():
     def load_settings(self):
-        #def readagreements(**kwargs):
-        #CUSTOMER CONFIGURATION FILE (PATHS, PURCHASE ORDER FILE NAME AND FILTERS)
-        #path_root=f"{kwargs['rootpath']}"
-        #customerName=kwargs['customerName']
-        f = open(f"{self.path_mapping_files}\\loadSetting.json",)
-        settingdata = json.load(f)
-        countpol=0
-        countpolerror=0
-        countvendorerror=0
-        #READING THE LOADSETTING JSON FILE FROM "/CUSTOMER/REFDATA" FOLDER
-        print("\n"+f"Loading settings from loadSetting.json file....")
-        istherenotesApp=[]
-        load_file=""
-        lf={}
-        for i in settingdata['loadSetting']:
-            try:
-                for lf in i[self.value]:
-                    #print(lf[self.value_a])
-                    #print(lf)
-                    if self.value_a in lf:
-                        load_file=str(lf[self.value_a]['fileName'])
-                        f.close()
-                        return lf
+        try:
+            #def readagreements(**kwargs):
+            #CUSTOMER CONFIGURATION FILE (PATHS, PURCHASE ORDER FILE NAME AND FILTERS)
+            #path_root=f"{kwargs['rootpath']}"
+            #customerName=kwargs['customerName']
+            f = open(f"{self.path_mapping_files}\\loadSetting.json",)
+            settingdata = json.load(f)
+            countpol=0
+            countpolerror=0
+            countvendorerror=0
+            #READING THE LOADSETTING JSON FILE FROM "/CUSTOMER/REFDATA" FOLDER
+            print("\n"+f"Loading settings from loadSetting.json file....")
+            istherenotesApp=[]
+            load_file=""
+            lf={}
+            for i in settingdata['loadSetting']:
+                try:
+                    for lf in i[self.value]:
+                        #print(lf[self.value_a])
+                        #print(lf)
+                        if self.value_a in lf:
+                            load_file=str(lf[self.value_a]['fileName'])
+                            f.close()
+                            return lf
 
                     #keyslist=lf.get('fileName')
                     
@@ -708,15 +747,20 @@ class AcqErm():
                     #   f.close()
                     #   return lf 
                             
-            except ValueError as error:
+                except ValueError as error:
+                    print(f"Error: {error}")
+            if load_file!="":
+                print("\n"+f"INFO file to import found: {load_file}")
+                return lf
+            else:
+                print(f"Error: Opps the {self.value} file Name is not include in loadSetting.json  file, please include the {self.value} file name to continue")
+                return None
+        except ValueError as error:
                 print(f"Error: {error}")
-        if load_file!="":
-            print("\n"+f"INFO file to import found: {load_file}")
-            return lf
-        else:
-            print(f"Error: Opps the {self.value} file Name is not include in {self.mapping_files}\loadSetting.json  file, please include the {self.value} file name to continue")
-            return None
-          
+                return None
+                
+                
+                
     def json_validator(self,data):
         try:
             json_data = ast.literal_eval(json.dumps(str(data)))
