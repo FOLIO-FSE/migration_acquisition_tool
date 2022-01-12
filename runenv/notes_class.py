@@ -15,6 +15,7 @@ import time
 import random
 import logging
 import pandas as pd
+#import pandas as pd
 import validator
 import ast
 import tkinter as tk
@@ -30,11 +31,17 @@ import logging
 class notes():
     def __init__(self,client,path_dir, **kwargs):
         if 'dataframe' in kwargs:
-            dt = datetime.datetime.now()
-            self.dtnote=dt.strftime('%Y%m%d-%H-%M') 
-                        
-            self.notes= kwargs['dataframe']
             self.customerName=client
+            self.readfilewithid=False
+            dt = datetime.datetime.now()
+            self.dtnote=dt.strftime('%Y%m%d-%H-%M')                        
+            self.notes= kwargs['dataframe']
+            self.notes_mapping="notes_mapping.json"
+            if 'notes_mapping_file' in kwargs:
+                self.notes_mapping= kwargs['notes_mapping_file']
+
+                
+            
             #os.mkdir(f"{path_dir}\\results")
             self.path_results=f"{path_dir}\\results"
             #os.mkdir(f"{path_dir}\\data")
@@ -48,19 +55,30 @@ class notes():
             self.valuetitle=""
             self.valuetypeId=""
             self.valuedomainId=""
+            self.namefilewithids=""
             v=""
             typev=""
             typed=""
             logging.info(f"INFO NOTES LOG {client}") 
-            mappingfile=self.path_mapping_files+"\\notes_mapping.json"
-            if os.path.exists(mappingfile):  
-                with open(mappingfile) as json_mappingfile:
+            #mappingfile=self.path_mapping_files+f"/{self.notes_mapping}"
+            if os.path.exists(self.notes_mapping):  
+                with open(self.notes_mapping) as json_mappingfile:
                     self.mappingdata = json.load(json_mappingfile)
-                logging.info(f"INFO Reading {mappingfile} OK") 
+                logging.info(f"INFO Reading {self.notes_mapping} OK")
+                
             else:
                 print("INFO Notes Script: include: {self.path_mapping_files}\\notes_mapping.json file")
-                logging.info(f"INFO Reading {mappingfile} ERROR") 
+                logging.info(f"INFO Reading {self.mappingfile} ERROR") 
                 flag=False
+                
+            if 'linkidfile' in kwargs:
+                tempfile=kwargs['linkidfile']
+                if os.path.exists(tempfile):  
+                    with open(tempfile) as f:
+                        self.linkidfile = pd.DataFrame(json.loads(line) for line in f)
+                        print(self.linkidfile)
+                logging.info(f"INFO Reading {tempfile} OK")    
+                
             return          
                         
             #print(self.mappingdata)
@@ -275,6 +293,33 @@ class notes():
             
         except Exception as ee:
             print(f"ERROR: {ee}")
-            
+    
+    def readfile(self,client,**kwargs):
+        try:
+            rnotes=0
+            countnote=0
+            filenamenotes=kwargs['filenamenotes']
+            for n, rowid in self.linkidfile.iterrows():
+                toSearch=rowid['legacy_id']
+                linkId=rowid['compositePoLines_id'][0]
+                rnotes=self.readnotes(self.customerName,dataframe=self.notes,toSearch=toSearch,linkId=linkId,filenamenotes=f"{filenamenotes}")    
+                print(f"INFO Record {countnote}  |   PurchaseOrders: {toSearch}    |   Notes: {rnotes}")
+                countnote+=1
+        except Exception as ee:
+            print(f"ERROR: {ee}") 
+
+    def readnotesmapping(self, **kwargs):
+        try:
+            valuesfield={}
+            mapfile={}
+            fieldToserch=str(kwargs['folio_field'])
+            for i in self.mappingdata['data']:
+                    if i['folio_field']==fieldToserch:
+                            valuesfield['value']=str(i['value']).strip()
+                            valuesfield['description']=str(i['description']).strip()
+                            valuesfield['legacy_field']=str(i['legacy_field']).strip()
+            return valuesfield
+        except Exception as ee:
+            print(f"ERROR: Orders Class {ee}")
+
        
-######END NOTES
