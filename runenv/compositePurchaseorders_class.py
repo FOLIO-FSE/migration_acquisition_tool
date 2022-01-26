@@ -801,14 +801,16 @@ class compositePurchaseorders():
                             locationtemp=str(cprow[field]).strip()
                             field=f"compositePoLines[0].locations[{iter}].quantityElectronic"
                             if field in poLines.columns:
-                                quantityElectronic=0
+                                quantityElectronic=1
                                 if cprow[field]:#if cprow['QUANTITY'] NOT MIGRATED:
                                     quantityElectronic=int(cprow[field])
+                                
                             field=f"compositePoLines[0].locations[{iter}].quantityPhysical"
                             if field in poLines.columns:
-                                quantityPhysical=0 
+                                quantityPhysical=1 
                                 if cprow[field]:#if cprow['QUANTITY'] NOT MIGRATED:
                                     quantityPhysical=int(cprow[field])
+
                             locationstoadd.append([locationtemp,quantityElectronic,quantityPhysical])
                             #locationId.append([locationtemp,quantityElectronic,quantityPhysical])
                             #print(locationId)
@@ -959,13 +961,24 @@ class compositePurchaseorders():
                 field="compositePoLines[0].cost.listUnitPrice"
                 if field in poLines.columns:
                     if cprow[field]:
-                        listUnitPrice=float(self.lup(cprow[field]))
+                        if cprow[field]!="":
+                            listUnitPrice=float(self.lup(cprow[field]))
+                
+                field="compositePoLines[0].cost.listUnitPriceElectronic"
+                
                 #Currency
                 currency="USD"
                 field="compositePoLines[0].cost.currency"
                 if field in poLines.columns:
                     if cprow[field]:
-                        currency=cprow[field]
+                        currency=str(cprow[field]).upper()
+                    else:
+                        curvalue=""
+                        curvalue=self.readcompositepurchaseorderMapping(folio_field=field)
+                        if curvalue:
+                            curvalue=curvalue.get("value")
+                            if curvalue:
+                                currency=curvalue
                 else:
                     curvalue=""
                     curvalue=self.readcompositepurchaseorderMapping(folio_field=field)
