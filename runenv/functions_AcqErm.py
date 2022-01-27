@@ -606,40 +606,50 @@ class AcqErm():
                                             mapping_file=self.path_purchaseMapping,
                                             dfname=self.value_a)
                         #Notes
-                        iter=0
                         self.value="notes"
-                        self.value_a=f"note[{iter}]"
+                        self.value_a=f"note[0]"
+                        print(f"INFO NOTE NO. {self.value_a}===================")
                         self.df=self.value
-                        lsn=self.load_settings()
-                        self.customerName=pd.dataframe()
-                        #print(ls[self.value_a])
-                        filetoload=f"{self.path_data}\\"+str(lsn[self.value_a]['fileName'])
-                        mappingnotes=f"{self.path_data}\\"+str(lsn[self.value_a]['mappingfile'])
-                        if mappingnotes=="":
-                            self.notes=self.customerName.importDataFrame(filetoload,
-                                            orderby=lsn[self.value_a]['orderby'],
-                                            distinct=lsn[self.value_a]['distinct'],                                            
-                                            sheetName=lsn[self.value_a]['sheetName'],
-                                            mapping_file=self.path_notesMapping,
-                                            dfname=self.value)                
-                        else:
-                            self.notes=self.customerName.importDataFrame(filetoload,
-                                            orderby=lsn[self.value_a]['orderby'],
-                                            distinct=lsn[self.value_a]['distinct'],                                            
-                                            sheetName=lsn[self.value_a]['sheetName'],
-                                            mapping_file=mappingnotes,
-                                            dfname=self.value)  
+                        try:
+                            ls=self.load_settings()
+                        except ValueError as error:
+                            print(f"INFO No Notes")
+                            swno=False
                             
+                        
+                        #print(ls[self.value_a])
+                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                        if filetoload!="":
+                                self.customerName=pd.dataframe()
+                                filenametoprint=str(ls[self.value_a]['fileName'])
+                                readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
+                                linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
+                                if readmapping=="":
+                                    self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=self.path_notesMapping,
+                                            dfname=self.value)
+                                else:
+                                    self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=readmapping,
+                                            dfname=self.value)
+                                    
                         if self.dforders is not None: 
                             self.customerName=orders.compositePurchaseorders(client,self.path_dir)
                             if self.notes is not None:
-                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes)
+                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes,notes_mapping_file=readmapping)
                             else:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
                         else:
                             print(f"INFO Purchase Orders file Name must be included in the ..{self.path_refdata}\loadSetting.json")                     
                     except ValueError as error:
                         print(f"Error: {error}")
+                        
                 elif self.sctr=="u": 
                     self.value="users"
                     self.value_a="user"
