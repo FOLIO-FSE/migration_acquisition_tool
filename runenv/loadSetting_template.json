@@ -9,22 +9,22 @@
       "path_data": "",
       "mapping_files":"",
       "organizations": [
-        {"org": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
-        {"contacts": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}},
-        {"interfaces": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}}],
+        {"org": {"fileName": "","orderby": "","distinct": ["code"],"sheetName": "","mappingfile":"organization_mapping.json"}},
+        {"contacts": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mappingfile":"contacts_mapping.json"}},
+        {"interfaces": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mappingfile":"interfaces_mapping.json"}}],
       "purchaseOrders": [
-        {"po": {"fileName": "","orderby": "","distinct": ["poNumber"],"sheetName": ""}},
-        {"poLines": {"fileName": "","orderby": "","distinct": [],"sheetName": ""}}],
+        {"po": {"fileName": "","orderby": "","distinct": ["poNumber"],"sheetName": "","mappingfile":"composite_purchase_order_mapping.json"}},
+        {"poLines": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mappingfile":"composite_purchase_order_mapping.json"}}],
       "licenses": [
-        {"lic": {"fileName": "","orderby": "","distinct": [],"licenseId": "","sheetName": ""}}],
+        {"lic": {"fileName": "","orderby": "","distinct": [],"licenseId": "","sheetName": "","mappingfile":"license_mapping.json"}}],
       "agreement": [
-        {"agree": {"fileName": "","orderby": "","distinct": [],"agreementid": "","sheetName": ""}}],
+        {"agree": {"fileName": "","orderby": "","distinct": [],"agreementid": "","sheetName": "","mappingfile":"agreement_mapping.json"}}],
       "users": [{"user": {"fileName": "","orderby": "","distinct": [],"userid": "", "sheetName": ""}}],
       "notes": [
-        {"note[0]":{"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":""}},
-        {"note[1]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":""}},
-        {"note[2]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":""}},
-        {"note[3]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":""}}
+        {"note[0]":{"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":"","mappingfile":"notes_mapping.json"}},
+        {"note[1]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":"","mappingfile":"notes_mapping.json"}},
+        {"note[2]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":"","mappingfile":"notes_mapping.json"}},
+        {"note[3]": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mapfile":"","mappingfile":"notes_mapping.json"}}
       ]
     }
   ]
