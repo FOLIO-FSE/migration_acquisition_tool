@@ -37,8 +37,8 @@ class notes():
             self.dtnote=dt.strftime('%Y%m%d-%H-%M')                        
             self.notes= kwargs['dataframe']
             self.notes_mapping="notes_mapping.json"
-            if 'notes_mapping_file' in kwargs:
-                self.notes_mapping= kwargs['notes_mapping_file']
+
+ 
 
                 
             
@@ -60,6 +60,10 @@ class notes():
             typev=""
             typed=""
             logging.info(f"INFO NOTES LOG {client}") 
+            if 'notes_mapping_file' in kwargs:
+                self.notes_mapping= kwargs['notes_mapping_file']
+            else:
+                self.notes_mapping=f"{self.path_mapping_files}\\notes_mapping.json"
             #mappingfile=self.path_mapping_files+f"/{self.notes_mapping}"
             if os.path.exists(self.notes_mapping):  
                 with open(self.notes_mapping) as json_mappingfile:
