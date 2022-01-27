@@ -6,6 +6,7 @@ import time
 from xlsx2csv import Xlsx2csv
 from io import StringIO
 
+
 class dataframe():    
     def __init__(self):
 
@@ -33,6 +34,7 @@ class dataframe():
             end_time = time.perf_counter()
             total_time= round((end_time - start_time)) 
             print(f"INFO Dataframe <<{self.dfname}>> Execution Time {total_time} seconds, for {lendf} records")
+            #print(self.df.to_markdown(tablefmt="grid"))
             return self.df
         
         except pd.errors.EmptyDataError:
@@ -230,6 +232,7 @@ class dataframe():
                 print(f"ERROR: Change Columns {ee}")  
                 #print(changelist)
             print(f"INFO Column has been renamed for <<{self.dfname}>>")
+            #print(self.dfnew.to_markdown(tablefmt="grid"))
             for li in changelist:
                 print(li)
                 #print(self.dfnew)
@@ -263,6 +266,9 @@ class dataframe():
             return None
         
         return self.dftocsv
+
+    def printdataframe(self):
+        print(self.df.to_markdown(tablefmt="grid"))
     #def report(self,columnsDataframe):
         #label_rows=
         #df = pd.DataFrame(data, label_rows, label_cols)     
