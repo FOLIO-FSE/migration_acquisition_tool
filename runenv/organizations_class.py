@@ -43,6 +43,9 @@ class organizations():
             #print(self.organizationbyline)
             self.organizationbyline=open(self.organizationbyline, 'w')
             self.interfaces_created = 0
+            self.time_stamp = time.strftime('%Y%m%d-%H%M%S')
+
+
         except Exception as ee:
             print(f"ERROR: {ee}")
             
@@ -487,26 +490,24 @@ class organizations():
                     except Exception as ee:
                         print(f"Uhoh! There was an error reading one of your source files. See stacktrace.")
                         print(traceback.format_exc())
-                    iter=0
-                    sw=True
+                    
+                    # Add tags
                     tagList=[]
                     tags={}
-                    while sw:
-                        field=f"tags.tagList[{iter}]"
-                        if field in vendors.columns:
-                            if row[field]:
-                                tagList.append(str(row[field]).strip())
-                        else:
-                            sw=0
-                            iter+=1
-                    if len(tagList)>0:
+                    for tag in row.get("tags").split(","):
+                        tagList.append(tag.strip())
+                    if any(tagList):
                         tags['tagList']=tagList
                         org['tags']=tags
+
+                    # Print valid organization to result file
                     if swname and swcode:               
-                        mf.printObject(org,self.path_results,count,"organization_byLine.json",False)
+                        mf.printObject(org,self.path_results,count,f"organization_byLine_{self.time_stamp}",False)
                         orga.append(org)
+
+                    # Print valid organization to error file
                     else:
-                        mf.printObject(org,self.path_results,count,"worse_organization_byLine.json",False)
+                        mf.printObject(org,self.path_results,count,f"worse_organization_byLine_{self.time_stamp}",False)
                     if count % 20 == 0:
                         print(f"INFO Organization record: {count} has been created")
                     
@@ -524,12 +525,15 @@ class organizations():
                     print(f"ERROR: {ee}")
                     print(traceback.format_exc())
             orgFull['organizations']=orga
-            mf.printObject(orgFull,self.path_results,count,"organization",True)
+            mf.printObject(orgFull,self.path_results,count,f"organization_{self.time_stamp}",True)
             end_time = time.perf_counter()
+
+            # Print statistics
             print(f"\nINFO Organization Execution Time : {end_time - start_time:0.2f}" )
             print(f"Organizations created: {count}")
             print(f"Interfaces created: {self.interfaces_created}")
             print(f"Credentials processed: {self.countcred}")
+
 
         except Exception as ee:
             print(f"ERROR: {ee}")
@@ -637,10 +641,10 @@ class organizations():
                 if siuser and sicre:
                     cred['id']=str(uuid.uuid4())
                     cred['interfaceId']=interId
-                    mf.printObject(cred,self.path_results,self.countcred,"credentials",False)
+                    mf.printObject(cred,self.path_results,self.countcred,f"credentials_{self.time_stamp}",False)
                 
                 #Interfaces "required": ["createdDate"]    
-                mf.printObject(inter,self.path_results,self.countcred,"interfaces",False)
+                mf.printObject(inter,self.path_results,self.countcred,f"interfaces_{self.time_stamp}",False)
                 iter+=1   
                 interfacesId.append(interId)
                 self.interfaces_created +=1
@@ -875,7 +879,7 @@ class organizations():
                             iter+=1
                         if len(conemails)!=0:
                             con['emails']=conemails#orgemails=faf.org_emails(organizations.loc[i],6)
-                        mf.printObject(con,self.path_results,c,"contacts",False)                                                 
+                        mf.printObject(con,self.path_results,c,f"contacts_{self.time_stamp}",False)                                                 
                         contactsId.append(conId)                   
             except Exception as ee:
                 print(f"ERROR: Contacts schema:{ee}")                
