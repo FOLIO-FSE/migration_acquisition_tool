@@ -852,7 +852,7 @@ class organizations():
                         #phoneNumbers[0].categories[0]
                         while sw:
                             categories=[]
-                            field=f"contact[{iter}].emails.value"
+                            field=f"contacts[{iter}].email.value"
                             isPrimary=False
                             email=""
                             if field in contact.columns:
@@ -860,11 +860,11 @@ class organizations():
                                 if iter==0:
                                     isPrimary=True
                                 #emails[0].description
-                                field=f"contact.[{iter}]emails.description"
+                                field=f"contacts.[{iter}]email.description"
                                 desc=""
                                 if field in contact.columns:
                                     desc=str(rowc[field])
-                                field=f"contact.[{iter}]emails.categories[{iter}]"
+                                field=f"contacts.[{iter}]email.categories[{iter}]"
                                 if field in contact.columns:
                                     if rowc[field]:
                                         toSearch=str(rowc[field]).strip()
