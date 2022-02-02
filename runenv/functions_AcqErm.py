@@ -296,9 +296,10 @@ class AcqErm():
         now = datetime.now()
         client={}
         path=os.path.dirname(os.path.realpath(__file__))
+        print(path)
         self.path_original=path
         x=path.find("runenv")
-        self.path=path[:46]
+        self.path=path[:-6]
         self.path_dir=f"{self.path}\\client_data\\{self.customerName}"
         self.createDirectory(self.path_dir)
         self.path_data=f"{self.path_dir}\\data"
