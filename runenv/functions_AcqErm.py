@@ -299,7 +299,7 @@ class AcqErm():
         print(path)
         self.path_original=path
         x=path.find("runenv")
-        self.path=path[:-6]
+        self.path=path[:-46]
         self.path_dir=f"{self.path}\\client_data\\{self.customerName}"
         self.createDirectory(self.path_dir)
         self.path_data=f"{self.path_dir}\\data"
