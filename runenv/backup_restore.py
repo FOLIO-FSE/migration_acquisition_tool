@@ -74,7 +74,7 @@ class backup:
                     #print(f"INFO Downloading schema: {Pattern} for {url} = {req}")
                     json_str = json.loads(req.text)
                     total_recs = int(json_str["totalRecords"])
-                    faf.printObject(json_str,refdatapath,0,f"{json_file}",True)
+                    printObject(json_str,refdatapath,0,f"{json_file}",True)
                     #archivo=open(json_file, 'w',encoding='utf8')
                     #
                     #total_recs = int(json_str["totalRecords"])

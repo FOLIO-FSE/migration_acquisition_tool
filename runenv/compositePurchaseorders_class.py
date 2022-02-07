@@ -1,5 +1,7 @@
 import backup_restore as br
+import migration_report as mr
 import functions_AcqErm as mf
+from report_blurbs import Blurbs
 import notes_class as notes
 import datetime
 import warnings
@@ -30,6 +32,8 @@ from tqdm import tqdm
 class compositePurchaseorders():
     def __init__(self,client,path_dir):
         try:
+            self.migrationreport_a=mr.MigrationReport()
+            self.migrationreport_a.add_general_statistics("Alex test")
             self.customerName=client
             self.customerName=pd.dataframe()    
             self.getidfile=False
@@ -307,13 +311,14 @@ class compositePurchaseorders():
             print(f"ERROR: Critical please check that already exit the {filetoload} file {ee}")        
             self.flag=False
             return self.flag
-    
+    def 
     def readorders(self, client, **kwargs):
         countpol=0
         self.noprint=True
         self.client=client
         self.flag=True
         totalnotestoprocess=0
+        self.polcont=0
         countpolerror=0
         self.flag=self.readMappingfile()
         if self.flag:
@@ -336,14 +341,15 @@ class compositePurchaseorders():
                 #self.gettinginstance() 
                 #PO
                 print("\n"+"INFO Cheking DATA VS SPREADSHEET"+"\n")
-                if self.organizationCodeToChange.empty:
-                    if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="vendor",dfmapping=self.dforg,swpolines=False)
-                    if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].eresource.accessProvider",dfmapping=self.dforg,swpolines=False)
-                    if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].physical.materialSupplier",dfmapping=self.dforg,swpolines=False)     
-                else:
-                    if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="vendor",dfmapping=self.organizationCodeToChange,swpolines=False)
-                    if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].eresource.accessProvider",dfmapping=self.organizationCodeToChange,swpolines=False)
-                    if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].physical.materialSupplier",dfmapping=self.organizationCodeToChange,swpolines=False)                
+#                if self.organizationCodeToChange.empty:
+#                    if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="vendor",dfmapping=self.organizationCodeToChange,swpolines=False)
+                    #if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="vendor",dfmapping=self.dforg,swpolines=False)
+                    #if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].eresource.accessProvider",dfmapping=self.dforg,swpolines=False)
+                    #if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].physical.materialSupplier",dfmapping=self.dforg,swpolines=False)     
+#                else:
+                if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="vendor",dfmapping=self.organizationCodeToChange,swpolines=False)
+                if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].eresource.accessProvider",dfmapping=self.organizationCodeToChange,swpolines=False)
+                if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].physical.materialSupplier",dfmapping=self.organizationCodeToChange,swpolines=False)                
                 if self.flag: self.flag=self.checkingparameters(schematosearch="workflowStatus", fieldtosearch="workflowStatus",dfmapping=self.workflowStatus,swpolines=False)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="orderType", fieldtosearch="orderType",dfmapping=self.orderType,swpolines=False)                
                 #if self.flag: self.flag=self.checkingparameters(schematosearch="acqUnits", fieldtosearch="id",dfmapping=self.acqUnits,swpolines=False)                
@@ -457,7 +463,16 @@ class compositePurchaseorders():
                         if field in self.orders.columns:
                             if row[field]:
                                 dateorder=row[field]
-                                Order['dateOrdered']=mf.timeStamp(dateorder)
+                                try:
+                                    dateordered=dateorder.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
+                                except Exception as ee:
+                                    M=dateorder[0:2]
+                                    D=dateorder[3:5] 
+                                    Y=dateorder[6:10]
+                                    dateorder=f"{Y}-{M}-{D}"   
+                                    dateordered=f"{Y}-{M}-{D}T00:00:00.000+00:00"
+                                
+                                Order['dateOrdered']=dateordered
                                 #Order["approvedById"]=""
                                 #Order["approvalDate"]= ""
                                 #Order["closeReason"]=dic(reason="",note="")
@@ -525,18 +540,18 @@ class compositePurchaseorders():
                         billTo=""
                         field="billTo"
                         if field in self.orders.columns:
-                            toSearch=self.billtoshipto()
-                            billTotemp=self.searchdata_dataframe(self.billtoshipto,"name","id",toSearch)
-                            if billTotemp is not None:
-                                billTo=billTotemp
+                        #    toSearch=self.billtoshipto()
+                        #    billTotemp=self.searchdata_dataframe(self.billtoshipto,"name","id",toSearch)
+                            #if field is not None:
+                            billTo=str(row[field])
                             Order["billTo"]=billTo
                             
-                        field="ShipTo"    
+                        field="shipTo"    
                         if field in self.orders.columns:
-                            toSearch=self.billtoshipto()
-                            shipTotemp=self.searchdata_dataframe(self.billtoshipto,"name","id",toSearch)
-                            if shipTo is not None:
-                                shipTo=shipTotemp
+                            #toSearch=self.billtoshipto()
+                            #shipTotemp=self.searchdata_dataframe(self.billtoshipto,"name","id",toSearch)
+                            #if field is not None:
+                            shipTo=str(row[field])
                             Order["shipTo"]=shipTo
 
                         OrganizationUUID=""            
@@ -588,6 +603,8 @@ class compositePurchaseorders():
                             if compositePo is not None: 
                                 Order["compositePoLines"]=compositePo
                                 countpol+=1
+                                self.polcont= self.polcont + self.poLineTotal
+                                
                             else: 
                                 Order["compositePoLines"]=[]
                                 countpolerror+=1
@@ -660,11 +677,15 @@ class compositePurchaseorders():
                 logging.info(f"ERROR critical does not exist {self.path_refdata}\\acquisitionMapping.xlsx file")
         if self.flag:
             mf.printObject(purchaseOrders,self.path_results,self.count,f"{client}_purchaseOrders_{self.dt}",True)
+        self.migrationreport_a.set(Blurbs.GeneralStatistics,"Record processed",self.count)
+        
         print(f"============REPORT======================")
         print(f"Record processed {self.count} Orders")
         logging.info(f"Record processed {self.count} Orders")
         print(f"RESULTS purchase orders {self.po_count} / {self.count} ")
-        logging.info(f"RESULTS purchase orders {self.po_count} / {self.count}")
+        logging.info(f"RESULTS purchase orders {self.po_count} / {self.count}")        
+        print(f"RESULTS purchase orders lines {self.polcont} / {self.polcont} ")
+        logging.info(f"RESULTS purchase orders lines {self.polcont} / {self.polcont}")        
         print(f"RESULTS purchase orders with new instance {self.po_count_new_instance} / {self.count}")
         logging.info(f"RESULTS purchase orders with new instance {self.po_count_new_instance}")
         print(f"RESULTS Notes  {self.counternotes} / {totalnotestoprocess}")
@@ -673,8 +694,10 @@ class compositePurchaseorders():
         logging.info(f"RESULTS worse purchase  {self.po_countworse} / {self.count}")
         print(f"RESULTS poLines with errors: {countpolerror} / {self.count}")
         logging.info(f"RESULTS poLines with errors: {countpolerror}/ {self.count}")
-
-    
+        
+        with open(f"{self.path_results}/purchaseOrders_migration_report.md", "w+") as report_file:
+            self.migrationreport_a.write_migration_report(report_file)
+        
 #########################################
 #POLINES FUNCTION             
 #########################################
@@ -1348,6 +1371,7 @@ class compositePurchaseorders():
                 poCount+=1
             return cpList    
         except Exception as ee:
+            self.migrationreport_a.add(Blurbs.PolinesErrors,f"ERROR POLINE:{masterPo} | {self.po_LineNumber} | {field} {ee}")
             print(ee)
             print(self.po_LineNumber)
             mf.write_file(ruta=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {field} {ee}")

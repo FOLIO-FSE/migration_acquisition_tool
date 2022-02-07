@@ -180,25 +180,18 @@ def tocsv():
     uai_csv_data = hol.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\locations_12112021.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
         
 def spreadsheet_to_csv():
-    dt = datetime.datetime.now()
-    dt=dt.strftime('%Y%m%d')
-    count=0
-    dataitemhol=[]
-    #in_file=open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\BIBLIOGRAPHIC_1539004070002776_1\\BIBLIOGRAPHIC_1539004070002776_1.mrk","r", encoding="utf-8")
-    in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\Ejemplares M_Final.xlsx"
-    #hol = pd.read_csv(in_holdings,dtype ='str')
-    #items = pd.read_csv(in_holdings,dtype ='str')
+    in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\items.xlsx"
+    buffer = StringIO()
     start_time = time.perf_counter()
-    items = pd.read_excel(in_items, engine='openpyxl', dtype ='str')
-    #items=pd.read_csv(in_items, error_bad_lines=False, encoding = 'unicode_escape',dtype='str')
+    Xlsx2csv(in_items, outputencoding="utf-8").convert(buffer)
+    buffer.seek(0)
+    items = pd.read_csv(buffer)
     print("total items original: "+str(len(items)))
     tt=len(items)
     end_time = time.perf_counter()
     total_time= round((end_time - start_time))/60
     print(f" records {tt} / total {total_time}:{60} seconds")
-    uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\items_Ejemplares M_Final_"+str(dt)+".tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
-    #print("total items original: "+str(len(uai_csv_data)))
-    #print(f'CSV String:', gfg_csv_data)
+    uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\tadeo_items.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
     print("end")
     
 def holding_to_csv():
@@ -365,8 +358,78 @@ def fix_dupmich():
                 outfile.write(outfilename+"\n")
     print(f"END")
     
+def extractdata():
+    ids={}
+    json_file="C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\results\\tocompare.json"
+    out_fileid=f"C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\results\\idsmsu.json"
+    count=1
+    with open(json_file, "r", encoding="utf") as file_j:
+        for linea in file_j:
+            print(f"record {count}")
+            recitem=linea
+            recitem=recitem.replace(",\n", "")
+            data = json.loads(recitem)
+            poNumber=str(data['poNumber'])
+            ids['legacy_id']=poNumber
+            idpo=str(data['id'])
+            ids['id']=idpo
+            idpoline=str(data['compositePoLines'][0]["id"])
+            ids['compositePoLines_id']=[idpoline]
+            outfilename = json.dumps(ids,ensure_ascii=False)
+            with codecs.open(out_fileid,"a+", encoding="utf-8") as outfile:
+                outfile.write(outfilename+"\n")
+            poNumber=""   
+            idpoline=""
+            idpo=""
+            count+=1
+    print("end")
+            
+def cairn_fix_holdings():
+    temp=pd.DataFrame()
+    in_holdings=open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\cairn\\data\\20220202-125611_items_with_boundwiths_handled.tsv","r")
+    hol = pd.read_csv(in_holdings,encoding="utf-8", sep='\t', dtype ='str')
+    hol = hol.apply(lambda x: x.fillna(""))
+    lendA = len(hol)
+    temp = hol.drop(hol[hol.BARCODE==""].index)
+    lendB = len(temp)
+    print(f"{lendA} {lendB}")
+    count=0
+    delcount=0
+    for i, row in temp.iterrows():
+        count+=1
+        print(f"count {count}")
+        #print(row['CALL #(ITEM)'])
+        if row['CALL #(ITEM)']!="":
+            temp['CALL #(BIBLIO)'] = temp['CALL #(BIBLIO)'].replace(row['CALL #(BIBLIO)'],row['CALL #(ITEM)'])
+            #row['CALL #(BIBLIO)']=row['CALL #(ITEM)']
+        if row['IMESSAGE']=="c":
+            temp['IMESSAGE']= temp['IMESSAGE'].replace(row['IMESSAGE'],"Check for CD")
+        elif row['IMESSAGE']=="d":
+            temp['IMESSAGE']= temp['IMESSAGE'].replace(row['IMESSAGE'],"Check for Disk")
+            #row['IMESSAGE']="Check for Disk"
+        elif row['IMESSAGE']=="e":
+            #row['IMESSAGE']="Check for DVD"
+            temp['IMESSAGE']= temp['IMESSAGE'].replace(row['IMESSAGE'],"Check for DVD")
+        elif row['IMESSAGE']=="m":
+            #row['IMESSAGE']="Check for Tape"
+            temp['IMESSAGE']= temp['IMESSAGE'].replace(row['IMESSAGE'],"Check for Tape")
+        elif row['IMESSAGE']=="p":
+            #row['IMESSAGE']="Count Pieces"
+            temp['IMESSAGE']= temp['IMESSAGE'].replace(row['IMESSAGE'],"Count Pieces")
+        elif row['IMESSAGE']=="t":
+            #row['IMESSAGE']="Send to TS"
+            temp['IMESSAGE']= temp['IMESSAGE'].replace(row['IMESSAGE'],"Send to TS")
+        else: 
+             row['IMESSAGE)']=""
+
+        
+        
+               
+    uai_csv_data = temp.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\cairn\\results\\07022022_cairn_itemsmodified.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
+    print(f"total: {count} borrados:{delcount}")
+
 if __name__ == "__main__":
-    fix_dupmich()
+    #fix_dupmich()
     #holding_to_csv()
     """This is the Starting point for the script"""
     #chagebibdata()
@@ -376,4 +439,7 @@ if __name__ == "__main__":
     #exceltodataframe("C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\uai\\data\\Ejemplares M_Final.xlsx", "Sheet1")
     #fix_dup()
     #spreadsheet_to_csv()
+    #spreadsheet_to_csv():
+    cairn_fix_holdings()
+    #extractdata()
     
