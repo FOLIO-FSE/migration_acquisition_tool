@@ -26,6 +26,7 @@ import ast
 import yaml
 import shutil
 import codecs
+from pathlib import Path, PureWindowsPath
 
     
 def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
@@ -295,31 +296,31 @@ class AcqErm():
         self.exist=True
         now = datetime.now()
         client={}
-        path=os.path.dirname(os.path.realpath(__file__))
-        print(path)
+        path=os.path.dirname(os.path.realpath(__file__))      
         self.path_original=path
         x=path.find("runenv")
-        self.path=path[:-46]
-        self.path_dir=f"{self.path}\\client_data\\{self.customerName}"
+        self.path=path[:46]
+        self.path_dir=f"{self.path}/client_data/migration_{self.customerName}"
         self.createDirectory(self.path_dir)
-        self.path_data=f"{self.path_dir}\\data"
-        self.path_refdata=f"{self.path_dir}\\refdata"
-        self.path_logs=f"{self.path_dir}\\logs"
-        self.path_results=f"{self.path_dir}\\results"
-        self.path_mapping_files=f"{self.path_dir}\\mapping_files"
-        folder=["logs","results","data","refdata","mapping_files"]
+        self.path_data=f"{self.path_dir}/data"
+        self.path_refdata=f"{self.path_dir}/refdata"
+        self.path_logs=f"{self.path_dir}/logs"
+        self.path_results=f"{self.path_dir}/results"
+        self.path_mapping_files=f"{self.path_dir}/mapping_files"
+        self.path_reports=f"{self.path_dir}/reports"        
+        folder=["logs","results","data","refdata","mapping_files","reports"]
         print("\n"+"Folders CLIENT_DATA")
         date_time = now.strftime("%m_%d_%y_(%H_%M)")
         for arg in folder:
             try: 
-                os.mkdir(f"{self.path_dir}\{arg}")
+                os.mkdir(f"{self.path_dir}/{arg}")
                 print(f"INFO creating folder {arg} for {self.customerName}")
                 self.exist=False
                 if arg=="mapping_files":
-                    shutil.copy(f"{self.path_original}\\loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
+                    shutil.copy(f"{self.path_original}/loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
                     dic= []
                     loadset={}
-                    f = open(f"{self.path_dir}\\{arg}\\loadSetting.json",)
+                    f = open(f"{self.path_dir}/{arg}/loadSetting.json",)
                     data = json.load(f)
                     for i in data['loadSetting']:
                         #a_line=str(i)
@@ -330,88 +331,91 @@ class AcqErm():
                         i['path_refdata']=f"{self.path_refdata}"
                         i['path_data']=f"{self.path_data}"
                         i['mapping_files']=f"{self.path_mapping_files}"
+                        i['path_reports']=f"{self.path_reports}"
+                        
                     dic.append(i)
                     loadset['loadSetting']=dic
                     f.close
-                    with open(f"{self.path_dir}\\{arg}\\loadSetting.json","w+", encoding="utf-8") as outfile:
+                    with open(f"{self.path_dir}/{arg}/loadSetting.json","w+", encoding="utf-8") as outfile:
                         json.dump(loadset,outfile,indent=2)
-                    shutil.copy(f"{self.path_original}\\acquisitionMapping_template.xlsx", f"{self.path_dir}\{arg}\\acquisitionMapping.xlsx")
+                    shutil.copy(f"{self.path_original}/acquisitionMapping_template.xlsx", f"{self.path_dir}\{arg}\\acquisitionMapping.xlsx")
                     refnumt=[]
                     refNumberType={}
                     refnumt.append({"Vendor continuation reference number":"","Vendor order reference number":"","Vendor subscription reference number":"","Vendor internal number":"","Vendor title number":""})
                     refNumberType['refNumberType']=refnumt
-                    printObject(refNumberType,f"{self.path_dir}\{arg}",0,"refNumberType",True)
-                    shutil.copy(f"{self.path_original}\\composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
-                    shutil.copy(f"{self.path_original}\\organization_mapping_template.json", f"{self.path_dir}\{arg}\\organization_mapping.json")
-                    shutil.copy(f"{self.path_original}\\agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")
-                    shutil.copy(f"{self.path_original}\\license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
-                    shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
-                    shutil.copy(f"{self.path_original}\\notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json") 
-                    self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"
-                    self.path_licenseMapping=f"{self.path_dir}\{arg}\\license_mapping.json"
-                    self.path_agreementMapping=f"{self.path_dir}\{arg}\\agreement_mapping.json"
-                    self.path_notesMapping=f"{self.path_dir}\{arg}\\notes_mapping.json"
-                    self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
-                    self.path_organizationsMapping=f"{self.path_dir}\{arg}\\organization_mapping.json"
+                    printObject(refNumberType,f"{self.path_dir}/{arg}",0,"refNumberType",True)
+                    shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
+                    shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}\{arg}\\organization_mapping.json")
+                    shutil.copy(f"{self.path_original}/agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")
+                    shutil.copy(f"{self.path_original}/license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
+                    shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
+                    shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json") 
+                    self.path_usersMapping=f"{self.path_dir}/{arg}/users_mapping.json"
+                    self.path_licenseMapping=f"{self.path_dir}/{arg}/license_mapping.json"
+                    self.path_agreementMapping=f"{self.path_dir}/{arg}/agreement_mapping.json"
+                    self.path_notesMapping=f"{self.path_dir}/{arg}/notes_mapping.json"
+                    self.path_purchaseMapping=f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"
+                    self.path_organizationsMapping=f"{self.path_dir}/{arg}/organization_mapping.json"
                
             except OSError as error: 
                 print(f"INFO client folder /{arg} for {self.customerName} found")
                 if arg=="mapping_files":
                     try:
-                        if os.path.exists(f"{self.path_dir}\{arg}\loadSetting.json"):
+                        if os.path.exists(f"{self.path_dir}/{arg}/loadSetting.json"):
                             pass
                         else:
-                            shutil.copy(f"{self.path_original}\\loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
+                            shutil.copy(f"{self.path_original}/loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
                             dic= []
                             loadset={}
-                            f = open(f"{self.path_dir}\\{arg}\\loadSetting.json",)
+                            f = open(f"{self.path_dir}/{arg}/loadSetting.json",)
                             data = json.load(f)
                             for i in data['loadSetting']:
                                 #a_line=str(i)
                                 i['customer']=self.customerName
                                 i['path_root']=f"{self.path_dir}"
-                                i['path_results']=f"{self.path_dir}\\results"
-                                i['path_logs']=f"{self.path_dir}\\logs"
-                                i['path_refdata']=f"{self.path_dir}\\refdata"
-                                i['path_data']=f"{self.path_dir}\\data"
-                                i['path_mapping_files']=f"{self.path_dir}\\mapping_files"
+                                i['path_results']=f"{self.path_dir}/results"
+                                i['path_logs']=f"{self.path_dir}/logs"
+                                i['path_refdata']=f"{self.path_dir}/refdata"
+                                i['path_data']=f"{self.path_dir}/data"
+                                i['path_mapping_files']=f"{self.path_dir}/mapping_files"
+                                i['path_reports']=f"{self.path_dir}/reports"
                             dic.append(i)
                             loadset['loadSetting']=dic
                             f.close
-                            with open(f"{self.path_dir}\\{arg}\\loadSetting.json","w+", encoding="utf-8") as outfile:
+                            with open(f"{self.path_dir}/{arg}/loadSetting.json","w+", encoding="utf-8") as outfile:
                                 json.dump(loadset,outfile,indent=2)
-                        if os.path.exists(f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"):
-                            self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
+                        if os.path.exists(f"{self.path_dir}/{arg}composite_purchase_order_mapping.json"):
+                            self.path_purchaseMapping=f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"
                         else:
-                            shutil.copy(f"{self.path_original}\\composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
-                        if os.path.exists(f"{self.path_dir}\{arg}\\organization_mapping.json"):
+                            shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
+                        if os.path.exists(f"{self.path_dir}/{arg}/organization_mapping.json"):
                             pass
                         else:
-                            shutil.copy(f"{self.path_original}\\organization_mapping_template.json", f"{self.path_dir}\{arg}\\organization_mapping.json")
-                        if os.path.exists(f"{self.path_dir}\{arg}\\agreement_mapping.json"):
+                            shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}\{arg}\\organization_mapping.json")
+                        if os.path.exists(f"{self.path_dir}/{arg}/agreement_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}\\agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")                    
-                        if os.path.exists(f"{self.path_dir}\{arg}\license_mapping.json"):
+                            shutil.copy(f"{self.path_original}/agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")                    
+                        if os.path.exists(f"{self.path_dir}/{arg}/license_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}\\license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
-                        if os.path.exists(f"{self.path_dir}\{arg}\\users_mapping.json"):
+                            shutil.copy(f"{self.path_original}/license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
+                        if os.path.exists(f"{self.path_dir}/{arg}/users_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}\\users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
-                        if os.path.exists(f"{self.path_dir}\{arg}\\notes_mapping.json"):
+                            shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
+                        if os.path.exists(f"{self.path_dir}/{arg}/notes_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}\\notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json")
+                            shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json")
 
                         
-                        self.path_usersMapping=f"{self.path_dir}\{arg}\\users_mapping.json"                
-                        self.path_licenseMapping=f"{self.path_dir}\{arg}\\license_mapping.json"
-                        self.path_agreementMapping=f"{self.path_dir}\{arg}\\agreement_mapping.json"
-                        self.path_notesMapping=f"{self.path_dir}\{arg}\\notes_mapping.json"
-                        self.path_purchaseMapping=f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json"
-                        self.path_organizationsMapping=f"{self.path_dir}\{arg}\\organization_mapping.json"
+                        self.path_usersMapping=f"{self.path_dir}/{arg}/users_mapping.json"                
+                        self.path_licenseMapping=f"{self.path_dir}/{arg}/license_mapping.json"
+                        self.path_agreementMapping=f"{self.path_dir}/{arg}/agreement_mapping.json"
+                        self.path_notesMapping=f"{self.path_dir}/{arg}/notes_mapping.json"
+                        self.path_purchaseMapping=f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"
+                        self.path_organizationsMapping=f"{self.path_dir}/{arg}/organization_mapping.json"
                     except OSError as error:
                         print(f"INFO client mapping files /{arg} for {self.customerName} found")
         print("\n"+f"Reference Data")
@@ -421,7 +425,7 @@ class AcqErm():
             #print(f"INFO Getting Okapi customer from okapi_customer files")
             #client=br.SearchClient(self.customerName)
             if self.customerName is not None:
-                self.refdata_path=f"{self.path_dir}\\refdata"
+                self.refdata_path=f"{self.path_dir}/refdata"
                 queryString=""
                 for arv in schemas:
                     try:
@@ -438,12 +442,12 @@ class AcqErm():
                 
     def createdFolderStructureenv(self):
         client={}
-        path=os.path.abspath(os.getcwd())
+        path=os.path.dirname(os.path.realpath(__file__)) 
         folder=["logs","results"]
         print("\n"+"Folders RUNENV")
         for arg in folder:
             try: 
-                os.mkdir(f"{path}\{arg}\{self.customerName}")
+                os.mkdir(f"{path}/{arg}/{self.customerName}")
                 print(f"INFO creating folder {arg} for {self.customerName}")  
             except OSError as error: 
                 print(f"INFO folder {arg} for {self.customerName} found")
@@ -471,8 +475,8 @@ class AcqErm():
                 #root.mainloop()
                 print(f"INFO the FOLDERS for {self.customerName}  were created in..{self.path_data}")
                 print(f"Warning:")
-                print(f"INFO 1. Check the ..{self.path_data}\loadSetting.json file be sure to include the file name to read")
-                print(f"INFO 2. Need to include the mapping file too in ..{self.path_refdata}")
+                print(f"INFO 1. Check the ..{self.path_data}/loadSetting.json file be sure to include the file name to read")
+                print(f"INFO 2. Need to include the mapping file too in ..{self.path_mapping_files}")
                 print(f"INFO 3. Run again the script...")                
                 return
             else:
@@ -587,67 +591,71 @@ class AcqErm():
                         self.value_a="po"                    
                         self.df=self.value
                         ls=self.load_settings()
-                        self.customerName=pd.dataframe()
-                        #print(ls[self.value_a])
-                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
-                        self.dforders=self.customerName.importDataFrame(filetoload,
+                        existname=str(ls[self.value_a]['fileName'])
+                        if existname!="":
+                            filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                            self.customerName=pd.dataframe()
+                            #print(ls[self.value_a])
+                            self.dforders=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_purchaseMapping,
                                             dfname=self.value)
 
-                        self.value_a="poLines"
-                        lsa=self.load_settings()
-                        filetoload=f"{self.path_data}\\"+str(lsa[self.value_a]['fileName'])
-                        self.dfpoLines=self.customerName.importDataFrame(filetoload,
+                            self.value_a="poLines"
+                            lsa=self.load_settings()
+                            existname=""
+                            existname=str(lsa[self.value_a]['fileName'])
+                            if existname!="":
+                                filetoload=f"{self.path_data}\\"+str(lsa[self.value_a]['fileName'])
+                                self.dfpoLines=self.customerName.importDataFrame(filetoload,
                                             orderby=lsa[self.value_a]['orderby'],
                                             distinct=lsa[self.value_a]['distinct'],
                                             sheetName=lsa[self.value_a]['sheetName'],
                                             mapping_file=self.path_purchaseMapping,
                                             dfname=self.value_a)
-                        #Notes
-                        self.value="notes"
-                        self.value_a=f"note[0]"
-                        print(f"INFO NOTE NO. {self.value_a}===================")
-                        self.df=self.value
-                        try:
+                            else:
+                                self.dfpoLine=self.dforders
+                            #Notes
+                            self.value="notes"
+                            self.value_a=f"note[0]"
+                            print(f"INFO NOTE NO. {self.value_a}===================")
+                            self.df=self.value
                             ls=self.load_settings()
-                        except ValueError as error:
-                            print(f"INFO No Notes")
-                            swno=False
-                            
-                        
-                        #print(ls[self.value_a])
-                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
-                        if filetoload!="":
-                                self.customerName=pd.dataframe()
-                                filenametoprint=str(ls[self.value_a]['fileName'])
-                                readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
-                                linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
-                                if readmapping=="":
-                                    self.notes=self.customerName.importDataFrame(filetoload,
+                            existname=str(ls[self.value_a]['fileName'])
+                            self.notes=None
+                            if existname!="":
+                                swno=False
+                                #print(ls[self.value_a])
+                                filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                                if filetoload!="":
+                                    self.customerName=pd.dataframe()
+                                    filenametoprint=str(ls[self.value_a]['fileName'])
+                                    readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
+                                    linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
+                                    if readmapping=="":
+                                        self.notes=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_notesMapping,
                                             dfname=self.value)
-                                else:
-                                    self.notes=self.customerName.importDataFrame(filetoload,
+                                    else:
+                                        self.notes=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=readmapping,
                                             dfname=self.value)
-                                    
-                        if self.dforders is not None: 
-                            self.customerName=orders.compositePurchaseorders(client,self.path_dir)
+                            if self.dforders is not None: 
+                                self.customerName=orders.compositePurchaseorders(client,self.path_dir)
                             if self.notes is not None:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes,notes_mapping_file=readmapping)
                             else:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
                         else:
-                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_refdata}\loadSetting.json")                     
+                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_mapping_files}\loadSetting.json")                     
                     except ValueError as error:
                         print(f"Error: {error}")
                         
@@ -744,20 +752,10 @@ class AcqErm():
             for i in settingdata['loadSetting']:
                 try:
                     for lf in i[self.value]:
-                        #print(lf[self.value_a])
-                        #print(lf)
                         if self.value_a in lf:
                             load_file=str(lf[self.value_a]['fileName'])
                             f.close()
                             return lf
-
-                    #keyslist=lf.get('fileName')
-                    
-                    #if str(lf[self.value_a]==self.value_a):
-                    #   load_file=str(lf[self.value_a]['fileName'])
-                    #   f.close()
-                    #   return lf 
-                            
                 except ValueError as error:
                     print(f"Error: {error}")
             if load_file!="":
