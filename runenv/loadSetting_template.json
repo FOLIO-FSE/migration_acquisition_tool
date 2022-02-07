@@ -8,6 +8,7 @@
       "path_refdata": "",
       "path_data": "",
       "mapping_files":"",
+      "path_reports":"",
       "organizations": [
         {"org": {"fileName": "","orderby": "","distinct": ["code"],"sheetName": "","mappingfile":"organization_mapping.json"}},
         {"contacts": {"fileName": "","orderby": "","distinct": [],"sheetName": "","mappingfile":"contacts_mapping.json"}},

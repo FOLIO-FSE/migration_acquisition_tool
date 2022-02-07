@@ -41,7 +41,14 @@ class dataframe():
             print(f"ERROR DATAFRAME:{pd.errors.EmptyDataError}")
             return None
         
-       
+    def importdict(self, **kwargs):
+        try:
+            data=kwargs['data']
+            self.df=pd.DataFrame.from_dict(data)
+            return self.df
+        except pd.errors.EmptyDataError:
+            print(f"ERROR DATAFRAME:{pd.errors.EmptyDataError}")
+              
     def importDataFrame(self, file_path, **kwargs):
         try:
             start_time = time.perf_counter()
@@ -247,8 +254,8 @@ class dataframe():
 
     def createDataFrame(self,columns):
         #df = pd.DataFrame(data, label_rows, label_cols)                
-        df = pd.DataFrame(columns = columns)
-        return df
+        self.df = pd.DataFrame(columns = columns)
+        return self.df
 
 
     def exceltodataframe(self):

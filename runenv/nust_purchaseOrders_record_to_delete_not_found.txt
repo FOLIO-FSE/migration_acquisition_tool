@@ -1,0 +1,9 @@
+0d8e5afc-fd92-4da8-8067-6b68350ab5e4(-0.9989) seconds 
+4549e3a9-8d97-4d57-b8fd-521e6015a998(-0.8904) seconds 
+c4d3bad1-5f54-4102-8d90-bde7a59828d6(-0.8650) seconds 
+8ceb60f5-77e2-487c-bf83-da1403a7ffa1(-1.0080) seconds 
+15ec6375-bc7e-405c-b8bc-bb3886033142(-0.8795) seconds 
+22f440dd-cda7-4532-a2c0-78b5fa10aa0f(-0.9040) seconds 
+0867d072-74e5-4b29-aa4c-58b1a39e9b6e(-0.9190) seconds 
+51f925c8-ab93-45a9-ae10-b5094171124f(-0.8759) seconds 
+fe0325a9-57dc-4e8d-ad19-b802b96a0752(-0.9403) seconds 
