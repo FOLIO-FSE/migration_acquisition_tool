@@ -711,36 +711,40 @@ class organizations():
                             addressdata1=""
                             if field in contact.columns:
                                 phonNumbers=rowc[field]
-                                if iter==0:
-                                    isPrimary=True
-                                #phoneNumbers[0].type
-                                field=f"contacts[{iter}].phoneNumbers.type"
-                                phonenumbertype=""
-                                if field in contact.columns:
-                                    if rowc[field]:
-                                        phonentype=rowc[field]
-                                        phonetypelist=["Office","Mobile","Fax","Other"]
-                                        countlist = phonetypelist.count(str(phonentype))
-                                        if countlist>0:
-                                            phonenumbertype=phonentype
-                                        else:
-                                            phonenumbertype="Other" 
-                                field=f"contacts[{iter}].phoneNumbers.categories"
-                                if field in contact.columns:
-                                    if rowc[field]:
-                                        toSearch=str(rowc[field]).strip()
-                                        cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
-                                        if cate is None:
-                                            mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
-                                        else:                                         
-                                            categories.append(cate)
-                                conphonNumbers.append(mf.dic(phoneNumber= phonNumbers,type=phonenumbertype, isPrimary= isPrimary, language="eng-us",categories=categories))
+                                # If there is no phone number value, we don't need to build a phone numbers object.
+                                if any(phonNumbers):
+                                    if iter==0:
+                                        isPrimary=True
+                                    #phoneNumbers[0].type
+                                    field=f"contacts[{iter}].phoneNumbers.type"
+                                    # This field can be omitted but not an empty string.
+                                    phonenumbertype="Other" 
+                                    if field in contact.columns:
+                                        if rowc[field]:
+                                            phonentype=rowc[field]
+                                            phonetypelist=["Office","Mobile","Fax","Other"]
+                                            countlist = phonetypelist.count(str(phonentype))
+                                            if countlist>0:
+                                                phonenumbertype=phonentype
+                                            else:
+                                                phonenumbertype="Other"
+                                    field=f"contacts[{iter}].phoneNumbers.categories"
+                                    if field in contact.columns:
+                                        if rowc[field]:
+                                            toSearch=str(rowc[field]).strip()
+                                            cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
+                                            if cate is None:
+                                                mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                            else:
+                                                categories.append(cate)
+                                    conphonNumbers.append(mf.dic(phoneNumber= phonNumbers,type=phonenumbertype, isPrimary= isPrimary, language="eng-us",categories=categories))
                             else:
                                 sw=False
                             iter+=1 
-                        
-                            if len(conphonNumbers)!=0:
-                                con['phoneNumbers']=conphonNumbers         
+
+                            # This will be either an empty arry or an array of objects
+                            con['phoneNumbers']=conphonNumbers
+
                         iter=0
                         sw=True
                         conaddresses=[] 
