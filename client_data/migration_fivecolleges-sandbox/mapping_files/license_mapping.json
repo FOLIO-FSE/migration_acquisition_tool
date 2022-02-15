@@ -1,0 +1,118 @@
+{
+   "data": [
+      {
+         "folio_field": "id",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "dateCreated",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "customProperties",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "contacts[0].role",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": "InternalContact.Role"
+      },
+      {
+         "folio_field": "tags[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "lastUpdated",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "docs[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "name",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "status",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "startDate",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "endDate",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "openEnded",
+         "legacy_field": "Not mapped",
+         "value": false,
+         "description": ""
+      },
+      {
+         "folio_field": "amendments[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "orgs[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "LicenseOrg.Role[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": "LicenseOrg.Role"
+      },
+      {
+         "folio_field": "License.Type[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": "License.Type"
+      },
+      {
+         "folio_field": "alternateNames[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "description",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      }
+   ]
+}
