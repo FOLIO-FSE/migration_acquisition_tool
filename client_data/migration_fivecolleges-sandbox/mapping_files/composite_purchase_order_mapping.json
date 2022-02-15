@@ -7,6 +7,12 @@
          "description": ""
       },
       {
+         "folio_field": "adqUnit",
+         "legacy_field": "ACQUNITIDS",
+         "value": "",
+         "description": ""
+      },
+      {
          "folio_field": "approved",
          "legacy_field": "",
          "value": true,
@@ -44,7 +50,7 @@
       },
       {
          "folio_field": "compositePoLines[0].acquisitionMethod",
-         "legacy_field": "ACQ TYPE",
+         "legacy_field": "ACQUISITIONMETHOD",
          "value": "",
          "description": ""
       },
@@ -110,13 +116,13 @@
       },
       {
          "folio_field": "compositePoLines[0].contributors[0].contributor",
-         "legacy_field": "Not mapped",
+         "legacy_field": "AUTHOR",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "compositePoLines[0].contributors[0].contributorNameTypeId",
-         "legacy_field": "Not mapped",
+         "legacy_field": "AUTHORTYPE",
          "value": "",
          "description": ""
       },
@@ -129,7 +135,7 @@
       {
          "folio_field": "compositePoLines[0].cost.currency",
          "legacy_field": "Not mapped",
-         "value": "",
+         "value": "USD",
          "description": ""
       },
       {
@@ -158,13 +164,13 @@
       },
       {
          "folio_field": "compositePoLines[0].cost.listUnitPrice",
-         "legacy_field": "E PRICE",
+         "legacy_field": "LISTUNITPRICE",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "compositePoLines[0].cost.listUnitPriceElectronic",
-         "legacy_field": "Not mapped",
+         "legacy_field": "LISTUNITPRICE",
          "value": "",
          "description": ""
       },
@@ -176,13 +182,13 @@
       },
       {
          "folio_field": "compositePoLines[0].cost.quantityElectronic",
-         "legacy_field": "Not mapped",
+         "legacy_field": "QUANTITYX",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "compositePoLines[0].cost.quantityPhysical",
-         "legacy_field": "COPIES",
+         "legacy_field": "QUANTITYX",
          "value": "",
          "description": ""
       },
@@ -218,7 +224,7 @@
       },
       {
          "folio_field": "compositePoLines[0].details.subscriptionFrom",
-         "legacy_field": "RDATE",
+         "legacy_field": "SUBSCRIPTIONFROM",
          "value": "",
          "description": ""
       },
@@ -230,7 +236,7 @@
       },
       {
          "folio_field": "compositePoLines[0].details.subscriptionTo",
-         "legacy_field": "Not mapped",
+         "legacy_field": "SUBSCRIPTIONTO",
          "value": "",
          "description": ""
       },
@@ -248,7 +254,7 @@
       },
       {
          "folio_field": "compositePoLines[0].eresource.accessProvider",
-         "legacy_field": "Not mapped",
+         "legacy_field": "VENDOR",
          "value": "",
          "description": ""
       },
@@ -296,7 +302,7 @@
       },
       {
          "folio_field": "compositePoLines[0].eresource.materialType",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Z68_MATERIAL_TYPE",
          "value": "",
          "description": ""
       },
@@ -416,7 +422,7 @@
       },
       {
          "folio_field": "compositePoLines[0].paymentStatus",
-         "legacy_field": "PER SUBJ",
+         "legacy_field": "PAYMENTSTATUS",
          "value": "",
          "description": ""
       },
@@ -518,7 +524,7 @@
       },
       {
          "folio_field": "compositePoLines[0].requester",
-         "legacy_field": "SUGG. BY",
+         "legacy_field": "REQUESTOR",
          "value": "",
          "description": ""
       },
@@ -548,7 +554,7 @@
       },
       {
          "folio_field": "compositePoLines[0].titleOrPackage",
-         "legacy_field": "Not mapped",
+         "legacy_field": "TITLE",
          "value": "",
          "description": ""
       },
@@ -578,7 +584,7 @@
       },
       {
          "folio_field": "dateOrdered",
-         "legacy_field": "Not mapped",
+         "legacy_field": "Z68_ORDER_DATE",
          "value": "",
          "description": ""
       },
@@ -650,19 +656,19 @@
       },
       {
          "folio_field": "orderType",
-         "legacy_field": "ORD TYPE",
+         "legacy_field": "ORDERTYPE",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "poNumber",
-         "legacy_field": "RECORD #(ORDER)",
+         "legacy_field": "PONUMBER",
          "value": "",
          "description": ""
       },
       {
          "folio_field": "poNumberPrefix",
-         "legacy_field": "Not mapped",
+         "legacy_field": "PONUMBERPREFIX",
          "value": "",
          "description": ""
       },
@@ -674,7 +680,7 @@
       },
       {
          "folio_field": "reEncumber",
-         "legacy_field": "Not mapped",
+         "legacy_field": "REENCUMBER",
          "value": "",
          "description": ""
       },
@@ -728,7 +734,7 @@
       },
       {
          "folio_field": "workflowStatus",
-         "legacy_field": "STATUS",
+         "legacy_field": "WORKFLOWSTATUS",
          "value": "",
          "description": ""
       }
