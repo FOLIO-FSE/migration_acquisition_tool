@@ -1,0 +1,123 @@
+{
+  "loadSetting": [
+    {
+      "customer": "template",
+      "path_root": "C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_template",
+      "path_results": "C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_template\\results",
+      "path_logs": "C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_template\\logs",
+      "path_refdata": "C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_template\\refdata",
+      "path_data": "C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_template\\data",
+      "mapping_files": "",
+      "organizations": [
+        {
+          "org": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [
+              "code"
+            ],
+            "sheetName": "",
+            "mappingfile": "organization_mapping.json"
+          }
+        },
+        {
+          "contacts": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mappingfile": "contacts_mapping.json"
+          }
+        },
+        {
+          "interfaces": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mappingfile": "interfaces_mapping.json"
+          }
+        }
+      ],
+      "purchaseOrders": [
+        {
+          "po": {
+            "fileName": "order_records_bibliographic_20220118_FINAL.xlsx",
+            "orderby": "",
+            "distinct": [
+              "poNumber"
+            ],
+            "sheetName": "",
+            "mappingfile": "composite_purchase_order_mapping.json"
+          }
+        },
+        {
+          "poLines": {
+            "fileName": "order_records_bibliographic_20220118_FINAL.xlsx",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mappingfile": "composite_purchase_order_mapping.json"
+          }
+        }
+      ],
+      "licenses": [
+        {
+          "lic": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "licenseId": "",
+            "sheetName": "",
+            "mappingfile": "license_mapping.json"
+          }
+        }
+      ],
+      "agreement": [
+        {
+          "agree": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "agreementid": "",
+            "sheetName": "",
+            "linkidfile":"",
+            "mappingfile": "agreement_mapping.json"
+          }
+        }
+      ],
+      "users": [
+        {
+          "user": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "userid": "",
+            "sheetName": ""
+          }
+        }
+      ],
+      "notes": [
+        {
+          "note[0]": {
+            "fileName": "payments_bibliographic_20220120_FINAL.txt",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mappingfile": "notes_mapping.json",
+            "linkidfile":""
+          },
+          "note[1]": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mappingfile": "",
+            "linkidfile":""
+          }
+        }
+      ],
+      "path_mapping_files": "C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_template\\mapping_files"
+    }
+  ]
+}
