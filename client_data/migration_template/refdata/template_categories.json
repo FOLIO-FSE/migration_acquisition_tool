@@ -1,0 +1,55 @@
+{
+  "categories": [
+    {
+      "id": "7cf37a7a-90d5-4f4d-90c1-7d172fba20f4",
+      "value": "Customer Service",
+      "metadata": {
+        "createdDate": "2021-09-28T15:29:38.513+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:29:38.513+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "74c1a179-cef7-4505-a354-444ba37fc0c5",
+      "value": "Payments",
+      "metadata": {
+        "createdDate": "2021-09-28T15:29:44.895+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:29:44.895+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "204d8d4d-fe54-406b-b1ee-2e99f1dae550",
+      "value": "Returns",
+      "metadata": {
+        "createdDate": "2021-09-28T15:29:51.622+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:29:51.622+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "322ba0b2-84dc-4cd4-b78b-f6f9e652392d",
+      "value": "Claims",
+      "metadata": {
+        "createdDate": "2021-09-28T15:29:57.516+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:29:57.516+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "ad153bbe-1513-4159-992e-5a01bd9c9580",
+      "value": "Local Representative",
+      "metadata": {
+        "createdDate": "2021-09-28T15:30:07.033+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:30:07.033+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    }
+  ],
+  "totalRecords": 5
+}

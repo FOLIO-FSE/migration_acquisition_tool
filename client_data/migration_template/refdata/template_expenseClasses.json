@@ -1,0 +1,77 @@
+{
+  "expenseClasses": [
+    {
+      "id": "6b60e8c6-baf9-4392-a582-b0ea97f63f11",
+      "code": "abk",
+      "externalAccountNumberExt": "89020-2018",
+      "name": "A Books",
+      "metadata": {
+        "createdDate": "2021-10-20T23:30:24.174+00:00",
+        "createdByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c",
+        "updatedDate": "2021-10-20T23:30:24.174+00:00",
+        "updatedByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c"
+      }
+    },
+    {
+      "id": "c4b005a9-9e1e-4dba-a441-f0c41e516abc",
+      "code": "mbk",
+      "externalAccountNumberExt": "89020-2018",
+      "name": "M Books",
+      "metadata": {
+        "createdDate": "2021-10-20T23:30:45.633+00:00",
+        "createdByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c",
+        "updatedDate": "2021-10-20T23:30:45.633+00:00",
+        "updatedByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c"
+      }
+    },
+    {
+      "id": "5bf8d7fc-e2bc-4128-9d8c-2ea42096fc7d",
+      "code": "wbk",
+      "externalAccountNumberExt": "89020-2018",
+      "name": "W Books",
+      "metadata": {
+        "createdDate": "2021-10-20T23:44:40.280+00:00",
+        "createdByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c",
+        "updatedDate": "2021-10-20T23:44:40.280+00:00",
+        "updatedByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c"
+      }
+    },
+    {
+      "id": "79892a76-bcab-4334-a3a3-369d8a874fb8",
+      "code": "trex",
+      "externalAccountNumberExt": "89020-2018",
+      "name": "X Books",
+      "metadata": {
+        "createdDate": "2021-10-20T23:45:00.763+00:00",
+        "createdByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c",
+        "updatedDate": "2021-10-20T23:45:00.763+00:00",
+        "updatedByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c"
+      }
+    },
+    {
+      "id": "b6582909-e53b-40a4-bd53-c034e993b35b",
+      "code": "ebk",
+      "externalAccountNumberExt": "89023-2018",
+      "name": "E Individual",
+      "metadata": {
+        "createdDate": "2021-10-26T21:04:35.714+00:00",
+        "createdByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c",
+        "updatedDate": "2021-10-26T21:04:35.714+00:00",
+        "updatedByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c"
+      }
+    },
+    {
+      "id": "478f8f64-6e5b-4076-8dd6-a9b79aeabbed",
+      "code": "ebkp",
+      "externalAccountNumberExt": "89023-2018",
+      "name": "E Package",
+      "metadata": {
+        "createdDate": "2021-10-26T21:04:57.621+00:00",
+        "createdByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c",
+        "updatedDate": "2021-10-26T21:04:57.621+00:00",
+        "updatedByUserId": "3f2dcd81-7c24-4c6c-8e5b-f11806a0935c"
+      }
+    }
+  ],
+  "totalRecords": 6
+}
