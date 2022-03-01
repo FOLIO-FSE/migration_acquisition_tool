@@ -173,7 +173,58 @@ def make_get(Pattern,okapi_url, okapi_tenant, okapi_token,queryString,json_file,
                 print(req.text)
             elif req.status_code==403:
                 print(req.text)
-                       
+
+def make_get_erm(pathPattern,okapi_url, okapi_tenant, okapi_token,queryString,json_file,refdatapath):
+        try:
+            pathPattern=pathPattern
+            okapi_url=okapi_url
+            archivo=open(json_file+".json", 'w')
+            okapi_headers = {"x-okapi-token": okapi_token,"x-okapi-tenant": okapi_tenant,"content-type": "application/json"}
+            #username="folio"
+            #password="Madison"
+            #payload = {'username': username, 'password': password}
+            perpage = 100
+            page = 1
+            paging_q = "?perPage={}&page={}"
+            #length="9999"
+            #start="1"
+            #paging_q = f"?limit={length}&offset={start}"
+            pathlic = pathPattern+paging_q.format(perpage,page)
+            #data=json.dumps(payload)
+            url = okapi_url + pathlic
+            req = requests.get(url, headers=okapi_headers)
+            #print(req.text)
+            if req.status_code != 201:
+                #print(req)        
+                #print(req.encoding)
+                #print(req.text)
+                #print(req.headers)
+                response = json.loads(req.text)
+                #total_recs = int(json_str["totalRecords"])
+                #archivo.write(json.dumps(response,indent=3))
+                printObject(response,refdatapath,0,f"{json_file}",True)
+                #print('Datos en formato JSON',json.dumps(response, indent=2))
+                #print('Datos en formato JSON',json.dumps(response))
+                with open(json_file+".json", 'a+') as archivo:
+                    while len(response) == perpage:
+                        page += 1
+                        paging_q = "?perPage={}&page={}"
+                        path = pathPattern+paging_q.format(perpage, page)
+                        url = okapi_url + path
+                        req = requests.get(url, headers=okapi_headers)
+                        response = json.loads(req.text)
+                        #archivo.write(json.dumps(response, indent=2))
+                        printObject(response,refdatapath,0,f"{json_file}",True)
+                        #archivo.write(json.dumps(response,indent=3))
+                        #archivo.write(json.dumps(response))
+                        #print('Datos en formato JSON',json.dumps(response, indent=2))
+                        print('Datos en formato JSON',json.dumps(response))
+                    #archivo.write(json.dumps(response, indent=3))
+                    printObject(response,refdatapath,0,f"{json_file}",True)
+        except requests.RequestException as e:
+           print("OOPS!! General Error")
+           print(str(e))
+                      
 def floatHourToTime(fh):
     h, r = divmod(fh, 1)
     m, r = divmod(r*60, 1)
@@ -307,7 +358,41 @@ class AcqErm():
         self.path_logs=f"{self.path_dir}/logs"
         self.path_results=f"{self.path_dir}/results"
         self.path_mapping_files=f"{self.path_dir}/mapping_files"
-        self.path_reports=f"{self.path_dir}/reports"        
+        self.path_reports=f"{self.path_dir}/reports"
+        print("\n"+f"Reference Data")
+        print(f"INFO: Reference Data:{self.getrefdata}")
+        if self.getrefdata:
+            #schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments","tenant.addresses"]
+            if self.sctr=="l":
+                schemas=["licenses_refdata","licenses_custprops","organizations","noteTypes"]
+            elif self.sctr=="a":
+                schemas=["categories","acquisitionsUnits","organizations","noteTypes","tenant.addresses"]
+            elif self.sctr=="o":
+                schemas=["categories","acquisitionsUnits","organizations","noteTypes"]
+            elif self.sctr=="p":
+                schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","tenant.addresses"]
+            else:
+                schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments","tenant.addresses"]
+            #print(f"INFO Getting Okapi customer from okapi_customer files")
+            #client=br.SearchClient(self.customerName)
+            if self.customerName is not None:
+                self.refdata_path=f"{self.path_dir}/refdata"
+                queryString=""
+                for arv in schemas:
+                    try:
+                    #(Pattern,okapi_url, okapi_tenant, okapi_token,queryString,json_file,path):
+                        #print(arv)
+                        pattern=get_one_schema(str(arv))
+                        if arv=="licenses_refdata" or arv=="licenses_custprops":
+                            totalrecs=make_get_erm(pattern[0],self.x_okapi_url, self.x_okapi_tenant, self.x_okapi_token,queryString,f"{self.customerName}_{arv}",self.refdata_path)
+                        else:
+                            totalrecs=make_get(pattern[0],self.x_okapi_url, self.x_okapi_tenant, self.x_okapi_token,queryString,f"{self.customerName}_{arv}",self.refdata_path)
+                        print(f"INFO schema: {arv} total records: {totalrecs}")
+                    except Exception as ee:
+                        print(f"ERROR: schema: {arv} {ee}")
+            else:
+                print(f"ERROR: Client Name was't found in /runenv/okapi_customers.json file, it needs to be included: {self.upd}")        
+
         folder=["logs","results","data","refdata","mapping_files","reports"]
         print("\n"+"Folders CLIENT_DATA")
         date_time = now.strftime("%m_%d_%y_(%H_%M)")
@@ -356,6 +441,15 @@ class AcqErm():
                     self.path_notesMapping=f"{self.path_dir}/{arg}/notes_mapping.json"
                     self.path_purchaseMapping=f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"
                     self.path_organizationsMapping=f"{self.path_dir}/{arg}/organization_mapping.json"
+                    if self.sctr=="l":
+                        if os.path.exists(f"{self.path_dir}/{arg}/{self.customerName}_licenses_custprops.json"):
+                            pass
+                        else:
+                            shutil.copy(f"{self.path_refdata}/{self.customerName}_licenses_custprops.json", f"{self.path_dir}/{arg}/{self.customerName}_licenses_custprops.json")
+                        if os.path.exists(f"{self.path_dir}/{arg}/{self.customerName}_licenses_refdata.json"):
+                            pass
+                        else:
+                            shutil.copy(f"{self.path_refdata}/{self.customerName}_licenses_refdata.json", f"{self.path_dir}/{arg}/{self.customerName}_licenses_refdata.json")
                
             except OSError as error: 
                 print(f"INFO client folder /{arg} for {self.customerName} found")
@@ -384,7 +478,7 @@ class AcqErm():
                             f.close
                             with open(f"{self.path_dir}/{arg}/loadSetting.json","w+", encoding="utf-8") as outfile:
                                 json.dump(loadset,outfile,indent=2)
-                        if os.path.exists(f"{self.path_dir}/{arg}composite_purchase_order_mapping.json"):
+                        if os.path.exists(f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"):
                             self.path_purchaseMapping=f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"
                         else:
                             shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
@@ -395,11 +489,22 @@ class AcqErm():
                         if os.path.exists(f"{self.path_dir}/{arg}/agreement_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}/agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")                    
+                            shutil.copy(f"{self.path_original}/agreement_mapping_template.json", f"{self.path_dir}/{arg}/agreement_mapping.json")                    
                         if os.path.exists(f"{self.path_dir}/{arg}/license_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}/license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
+                            shutil.copy(f"{self.path_original}/license_mapping_template.json", f"{self.path_dir}/{arg}/license_mapping.json")
+                        if self.sctr=="l":
+                            if os.path.exists(f"{self.path_dir}/{arg}/{self.customerName}_licenses_custprops.json"):
+                                pass
+                            else:
+                                shutil.copy(f"{self.path_refdata}/{self.customerName}_licenses_custprops.json", f"{self.path_dir}/{arg}/{self.customerName}_licenses_custprops.json")
+                            
+                            if os.path.exists(f"{self.path_dir}/{arg}/{self.customerName}_licenses_refdata.json"):
+                                pass
+                            else:
+                                shutil.copy(f"{self.path_refdata}/{self.customerName}_licenses_refdata.json", f"{self.path_dir}/{arg}/{self.customerName}_licenses_refdata.json")
+                                
                         if os.path.exists(f"{self.path_dir}/{arg}/users_mapping.json"):
                             pass 
                         else:
@@ -408,8 +513,6 @@ class AcqErm():
                             pass 
                         else:
                             shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json")
-
-                        
                         self.path_usersMapping=f"{self.path_dir}/{arg}/users_mapping.json"                
                         self.path_licenseMapping=f"{self.path_dir}/{arg}/license_mapping.json"
                         self.path_agreementMapping=f"{self.path_dir}/{arg}/agreement_mapping.json"
@@ -418,26 +521,6 @@ class AcqErm():
                         self.path_organizationsMapping=f"{self.path_dir}/{arg}/organization_mapping.json"
                     except OSError as error:
                         print(f"INFO client mapping files /{arg} for {self.customerName} found")
-        print("\n"+f"Reference Data")
-        print(f"INFO: Reference Data:{self.getrefdata}")
-        if self.getrefdata:
-            schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments","tenant.addresses"]
-            #print(f"INFO Getting Okapi customer from okapi_customer files")
-            #client=br.SearchClient(self.customerName)
-            if self.customerName is not None:
-                self.refdata_path=f"{self.path_dir}/refdata"
-                queryString=""
-                for arv in schemas:
-                    try:
-                    #(Pattern,okapi_url, okapi_tenant, okapi_token,queryString,json_file,path):
-                        #print(arv)
-                        pattern=get_one_schema(str(arv))
-                        totalrecs=make_get(pattern[0],self.x_okapi_url, self.x_okapi_tenant, self.x_okapi_token,queryString,f"{self.customerName}_{arv}",self.refdata_path)
-                        print(f"INFO schema: {arv} total records: {totalrecs}")
-                    except Exception as ee:
-                        print(f"ERROR: schema: {arv} {ee}")
-            else:
-                print(f"ERROR: Client Name was't found in /runenv/okapi_customers.json file, it needs to be included: {upd}")
         return self.path_dir
                 
     def createdFolderStructureenv(self):
@@ -504,23 +587,58 @@ class AcqErm():
                     self.value="licenses"
                     self.value_a="lic"
                     self.df=self.value
-                    ls=self.load_settings()
-                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
-                    self.dflicense=self.customerName.importDataFrame(filetoload,
+                    ls=self.load_settings() 
+                    existname=str(ls[self.value_a]['fileName'])
+                    if existname!="":
+                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                        self.customerName=pd.dataframe()
+                        self.dflicenses=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_licenseMapping,
                                             dfname=self.value)
+                        #Notes
+                        self.value="notes"
+                        self.value_a=f"note[0]"
+                        print(f"INFO NOTE NO. {self.value_a}===================")
+                        self.df=self.value
+                        ls=self.load_settings()
+                        existname=str(ls[self.value_a]['fileName'])
+                        self.notes=None
+                        if existname!="":
+                            swno=False
+                            #print(ls[self.value_a])
+                            filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                            if filetoload!="":
+                                self.customerName=pd.dataframe()
+                                filenametoprint=str(ls[self.value_a]['fileName'])
+                                readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
+                                linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
+                                if readmapping=="":
+                                    self.notes=self.customerName.importDataFrame(filetoload,
+                                    orderby=ls[self.value_a]['orderby'],
+                                    distinct=ls[self.value_a]['distinct'],                                            
+                                    sheetName=ls[self.value_a]['sheetName'],
+                                    mapping_file=self.path_notesMapping,
+                                    dfname=self.value)
+                                else:
+                                    self.notes=self.customerName.importDataFrame(filetoload,
+                                    orderby=ls[self.value_a]['orderby'],
+                                    distinct=ls[self.value_a]['distinct'],                                            
+                                    sheetName=ls[self.value_a]['sheetName'],
+                                    mapping_file=readmapping,
+                                    dfname=self.value)              
                     
-                    if self.dflicense is not None:                        
-                        self.customerName=lic.licenses(client,self.path_dir)
-                        if self.notes is not None:
-                            self.customerName.readlicenses(client,dflicense=self.dflicense, dfnotes=self.notes)
-                        else:
-                            self.customerName.readlinceses(client,dflicense=self.dflicense)
+                        if self.dflicenses is not None:                        
+                            self.customerName=lic.licenses(client,self.path_dir)
+                            if self.notes is not None:
+                                self.customerName.readlicenses(client,dflicenses=self.dflicenses, dfnotes=self.notes)
+                            else:
+                                self.customerName.readlicenses(client,dflicenses=self.dflicenses)
                     else:
-                        print(f"INFO file Name must be included in the ..{self.path_refdata}\loadSetting.json") 
+                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json") 
+                        
                 elif self.sctr=="o":
                     swnotes=False
                     self.value="organizations"
@@ -2755,10 +2873,11 @@ def readJsonfile_mls(path,json_file,schema):
 
 def jsontotupla(**kwargs):
     tupla=[]
-    schema=kwargs['schema']
-    json_file=kwargs['json_file']
-    with open(json_file, "r", encoding="utf") as file_j:
-        data = json.load(file_j)
+    if 'schema' in kwargs:
+        json_file=kwargs['json_file']
+        with open(json_file, "r", encoding="utf") as file_j:
+            data = json.load(file_j)
+        schema=kwargs['schema']
         for i in data[schema]:
             try:
                 if 'id' in i: 
@@ -2782,6 +2901,7 @@ def jsontotupla(**kwargs):
                 #    print(tupla)
             except Exception as err:
                 print("error ", str(err))#print(tupla)
+
     return tupla
 
 

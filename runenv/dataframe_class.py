@@ -117,6 +117,7 @@ class dataframe():
                 else:
                     print(f"INFO File <<{self.dfname}>>")
                 #print(f"INFO columns in the file with legacy system fields Names  {self.df.columns}")
+                self.df['printed']=""
                 self.df = self.df.apply(lambda x: x.fillna(""))
                 self.df.columns = self.df.columns.str.strip()
 
