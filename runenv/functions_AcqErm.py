@@ -771,7 +771,7 @@ class AcqErm():
                             if self.notes is not None:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes,notes_mapping_file=readmapping)
                             else:
-                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
+                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLine)
                         else:
                             print(f"INFO Purchase Orders file Name must be included in the ..{self.path_mapping_files}\loadSetting.json")                     
                     except ValueError as error:
@@ -808,41 +808,42 @@ class AcqErm():
                         except ValueError as error:
                             print(f"INFO No Notes")
                             swno=False
-                            
-                        
-                        #print(ls[self.value_a])
-                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
-                        if filetoload!="":
-                            self.customerName=pd.dataframe()
-                            filenametoprint=str(ls[self.value_a]['fileName'])
-                            readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
-                            linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
-                            if readmapping=="":
-                                self.df=self.customerName.importDataFrame(filetoload,
+                        if ls is not None:
+                            #print(ls[self.value_a])
+                            filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                            if filetoload!="":
+                                self.customerName=pd.dataframe()
+                                filenametoprint=str(ls[self.value_a]['fileName'])
+                                readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
+                                if str(ls[self.value_a]['linkidfile'])!="":
+                                    linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
+                                else:
+                                    linkidfilewithid=""
+                                if readmapping=="":
+                                    self.df=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_notesMapping,
                                             dfname=self.value)
-                            else:
-                                self.df=self.customerName.importDataFrame(filetoload,
+                                else:
+                                    self.df=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=readmapping,
                                             dfname=self.value)        
-                            if self.df is not None:
-                            #def __init__(self,client,path_dir, **kwargs):
-                                if linkidfilewithid!="":
-                                    self.customerName=appnotes.notes(client,self.path_dir,dataframe=self.df, notes_mapping_file=readmapping,linkidfile=linkidfilewithid)
-                                else:
-                                    self.customerName=appnotes.notes(client,self.path_dir,dataframe=self.df, notes_mapping_file=readmapping)
-                                self.customerName.readfile(readmapping,dfwithids=self.df,filenamenotes=self.value_a)
-                        #self.customerName=notes.notes(client,self.path_dir,dataframe=self.df)
+                                if self.df is not None:
+                                    #def __init__(self,client,path_dir, **kwargs):
+                                    if linkidfilewithid!="":
+                                        self.customerName=appnotes.notes(client,self.path_dir,dataframe=self.df, notes_mapping_file=readmapping,linkidfile=linkidfilewithid)
+                                    else:
+                                        self.customerName=appnotes.notes(client,self.path_dir,dataframe=self.df, notes_mapping_file=readmapping)
+                                    self.customerName.readfile(readmapping,dfwithids=self.df,filenamenotes=self.value_a)
+                                    #self.customerName=notes.notes(client,self.path_dir,dataframe=self.df)
                         
                         else:
                             swno=False
-                            print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")   
                         iter+=1
                 else:
                     print(f"ERROR: you have selected the script wrong")
