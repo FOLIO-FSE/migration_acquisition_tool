@@ -33,7 +33,7 @@ class compositePurchaseorders():
     def __init__(self,client,path_dir):
         try:
             self.migrationreport_a=mr.MigrationReport()
-            self.migrationreport_a.add_general_statistics("Alex test")
+            self.migrationreport_a.add_general_statistics("Composite purchase Orders")
             self.customerName=client
             self.customerName=pd.dataframe()    
             self.getidfile=False
@@ -113,7 +113,9 @@ class compositePurchaseorders():
             temp=[]    
             tempmap={}
             recordnotfound=[]
+            recordmissing=[]
             dictem=[]
+            swmap=False
             if 'fieldtosearch' in kwargs:
                 fieldtosearch=kwargs['fieldtosearch']
                 if fieldtosearch in self.orders.columns:
@@ -154,7 +156,12 @@ class compositePurchaseorders():
                                 newvalue=self.replace(dfmapping,toSearch)
                             if schematosearch=="organizations":
                                 toSearchnewvalue=str(newvalue).strip()
-                                newvalue=self.searchdata_dataframe(self.dforg,"code","id",toSearchnewvalue) 
+                                newvalue=self.searchdata_dataframe(self.dforg,"code","id",toSearchnewvalue)
+                                if newvalue is None:
+                                    valueinstanceid=self.readcompositepurchaseorderMapping(folio_field="vendor")
+                                    if valueinstanceid:
+                                        newvalue=valueinstanceid.get("value")
+                                        recordmissing.append(toSearchnewvalue)
                                 #newvalue=self.replace(self.dforg,toSearchnewvalue)
                             elif schematosearch=="locations":
                                 toSearchnewvalue=str(newvalue).strip()
@@ -165,9 +172,20 @@ class compositePurchaseorders():
                             elif schematosearch=="fundsExpenseClass":
                                 toSearchnewvalue=newvalue
                                 newvalue=self.searchdata_dataframe(self.dfexpense,"code","id",toSearchnewvalue)
+                            elif schematosearch=="paymentStatus":
+                                if newvalue is None:
+                                    valueinstanceid=self.readcompositepurchaseorderMapping(folio_field="compositePoLines[0].paymentStatus")
+                                    if valueinstanceid:
+                                        newvalue=valueinstanceid.get("value")
+                                        recordmissing.append(toSearch)
                             elif schematosearch=="mtype":
                                 toSearchnewvalue=str(toSearch).strip()
                                 newvalue=self.searchdata_dataframe(self.dfmtype,"name","id",toSearchnewvalue)
+                                if newvalue is None:
+                                    valueinstanceid=self.readcompositepurchaseorderMapping(folio_field="compositePoLines[0].physical.materialType")
+                                    if valueinstanceid:
+                                        newvalue=valueinstanceid.get("value")
+                                        recordmissing.append(toSearch)
                             elif schematosearch=="localinstanceId":
                                 toSearchnewvalue=str(toSearch).strip()
                                 newvalue=self.searchdata_dataframe(self.localinstanceId,"legacy_id_sierra","folio_id",toSearchnewvalue)
@@ -181,7 +199,7 @@ class compositePurchaseorders():
                             else:
                                 if swpolines:
                                     self.dfPolines[fieldtosearch] = self.dfPolines[fieldtosearch].replace([i],newvalue)
-                                else:
+                                else:                                   
                                     self.orders[fieldtosearch] = self.orders[fieldtosearch].replace([i],newvalue)
                                     tempmap[i]=newvalue
                                         
@@ -189,8 +207,6 @@ class compositePurchaseorders():
                             print(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
                             logging.info(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
                             flag=False
-
-                                
                     else:
                         dt = datetime.datetime.now()
                         self.dt=dt.strftime('%Y%m%d-%H-%M')  
@@ -214,6 +230,7 @@ class compositePurchaseorders():
                                 logging.info(f"{name} => {countfield}") 
                             #print(self.dfPolines[fieldtosearch].value_counts())
                             #logging.info(self.dfPolines[fieldtosearch].value_counts()) 
+                            recordmissing.append(newvalue)
                         else:
                             print(f"{self.dt} the following codes were replaced  for: {schematosearch}")
                             print(f"{schematosearch} | counter")
@@ -222,7 +239,9 @@ class compositePurchaseorders():
                             for idx, name in enumerate(self.orders[fieldtosearch].value_counts().index.tolist()):
                                 countfield=self.orders[fieldtosearch].value_counts()[idx]
                                 print(f"{name} => {countfield}")
-                                logging.info(f"{name} => {countfield}") 
+                                logging.info(f"{name} => {countfield}")
+                        if len(recordmissing)>0: 
+                            print(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordmissing}")
                             #print(self.orders[fieldtosearch].value_counts())
                             #logging.info(self.orders[fieldtosearch].value_counts()) 
             else:
@@ -282,7 +301,7 @@ class compositePurchaseorders():
                 #print("Dataframe: WorkFlowStatus")
                 self.workflowStatus=self.customerName.importDataFrame(filetoload,sheetName="workflowStatus", dfname="Workflow Status")
                 self.workflowStatusEnum=["Pending","Open","Closed"]
-                self.dfpaymentStatus=self.customerName.importupla(tupla=self.workflowStatusEnum,dfname="FOLIO Work Flow Status",columns=["name"])
+                self.dfworkflowStatus=self.customerName.importupla(tupla=self.workflowStatusEnum,dfname="FOLIO Work Flow Status",columns=["name"])
                 #print("Dataframe: Locations")
                 self.locations=self.customerName.importDataFrame(filetoload,sheetName="locations", dfname="locations")
                 self.dflocations=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_locations.json",schema="locations"),dfname="locations",columns=["id", "code","name","value","json"])
@@ -311,7 +330,7 @@ class compositePurchaseorders():
             print(f"ERROR: Critical please check that already exit the {filetoload} file {ee}")        
             self.flag=False
             return self.flag
-    def 
+     
     def readorders(self, client, **kwargs):
         countpol=0
         self.noprint=True
@@ -441,7 +460,10 @@ class compositePurchaseorders():
                                 randompoNumber=str(round(random.randint(100, 1000)))
                                 poNumber=str(randompoNumber)
                                 mf.write_file(ruta=self.path_logs+"\\oldNew_ordersID.log",contenido=poNumber)
-
+                        if poNumberPrefix:
+                            poNumber=f"{poNumberPrefix}{po}"
+                        if poNumberSuffix:
+                            poNumber=f"{po}{poNumberSuffix}"
                         po=str(poNumber)
                         #CHECKING DUPLICATED PO number    
                         countlist = orderList.count(str(po))
@@ -466,11 +488,13 @@ class compositePurchaseorders():
                                 try:
                                     dateordered=dateorder.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
                                 except Exception as ee:
-                                    M=dateorder[0:2]
-                                    D=dateorder[3:5] 
-                                    Y=dateorder[6:10]
-                                    dateorder=f"{Y}-{M}-{D}"   
-                                    dateordered=f"{Y}-{M}-{D}T00:00:00.000+00:00"
+                                    dateorder=str(dateorder)
+                                    dateordered=self.date_stamp(dateorder)
+                                    #dateorder=str(dateorder)
+                                    #M=dateorder[0:2]
+                                    #D=dateorder[3:5] 
+                                    #Y=dateorder[6:10]
+                                    
                                 
                                 Order['dateOrdered']=dateordered
                                 #Order["approvedById"]=""
@@ -525,9 +549,13 @@ class compositePurchaseorders():
                                     if field in self.orders.columns:    
                                         if row[field]:
                                             if row[field]!="":
-                                                dater=""
-                                                dater=row[field]                               
-                                                renewalDate=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
+                                                try:
+                                                    dater=""
+                                                    dater=row[field]                               
+                                                    renewalDate=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
+                                                except Exception as ee:
+                                                    renewalDatetemp=str(renewalDate)
+                                                    renewalDate=self.date_stamp(renewalDatetemp)
                                     if 'ongoing.isSubscription' in self.orders.columns:
                                         if str(row['ongoing.isSubscription']).upper()=="TRUE":
                                             isongoing=mf.dic(interval=interval, isSubscription=True, manualRenewal=True, 
@@ -585,8 +613,10 @@ class compositePurchaseorders():
                             if row[field]:
                                 reencumbertem=str(row[field]).strip()
                                 reencumbertem=reencumbertem.upper()
-                                if reencumbertem=="YES":
+                                if reencumbertem.upper()=="YES":
                                     reEncumber=True
+                                elif reencumbertem.upper()=="TRUE":
+                                     reEncumber=True
                     
                         Order["needReEncumber"]= reEncumber
                         #PURCHASE ORDERS LINES
@@ -783,9 +813,17 @@ class compositePurchaseorders():
                         contributorName=cprow[field]
                         #contributorpoLines=contributorName[]
                         field="compositePoLines[0].contributors[0].contributorNameTypeId"
-                        if cprow[field]:
-                            contributortype=cprow[field]
-                            cp["contributors"]=contributorpoLines
+                        if field in poLines.columns:
+                            if cprow[field]:
+                                contributortype=cprow[field]
+                                cp["contributors"]=contributorpoLines
+                        else:
+                            contvalue=self.readcompositepurchaseorderMapping(folio_field=field)
+                            if contvalue:
+                                contvalue=contvalue.get("value")
+                                if contvalue:
+                                    contributortype=contvalue
+                            
                 #ORDER FORMAT
                 orderFormat="Other"
                 field="compositePoLines[0].orderFormat"
@@ -1156,18 +1194,19 @@ class compositePurchaseorders():
                 if field in poLines.columns:
                     if cprow[field]:
                         if cprow[field]!="  -  -  ":
-                            if client!="michstate_prod":
+                            try:
                                 dater=""
                                 dater=cprow[field]                               
                                 receiptDate=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
-                            else:
-                                receitdate=cprow[field]
-                                M=receitdate[0:2]
-                                D=receitdate[3:5] 
-                                Y=receitdate[6:10]
-                                dater=f"{Y}-{M}-{D}"   
-                                receiptDate=f"{Y}-{M}-{D}T00:00:00.000+00:00"
-                            
+                                    # receitdate=cprow[field]
+                                    # M=receitdate[0:2]
+                                    # D=receitdate[3:5] 
+                                    # Y=receitdate[6:10]
+                                    # dater=f"{Y}-{M}-{D}"   
+                                    # receiptDate=f"{Y}-{M}-{D}T00:00:00.000+00:00"
+                            except Exception as ee:
+                                receiptDatetemp=str(receiptDate)
+                                receiptDate=self.date_stamp(receiptDatetemp)
 
                 cp['receiptDate']=receiptDate
                 
@@ -1185,32 +1224,23 @@ class compositePurchaseorders():
                     if cprow[field]:
                         if cprow[field]!="  -  -  ":
                             try:
-                                if client!="massey":
-                                    dater=""
-                                    dater=cprow[field]                               
-                                    subscriptionFrom=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
-                                else:
-                                    subscriptionFrom=cprow[field]
-                                    D=subscriptionFrom[0:2]
-                                    M=subscriptionFrom[3:5] 
-                                    Y=subscriptionFrom[6:]
-                                    
-                                    if (Y.find("9"))!=-1:
-                                        Y=f"19{Y}"
-                                    else:
-                                        Y=subscriptionFrom[6:10]
-
-                                    subscriptionFrom=f"{Y}-{M}-{D}T00:00:00.000+00:00"
+                                dater=""
+                                dater=cprow[field]                               
+                                subscriptionFrom=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
                             except Exception as ee:
-                                dater=mf.timeStampString(dater)
-                                subscriptionFrom=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+                                subscriptionFromtemp=str(dater)
+                                subscriptionFrom=self.date_stamp(subscriptionFromtemp)
                 field="compositePoLines[0].details.subscriptionTo"
                 if field in poLines.columns:
                     if cprow[field]:
                         if cprow[field]!="  -  -  ":
-                            dater="" 
-                            dater=cprow[field]
-                            subscriptionTo=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+                            try:
+                                dater="" 
+                                dater=cprow[field]
+                                subscriptionTo=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00")
+                            except Exception as ee:
+                                subscriptionTotemp=str(dater)
+                                subscriptionTo=self.date_stamp(subscriptionTotemp)
                 field="compositePoLines[0].details.subscriptionInterval"
                 if field in poLines.columns:
                     if cprow[field]: subscriptionInterval=int(cprow[field])
@@ -1793,3 +1823,36 @@ class compositePurchaseorders():
                     instancebibexist.append([str(bibid),str(ordertitleUUID[0]),str(ordertitleUUID[1])])
                     
                 self.dfinstance=self.customerName.importupla(tupla=instancebibexist,dfname="instancesmapping",columns=["legacy_code", "instance_id","instance_title"])'''
+    def date_stamp(self,ilsdate):
+        dt=""
+        if (ilsdate.find("/")>=0):
+            dt=ilsdate
+            dia=dt[0:2]
+            mes=dt[3:5]
+            ano=dt[6:10]
+            dt=ano+"-"+mes+"-"+dia+"T"+"00:00:00+0000"
+        elif (ilsdate.find(".")>=0):
+            dt = datetime.fromordinal(datetime(1900, 1, 1).toordinal() + int(ilsdate) - 2)
+            hour, minute, second = self.floatHourToTime(ilsdate % 1)
+            dt = str(dt.replace(hour=hour, minute=minute,second=second))+".000+0000" #Approbal by
+            #2019-12-12T10:11:16.449+0000
+            dt=dt.replace(" ","T")
+            renewalDate=dt
+        elif (ilsdate=="0"):
+            dt=""
+        else:
+            dt=ilsdate
+            dia=dt[6:9]
+            mes=dt[4:6]
+            ano=dt[0:4]
+            dt=ano+"-"+mes+"-"+dia+"T"+"00:00:00+0000"
+        return dt
+
+    def floatHourToTime(self,fh):
+        h, r = divmod(fh, 1)
+        m, r = divmod(r*60, 1)
+        return (
+            int(h),
+            int(m),
+            int(r*60),
+        )
