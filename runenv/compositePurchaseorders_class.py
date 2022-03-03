@@ -311,7 +311,7 @@ class compositePurchaseorders():
             print(f"ERROR: Critical please check that already exit the {filetoload} file {ee}")        
             self.flag=False
             return self.flag
-    def 
+            
     def readorders(self, client, **kwargs):
         countpol=0
         self.noprint=True
