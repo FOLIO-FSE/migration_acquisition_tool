@@ -239,7 +239,7 @@ class dataframe():
                                 #print("INFO Dataframe Replacing the following legacy field columns:")
                                 changelist.append(f"{legacy_field} => {folio_field}")
                                 self.migrationreport_a.set(Blurbs.Alex_GeneralStatistics,f"{legacy_field} => {folio_field}",1)
-                    path_results=f"C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_fivecolleges-sandbox\\results"
+                        path_results=f"C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_fivecolleges-sandbox\\results"
                     except Exception as ee:
                         print(f"WARNING: {ee} legacy_field was not described as column Name in the sourceData: check the mapping file {self.dfname}")
                 with open(f"{path_results}/purchaseOrders_migration_report.md", "w+") as report_file:
