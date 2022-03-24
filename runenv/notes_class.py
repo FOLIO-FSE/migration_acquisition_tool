@@ -1,3 +1,6 @@
+import migration_report as mr
+from report_blurbs import Blurbs
+import functions_AcqErm as mf
 import datetime
 import warnings
 import datetime
@@ -15,13 +18,11 @@ import time
 import random
 import logging
 import pandas as pd
-#import pandas as pd
 import validator
 import ast
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+#import tkinter as tk
+#from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
-import functions_AcqErm as mf
 import logging
 
 ################################################
@@ -31,19 +32,20 @@ import logging
 class notes():
     def __init__(self,client,path_dir, **kwargs):
         if 'dataframe' in kwargs:
+            self.countnotes=0
+            Notesresult=0
+            self.listcodes=[]
+            self.countnotesnomatch=0
+            self.migrationreport_a=mr.MigrationReport()
             self.customerName=client
             self.readfilewithid=False
             dt = datetime.datetime.now()
             self.dtnote=dt.strftime('%Y%m%d-%H-%M')                        
             self.notes= kwargs['dataframe']
-            self.notes_mapping="notes_mapping.json"
-
- 
-
-                
-            
-            #os.mkdir(f"{path_dir}\\results")
+            self.notes['printed']=False
+            self.notes_mapping="notes_mapping.json"                                         #os.mkdir(f"{path_dir}\\results")
             self.path_results=f"{path_dir}\\results"
+            self.path_reports=f"{path_dir}\\reports"
             #os.mkdir(f"{path_dir}\\data")
             self.path_data=f"{path_dir}\\data"
             #os.mkdir(f"{path_dir}\\logs")
@@ -56,6 +58,8 @@ class notes():
             self.valuetypeId=""
             self.valuedomainId=""
             self.namefilewithids=""
+            self.counterror=0
+            Notesresult
             v=""
             typev=""
             typed=""
@@ -69,7 +73,6 @@ class notes():
                 with open(self.notes_mapping) as json_mappingfile:
                     self.mappingdata = json.load(json_mappingfile)
                 logging.info(f"INFO Reading {self.notes_mapping} OK")
-                
             else:
                 print("INFO Notes Script: include: {self.path_mapping_files}\\notes_mapping.json file")
                 logging.info(f"INFO Reading {self.mappingfile} ERROR") 
@@ -77,17 +80,21 @@ class notes():
                 
             if 'linkidfile' in kwargs:
                 tempfile=kwargs['linkidfile']
+                self.tempfile=tempfile
                 if os.path.exists(tempfile):  
                     with open(tempfile) as f:
                         self.linkidfile = pd.DataFrame(json.loads(line) for line in f)
+                        self.linkidfile.rename(columns={ self.linkidfile.columns[0]: "legacy_id" }, inplace=True)
+                        self.linkidfile.rename(columns={ self.linkidfile.columns[1]: "folio_id" }, inplace=True)
+                        self.linkidfile.rename(columns={ self.linkidfile.columns[2]: "compositePoLines_id" }, inplace=True)
                         print(self.linkidfile)
-                logging.info(f"INFO Reading {tempfile} OK")    
-                
+                        self.migrationreport_a.add_general_statistics("Source data file found: ({self.tempfile}):")
+                logging.info(f"INFO Reading {tempfile} OK")
+            else:
+                print("INFO Notes Script: Reading file with FOLIO UUID does not exist")
+                logging.info(f"INFO Notes Script: Reading file with FOLIO UUID does not exist")
             return          
-                        
-            #print(self.mappingdata)
-    #(uuidOrg,typeId,customerName,15,16,17)
-    #client,self.path_dir
+
     def readnotes(self,client,**kwargs): #dataframe,toSearch,linkId):
         notes={}
         self.totalnotes=0
@@ -97,11 +104,14 @@ class notes():
             linkId=str(kwargs['linkId']).strip()
         if 'filenamenotes' in kwargs:
             filenamenotes=str(kwargs['filenamenotes']).strip()
+            self.filenamenotes=filenamenotes
         else:
             filenamenotes="_notes"
         countnote=1
         noprint=False
         #print(self.notes['code'])
+        #self.migrationreport_a.add(Blurbs.Notesresult,f" Alex {toSearch}")
+        
         dfnote = self.notes[self.notes['code']== str(toSearch)]
         #dfnote = self.notes[self.notes['code']== str(toSearch)]
         self.totalnotes=len(dfnote)
@@ -136,11 +146,18 @@ class notes():
             notes["id"]=str(uuid.uuid4())
         noteType=cate[1]    
         notes['type']=noteType
-
+        po=""
         for i, nrow in dfnote.iterrows():
             try:
                 countnote+=1
+                #self.notes.loc[i,"False"]="True"
+                #print(nrow['printed'])
                 
+                po=nrow['code']
+                countlist = self.listcodes.count(str(po))
+                if countlist==0:
+                    self.listcodes.append(str(nrow['code']))
+                    
                 if self.valuetitle: notes["title"]=self.valuetitle
                 else: notes["title"]="Notes"
                 if self.valuedomainId: 
@@ -155,38 +172,40 @@ class notes():
                         linkType="agreement"
                     else:
                         linkType="error"
-                        return 
+                        return
+                    
                 else: 
                     notes["domain"]=""
+                self.linkType=linkType
                 iter=0
                 sw=True
                 cont=""
                 while sw:
-                            field=f"content[{iter}]"
-                            info=""
-                            if field in dfnote.columns:
-                                if nrow[field]:
-                                    if nrow[field]!="":
-                                        da=str(nrow[field]).strip()
-                                        if da!="-  -":
-                                            notecaption=""
-                                            info=da
-                                            if type(info) is datetime.date:
-                                                info=info.strftime("%Y-%m-%d")
-                                            elif type(info) is str:
-                                                info=info.replace(".0","")
-                                                info=str(info).strip()
-                                            elif type(info) is int:
-                                                info=str(info).strip()
-                                                info=info.replace(".0","")
-                                            valuenote=self.readmappingjson(folio_field=field)
-                                            if valuenote:
-                                                notecaption=valuenote.get("legacy_field")
-                                            info=str(info).strip()
-                                            cont=cont+f"<li><strong>{notecaption}:</strong> {info}</li>"
-                            else:
-                                sw=False
-                            iter+=1
+                    field=f"content[{iter}]"
+                    info=""
+                    if field in dfnote.columns:
+                        if nrow[field]:
+                            if nrow[field]!="":
+                                da=str(nrow[field]).strip()
+                                if da!="-  -":
+                                    notecaption=""
+                                    info=da
+                                    if type(info) is datetime.date:
+                                        info=info.strftime("%Y-%m-%d")
+                                    elif type(info) is str:
+                                        info=info.replace(".0","")
+                                        info=str(info).strip()
+                                    elif type(info) is int:
+                                        info=str(info).strip()
+                                        info=info.replace(".0","")
+                                    valuenote=self.readmappingjson(folio_field=field)
+                                    if valuenote:
+                                        notecaption=valuenote.get("legacy_field")
+                                        info=str(info).strip()
+                                    cont=cont+f"<li><strong>{notecaption}:</strong> {info}</li>"
+                    else:
+                        sw=False
+                    iter+=1
             except Exception as ee:
                 print(f"ERROR: Notes Class {ee}")
                         
@@ -195,24 +214,34 @@ class notes():
                     noprint=True
                     #print(f" {cont}")
                     contall=contall+cont+"\n"
-                    cont=""        
+                    cont=""
+                else:
+                    self.counterror+=1
+                    self.migrationreport_a.add(Blurbs.NotesErrors,f"Notes with no content")        
 
         #print(contall)
         if self.totalnotes>0:
             notes["content"]=f"<ul>{contall}</ul>"
             l.append(mf.dic(id=linkId,type=linkType))      
             notes["links"]=l
-              
+        else:
+            self.countnotesnomatch+=1
+            self.migrationreport_a.add(Blurbs.NotesErrors,f"Notes not found:  {toSearch}")
+            
+            
         
         if noprint:
             mf.printObject(notes,self.path_results,countnote,client+f"_{filenamenotes}",False)
-            logging.info(f"INFO Reading {toSearch} | Notes: {self.totalnotes}") 
-            return self.totalnotes
+            logging.info(f"INFO Reading {toSearch} | Notes: {self.totalnotes}")
+            #self.migrationreport_a.add(Blurbs.Notesresult,f"NOTES")
         else:
-            mf.printObject(notes,self.path_results,countnote,client+f"worse_notes_without_content",False)
-            logging.info(f"INFO Reading {toSearch} | NO Notes: {self.totalnotes}") 
-            return self.totalnotes
-                
+            mf.printObject(notes,self.path_results,countnote,client+f"{filenamenotes}_errors",False)
+            logging.info(f"INFO Reading {toSearch} | NO Notes: {self.counterror}") 
+            
+        #self.countnotes=self.countnotes+self.totalnotes
+
+        return self.totalnotes
+    
     def readmappingjson(self, **kwargs):
         try:
             valuesfield={}
@@ -226,6 +255,79 @@ class notes():
             return valuesfield
         except Exception as ee:
             print(f"ERROR: Orders Class {ee}")
+            
+
+
+
+    def readfile(self,client,**kwargs):
+        try:
+            rnotes=0
+            countnote=0
+            filenamenotes=kwargs['filenamenotes']
+            for n, rowid in self.linkidfile.iterrows():
+                toSearch=rowid['legacy_id']
+                if rowid['compositePoLines_id'][0]: linkId=rowid['compositePoLines_id'][0]
+                else:linkId=rowid['folio_id']
+                rnotes=self.readnotes(self.customerName,dataframe=self.notes,toSearch=toSearch,linkId=linkId,filenamenotes=f"{filenamenotes}")    
+                print(f"INFO Record {countnote}  |   PurchaseOrders: {toSearch}    |   Notes: {rnotes}")
+                countnote+=1
+                self.countnotes=self.countnotes+int(rnotes)
+                self.note_reports()
+            self.print_change_print()
+            # self.migrationreport_a.add_general_statistics("Notes file:")
+            # self.migrationreport_a.add(Blurbs.GeneralStatistics,f"Records in the file ({self.linkType})")
+            # self.migrationreport_a.set(Blurbs.Notesresult,"Record processed",self.countnotes)
+            # # self.migrationreport_a.set(Blurbs.GeneralStatistics,"Record processed",self.totalnotes)
+            # # self.migrationreport_a.set(Blurbs.NotesErrors,"Record processed",self.counterror)
+            # # self.migrationreport_a.set(Blurbs.NotesErrorNoContent,"Record processed",self.countnotesnomatch)
+            # with open(f"{self.path_reports}/notes_migration_report.md", "w+") as report_file:
+            #     self.migrationreport_a.write_migration_report(report_file)
+        except Exception as ee:
+            print(f"ERROR: {ee} ")        
+    
+    def note_reports(self):
+        self.migrationreport_a.add_general_statistics("Record processed for ({self.linkidfile}):")
+        self.migrationreport_a.set(Blurbs.GeneralStatistics,"Number of notes record:",self.countnotes)
+        self.migrationreport_a.set(Blurbs.Notesresult,"Record processed 4",self.countnotes)
+        # self.migrationreport_a.set(Blurbs.GeneralStatistics,"Record processed",self.totalnotes)
+        # self.migrationreport_a.set(Blurbs.NotesErrors,"Record processed",self.counterror)
+        # self.migrationreport_a.set(Blurbs.NotesErrorNoContent,"Record processed",self.countnotesnomatch)
+        with open(f"{self.path_reports}/{self.filenamenotes}_notes_migration_report.md", "w+") as report_file:
+            self.migrationreport_a.write_migration_report(report_file)
+
+    def print_change_print(self):
+        for lc in self.listcodes:
+            try:
+                #for i, nrow in self.notes.iterrows():
+                #self.listcodes.append(str(nrow['code']))
+                #print(self.notes)
+                #print(self.notes['printed'])
+                #self.notes.loc[self.notes.code==lc,False,'printed']=True
+                lc=str(lc)
+                self.notes.loc[self.notes.code==lc, 'printed'] = True
+                
+            except Exception as ee:
+                print(f"ERROR: {ee} ")
+                
+        dfnotereport = self.notes[self.notes['printed']== False]
+        countnotereport=len(dfnotereport)
+        print(f"No printed: {countnotereport}")
+        for i, rrow in dfnotereport.iterrows():
+            print(rrow['code'])
+        
+        for idx, name in enumerate(self.notes['printed'].value_counts().index.tolist()):
+            countfield=self.notes['printed'].value_counts()[idx]
+            print(f"{name} => {countfield}")
+        
+            
+        print(self.notes)
+            
+            
+            
+            
+            
+            
+            
 
     def agreementReadnotes(self,client,dataframe):
          self.notes= dataframe
@@ -298,19 +400,7 @@ class notes():
         except Exception as ee:
             print(f"ERROR: {ee}")
     
-    def readfile(self,client,**kwargs):
-        try:
-            rnotes=0
-            countnote=0
-            filenamenotes=kwargs['filenamenotes']
-            for n, rowid in self.linkidfile.iterrows():
-                toSearch=rowid['legacy_id']
-                linkId=rowid['compositePoLines_id'][0]
-                rnotes=self.readnotes(self.customerName,dataframe=self.notes,toSearch=toSearch,linkId=linkId,filenamenotes=f"{filenamenotes}")    
-                print(f"INFO Record {countnote}  |   PurchaseOrders: {toSearch}    |   Notes: {rnotes}")
-                countnote+=1
-        except Exception as ee:
-            print(f"ERROR: {ee}") 
+
 
     def readnotesmapping(self, **kwargs):
         try:

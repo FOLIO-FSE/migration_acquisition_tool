@@ -1,5 +1,3 @@
-from isbnlib import is_isbn10
-from matplotlib.font_manager import json_dump
 import backup_restore as br
 import migration_report as mr
 import functions_AcqErm as mf
@@ -21,7 +19,6 @@ import random
 import logging
 import validator
 import ast
-import re
 #from tabulate import tabulate
 #import tkinter as tk
 #from tkinter import filedialog, messagebox, ttk
@@ -42,7 +39,7 @@ class compositePurchaseorders():
             self.getidfile=False
             dt = datetime.datetime.now()
             self.dt=dt.strftime('%Y%m%d-%H-%M')    
-            self.Polinesmtypes=0
+            
             self.path_dir=path_dir
             #os.mkdir(f"{path_dir}\\results")
             self.path_results=f"{path_dir}\\results"
@@ -184,15 +181,11 @@ class compositePurchaseorders():
                             elif schematosearch=="mtype":
                                 toSearchnewvalue=str(toSearch).strip()
                                 newvalue=self.searchdata_dataframe(self.dfmtype,"name","id",toSearchnewvalue)
-                                self.Polinesmtypes=self.Polinesmtypes+1
                                 if newvalue is None:
                                     valueinstanceid=self.readcompositepurchaseorderMapping(folio_field="compositePoLines[0].physical.materialType")
                                     if valueinstanceid:
                                         newvalue=valueinstanceid.get("value")
-                                        if newvalue=="":
-                                            newvalue=""
                                         recordmissing.append(toSearch)
-
                             elif schematosearch=="localinstanceId":
                                 toSearchnewvalue=str(toSearch).strip()
                                 newvalue=self.searchdata_dataframe(self.localinstanceId,"legacy_id_sierra","folio_id",toSearchnewvalue)
@@ -221,15 +214,11 @@ class compositePurchaseorders():
                         logging.info(f"{schematosearch}")
                         print(f"{self.dt} the following codes were replaced  for: {schematosearch}")
                         print(f"{schematosearch} | counter")
-                        #self.migrationreport_a.add(Blurbs.mapping,f"Mapping",f"{schematosearch}") 
                         logging.info(f"{schematosearch}")
                         logging.info(f"{schematosearch} | counter")
                         for k,v in tempmap.items(): 
-                            print(f"{k} => {v}")
-                                                                                
-                        logging.info(f"{k} => {v}")
-                        logging.info(json.dumps(tempmap,indent=4))
-                        #self.migrationreport_a.add(Blurbs.polinesmapping,f"{schematosearch}",f"{name} => {countfield}")    
+                            print(f"{k} => {v}")                        
+                            logging.info(f"{k} => {v}")
                         if swpolines:
                             print(f"{self.dt} the following codes were replaced  for: {schematosearch}")
                             print(f"{schematosearch} | counter")
@@ -238,12 +227,10 @@ class compositePurchaseorders():
                             for idx, name in enumerate(self.dfPolines[fieldtosearch].value_counts().index.tolist()):
                                 countfield=self.dfPolines[fieldtosearch].value_counts()[idx]
                                 print(f"{name} => {countfield}")
-                                #self.migrationreport_a.add(Blurbs.polinesmapping,f"{schematosearch}",f"{name} => {countfield}")
-                                print(self.mapping)
                                 logging.info(f"{name} => {countfield}") 
                             #print(self.dfPolines[fieldtosearch].value_counts())
-                            #logging.info(self.dfPolines[fieldtosearch].value_counts())
-                                
+                            #logging.info(self.dfPolines[fieldtosearch].value_counts()) 
+                            recordmissing.append(newvalue)
                         else:
                             print(f"{self.dt} the following codes were replaced  for: {schematosearch}")
                             print(f"{schematosearch} | counter")
@@ -252,7 +239,6 @@ class compositePurchaseorders():
                             for idx, name in enumerate(self.orders[fieldtosearch].value_counts().index.tolist()):
                                 countfield=self.orders[fieldtosearch].value_counts()[idx]
                                 print(f"{name} => {countfield}")
-                                #self.migrationreport_a.add(Blurbs.polinesmapping,f"{schematosearch}",f"{name} => {countfield}")
                                 logging.info(f"{name} => {countfield}")
                         if len(recordmissing)>0: 
                             print(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordmissing}")
@@ -332,8 +318,7 @@ class compositePurchaseorders():
                 self.dforg=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_organizations.json",schema="organizations"),dfname="Organizations",columns=["id", "code","name","value","json"])
                 self.dfmtype=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_mtypes.json",schema="mtypes"),dfname="Material Type",columns=["id", "code","name","value","json"])
                 self.dfexpense=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_expenseClasses.json",schema="expenseClasses"),dfname="Expense Classes",columns=["id", "code","name","value","json"])
-                self.acqUnits=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_acquisitionsUnits.json",schema="acquisitionsUnits"),dfname="acquisitionsUnits",columns=["id", "code","name","value","json"])
-          
+                #self.acqUnits=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_acquisitionsUnits.json",schema="acquisitionsUnits"),dfname="acquisitionsUnits",columns=["id", "code","name","json"])
                 #self.billtoshipto=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_tenant.addresses.json",schema="configs"),dfname="tenant addresses",columns=["id", "code","name","value","json"])
             else:
                 logging.info(f"ERROR Acquisition Mapping spreadsheet does not exist: {filetoload} check")
@@ -386,10 +371,10 @@ class compositePurchaseorders():
                 if self.flag: self.flag=self.checkingparameters(schematosearch="organizations", fieldtosearch="compositePoLines[0].physical.materialSupplier",dfmapping=self.organizationCodeToChange,swpolines=False)                
                 if self.flag: self.flag=self.checkingparameters(schematosearch="workflowStatus", fieldtosearch="workflowStatus",dfmapping=self.workflowStatus,swpolines=False)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="orderType", fieldtosearch="orderType",dfmapping=self.orderType,swpolines=False)                
-                if self.flag: self.flag=self.checkingparameters(schematosearch="acqUnits", fieldtosearch="acqUnitIds",dfmapping=self.acqUnits,swpolines=False)                
+                #if self.flag: self.flag=self.checkingparameters(schematosearch="acqUnits", fieldtosearch="id",dfmapping=self.acqUnits,swpolines=False)                
                 #POLINES
                 if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].eresource.materialType",dfmapping=self.dfmtype,swpolines=True)   
-                if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].physical.materialType",dfmapping=self.dfmtype,swpolines=True)
+                if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].physical.materialType",dfmapping=self.dfmtype,swpolines=True)                
                 if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[0].code",dfmapping=self.funds,swpolines=True)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[1].code",dfmapping=self.funds,swpolines=True)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[2].code",dfmapping=self.funds,swpolines=True)
@@ -470,8 +455,7 @@ class compositePurchaseorders():
                             if row[field]:
                                 masterPo=str(row[field]).strip()
                                 po=self.check_poNumber(masterPo,self.path_results)
-                                poNumber=f"{poNumberPrefix}{po}{poNumberSuffix}"
-                                poNumber=poNumber.strip()
+                                poNumber=str(po)
                             else:
                                 randompoNumber=str(round(random.randint(100, 1000)))
                                 poNumber=str(randompoNumber)
@@ -570,7 +554,7 @@ class compositePurchaseorders():
                                                     dater=row[field]                               
                                                     renewalDate=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
                                                 except Exception as ee:
-                                                    renewalDatetemp=str(dater)
+                                                    renewalDatetemp=str(renewalDate)
                                                     renewalDate=self.date_stamp(renewalDatetemp)
                                     if 'ongoing.isSubscription' in self.orders.columns:
                                         if str(row['ongoing.isSubscription']).upper()=="TRUE":
@@ -584,28 +568,18 @@ class compositePurchaseorders():
                         billTo=""
                         field="billTo"
                         if field in self.orders.columns:
-                            contvalue=self.readcompositepurchaseorderMapping(folio_field=field)
-                            if contvalue:
-                                contvalue=contvalue.get("value")
-                                if contvalue:
-                                    billTo=contvalue
-                                else:
-                                    if row[field]:
-                                       billTo=str(row[field]).strip()
+                        #    toSearch=self.billtoshipto()
+                        #    billTotemp=self.searchdata_dataframe(self.billtoshipto,"name","id",toSearch)
+                            #if field is not None:
+                            billTo=str(row[field])
                             Order["billTo"]=billTo
-                                
                             
                         field="shipTo"    
                         if field in self.orders.columns:
-                            contvalue=self.readcompositepurchaseorderMapping(folio_field=field)
-                            if contvalue:
-                                contvalue=contvalue.get("value")
-                                if contvalue:
-                                    shipTo=contvalue
-                                else: 
-                                    if row[field]:
-                                        shipTo=str(row[field]).strip()
-                            
+                            #toSearch=self.billtoshipto()
+                            #shipTotemp=self.searchdata_dataframe(self.billtoshipto,"name","id",toSearch)
+                            #if field is not None:
+                            shipTo=str(row[field])
                             Order["shipTo"]=shipTo
 
                         OrganizationUUID=""            
@@ -644,7 +618,7 @@ class compositePurchaseorders():
                                 elif reencumbertem.upper()=="TRUE":
                                      reEncumber=True
                     
-                        Order["reEncumber"]= reEncumber
+                        Order["needReEncumber"]= reEncumber
                         #PURCHASE ORDERS LINES
                         compositePo=[]
                         linkid=""
@@ -668,9 +642,8 @@ class compositePurchaseorders():
                         field="acqUnitIds"
                         if field in self.orders.columns:
                             if row[field]:
-                                acqunituuidinfo=""
-                                acqunituuidinfo=row[field]
-                                acqunituuid.append(acqunituuidinfo)
+                                acqunituuid=row[field]
+                                acqunituuid.append(adqvaluetemp)
                                 #tosearch in dataframe
                         else:
                             adqvalue=self.readcompositepurchaseorderMapping(folio_field=field)    
@@ -723,7 +696,7 @@ class compositePurchaseorders():
                     except Exception as ee:
                         Worder=Order
                         mf.printObject(Worder,self.path_results,self.count,f"{client}_purchaseOrderbyline_worse_{self.dt}",False)
-                        print(f"ERROR: {field} {ee}")
+                        print(f"ERROR: {ee}")
                         self.noprint=False
                     
                     purchaseOrders['purchaseOrders']=purchase
@@ -735,9 +708,6 @@ class compositePurchaseorders():
         if self.flag:
             mf.printObject(purchaseOrders,self.path_results,self.count,f"{client}_purchaseOrders_{self.dt}",True)
         self.migrationreport_a.set(Blurbs.GeneralStatistics,"Record processed",self.count)
-        #dic={"a":"2","b":"1"}
-        #self.migrationreport_a.set(Blurbs.Polinesmtypes,"Material Type processed",dic)
-        #self.migrationreport_a.add(Blurbs.mapping,f"Mapping",self.reportmapping) 
         
         print(f"============REPORT======================")
         print(f"Record processed {self.count} Orders")
@@ -755,7 +725,7 @@ class compositePurchaseorders():
         print(f"RESULTS poLines with errors: {countpolerror} / {self.count}")
         logging.info(f"RESULTS poLines with errors: {countpolerror}/ {self.count}")
         
-        with open(f"{self.path_results}/purchaseOrders_migration_report.md", "a") as report_file:
+        with open(f"{self.path_results}/purchaseOrders_migration_report.md", "w+") as report_file:
             self.migrationreport_a.write_migration_report(report_file)
         
 #########################################
@@ -837,27 +807,23 @@ class compositePurchaseorders():
                             rush=True
                 cp["rush"]=rush
                 contributorpoLines={}
-                contributors=[]
                 field="compositePoLines[0].contributors[0].contributor"
                 if field in poLines.columns:
                     if cprow[field]:
                         contributorName=cprow[field]
-                        contributorpoLines['contributor']=contributorName
                         #contributorpoLines=contributorName[]
                         field="compositePoLines[0].contributors[0].contributorNameTypeId"
                         if field in poLines.columns:
                             if cprow[field]:
                                 contributortype=cprow[field]
-                                
+                                cp["contributors"]=contributorpoLines
                         else:
                             contvalue=self.readcompositepurchaseorderMapping(folio_field=field)
                             if contvalue:
                                 contvalue=contvalue.get("value")
                                 if contvalue:
                                     contributortype=contvalue
-                            contributorpoLines['contributorNameTypeId']=contributortype
-                        contributors.append(contributorpoLines)
-                        cp["contributors"]=contributors
+                            
                 #ORDER FORMAT
                 orderFormat="Other"
                 field="compositePoLines[0].orderFormat"
@@ -948,12 +914,9 @@ class compositePurchaseorders():
                     quantityElectroniccost=quantityElectronic
                     quantitypemix=quantityPhysical
                 else:
-                    #locationId.append("")
-                    quantityPhysical=1
-                    quantityElectronic=1
-                    quantityPhysicalcost=quantityPhysical
-                    quantityElectroniccost=quantityElectronic
-                    quantitypemix=quantityPhysical
+                    locationId.append("")
+                    quantityPhysical=0
+                    quantityElectronic=0
 
 
                     
@@ -1121,8 +1084,7 @@ class compositePurchaseorders():
                             if len(locationId)>0:
                                 cp["locations"]=[mf.dic(locationId=locationId[0],quantity=quantityPhysical, quantityPhysical=quantityPhysical)]
                             else: 
-                                pass
-                                #cp["locations"]=[mf.dic(quantity=quantityPhysical, quantityPhysical=quantityPhysical)]
+                                cp["locations"]=[mf.dic(quantity=quantityPhysical, quantityPhysical=quantityPhysical)]
                         else:
                             cp["locations"]=loca
                         
@@ -1144,9 +1106,7 @@ class compositePurchaseorders():
                         if locationId: 
                             if locsw:
                                 if len(locationId)>0: cp["locations"]=[mf.dic(locationId=locationId[0],quantity=quantityElectronic, quantityElectronic=quantityElectronic)]
-                                else: 
-                                    pass 
-                                    #cp["locations"]=[mf.dic(quantity=quantityElectronic, quantityElectronic=quantityElectronic)]
+                                else: cp["locations"]=[mf.dic(quantity=quantityElectronic, quantityElectronic=quantityElectronic)]
                             else:
                                 cp["locations"]=loca 
 
@@ -1168,9 +1128,7 @@ class compositePurchaseorders():
                     if locationId: 
                         if locsw:
                             if len(locationId)>0: cp["locations"]=[mf.dic(locationId=locationId[0],quantity=quantitypemix, quantityElectronic=quantityElectronic,quantityPhysical=quantityPhysical)]
-                            else: 
-                                pass 
-                                #cp["locations"]=[mf.dic(quantity=quantitypemix, quantityElectronic=quantityElectronic,quantityPhysical=quantityPhysical)]
+                            else: cp["locations"]=[mf.dic(quantity=quantitypemix, quantityElectronic=quantityElectronic,quantityPhysical=quantityPhysical)]
                         else:
                             cp["locations"]=loca
                 else:   
@@ -1185,8 +1143,7 @@ class compositePurchaseorders():
                             if len(locationId)>0:
                                 cp["locations"]=[mf.dic(locationId=locationId[0],quantity=1, quantityElectronic=quantityElectronic)]
                             else:
-                                pass
-                                #cp["locations"]=[mf.dic(quantity=1, quantityElectronic=quantityElectronic)]
+                                cp["locations"]=[mf.dic(quantity=1, quantityElectronic=quantityElectronic)]
                         else:
                             cp["locations"]=loca 
 
@@ -1292,36 +1249,24 @@ class compositePurchaseorders():
                 iter=0
                 sw=True
                 while sw:
-                    field=f"compositePoLines[0].details.productIds[{iter}].productId"
+                    field=f"compositePoLines[{iter}].details.productIds[{iter}].productId"
                     if field in poLines.columns:
                         prodId={}
                         qualifier=""
                         productIdType="8e3dd25e-db82-4b06-8311-90d41998c109"
                         valueprod=""
                         if cprow[field]:
-                            productId=str(cprow[field]).strip()
-                            field=f"compositePoLines[0].details.productIds[{iter}].productIdType"
-                            if cprow[field]:
-                                prodctidtype=str(cprow[field]).strip()
-                                valueprod=str(prodctidtype).strip()
-                            else:
-                                valueprod=self.readcompositepurchaseorderMapping(folio_field=field)
-                                valueprod=valueprod.get("value")
+                            prodId['productId']=str(cprow[field])
+                            field=f"compositePoLines[0].details.productIds[0].productIdType"                        
+                            valueprod=self.readcompositepurchaseorderMapping(folio_field=field)
                             if valueprod:
+                                valueprod=valueprod.get("value")
                                 pidtype=str(valueprod).strip()
                                 pidtype=pidtype.upper()
- 
-
+                            
                             valor = self.productidsDictionary.get(pidtype)
                             if valor is not None:
                                 productIdType=str(valor)
-                                if productIdType=="8261054f-be78-422d-bd51-4ed9f33c3422": #ISBN
-                                    space=0
-                                    space=productId.find(" ")
-                                    if space!=-1:
-                                        productId=productId[:space]
-                                    
-                            prodId['productId']=productId
                             prodId['productIdType']=productIdType
                             valor=""
                             field=f"compositePoLines[{iter}].details.productIds[{iter}].qualifier"
@@ -1383,11 +1328,7 @@ class compositePurchaseorders():
                 checkinItems= False
                 if field in poLines.columns:
                     if cprow[field]:
-                        checkinItemstemtemp=str(cprow[field]).strip()
-                        if ((checkinItemstemtemp.upper() =="YES") or (checkinItemstemtemp.upper()=="SYNCHRONIZED ORDER AND RECEIPT QUANTITY")):
-                            checkinItems=True
-                        elif ((checkinItemstemtemp.upper() =="YES") or (checkinItemstemtemp.upper()=="INDEPENDENT ORDER AND RECEIPT QUANTITY")):
-                            checkinItems=False
+                        checkinItemstem=str(cprow[field]).strip()
                 else:
                     chekvalue=self.readcompositepurchaseorderMapping(folio_field=field)
                     if chekvalue:
@@ -1430,7 +1371,7 @@ class compositePurchaseorders():
                     iter=0
                     sw=True
                     referenceNumbers=[]
-                    refnum={} 
+                    refnum={}
                     while sw:
                         field=f"compositePoLines[{iter}].vendorDetail.referenceNumbers"                    
                         if field in poLines.columns:
@@ -1438,7 +1379,7 @@ class compositePurchaseorders():
                                 refNumber=str(cprow[field]).strip()
                                 refnum['refNumber']=refNumber
                                 refnum['refNumberType']="Vendor order reference number"
-                                referenceNumbers.append(refnum)
+                            referenceNumbers.append(refnum)
                         else:
                             sw=False
                         iter+=1
@@ -1915,18 +1856,3 @@ class compositePurchaseorders():
             int(m),
             int(r*60),
         )
-
-    def check_isbn_formula(self,digits):
-        numbers_to_mult = list(map(int, digits))
-        return sum([factors[0] * factors[1] for factors in zip(numbers_to_mult, range(10,0,-1))]) % 11 == 0
-
-    def verify_isbn(self, isbn):
-        stripped_isbn = isbn.replace("-", "")
-        if not re.compile("[0-9]{9}([0-9]|X)$").match(stripped_isbn):
-            return False
-        else:
-            digits = list(stripped_isbn)
-            if digits[-1] == 'X':
-                digits[len(digits)-1] = '10'
-            return self.check_isbn_formula(digits)
-    

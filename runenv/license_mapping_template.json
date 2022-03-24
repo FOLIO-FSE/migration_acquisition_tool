@@ -1,529 +1,49 @@
 {
    "data": [
       {
-         "folio_field": "accessProvider",
-         "legacy_field": "",
-         "value": true,
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].accountNo",
-         "legacy_field": "ACCTNUM",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].accountStatus",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].acqUnitIds[0]",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].appSystemNo",
-         "legacy_field": "ACCTNUM",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].contactInfo",
-         "legacy_field": "ADDRESS1",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].description",
-         "legacy_field": "EMAIL",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].libraryCode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].libraryEdiCode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].name",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].notes",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "accounts[0].paymentMethod",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].addressLine1",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].addressLine2",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].categories[0]",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].city",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].country",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].id",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].isPrimary",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].language",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].stateRegion",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "addresses[0].zipCode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "agreements[0].discount",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "agreements[0].name",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "agreements[0].notes",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "agreements[0].referenceUrl",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "aliases[0].description",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "aliases[0].value",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "changelogs[0].description",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "changelogs[0].timestamp",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "claimingInterval",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "code",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "description",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "discountPercent",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.ftpConnMode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.ftpFormat",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.ftpMode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.ftpPort",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.invoiceDirectory",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.notes",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.orderDirectory",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.password",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.serverAddress",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediFtp.username",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.isFriday",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.isMonday",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.isSaturday",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.isSunday",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.isThursday",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.isTuesday",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.isWednesday",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.notifyAllEdi",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.notifyErrorOnly",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.notifyInvoiceOnly",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.scheduleEdi",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.schedulingDate",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.schedulingNotes",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.sendToEmails",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediJob.time",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.ediNamingConvention",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.libEdiCode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.libEdiType",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.notes",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.prorateFees",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.prorateTax",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.sendAcctNum",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.supportInvoice",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.supportOrder",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.vendorEdiCode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "edi.vendorEdiType",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "emails[0].categories[0]",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "emails[0].description",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "emails[0].id",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "emails[0].isPrimary",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "emails[0].language",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "emails[0].value",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "erpCode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "expectedActivationInterval",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "expectedInvoiceInterval",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "expectedReceiptInterval",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "exportToAccounting",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "governmental",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
          "folio_field": "id",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "isVendor",
+         "folio_field": "dateCreated",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "language",
+         "folio_field": "customProperties",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "liableForVat",
+         "folio_field": "contacts[0]",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "licensor",
+         "folio_field": "contacts[0].role",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": "InternalContact.Role"
+      },
+      {
+         "folio_field": "tags[0]",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "materialSupplier",
+         "folio_field": "lastUpdated",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "docs[0]",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
@@ -535,133 +55,61 @@
          "description": ""
       },
       {
-         "folio_field": "paymentMethod",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "phoneNumbers[0].categories[0]",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "phoneNumbers[0].id",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "phoneNumbers[0].isPrimary",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "phoneNumbers[0].language",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "phoneNumbers[0].phoneNumber",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "phoneNumbers[0].type",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "renewalActivationInterval",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "sanCode",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
          "folio_field": "status",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "subscriptionInterval",
+         "folio_field": "startDate",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "tags.tagList[0]",
+         "folio_field": "endDate",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "taxId",
+         "folio_field": "openEnded",
+         "legacy_field": "Not mapped",
+         "value": false,
+         "description": ""
+      },
+      {
+         "folio_field": "amendments[0]",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "taxPercentage",
+         "folio_field": "orgs[0]",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "urls[0].categories[0]",
+         "folio_field": "LicenseOrg.Role[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": "LicenseOrg.Role"
+      },
+      {
+         "folio_field": "License.Type[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": "License.Type"
+      },
+      {
+         "folio_field": "alternateNames[0]",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""
       },
       {
-         "folio_field": "urls[0].description",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "urls[0].id",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "urls[0].isPrimary",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "urls[0].language",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "urls[0].notes",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "urls[0].value",
-         "legacy_field": "Not mapped",
-         "value": "",
-         "description": ""
-      },
-      {
-         "folio_field": "vendorCurrencies[0]",
+         "folio_field": "description",
          "legacy_field": "Not mapped",
          "value": "",
          "description": ""

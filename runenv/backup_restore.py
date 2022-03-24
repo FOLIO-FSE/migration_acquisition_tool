@@ -38,7 +38,7 @@ class backup:
             #username="folio"
             #password="Madison"
             #payload = {'username': username, 'password': password}
-            length="99999"
+            length="9999"
             #typein="General note Orders"
             ##fc="&metadata.createdByUserId='2bd750b9-1362-4807-bd73-2be9d8d63436'"
             start="0"

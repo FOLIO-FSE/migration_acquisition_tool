@@ -12,11 +12,35 @@ class ReportSection(Enum):
 class Blurbs(NamedTuple):
     Introduction = (
         "Introduction",
-        "<br/>Data errors preventing records from being migrated are marked **FIX BEFORE MIGRATION**. The library is advised to clean up these errors in the source data.<br/><br/> The sections related to field counts and mapping results are marked **REVIEW**. These do not indicate errors preventing records from being migrated, but may point to data anomalies or in the mappings. The library should review these to make sure that the numbers are what one would expect, knowing the source data. Is this the expected number of serials? Is this the expected number of cartographic materials?",
+        "<br/>Data errors preventing records from being migrated are marked **FIX BEFORE MIGRATION**. The library is advised to clean up these errors in the source data.<br/><br/> The sections related to field counts and mapping results are marked **REVIEW**. These do not indicate errors preventing records from being migrated, but may point to data anomalies or in the mappings. The library should review these to make sure that the numbers are what one would expect, knowing the source data. ",
     )
-    PolinesErrors = (
-        "Errors PoLines Mappings",
-        "<br/> Error on Mapping data bla, bla, bla",
+    Polinesmtypes = (
+        "Material Types",
+        "<br/> Total",
+        
+    )
+    polinesmapping = (
+        "Mapping",
+        "<br/> Total",        
+    )
+    mapping = (
+        "Mapping",
+        "<br/> Total",
+        
+    )
+    NotesErrors = (
+        "Errors Notes",
+        "<br/> No Notes found for the main record",
+        
+    )
+    Notesresult = (
+        "Errors Notes",
+        "<br/> Notes already created",
+        
+    )
+    NotesErrorNoContent = (
+        "Errors Notes content",
+        "<br/> Notes with no content, empty fields",
         
     )
     MappedLegacyFields = (
@@ -172,6 +196,10 @@ class Blurbs(NamedTuple):
     LanguagesInRecords = (
         "Language codes in records",
         "A breakdown of language codes occuring in the records. Purely informational.",
+    )
+    Alex_GeneralStatistics = (
+        "Report",
+        "example",
     )
     ReceiptStatusMapping = (
         "Reciept status mapping",

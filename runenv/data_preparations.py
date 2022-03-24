@@ -180,20 +180,53 @@ def tocsv():
     uai_csv_data = hol.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\locations_12112021.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
         
 def spreadsheet_to_csv():
-    in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\items.xlsx"
-    buffer = StringIO()
+    #in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\Holdings_Bibliografico.xlsx"
+    #in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\Holdings_Seriadas.xlsx"
+    in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\items_all.xlsx"
+    #buffer = StringIO()
     start_time = time.perf_counter()
-    Xlsx2csv(in_items, outputencoding="utf-8").convert(buffer)
-    buffer.seek(0)
-    items = pd.read_csv(buffer)
+    #Xlsx2csv(in_items, outputencoding="utf-8").convert(buffer)
+    #buffer.seek(0)
+    items = pd.read_excel(in_items, engine='openpyxl')
+    #items = pd.read_csv(buffer)
     print("total items original: "+str(len(items)))
     tt=len(items)
     end_time = time.perf_counter()
     total_time= round((end_time - start_time))/60
     print(f" records {tt} / total {total_time}:{60} seconds")
-    uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\tadeo_items.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
+    #uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\items_20200226.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE, encoding="utf-8")
+    uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\items_20200226.tsv", sep="\t", index=False, header = True, encoding="utf-8")
+    #uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\20220226_Holdings_Bibliografico.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
     print("end")
-    
+
+def csv_to_tsv():
+    #in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\Holdings_Bibliografico.xlsx"
+    #in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\Holdings_Seriadas.xlsx"
+    in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\tadeo_holdings\\tadeo_holdings_utf8.csv"
+    #buffer = StringIO()
+    start_time = time.perf_counter()
+    #Xlsx2csv(in_items, outputencoding="utf-8").convert(buffer)
+    #buffer.seek(0)
+    items= pd.read_csv(in_items,low_memory=False, encoding = "utf-8")
+    items= items.apply(lambda x: x.fillna(""))
+    items = items.astype(str)
+    items['CallNumber'] = items['CallNumber'].astype('str')
+    items['totalinv'] = items['totalinv'].astype('str')
+    items['numpieces'] = items['numpieces'].astype('str')
+    items['totalloans'] = items['totalloans'].astype('str')
+    items['precio'] = items['precio'].replace(".0","")
+    items['usoInterno'] = items['usoInterno'].astype('str')
+    print("total items original: "+str(len(items)))
+    print(items.dtypes)
+    tt=len(items)
+    end_time = time.perf_counter()
+    total_time= round((end_time - start_time))/60
+    print(f" records {tt} / total {total_time}:{60} seconds")
+    #uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\items_20200226.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE, encoding="utf-8")
+    uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\tadeo_holdings02032022_utf8.tsv", sep="\t", index=False, header = True, encoding="utf-8")
+    #uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\20220226_Holdings_Bibliografico.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
+    print("end")
+
 def holding_to_csv():
     dt = datetime.datetime.now()
     dt=dt.strftime('%Y%m%d')
@@ -428,6 +461,86 @@ def cairn_fix_holdings():
     uai_csv_data = temp.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\cairn\\results\\07022022_cairn_itemsmodified.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
     print(f"total: {count} borrados:{delcount}")
 
+
+def mfhf():
+    #spreadsheet_to_csv()
+    print("CSV created")
+    #in_holdings="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\20220226_Holdings_Bibliografico.tsv"
+    in_holdings="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\tadeo_holdings02032022_utf8.tsv"
+    #hol = pd.read_csv(in_holdings,dtype ='str')
+    hol = pd.read_csv(in_holdings,sep="\t", encoding="utf-8", dtype ='str')
+    totalhol=len(hol)
+    hol= hol.apply(lambda x: x.fillna(""))
+    hol = hol.astype(str)
+    hol['bibliographicId'] = hol['bibliographicId'].astype('string')
+    hol['Prefix'] = hol['Prefix'].astype('str')
+    hol['Signature'] = hol['Signature'].astype('str')
+    hol['Sufix'] = hol['Sufix'].astype('str')
+    hol['Volumen'] = hol['Volumen'].astype('str')
+    hol['holdingId']=hol['holdingId'].astype('str')    
+    hol['CallNumber'] = hol['CallNumber'].astype('str')
+    hol['totalinv'] = hol['totalinv'].replace(".0","")
+    hol['numpieces'] = hol['numpieces'].astype('str')
+    hol['totalloans'] = hol['totalloans'].astype('str')
+    hol['precio'] = hol['precio'].replace(".0","")
+    hol['usoInterno'] = hol['usoInterno'].astype('str')
+    hol_unique = hol.drop_duplicates(subset=['holdingId'], keep="first", inplace=False, ignore_index=True)
+    print("INFO Total rows duplicated records: {0}".format(len(hol)-len(hol_unique)))
+    hol_unique = hol_unique.apply(lambda x: x.fillna(""))
+    items_holding=[]
+    count=1
+    #print(hol['MMS ID NEW'])
+    print("Reading TSV created")
+    for i, row in hol_unique.iterrows():
+        tag004=""
+        tag001="" 
+        prefix=""
+        sufix=""
+        signature=""
+        location=""
+        callNumber=""
+        if row['bibliographicId']:
+            tag004=str(row['bibliographicId']).strip()
+        if row['holdingId']:
+            tag001=str(row['holdingId']).strip()            
+        if row['Prefix']:
+            prefix=str(row['Prefix']).strip()
+        if row['Sufix']:
+            sufix=str(row['Sufix']).strip()
+        if row['Signature']:
+            signature=str(row['Signature']).strip()
+        if row['locations']:
+            location=str(row['locations']).strip()
+        if row['Cronologia']:
+            Cronologia=str(row['Cronologia']).strip()            
+        if row['CallNumber']:
+            callNumber=row['CallNumber']
+        #callNumber=callNumbertemp.replace("nan","")
+        
+
+        if tag004!="":
+            with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\mfhf_tadeo_holdings02032022_utf8.mrk","a",encoding="utf-8") as f:
+                f.write(f"=LDR  00232nx  a22000974n 4500"+"\n")
+                f.write(f"=001  {tag001}"+"\n") #item
+                f.write(f"=004  {tag004}"+"\n") #bib
+                f.write(f"=008  2202260p\\\\\\\\8\\\\\\4001auspa0000000"+"\n")
+                f.write(f"=852  0\$b{location}$h{callNumber}"+"\n")
+                f.write("\n")
+                print(f"record {count} {count}/{totalhol} -- {tag004}")
+                count+=1
+        else:
+            with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\mfhf_tadeo_holdings02032022_utf8.mrk","a",encoding="utf-8") as f:
+                f.write(f"=LDR  00232nx  a22000974n 4500"+"\n")
+                f.write(f"=001  {tag001}"+"\n") #item
+                f.write(f"=004  void"+"\n") #bib
+                f.write(f"=008  2202260p\\\\\\\\8\\\\\\4001auspa0000000"+"\n")
+                f.write(f"=852  0\$b{location}$h{callNumber}"+"\n")
+                f.write("\n")
+                print(f"record {count}")
+                print(f"Record Holding {count}/{totalhol} -- {tag004} ")
+                count+=1
+
+
 if __name__ == "__main__":
     #fix_dupmich()
     #holding_to_csv()
@@ -440,6 +553,8 @@ if __name__ == "__main__":
     #fix_dup()
     #spreadsheet_to_csv()
     #spreadsheet_to_csv():
-    cairn_fix_holdings()
+    #cairn_fix_holdings()
     #extractdata()
+    mfhf()
+    #csv_to_tsv()
     

@@ -16,7 +16,7 @@ if __name__ == "__main__":
     #Insert True/False if you want to use GUI / command line. by default command Line FALSE
     graphicinterfaces=False#False
     #Insert the script to run (o=organizations/p=purchase orders/l=licenses/a=Agreements)
-    scriptTorun="p"#"o"    
+    scriptTorun="n"#"o"    
     if customerName=="": 
         print("Client code: ") 
         customerName = str(input())

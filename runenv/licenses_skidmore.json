@@ -1,0 +1,195 @@
+[
+   {
+      "id": "dec41b24-f91b-4250-b82d-722ad1b17fe3",
+      "endDateSemantics": {
+         "id": "2c9180877cc67cf7017ccb6590f80023",
+         "value": "explicit",
+         "label": "Explicit",
+         "owner": {
+            "id": "2c9180877cc67cf7017ccb6590f30022",
+            "desc": "License.EndDateSemantics",
+            "internal": true
+         }
+      },
+      "dateCreated": "2022-02-08T01:18:20Z",
+      "customProperties": {},
+      "contacts": [
+         {
+            "id": "2c91808f7e712fed017ed6f5e82a001d",
+            "owner": {
+               "id": "dec41b24-f91b-4250-b82d-722ad1b17fe3"
+            },
+            "role": {
+               "id": "2c9180877cc67cf7017ccb6591800032",
+               "value": "erm_librarian",
+               "label": "ERM Librarian",
+               "owner": {
+                  "id": "2c9180877cc67cf7017ccb6591710030",
+                  "desc": "InternalContact.Role",
+                  "internal": false
+               }
+            },
+            "user": "7076cdcd-5a48-42dd-a8ec-3821ecbc8f6d"
+         }
+      ],
+      "tags": [],
+      "lastUpdated": "2022-02-08T01:32:27Z",
+      "docs": [],
+      "name": "elsevier",
+      "status": {
+         "id": "2c9180877cc67cf7017ccb6591250028",
+         "value": "active",
+         "label": "Active",
+         "owner": {
+            "id": "2c9180877cc67cf7017ccb65910b0025",
+            "desc": "License.Status",
+            "internal": true
+         }
+      },
+      "supplementaryDocs": [],
+      "description": "Scopus es una base de datos bibliogr\u00e1fica de res\u00famenes y citas de art\u00edculos de revistas cient\u00edficas.\nEs una alternativa a Web of Science para la b\u00fasqueda de documentaci\u00f3n cient\u00edfica y tambi\u00e9n en lo referente a la evaluaci\u00f3n de los art\u00edculos, con el conteo de n\u00famero de citas, y la evaluaci\u00f3n de las revistas generada por el ranking SCImago Journal & Country Rank, a partir de las revistas indexadas.",
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31",
+      "openEnded": false,
+      "amendments": [],
+      "orgs": [
+         {
+            "id": "4f2f9e7d-360a-4ef2-a859-61b0f3e0fd34",
+            "org": {
+               "id": "0bb34ce1-7a9d-4e79-9f7b-2f85ef829665",
+               "orgsUuid": "0b33d2a7-3f78-428a-8307-efd6e2a7e8f6",
+               "name": "EBSCO International"
+            },
+            "owner": {
+               "id": "dec41b24-f91b-4250-b82d-722ad1b17fe3"
+            },
+            "role": {
+               "id": "2c9180877cc67cf7017ccb6590c9001e",
+               "value": "licensor",
+               "label": "Licensor",
+               "owner": {
+                  "id": "2c9180877cc67cf7017ccb6590b7001d",
+                  "desc": "LicenseOrg.Role",
+                  "internal": true
+               }
+            }
+         }
+      ],
+      "type": {
+         "id": "2c9180877cc67cf7017ccb659153002d",
+         "value": "consortial",
+         "label": "Consortial",
+         "owner": {
+            "id": "2c9180877cc67cf7017ccb659144002b",
+            "desc": "License.Type",
+            "internal": false
+         }
+      },
+      "alternateNames": [
+         {
+            "id": "e9b90384-b3d7-4769-adc4-478e8ddf3405",
+            "owner": {
+               "id": "dec41b24-f91b-4250-b82d-722ad1b17fe3"
+            },
+            "name": "scopus"
+         }
+      ]
+   }
+][
+   {
+      "id": "dec41b24-f91b-4250-b82d-722ad1b17fe3",
+      "endDateSemantics": {
+         "id": "2c9180877cc67cf7017ccb6590f80023",
+         "value": "explicit",
+         "label": "Explicit",
+         "owner": {
+            "id": "2c9180877cc67cf7017ccb6590f30022",
+            "desc": "License.EndDateSemantics",
+            "internal": true
+         }
+      },
+      "dateCreated": "2022-02-08T01:18:20Z",
+      "customProperties": {},
+      "contacts": [
+         {
+            "id": "2c91808f7e712fed017ed6f5e82a001d",
+            "owner": {
+               "id": "dec41b24-f91b-4250-b82d-722ad1b17fe3"
+            },
+            "role": {
+               "id": "2c9180877cc67cf7017ccb6591800032",
+               "value": "erm_librarian",
+               "label": "ERM Librarian",
+               "owner": {
+                  "id": "2c9180877cc67cf7017ccb6591710030",
+                  "desc": "InternalContact.Role",
+                  "internal": false
+               }
+            },
+            "user": "7076cdcd-5a48-42dd-a8ec-3821ecbc8f6d"
+         }
+      ],
+      "tags": [],
+      "lastUpdated": "2022-02-08T01:32:27Z",
+      "docs": [],
+      "name": "elsevier",
+      "status": {
+         "id": "2c9180877cc67cf7017ccb6591250028",
+         "value": "active",
+         "label": "Active",
+         "owner": {
+            "id": "2c9180877cc67cf7017ccb65910b0025",
+            "desc": "License.Status",
+            "internal": true
+         }
+      },
+      "supplementaryDocs": [],
+      "description": "Scopus es una base de datos bibliogr\u00e1fica de res\u00famenes y citas de art\u00edculos de revistas cient\u00edficas.\nEs una alternativa a Web of Science para la b\u00fasqueda de documentaci\u00f3n cient\u00edfica y tambi\u00e9n en lo referente a la evaluaci\u00f3n de los art\u00edculos, con el conteo de n\u00famero de citas, y la evaluaci\u00f3n de las revistas generada por el ranking SCImago Journal & Country Rank, a partir de las revistas indexadas.",
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31",
+      "openEnded": false,
+      "amendments": [],
+      "orgs": [
+         {
+            "id": "4f2f9e7d-360a-4ef2-a859-61b0f3e0fd34",
+            "org": {
+               "id": "0bb34ce1-7a9d-4e79-9f7b-2f85ef829665",
+               "orgsUuid": "0b33d2a7-3f78-428a-8307-efd6e2a7e8f6",
+               "name": "EBSCO International"
+            },
+            "owner": {
+               "id": "dec41b24-f91b-4250-b82d-722ad1b17fe3"
+            },
+            "role": {
+               "id": "2c9180877cc67cf7017ccb6590c9001e",
+               "value": "licensor",
+               "label": "Licensor",
+               "owner": {
+                  "id": "2c9180877cc67cf7017ccb6590b7001d",
+                  "desc": "LicenseOrg.Role",
+                  "internal": true
+               }
+            }
+         }
+      ],
+      "type": {
+         "id": "2c9180877cc67cf7017ccb659153002d",
+         "value": "consortial",
+         "label": "Consortial",
+         "owner": {
+            "id": "2c9180877cc67cf7017ccb659144002b",
+            "desc": "License.Type",
+            "internal": false
+         }
+      },
+      "alternateNames": [
+         {
+            "id": "e9b90384-b3d7-4769-adc4-478e8ddf3405",
+            "owner": {
+               "id": "dec41b24-f91b-4250-b82d-722ad1b17fe3"
+            },
+            "name": "scopus"
+         }
+      ]
+   }
+]

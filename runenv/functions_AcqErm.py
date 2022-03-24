@@ -571,7 +571,7 @@ class AcqErm():
                     ls=self.load_settings()
                     self.customerName=pd.dataframe()
                     #print(ls[self.value_a])
-                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    filetoload=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['fileName'])
                     self.df=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
@@ -582,7 +582,7 @@ class AcqErm():
                         self.customerName=agree.Agreements(client,self.path_dir)
                         self.customerName.readagreements(client,self.df)
                     else:
-                        print(f"INFO file Name must be included in the ..{self.path_data}\loadSetting.json")   
+                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json")   
                 elif self.sctr=="l": 
                     self.value="licenses"
                     self.value_a="lic"
@@ -590,7 +590,7 @@ class AcqErm():
                     ls=self.load_settings() 
                     existname=str(ls[self.value_a]['fileName'])
                     if existname!="":
-                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                        filetoload=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['fileName'])
                         self.customerName=pd.dataframe()
                         self.dflicenses=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
@@ -609,7 +609,7 @@ class AcqErm():
                         if existname!="":
                             swno=False
                             #print(ls[self.value_a])
-                            filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                            filetoload=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['fileName'])
                             if filetoload!="":
                                 self.customerName=pd.dataframe()
                                 filenametoprint=str(ls[self.value_a]['fileName'])
@@ -643,14 +643,15 @@ class AcqErm():
                     swnotes=False
                     self.value="organizations"
                     self.value_a="org"
-                    self.value_b="contacts"
-                    self.value_c="interfaces"
                     self.df=self.value
                     ls=self.load_settings()
-                    self.customerName=pd.dataframe()
-                    #print(ls[self.value_a])
-                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
-                    self.dforganizations=self.customerName.importDataFrame(filetoload,
+                    existname=str(ls[self.value_a]['fileName'])
+                    if existname!="":
+                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                        self.customerName=pd.dataframe()
+                        #print(ls[self.value_a])
+                        filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
+                        self.dforganizations=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
@@ -658,9 +659,12 @@ class AcqErm():
                                             dfname=self.value)
                     #Contacts
                     self.value_a="contacts"
-                    lsc=self.load_settings()
-                    filetoload=f"{self.path_data}\\"+str(lsc[self.value_a]['fileName'])
-                    self.dfcontacts=self.customerName.importDataFrame(filetoload,
+                    ls=self.load_settings()
+                    existname=str(ls[self.value_a]['fileName'])
+                    if existname!="":
+                        lsc=self.load_settings()
+                        filetoload=f"{self.path_data}/"+str(lsc[self.value_a]['fileName'])
+                        self.dfcontacts=self.customerName.importDataFrame(filetoload,
                                             orderby=lsc[self.value_a]['orderby'],
                                             distinct=lsc[self.value_a]['distinct'],                                            
                                             sheetName=lsc[self.value_a]['sheetName'],
@@ -670,38 +674,58 @@ class AcqErm():
                     #Interfaces
                     self.value_a="interfaces"
                     lsi=self.load_settings()
-                    filetoload=f"{self.path_data}\\"+str(lsi[self.value_a]['fileName'])
-                    self.dfinterfaces=self.customerName.importDataFrame(filetoload,
+                    existname=str(lsi[self.value_a]['fileName'])
+                    if existname!="":
+                        filetoload=f"{self.path_data}/"+str(lsi[self.value_a]['fileName'])
+                        self.dfinterfaces=self.customerName.importDataFrame(filetoload,
                                             orderby=lsi[self.value_a]['orderby'],
                                             distinct=lsi[self.value_a]['distinct'],                                            
                                             sheetName=lsi[self.value_a]['sheetName'],
                                             mapping_file=self.path_organizationsMapping,
                                             dfname=self.value_a)
-                    #Notes
-                    iter=0
-                    self.value="notes"
-                    self.value_a=f"note[{iter}]"
-                    self.df=self.value
-                    lsn=self.load_settings()
-                    self.customerName=pd.dataframe()
-                    #print(ls[self.value_a])
-                    
-                    filetoload=f"{self.path_data}\\"+str(lsn[self.value_a]['fileName'])
-                    self.notes=self.customerName.importDataFrame(filetoload,
-                                            orderby=lsn[self.value_a]['orderby'],
-                                            distinct=lsn[self.value_a]['distinct'],                                            
-                                            sheetName=lsn[self.value_a]['sheetName'],
+                        #Notes
+                        self.value="notes"
+                        self.value_a=f"note[0]"
+                        print(f"INFO NOTE NO. {self.value_a}===================")
+                        self.df=self.value
+                        lsi=self.load_settings()
+                        existname=str(ls[self.value_a]['fileName'])
+                        if existname!="":
+                            ls=self.load_settings()
+                            existname=str(ls[self.value_a]['fileName'])
+                            self.notes=None
+                            if existname!="":
+                                swno=False
+                                #print(ls[self.value_a])
+                                filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
+                                if filetoload!="":
+                                    self.customerName=pd.dataframe()
+                                    filenametoprint=str(ls[self.value_a]['fileName'])
+                                    readmapping=f"{self.path_mapping_files}/"+str(ls[self.value_a]['mappingfile'])
+                                    linkidfilewithid=f"{self.path_results}/"+str(ls[self.value_a]['linkidfile'])                    
+                                    if readmapping=="":
+                                        self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
                                             mapping_file=self.path_notesMapping,
-                                            dfname=self.value_a)
-                    #print(self.notes)
-                    if self.dforganizations is not None:                        
-                        self.customerName=org.organizations(client,self.path_dir)
-                        if self.notes is not None:
-                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces, dfnotes=self.notes)
+                                            dfname=self.value)
+                                    else:
+                                        self.notes=self.customerName.importDataFrame(filetoload,
+                                            orderby=ls[self.value_a]['orderby'],
+                                            distinct=ls[self.value_a]['distinct'],                                            
+                                            sheetName=ls[self.value_a]['sheetName'],
+                                            mapping_file=readmapping,
+                                            dfname=self.value)
+                    #print(self.notes)'''
+                        if self.dforganizations is not None:                        
+                            self.customerName=org.organizations(client,self.path_dir)
+                            if self.notes is not None:
+                                self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces, dfnotes=self.notes)
+                            else:
+                                self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces)
                         else:
-                            self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces)
-                    else:
-                        print(f"INFO file Name must be included in the ..{self.path_refdata}\loadSetting.json") 
+                            print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json") 
                     
                 elif self.sctr=="p":
                     try:
@@ -847,6 +871,7 @@ class AcqErm():
                         iter+=1
                 else:
                     print(f"ERROR: you have selected the script wrong")
+
 
         except ValueError as error:
             print(f"Error: {error}")
@@ -2892,11 +2917,18 @@ def jsontotupla(**kwargs):
                 if 'code' in i: 
                     code=i['code']
                 else: 
-                    code=""
+                    if name:
+                        code=name
+                    else:
+                        code=""
+                    
                 if 'value' in i: 
                     value=i['value']
                 else: 
-                    value=""
+                    if code:
+                        value=code
+                    else:
+                        value=""
                 tupla.append([id,code,name,value,data])
                 #if schema=="organizations":
                 #    print(tupla)
