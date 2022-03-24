@@ -1,6 +1,28 @@
 # Local data
 okapi_customers.json
-client_data
+client_data/michstate
+client_data/massey
+client_data/Lafayette
+client_data/michstate_prod
+client_data/migration_massey
+client_data/migration_nust
+client_data/migration_uai
+client_data/migration_uai_test
+client_data/msu
+client_data/nust - Copy
+client_data/uaiA
+client_data/washcoll
+client_data/Wellesley
+client_data/*
+
+
+
+
+
+
+
+
+
 data
 main_AcqErmlocal.py
 results
