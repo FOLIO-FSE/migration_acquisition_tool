@@ -369,9 +369,9 @@ class notes():
                 # self.print_notes(self,typeId="d2f44fe0-3709-4616-911e-8d8773ace0c0",type="Agreements note",domain="agreements",title="Notes",content=cont,linkId=[{"id": id,"type": "agreement"}])        
                 count+=1
                 if noprint:
-                    mf.printObject(notes,self.path_results,count,self.customerName+"_notes",False)
+                    mf.printObject(notes,self.path_results,count,self.customerName+f"_notes_{self.dtnote}",False)
                 else:
-                    mf.printObject(notes,self.path_results,count,self.customerName+"_notes_worse",False)
+                    mf.printObject(notes,self.path_results,count,self.customerName+f"_notes_worse_{self.dtnote}",False)
             except Exception as ee:
                 print(f"ERROR: {ee}")
             
@@ -395,7 +395,7 @@ class notes():
             notes["links"]= kwargs['linkId']# [{"id": linkId,"type": typelinkId}]
             x=0
             #print(notes)
-            mf.printObject(notes,self.path_results,count,self.customerName+"_notes",False)
+            mf.printObject(notes,self.path_results,count,self.customerName+f"_notes_{self.dtnote}",False)
             
         except Exception as ee:
             print(f"ERROR: {ee}")

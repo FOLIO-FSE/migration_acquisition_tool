@@ -1,0 +1,142 @@
+{
+   "data": [
+      {
+         "folio_field": "code",
+         "legacy_field": "RECORD NO.(Order)",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "content[0]",
+         "legacy_field": "Paid Date",
+         "value": "Paid Date",
+         "description": ""
+      },
+      {
+         "folio_field": "content[1]",
+         "legacy_field": "Amount Paid",
+         "value": "Amount Paid",
+         "description": ""
+      },
+      {
+         "folio_field": "content[2]",
+         "legacy_field": "Foreign Currency Paid",
+         "value": "Foreign Currency Paid",
+         "description": ""
+      },
+      {
+         "folio_field": "content[3]",
+         "legacy_field": "Invoice Number",
+         "value": "Invoice Number",
+         "description": ""
+      },
+      {
+         "folio_field": "content[4]",
+         "legacy_field": "Invoice Date",
+         "value": "Invoice Date",
+         "description": ""
+      },
+      {
+         "folio_field": "content[5]",
+         "legacy_field": "Voucher Number",
+         "value": "Voucher Number",
+         "description": ""
+      },
+      {
+         "folio_field": "content[6]",
+         "legacy_field": "Sub From",
+         "value": "Sub From",
+         "description": ""
+      },
+      {
+         "folio_field": "content[7]",
+         "legacy_field": "Copies",
+         "value": "Copies",
+         "description": ""
+      },
+      {
+         "folio_field": "content[8]",
+         "legacy_field": "Note",
+         "value": "Note",
+         "description": ""
+      },
+      {
+         "folio_field": "creator.firstName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "creator.lastName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "creator.middleName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "domain",
+         "legacy_field": "Not mapped",
+         "value": "orders",
+         "description": ""
+      },
+      {
+         "folio_field": "id",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "links[0].id",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "links[0].type",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "status",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "title",
+         "legacy_field": "Not mapped",
+         "value": "Sierra note",
+         "description": ""
+      },
+      {
+         "folio_field": "typeId",
+         "legacy_field": "Not mapped",
+         "value": "4248a29f-ebff-42e8-9466-c79a6a67e69e",
+         "description": ""
+      },
+      {
+         "folio_field": "updater.firstName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "updater.lastName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "updater.middleName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      }
+   ]
+}

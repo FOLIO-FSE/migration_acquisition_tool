@@ -350,7 +350,7 @@ class AcqErm():
         path=os.path.dirname(os.path.realpath(__file__))      
         self.path_original=path
         x=path.find("runenv")
-        self.path=path[:46]
+        self.path=path[:-7]
         self.path_dir=f"{self.path}/client_data/migration_{self.customerName}"
         self.createDirectory(self.path_dir)
         self.path_data=f"{self.path_dir}/data"

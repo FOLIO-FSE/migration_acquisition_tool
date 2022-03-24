@@ -1,0 +1,94 @@
+{
+   "data": [
+      {
+         "folio_field": "code",
+         "legacy_field": "",
+         "value": "",
+         "description": "field related with master data"
+      },
+      {
+         "folio_field": "content[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "creator.firstName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "creator.lastName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "creator.middleName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "domain",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "id",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "links[0].id",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "links[0].type",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "status",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "title",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": "Note title-insert in value field by all"
+      },
+      {
+         "folio_field": "typeId",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": "uuid note type ID"
+      },
+      {
+         "folio_field": "updater.firstName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "updater.lastName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "updater.middleName",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      }
+   ]
+}

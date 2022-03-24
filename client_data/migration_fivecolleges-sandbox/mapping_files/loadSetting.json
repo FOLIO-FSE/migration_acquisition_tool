@@ -1,0 +1,144 @@
+{
+  "loadSetting": [
+    {
+      "customer": "fivecolleges-sandbox",
+      "path_root": "C:\\Users\\asoto\\code\\migration_acquisition_tool/client_data/migration_fivecolleges-sandbox",
+      "path_results": "C:\\Users\\asoto\\code\\migration_acquisition_tool/client_data/migration_fivecolleges-sandbox/results",
+      "path_logs": "C:\\Users\\asoto\\code\\migration_acquisition_tool/client_data/migration_fivecolleges-sandbox/logs",
+      "path_refdata": "C:\\Users\\asoto\\code\\migration_acquisition_tool/client_data/migration_fivecolleges-sandbox/refdata",
+      "path_data": "C:\\Users\\asoto\\code\\migration_acquisition_tool/client_data/migration_fivecolleges-sandbox/data",
+      "mapping_files": "C:\\Users\\asoto\\code\\migration_acquisition_tool/client_data/migration_fivecolleges-sandbox/mapping_files",
+      "path_reports": "C:\\Users\\asoto\\code\\migration_acquisition_tool/client_data/migration_fivecolleges-sandbox/reports",
+      "organizations": [
+        {
+          "org": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [
+              "code"
+            ],
+            "sheetName": "",
+            "mappingfile": "organization_mapping.json"
+          }
+        },
+        {
+          "contacts": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mappingfile": "contacts_mapping.json"
+          }
+        },
+        {
+          "interfaces": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mappingfile": "interfaces_mapping.json"
+          }
+        }
+      ],
+      "purchaseOrders": [
+        {
+          "po": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [
+              "poNumber"
+            ],
+            "sheetName": "",
+            "mappingfile": "composite_purchase_order_mapping.json"
+          }
+        },
+        {
+          "poLines": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mappingfile": "composite_purchase_order_mapping.json"
+          }
+        }
+      ],
+      "licenses": [
+        {
+          "lic": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "licenseId": "",
+            "sheetName": "",
+            "mappingfile": "license_mapping.json"
+          }
+        }
+      ],
+      "agreement": [
+        {
+          "agree": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "agreementid": "",
+            "sheetName": "",
+            "mappingfile": "agreement_mapping.json"
+          }
+        }
+      ],
+      "users": [
+        {
+          "user": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "userid": "",
+            "sheetName": ""
+          }
+        }
+      ],
+      "notes": [
+        {
+          "note[0]": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mapfile": "",
+            "mappingfile": "notes_mapping.json"
+          }
+        },
+        {
+          "note[1]": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mapfile": "",
+            "mappingfile": "notes_mapping.json"
+          }
+        },
+        {
+          "note[2]": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mapfile": "",
+            "mappingfile": "notes_mapping.json"
+          }
+        },
+        {
+          "note[3]": {
+            "fileName": "",
+            "orderby": "",
+            "distinct": [],
+            "sheetName": "",
+            "mapfile": "",
+            "mappingfile": "notes_mapping.json"
+          }
+        }
+      ]
+    }
+  ]
+}

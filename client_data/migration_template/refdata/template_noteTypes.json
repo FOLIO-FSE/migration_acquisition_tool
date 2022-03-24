@@ -1,0 +1,76 @@
+{
+  "noteTypes": [
+    {
+      "id": "1054c9d4-2754-40e1-a028-2f76bed4265c",
+      "name": "General note",
+      "usage": {
+        "noteTotal": 3
+      },
+      "metadata": {
+        "createdDate": "2021-12-13T22:47:35.761+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "createdByUsername": "admin",
+        "updatedDate": "2021-12-13T22:47:35.761+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "4248a29f-ebff-42e8-9466-c79a6a67e69e",
+      "name": "Orders note",
+      "usage": {
+        "noteTotal": 941
+      },
+      "metadata": {
+        "createdDate": "2021-11-30T13:54:02.016+00:00",
+        "createdByUserId": "b6a25575-c228-4593-916c-40870567eef9",
+        "createdByUsername": "migration",
+        "updatedDate": "2021-11-30T13:54:02.016+00:00",
+        "updatedByUserId": "b6a25575-c228-4593-916c-40870567eef9"
+      }
+    },
+    {
+      "id": "97996fc6-1db3-4106-ab31-e47c9e5f7570",
+      "name": "Agreement note",
+      "usage": {
+        "noteTotal": 0
+      },
+      "metadata": {
+        "createdDate": "2021-12-05T17:34:02.367+00:00",
+        "createdByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f",
+        "createdByUsername": "tadarlin",
+        "updatedDate": "2021-12-05T17:34:02.367+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "281cdcb3-cfad-42cf-8d48-c30d3fc4ef66",
+      "name": "Patron note",
+      "usage": {
+        "noteTotal": 25396
+      },
+      "metadata": {
+        "createdDate": "2021-10-12T19:12:12.914+00:00",
+        "createdByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40",
+        "createdByUsername": "tadarlin",
+        "updatedDate": "2021-11-09T19:25:58.390+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedByUsername": "admin"
+      }
+    },
+    {
+      "id": "822085af-9bdb-432f-97ad-d9450df10caf",
+      "name": "Licence note",
+      "usage": {
+        "noteTotal": 0
+      },
+      "metadata": {
+        "createdDate": "2021-12-05T17:33:38.314+00:00",
+        "createdByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f",
+        "createdByUsername": "tadarlin",
+        "updatedDate": "2021-12-05T17:33:38.314+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    }
+  ],
+  "totalRecords": 5
+}

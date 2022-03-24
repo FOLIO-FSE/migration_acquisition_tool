@@ -1,0 +1,2423 @@
+{
+  "locations": [
+    {
+      "id": "f2226cbc-4814-4498-9f49-48747e634d54",
+      "name": "M - New Books",
+      "code": "MNB",
+      "discoveryDisplayName": "Manawatū New Books",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-12-26T00:50:04.399+00:00",
+        "createdByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f",
+        "updatedDate": "2021-12-26T00:50:04.399+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "dcac9c11-ae23-49fb-911a-846a67429623",
+      "name": "A - On Order",
+      "code": "AKLD",
+      "discoveryDisplayName": "Auckland on Order",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:25:10.880+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:25:10.880+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "24f6cdf0-d891-48ba-889d-8775e9668ddc",
+      "name": "A - Main 100-199",
+      "code": "AMAIN10",
+      "discoveryDisplayName": "Auckland Main Collection (Level 5)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:28:34.499+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:28:34.499+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "87558643-d9b0-477a-8291-f7d133dc562a",
+      "name": "A - Main 200-299",
+      "code": "AMAIN20",
+      "discoveryDisplayName": "Auckland Main Collection (Level 5)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:28:58.383+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:28:58.383+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "f0749960-3bae-483e-9d00-0ae615ace5ed",
+      "name": "A - Main 300-399",
+      "code": "AMAIN30",
+      "discoveryDisplayName": "Auckland Main Collection (Level 5)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:28:59.140+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:28:59.140+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "247d3cc1-b8cd-43cf-b8b4-7eef2888125b",
+      "name": "A - Main 400-499",
+      "code": "AMAIN40",
+      "discoveryDisplayName": "Auckland Main Collection (Level 5)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:28:59.913+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:28:59.913+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "bca3ffa8-81f0-44ce-834f-774e3aba2528",
+      "name": "A - Main 500-599",
+      "code": "AMAIN50",
+      "discoveryDisplayName": "Auckland Main Collection (Level 4)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:00.647+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:00.647+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "2dd7fac5-151a-473b-a20d-385a586c917f",
+      "name": "A - Main 600-699",
+      "code": "AMAIN60",
+      "discoveryDisplayName": "Auckland Main Collection (Level 4)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:01.419+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:01.419+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "52ebfec6-46e8-4794-b1cb-8272540427b8",
+      "name": "A - Main 700-799",
+      "code": "AMAIN70",
+      "discoveryDisplayName": "Auckland Main Collection (Level 4)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:02.159+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:02.159+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "b2db8fce-6b16-4881-8b10-ebb6fc8e4b0f",
+      "name": "A - Main 800-899",
+      "code": "AMAIN80",
+      "discoveryDisplayName": "Auckland Main Collection (Level 4)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:02.890+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:02.890+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "3723a242-7d69-4c60-830e-477e4fe5ad26",
+      "name": "A - Main 900-999",
+      "code": "AMAIN90",
+      "discoveryDisplayName": "Auckland Main Collection (Level 4)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:03.635+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:03.635+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "32dc6204-3a66-4260-aa82-db8d777e9ba3",
+      "name": "A - Feature Films",
+      "code": "AFF",
+      "discoveryDisplayName": "Auckland Feature Films (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:04.387+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:04.387+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "7c24566d-df25-4588-a40d-f5db51e80de4",
+      "name": "A - NKO",
+      "code": "ANKO",
+      "discoveryDisplayName": "Auckland Nga Kupu Ora (Level 3)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:05.107+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:05.107+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "df3afe7b-7aca-48c5-bcbc-09a50d8fcac7",
+      "name": "A - Pasifika",
+      "code": "APKA",
+      "discoveryDisplayName": "Auckland Pasifika (Level 3)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:05.847+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:05.847+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "7bea8c43-943a-47c2-af62-ad68e6aa89cd",
+      "name": "A - Pasifika Off Pubs",
+      "code": "APKAOP",
+      "discoveryDisplayName": "Auckland Pasifika Official Publications (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:06.570+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:06.570+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "eddbf37e-e54a-4e54-82cb-58037b6fb80f",
+      "name": "A - School Journals",
+      "code": "AJSJ",
+      "discoveryDisplayName": "Auckland School Journals (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:10.827+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-12-08T16:41:45.985+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "e7a9ffc5-8b8e-41df-9c6c-726e82f00de9",
+      "name": "A - Junior Nonfiction",
+      "code": "AJNF",
+      "discoveryDisplayName": "Auckland Junior Nonfiction (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:08.705+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:08.705+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "be594b2f-3979-4b88-97c8-6729f1c5e036",
+      "name": "A - Junior fiction",
+      "code": "AJF",
+      "discoveryDisplayName": "Auckland Junior Fiction (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:09.416+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:09.416+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "7e25d76b-6ea2-4f0b-bf1a-238df7eeefcb",
+      "name": "A - Picture Books",
+      "code": "AJPB / AJF",
+      "discoveryDisplayName": "Auckland Picture Books (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:10.115+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:10.115+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "c92c0eb1-b0ed-4360-b9d1-073c246c57bd",
+      "name": "A - SP PG Lockers",
+      "code": "ASPPG",
+      "discoveryDisplayName": "Auckland Service Point (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:11.533+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:11.533+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "579b71e9-a145-4a8a-9283-da1c1174eba4",
+      "name": "A - Rare Books",
+      "code": "ASC",
+      "discoveryDisplayName": "Auckland Rare Books (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:08.000+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-15T00:19:32.205+00:00",
+        "updatedByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40"
+      }
+    },
+    {
+      "id": "f0a5b1ca-7694-43a1-a6ac-64c23d2c0798",
+      "name": "A - New Books",
+      "code": "ANB",
+      "discoveryDisplayName": "Auckland New Books",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2022-01-03T00:32:00.066+00:00",
+        "createdByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f",
+        "updatedDate": "2022-01-03T00:32:43.605+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "4cfe2b6e-1cae-4f42-a735-3b3ba8f271cf",
+      "name": "A - Short loans",
+      "code": "ASL",
+      "discoveryDisplayName": "Auckland Short Loans (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:12.232+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:12.232+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "48ee3398-ef86-4253-b131-c8db28c5815e",
+      "name": "W - New Books",
+      "code": "WNB",
+      "discoveryDisplayName": "Wellington New Books",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "details": {},
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2022-01-03T00:33:27.149+00:00",
+        "createdByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f",
+        "updatedDate": "2022-01-03T00:33:27.149+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "d476a5e5-dba7-4c54-9ad7-f5197a2f997b",
+      "name": "A - Journals",
+      "code": "AJNL",
+      "discoveryDisplayName": "Auckland Journals (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:13.644+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:13.644+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "7e279b6b-fe80-43bd-ba83-2810bd11921c",
+      "name": "A - Microfilms",
+      "code": "AMF",
+      "discoveryDisplayName": "Auckland Microfilms (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:14.346+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T14:29:14.346+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "81ebdf58-95e3-4375-ab23-37abf16697a8",
+      "name": "M - On Order",
+      "code": "MWTU",
+      "discoveryDisplayName": "Manawatū On Order",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:13.564+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:13.564+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "8406a994-dc62-4c59-a34a-45949b8d7fd4",
+      "name": "M - Main 000-0nn",
+      "code": "MMAIN00",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:31.506+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:31.506+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "e868a96f-1560-4fa6-90e9-0e6cda165c79",
+      "name": "M - Main 0nn-099",
+      "code": "MMAIN01",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:32.227+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:32.227+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "4d4a8034-563b-4824-9e90-fc7fdf09bb91",
+      "name": "M - Main 100-1nn",
+      "code": "MMAIN10",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:32.972+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:32.972+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "fb9d77b3-8748-45dd-afb0-2a0255fbb0ed",
+      "name": "M - Main 1nn-199",
+      "code": "MMAIN11",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:33.675+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:33.675+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "8b3b06c7-6cd8-4df6-9941-bc931a26685f",
+      "name": "M - Main 200-2nn",
+      "code": "MMAIN20",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:34.383+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:34.383+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "ef31e902-a9c9-44cb-a025-164cb2789aea",
+      "name": "M - Main 2nn-299",
+      "code": "MMAIN21",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:35.108+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:35.108+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "6c0cd249-906f-4e43-b099-c0a5752fcf9a",
+      "name": "M - Main 300-3nn",
+      "code": "MMAIN30",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 3)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:35.828+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:35.828+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "710b8a8a-3a49-4fd6-be76-f7aa7c0df941",
+      "name": "M - Main 3nn-399",
+      "code": "MMAIN31",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:36.522+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:36.522+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "19e08ce4-617b-4320-affe-dafd4d0fac29",
+      "name": "M - Main 400-4nn",
+      "code": "MMAIN40",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 3)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:37.229+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:37.229+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "0cee5639-8c08-4e9d-ba4b-d8433655732b",
+      "name": "M - Main 4nn-499",
+      "code": "MMAIN41",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:37.935+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:37.935+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "0465fd99-30a3-49be-a339-9ea9093e7832",
+      "name": "M - Main 500-5nn",
+      "code": "MMAIN50",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:38.643+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:38.643+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "81f90819-2ef9-48f4-870b-441c3c0d2e3d",
+      "name": "M - Main 5nn-599",
+      "code": "MMAIN51",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:39.345+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:39.345+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "70c34a7b-7914-4bd0-a53d-d42fd0db06c9",
+      "name": "M - Main 600-6nn",
+      "code": "MMAIN60",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 3)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:40.040+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:40.040+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "6d41438a-4539-4f53-8953-096d9f8e3103",
+      "name": "M - Main 6nn-699",
+      "code": "MMAIN61",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:40.752+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:40.752+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "68aad35c-c87b-40f8-94f1-02a20a9d4f58",
+      "name": "M - Main 700-7nn",
+      "code": "MMAIN70",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 3)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:41.462+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:41.462+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "20ed6608-97e6-4dfb-a5a2-bc352fa42e2e",
+      "name": "M - Main 7nn-799",
+      "code": "MMAIN71",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:47.170+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:47.170+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "a923cbc3-981a-4d00-9ed4-020ebcd9c184",
+      "name": "M - Main 800-8nn",
+      "code": "MMAIN80",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 3)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:47.908+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:47.908+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "7d3a11c7-4434-4e13-866d-523dc1f4b8d0",
+      "name": "M - Main 8nn-899",
+      "code": "MMAIN81",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:48.612+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:48.612+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "6365428e-1138-4a73-9141-ddd4cc5983ec",
+      "name": "M - Main 900-9nn",
+      "code": "MMAIN90",
+      "discoveryDisplayName": "Manawatū Main Collection (Level 3)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:49.430+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:49.430+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "ece0ead5-2be7-4d24-8a55-fe3808a296b6",
+      "name": "M - Main 9nn-999",
+      "code": "MMAIN91",
+      "discoveryDisplayName": "Manawatū Main Collection (Level n)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:50.146+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:50.146+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "230f5959-6fb4-4dab-905e-a3c1111f7bff",
+      "name": "M - Stack 1",
+      "code": "MSTK1",
+      "discoveryDisplayName": "Manawatū Storage Books 1",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:50.885+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:30:20.615+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "14fb9a88-9547-424a-98e6-3ed8d7a8cf41",
+      "name": "M - Stack 4 Ref",
+      "code": "MSTK4",
+      "discoveryDisplayName": "Stack rationalisation - Manawatū Storage Reference",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:53.175+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:53.175+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "24a43e91-2500-4b49-9d29-ec11a4581465",
+      "name": "M - Stack Journals",
+      "code": "MSTKJNL",
+      "discoveryDisplayName": "Manawatū Storage Journals",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:53.877+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:53.877+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "276bb883-1b16-4a3c-976b-bda878b4316e",
+      "name": "M - Stack Newspapers",
+      "code": "MSTKNP",
+      "discoveryDisplayName": "Manawatū Storage Newspapers",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:54.578+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:54.578+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "40a7e549-5289-4a03-a837-28749816cf28",
+      "name": "M - NKO ",
+      "code": "MNKO",
+      "discoveryDisplayName": "Manawatū Nga Kupu Ora (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:55.287+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:55.287+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "caa22e3e-054d-4bbc-aeef-50402d503cca",
+      "name": "M - Recreational Reading",
+      "code": "MRR",
+      "discoveryDisplayName": "Manawatu Recreational Reading (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:56.007+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:56.007+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "2b19b50a-6f10-4f30-9ece-50053a736f3c",
+      "name": "M - Stack 3 NZ",
+      "code": "MSTK3",
+      "discoveryDisplayName": "Manawatū Storage NZ Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:52.465+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:29:52.856+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "fd6cb56b-7461-47e0-8410-1671df4e294e",
+      "name": "M - Junior Nonfiction",
+      "code": "MJNF",
+      "discoveryDisplayName": "Manawatū Junior Nonfiction (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:56.710+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:56.710+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "7fd30412-8acb-4621-8760-e705e644e317",
+      "name": "M - Junior Fiction",
+      "code": "MJF",
+      "discoveryDisplayName": "Manawatū Junior Fiction (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:57.425+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:57.425+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "1881f762-c153-4ff2-9035-eb30729c7213",
+      "name": "M - Picture Books",
+      "code": "MJPB",
+      "discoveryDisplayName": "Manawatū Picture Books (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:58.240+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:58.240+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "e82a0398-ab0b-4486-be8e-0e0c052599cd",
+      "name": "M - Big Books",
+      "code": "MJBB",
+      "discoveryDisplayName": "Manawatū Big Books (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:59.039+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:59.039+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "0573daac-e64a-46db-baf2-d1b9a9a1abd4",
+      "name": "M - School Journals",
+      "code": "MJSJ",
+      "discoveryDisplayName": "Manawatū School Journals (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:59.732+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:11:59.732+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "9ec98dea-ecc4-4125-81cd-7e77952e3544",
+      "name": "M - Short Loans",
+      "code": "MSL",
+      "discoveryDisplayName": "Manawatū Short Loans (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:00.421+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:00.421+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "4795aad0-a273-4556-ad1c-289726c86bc8",
+      "name": "M - Archives",
+      "code": "MARC",
+      "discoveryDisplayName": "Massey University Archives (Manawatū)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:01.825+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:01.825+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "78b1b430-a3e6-45ee-89b1-f76ba84cac1e",
+      "name": "M - Archives, Dairy Records",
+      "code": "MARCDR",
+      "discoveryDisplayName": "Massey University Archives (Manawatū), Dairy Records",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:02.566+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:02.566+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "3398fd90-e79f-4270-a50d-dbf73c387dab",
+      "name": "M - NZ Off Pubs",
+      "code": "MNZOP",
+      "discoveryDisplayName": "Manawatū NZ Official Publications (Level 2) ",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:03.258+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:03.258+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "a7ce2b66-bd60-40f4-9a8e-0ae9aec47109",
+      "name": "M - Standards",
+      "code": "MSPS",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Standards",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:03.989+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:03.989+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "886bca55-c006-4751-980d-f25d471a794f",
+      "name": "M - Map Cabinet",
+      "code": "MMAP",
+      "discoveryDisplayName": "Manawatū Map Cabinet (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:04.754+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:04.754+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "9b0c78e5-9838-4b7c-ad76-4f705e07f3e7",
+      "name": "M - Special Collections Office",
+      "code": "MSC",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Special Collections",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:05.558+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:05.558+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "ec8eb809-4aa2-4f17-8269-527ca68b7d7e",
+      "name": "M - SC RSA",
+      "code": "MSCRSA",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), RSA Collection Bagnall Room",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:06.341+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:06.341+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "a10684b7-ddec-4bf3-8fcf-e00961007b6a",
+      "name": "M - SC Pamphlets",
+      "code": "MSCPAM",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Pamphlets",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:07.056+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:07.056+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "3054a84c-2665-4e53-b88c-1f68ce3508d6",
+      "name": "M - SC Rare Books",
+      "code": "MSCRAR",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Rare Books",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:07.759+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:07.759+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "07e4e66a-10cc-49ab-8ea9-ce1874451ca9",
+      "name": "M - SC Peren",
+      "code": "MSCPER",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Peren",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:08.572+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:08.572+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "21224ea2-7a39-4ae8-abf7-1b61090ce0c1",
+      "name": "M - SC Bagnall",
+      "code": "MSCBAG",
+      "discoveryDisplayName": "Manawatū  Service Point (Level 1), Bagnall",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:09.359+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:09.359+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "511b7181-2b02-4c5a-be18-9db540b95d70",
+      "name": "M - SC Lauris Edmond",
+      "code": "MSPLAU",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Lauris Edmond",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:10.209+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:10.209+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "b0e67159-7373-4cc4-9196-1b4f06dacc3e",
+      "name": "M - SC Veterinary Science",
+      "code": "MSCVET",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Veterinary Science Rare Books Collection Bagnall Room",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:10.953+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:10.953+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "79fecdb5-81c4-4084-abe0-31d3406f99b6",
+      "name": "M - SC Opfermann ",
+      "code": "MSCOPF",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Opfermann Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:11.669+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:11.669+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "22f5a6db-618d-4f4f-a1d4-2011699fc0f4",
+      "name": "M - SC Blackwood",
+      "code": "MSCBLA",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), J.W. Blackwood History of the Book Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:12.394+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:12.394+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "4ed762c2-3865-49e2-8395-6d5742c7ef15",
+      "name": "M - SC Bagnall Safe",
+      "code": "MSCSF",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Bagnall Safe",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:13.154+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:13.154+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "39ceb07e-0b3d-406f-9a87-3de22dba7048",
+      "name": "M - Journals",
+      "code": "MJNL",
+      "discoveryDisplayName": "Manawatū Journals (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:15.494+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:15.494+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "a333038a-bb61-4102-ac48-e5a287031fec",
+      "name": "M - Newspaper Display",
+      "code": "MNPD",
+      "discoveryDisplayName": "Manawatū Newspaper Display (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:16.318+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:16.318+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "5b9ab710-7f5f-458f-bdb8-2248f7debb22",
+      "name": "M - Special Collection Discards",
+      "code": "MSCD",
+      "discoveryDisplayName": "Deleted",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:13.904+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:28:27.208+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "897b5439-e151-4a73-a96d-47937e3e336b",
+      "name": "M - Microfilm",
+      "code": "MMF",
+      "discoveryDisplayName": "Manawatū Microfilm (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:17.013+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:12:17.013+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "382f1d68-e4d3-4652-95f6-ed87548780ae",
+      "name": "W - AV Oversize",
+      "code": "WAV+",
+      "discoveryDisplayName": "Wellington Audiovisual Oversize",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:13.838+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:38.326+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "d99131f3-2792-4ffa-aa25-a4ce50830bce",
+      "name": "W - Music Scores ",
+      "code": "WMSC",
+      "discoveryDisplayName": "Wellington Scores",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "details": {},
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:16.841+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T18:09:23.379+00:00",
+        "updatedByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40"
+      }
+    },
+    {
+      "id": "91b1cb9a-e5dc-48de-ad04-4ed3dc4aae60",
+      "name": "M - Collection Services",
+      "code": "MCAT",
+      "discoveryDisplayName": "Collection Services",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:18.471+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:24:10.102+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "a7da49a4-d047-47bb-9543-7874f53bde5f",
+      "name": "M - CONZUL Store",
+      "code": "MCONZUL",
+      "discoveryDisplayName": "CONZUL Store",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:17.733+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:24:31.069+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "5bcce0be-567a-4aff-95bc-c02d589afe7f",
+      "name": "W - Main 500-599",
+      "code": "WMAIN50",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:21.524+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:46.173+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "6f5cddc1-66d6-477b-b4b9-fe306a967235",
+      "name": "W - Main 600-699",
+      "code": "WMAIN60",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:22.345+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:46.929+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "008a84cb-e149-40d6-af1f-cc32d82aa4c1",
+      "name": "W - Zines",
+      "code": "WZ",
+      "discoveryDisplayName": "Wellington Zine Collection (Level A)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:23.975+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:47.777+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "0e703603-4a58-4c5c-bd26-cf6c01427531",
+      "name": "W - Short loan",
+      "code": "WSL",
+      "discoveryDisplayName": "Wellington Short Loans",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:26.955+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:50.916+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "96141d80-06cf-45ab-bccb-7f4077359b4e",
+      "name": "W - Rare Books",
+      "code": "WSP",
+      "discoveryDisplayName": "Wellington Vulnerable & Rare Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:27.792+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:51.675+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "9f57bf6d-104f-461c-b3a3-6a5fe56f5bda",
+      "name": "W - Journals",
+      "code": "WJNL",
+      "discoveryDisplayName": "Wellington Journals",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:31.047+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:53.944+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "29f091da-7fb4-4083-8f3c-4693fa07ed5c",
+      "name": "migration",
+      "code": "migration",
+      "discoveryDisplayName": "migration",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-10-05T21:00:46.146+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-05T21:00:46.146+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "78dd60b9-634a-4e3d-91c8-8e138dcc1d98",
+      "name": "M - Interloan",
+      "code": "MILL",
+      "discoveryDisplayName": "Interlibrary loan",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-10-05T22:08:27.710+00:00",
+        "createdByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40",
+        "updatedDate": "2021-10-05T22:08:27.710+00:00",
+        "updatedByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40"
+      }
+    },
+    {
+      "id": "9160f93d-43f3-48e6-b1c7-1e1abeaa0d08",
+      "name": "W - On Order",
+      "code": "WGTN",
+      "discoveryDisplayName": "Wellington On order",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:17:07.631+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:37.472+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "ce954ccb-464b-4490-9840-a96cb6b8da7f",
+      "name": "W - CD's",
+      "code": "WCD",
+      "discoveryDisplayName": "Wellington Music CDs",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:14.595+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:39.107+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "3d612035-0159-4c7f-a03a-27c6244e7675",
+      "name": "W - Main 700-799",
+      "code": "WMAIN70",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:15.443+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:39.866+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "dfdaf5d1-330d-4562-a392-b5e1bd71cd4e",
+      "name": "W - Music Scores Play-A-Long Sets",
+      "code": "WMSCP",
+      "discoveryDisplayName": "Wellington Play-A-Long Sets",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:16.146+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:40.694+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "ae8c9cd3-9cc7-4aca-a71c-141982a7552c",
+      "name": "W - Main 000-099",
+      "code": "WMAIN00",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:17.556+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:42.296+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "b39d45f3-3d1b-4224-be13-efb8fdbead9c",
+      "name": "W - Main 100-199",
+      "code": "WMAIN10",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:18.249+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:43.084+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "f320a0af-cdb1-4973-9dbf-f5fa9d226feb",
+      "name": "W - Main 200-299",
+      "code": "WMAIN20",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:19.048+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:43.846+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "5a0a5e34-96dd-4185-8b97-8011a78e8c44",
+      "name": "W - Main 300-399",
+      "code": "WMAIN30",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:19.882+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:44.637+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "6a1ef867-dda2-4e99-b4ba-999300cb7acd",
+      "name": "W - Main 400-499",
+      "code": "WMAIN40",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:20.685+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:45.407+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "b10c12f8-3799-4e73-8639-7bf3e008ad93",
+      "name": "W - Main 700-799 Oversize",
+      "code": "WMAIN70+",
+      "discoveryDisplayName": "Wellington Main Collection Oversize",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:24.707+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:48.560+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "6ce06a7e-ee3c-4ed6-b0f0-7b2338c6cd82",
+      "name": "W - Main 800-899",
+      "code": "WMAIN80",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:25.472+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:49.342+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "b99de398-42f1-4fb1-8585-36f6708ce94f",
+      "name": "W - Main 900-999",
+      "code": "WMAIN90",
+      "discoveryDisplayName": "Wellington Main Collection",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:26.236+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T00:20:50.099+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "8894c23c-07b3-4653-94e5-3ec725defa6b",
+      "name": "W - VHS tapes",
+      "code": "WVHS",
+      "discoveryDisplayName": "Wellington VHS Tapes",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "79b9e5be-2654-410e-8213-f751a96f6f8e",
+      "libraryId": "ecdd7e80-898d-4eb7-8e76-1543c3b482d9",
+      "details": {},
+      "primaryServicePoint": "d8904061-7173-430e-b6e0-4ff37378d1ec",
+      "servicePointIds": [
+        "d8904061-7173-430e-b6e0-4ff37378d1ec"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:19:29.449+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:31:32.164+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "b169c1c9-1591-47cf-b02a-6a628289c6da",
+      "name": "A - Main 000-099",
+      "code": "AMAIN00",
+      "discoveryDisplayName": "Auckland Main Collection (Level 5)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:28:05.964+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T17:05:14.713+00:00",
+        "updatedByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40"
+      }
+    },
+    {
+      "id": "c480a897-6ed0-4bc4-a616-107860241537",
+      "name": "A - SP Library Lockers",
+      "code": "ASPUG",
+      "discoveryDisplayName": "Auckland Service Point (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:12.926+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T17:09:28.981+00:00",
+        "updatedByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40"
+      }
+    },
+    {
+      "id": "a7f70bea-6861-452b-b65e-b37d56d6a95d",
+      "name": "A - Service Point",
+      "code": "ASP",
+      "discoveryDisplayName": "Aukland Service Point (Level 2)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-10-13T20:22:01.615+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-13T20:23:44.314+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "36e6f75c-7db5-46d3-88dd-3bc083de9e5d",
+      "name": "A - Pasifika Rare Books",
+      "code": "ASCPKA",
+      "discoveryDisplayName": "Auckland Rare NZ & Pacific Books (Level 1)",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T14:29:07.289+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-15T00:27:50.328+00:00",
+        "updatedByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40"
+      }
+    },
+    {
+      "id": "6d869b8e-77d6-4ded-b776-120e67d56e55",
+      "name": "AMAIN00-AMAIN90",
+      "code": "AMAIN00-AMAIN90",
+      "discoveryDisplayName": "AMAIN00-AMAIN90",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "bfbb2b14-ced8-4da0-becc-4a16fd74ec4b",
+      "libraryId": "89055d45-1de6-4887-83e8-51d0c2c0af37",
+      "details": {},
+      "primaryServicePoint": "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad",
+      "servicePointIds": [
+        "22b564d4-5cb0-4d5a-9358-f7e25e3d8fad"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-10-21T20:45:01.868+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-10-21T20:45:01.868+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "222d8ab7-0032-469e-8856-c5773441ba5e",
+      "name": "Online",
+      "code": "ONL",
+      "discoveryDisplayName": "Internet",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "36636f6a-40f3-4a44-849c-b5fe10b75214",
+      "libraryId": "ad4d7d58-7bc8-4e60-a6ce-505cd1fb1840",
+      "details": {},
+      "primaryServicePoint": "3bc7c5a4-b18d-43b7-8075-3d8245b9a69a",
+      "servicePointIds": [
+        "3bc7c5a4-b18d-43b7-8075-3d8245b9a69a"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-10-28T01:52:17.079+00:00",
+        "createdByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40",
+        "updatedDate": "2021-10-28T01:52:17.079+00:00",
+        "updatedByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40"
+      }
+    },
+    {
+      "id": "d1474aa2-a338-4e22-9f9f-440d24c03660",
+      "name": "M  - Vault",
+      "code": "MVAULT",
+      "discoveryDisplayName": "Manawatū Service Point (Level 1), Vault",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:01.120+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:21:12.914+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "213b1fbc-6680-4862-9849-b3e78860441d",
+      "name": "M - Serials Cat Desk ",
+      "code": "MJNLD",
+      "discoveryDisplayName": "Collection Services",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:12:14.737+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:27:21.291+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    },
+    {
+      "id": "42a9cf12-bfbd-4504-b7b7-6e4c7bf4d1d9",
+      "name": "M - Stack 2",
+      "code": "MSTK2",
+      "discoveryDisplayName": "Manawatū Storage Books 2",
+      "isActive": true,
+      "institutionId": "b48d3b4c-8eac-4d08-abda-607e955a7469",
+      "campusId": "1cf74f0c-73dc-40b7-bc09-3a12fe50e05e",
+      "libraryId": "18bb30c1-423b-4397-b39b-4711aeb049ee",
+      "details": {},
+      "primaryServicePoint": "e9046b79-047b-4c4e-a7a1-17d36844a127",
+      "servicePointIds": [
+        "e9046b79-047b-4c4e-a7a1-17d36844a127"
+      ],
+      "servicePoints": [],
+      "metadata": {
+        "createdDate": "2021-09-28T15:11:51.685+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-11-24T02:29:20.875+00:00",
+        "updatedByUserId": "00a1135f-8137-49bb-9cb0-1ecc2371ea3f"
+      }
+    }
+  ],
+  "totalRecords": 114
+}

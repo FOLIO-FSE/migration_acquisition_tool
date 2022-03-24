@@ -1,0 +1,1118 @@
+{
+  "organizations": [
+    {
+      "id": "b220b62f-636e-4c79-a0a5-1035391f5b9e",
+      "name": "Associated Group Media Ltd",
+      "code": "agm",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "Private Bag 99915",
+          "addressLine2": "Newmarket",
+          "city": "Auckland",
+          "zipCode": "1149",
+          "country": "NZL",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T01:12:07.477+00:00",
+        "createdByUserId": "30870a06-ed33-4ee0-a2e7-6661d99dffe4",
+        "updatedDate": "2021-11-03T01:30:22.014+00:00",
+        "updatedByUserId": "30870a06-ed33-4ee0-a2e7-6661d99dffe4"
+      }
+    },
+    {
+      "id": "afaf56fc-5598-40ce-b061-6c98e6cadd8a",
+      "name": "Thomson Reuters New Zealand",
+      "code": "trnz",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [
+        {
+          "value": "Brookers New Zealand Ltd"
+        }
+      ],
+      "addresses": [
+        {
+          "addressLine1": "P O Box 43",
+          "city": "Wellington",
+          "zipCode": "6140",
+          "country": "NZL",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "04 4998178",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T21:49:49.534+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T21:50:27.806+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "b984c335-ddfe-4e7c-a6ed-10306bd011ad",
+      "name": "Lexis Nexis New Zealand",
+      "code": "lnnz",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "P O Box 472",
+          "city": "Wellington",
+          "zipCode": "6140",
+          "country": "NZL",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "04 3851479",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T21:52:48.331+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T21:52:48.331+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "8e872a4e-18b5-4887-bc1a-2e89626730ee",
+      "name": "CCH New Zealand Ltd",
+      "code": "cch",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "P O Box 2378",
+          "addressLine2": "Shortland Street",
+          "city": "Auckland",
+          "zipCode": "1140",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "09 4893312",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T21:54:34.032+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T21:54:34.032+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "fb4d01ad-6f7d-4b79-8ff4-37ccf977306a",
+      "name": "NZ Council for Education Research",
+      "code": "nzcer",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "P O Box 3237",
+          "city": "Wellington",
+          "zipCode": "6140",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T21:56:20.805+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T21:56:20.805+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "31de04e5-4c12-4a90-a2f4-20467c6c89a9",
+      "name": "Department of Internal Affairs",
+      "code": "dia",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "P O Box 805",
+          "city": "Wellington",
+          "zipCode": "6140",
+          "country": "NZL",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "04 4957200",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T21:58:22.513+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T21:58:22.513+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "e5c0052d-cc9d-48ac-8eff-e372378123cd",
+      "name": "Ebsco NZ Ltd",
+      "code": "ebsco",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "Private Bag",
+          "addressLine2": "Newmarket",
+          "city": "Auckland",
+          "zipCode": "1149",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "0508 327261",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:05:51.206+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:05:51.206+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "c7f50667-75a9-49ce-a1f2-e1737c3d9668",
+      "name": "Legislation Direct",
+      "code": "legd",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "P O Box 12418",
+          "addressLine2": "Thorndon",
+          "city": "Wellington",
+          "zipCode": "6144",
+          "country": "NZL",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:08:07.103+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:08:07.103+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "4456984f-68b6-45e3-b187-fe720667ce5b",
+      "name": "NZ Stock Exchange",
+      "code": "nzse",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "P O Box 2959",
+          "city": "Wellington",
+          "zipCode": "6140",
+          "country": "NZL",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "04 4727599",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:10:00.697+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:10:00.697+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "0b31f7db-9e19-4f02-8b09-a97a02a9fc45",
+      "name": "Oxford University Press",
+      "code": "oup",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "540 Great South Road",
+          "addressLine2": "Greenlane",
+          "city": "Auckland",
+          "zipCode": "1050",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:11:07.557+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:11:07.557+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "1f765f5e-11f4-4447-b16e-cea7964407f1",
+      "name": "Wolters Kluwer",
+      "code": "wkov",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [
+        {
+          "value": "Ovid Technologies Inc"
+        }
+      ],
+      "addresses": [
+        {
+          "addressLine1": "9350 South 150 East",
+          "addressLine2": "Suite 300",
+          "city": "Sandy",
+          "stateRegion": "Utah",
+          "zipCode": "84070",
+          "country": "USA",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "800 9502371",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:17:48.990+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:17:48.990+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "a88859c9-ce45-4375-95bd-61ab9bff1de8",
+      "name": "UBIQ",
+      "code": "ubiq",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "P O Box 90944",
+          "addressLine2": "Victoria Street",
+          "city": "Auckland",
+          "zipCode": "1142",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "09 3062703",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:22:16.882+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:22:16.882+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "277e91fc-a777-4c66-ab48-7a9437627439",
+      "name": "YBP Library Services",
+      "code": "ybp",
+      "description": "Vendsan = 1694510",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "999 Maple Street",
+          "city": "Contoocook",
+          "stateRegion": "New Hampshire",
+          "zipCode": "03229",
+          "country": "USA",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:24:29.379+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:24:29.379+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "2b3a1d57-0196-4440-bef2-9aa70fa4b577",
+      "name": "YUK Library Services (Standing Orders)",
+      "code": "yukso",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "999 Maple Street",
+          "city": "Coontoocook",
+          "stateRegion": "New Hampshire",
+          "zipCode": "03229",
+          "country": "USA",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:25:57.953+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:25:57.953+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "86daf7e8-e9d8-4c73-9f07-48d129f24395",
+      "name": "YUK Library Services (UK)",
+      "code": "yuk",
+      "description": "Vendsan - 0142948",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "999 Maple Street",
+          "city": "Contoocook",
+          "stateRegion": "New Hampshire",
+          "zipCode": "03229",
+          "country": "USA",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "603 7465628",
+          "categories": [],
+          "type": "Fax",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:28:12.773+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:28:12.773+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "7d961f3d-c93d-4f88-aaa9-5670de0688b1",
+      "name": "MIscellaneous",
+      "code": "misc",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:28:47.358+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2021-11-03T22:28:47.358+00:00",
+        "updatedByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1"
+      }
+    },
+    {
+      "id": "f6fb0afd-3c6e-4679-b683-3f4f413c2821",
+      "name": "Council of Australian University Librarians",
+      "code": "caul",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-12-15T20:21:03.319+00:00",
+        "createdByUserId": "30870a06-ed33-4ee0-a2e7-6661d99dffe4",
+        "updatedDate": "2021-12-15T20:21:03.319+00:00",
+        "updatedByUserId": "30870a06-ed33-4ee0-a2e7-6661d99dffe4"
+      }
+    },
+    {
+      "id": "ac7b1e3a-95d0-4a5d-9e07-f7a1abbb4330",
+      "name": "Taylor and Francis",
+      "code": "tandf",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [
+        {
+          "value": "Informa UK Limited"
+        },
+        {
+          "value": "Taylor & Francis"
+        }
+      ],
+      "addresses": [],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-12-15T22:31:59.827+00:00",
+        "createdByUserId": "30870a06-ed33-4ee0-a2e7-6661d99dffe4",
+        "updatedDate": "2021-12-15T22:32:27.672+00:00",
+        "updatedByUserId": "30870a06-ed33-4ee0-a2e7-6661d99dffe4"
+      }
+    },
+    {
+      "id": "5fc66f5a-780a-4cdc-96ee-6f5bd1dea5a0",
+      "name": "Testing LTD",
+      "code": "TLTD",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [],
+      "phoneNumbers": [],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "erpCode": "zznauD",
+      "vendorCurrencies": [
+        "USD"
+      ],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2022-01-05T21:55:28.647+00:00",
+        "createdByUserId": "ade4675f-749d-4b92-8341-e380b7d02056",
+        "updatedDate": "2022-01-05T21:57:58.726+00:00",
+        "updatedByUserId": "ade4675f-749d-4b92-8341-e380b7d02056"
+      }
+    },
+    {
+      "id": "6d3e0e86-5eca-47e5-b9f6-7548d4c7016e",
+      "name": "Standards New Zealand",
+      "code": "snz",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "Private Bag 2439",
+          "city": "Wellington",
+          "zipCode": "6140",
+          "country": "NZL",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "04 4985992",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2021-11-03T22:21:09.660+00:00",
+        "createdByUserId": "55fed4ab-5ce2-457a-8dd6-528c0af007e1",
+        "updatedDate": "2022-01-05T23:31:30.305+00:00",
+        "updatedByUserId": "fb0a065f-5cda-4eb5-8887-f374245cce6a"
+      }
+    },
+    {
+      "id": "1c822226-618d-43f8-92a7-47f41a32d27e",
+      "name": "European Respiratory Society",
+      "code": "eurres",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "442 Glossop Road",
+          "city": "Sheffield ",
+          "stateRegion": "South Yorkshire",
+          "zipCode": "S10 2PX",
+          "country": "GBR",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "+44 0 114 267 2860",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [
+        {
+          "value": "subscriptions@ersnet.org",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "erpCode": "ZZEURRES-00",
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2022-01-06T00:03:35.976+00:00",
+        "createdByUserId": "ade4675f-749d-4b92-8341-e380b7d02056",
+        "updatedDate": "2022-01-06T00:03:55.021+00:00",
+        "updatedByUserId": "ade4675f-749d-4b92-8341-e380b7d02056"
+      }
+    },
+    {
+      "id": "46ed0b38-eac5-494f-842a-5acc9be25430",
+      "name": "OCLC (UK) Ltd. - Australia",
+      "code": "oclc",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "Level 8",
+          "addressLine2": "310 King Street ",
+          "city": "Melbourne",
+          "stateRegion": "Victoria",
+          "zipCode": "3000",
+          "country": "AUS",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [],
+      "emails": [
+        {
+          "value": "admin-anz@oclc.org",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "erpCode": "ZZOCLCUK-00",
+      "vendorCurrencies": [
+        "AUD"
+      ],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": true,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2022-01-05T23:53:15.571+00:00",
+        "createdByUserId": "ade4675f-749d-4b92-8341-e380b7d02056",
+        "updatedDate": "2022-01-06T00:04:14.093+00:00",
+        "updatedByUserId": "ade4675f-749d-4b92-8341-e380b7d02056"
+      }
+    },
+    {
+      "id": "794e2985-7c2d-4d3b-90c7-99a703e88555",
+      "name": "New Zealand Micrographic Services Ltd",
+      "code": "nzmicro",
+      "exportToAccounting": false,
+      "status": "Active",
+      "aliases": [],
+      "addresses": [
+        {
+          "addressLine1": "PO Box 51248",
+          "city": "Tawa",
+          "stateRegion": "Wellington",
+          "zipCode": "5249",
+          "country": "NZL",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "04 232 9396",
+          "categories": [],
+          "type": "Office",
+          "isPrimary": true
+        }
+      ],
+      "emails": [
+        {
+          "value": "info@micrographics.co.nz",
+          "isPrimary": true,
+          "categories": []
+        }
+      ],
+      "urls": [],
+      "contacts": [],
+      "agreements": [],
+      "erpCode": "NZMICR",
+      "vendorCurrencies": [],
+      "edi": {
+        "vendorEdiType": "31B/US-SAN",
+        "libEdiType": "31B/US-SAN",
+        "ediFtp": {
+          "ftpFormat": "SFTP",
+          "ftpMode": "ASCII",
+          "ftpConnMode": "Active"
+        }
+      },
+      "interfaces": [],
+      "accounts": [],
+      "isVendor": false,
+      "changelogs": [],
+      "acqUnitIds": [],
+      "metadata": {
+        "createdDate": "2022-01-06T00:08:21.123+00:00",
+        "createdByUserId": "ade4675f-749d-4b92-8341-e380b7d02056",
+        "updatedDate": "2022-01-06T00:08:46.575+00:00",
+        "updatedByUserId": "ade4675f-749d-4b92-8341-e380b7d02056"
+      }
+    }
+  ],
+  "totalRecords": 23
+}

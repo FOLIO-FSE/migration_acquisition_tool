@@ -1,0 +1,49 @@
+{
+  "mtypes": [
+    {
+      "id": "6bc04b39-834f-448e-b129-7b3b99b59dad",
+      "name": "unspecified",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-09-28T15:28:35.792+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:28:35.792+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "792dcae8-d150-4312-bac7-36cc34cb4e0c",
+      "name": "book",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-09-28T15:28:40.703+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:28:40.703+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "576538d3-29aa-4c23-bca2-a46e5df9b11d",
+      "name": "equipment",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-09-28T15:28:53.153+00:00",
+        "createdByUserId": "5b41a316-b623-44ed-ad75-fb6284696126",
+        "updatedDate": "2021-09-28T15:28:53.153+00:00",
+        "updatedByUserId": "5b41a316-b623-44ed-ad75-fb6284696126"
+      }
+    },
+    {
+      "id": "58726703-a739-4cb8-9a8c-1404a1280896",
+      "name": "AV",
+      "source": "local",
+      "metadata": {
+        "createdDate": "2021-10-06T02:08:20.746+00:00",
+        "createdByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40",
+        "updatedDate": "2021-10-06T02:08:20.746+00:00",
+        "updatedByUserId": "9ce65da8-726e-4408-91c8-742bbc55eb40"
+      }
+    }
+  ],
+  "totalRecords": 4
+}

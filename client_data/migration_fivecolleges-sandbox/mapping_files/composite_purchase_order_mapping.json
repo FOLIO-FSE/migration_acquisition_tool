@@ -1,0 +1,742 @@
+{
+   "data": [
+      {
+         "folio_field": "approvalDate",
+         "legacy_field": "",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "adqUnit",
+         "legacy_field": "ACQUNITIDS",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "approved",
+         "legacy_field": "",
+         "value": true,
+         "description": ""
+      },
+      {
+         "folio_field": "approvedById",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "assignedTo",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "billTo",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "closeReason.note",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "closeReason.reason",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].acquisitionMethod",
+         "legacy_field": "ACQUISITIONMETHOD",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].agreementId",
+         "legacy_field": "",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].alerts[0].alert",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].alerts[0].id",
+         "legacy_field": "",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cancellationRestriction",
+         "legacy_field": "",
+         "value": false,
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cancellationRestrictionNote",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].checkinItems",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].claims[0].claimed",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].claims[0].grace",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].claims[0].sent",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].collection",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].contributors[0].contributor",
+         "legacy_field": "AUTHOR",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].contributors[0].contributorNameTypeId",
+         "legacy_field": "AUTHORTYPE",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.additionalCost",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.currency",
+         "legacy_field": "Not mapped",
+         "value": "USD",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.discount",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.discountType",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.exchangeRate",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.fyroAdjustmentAmount",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.listUnitPrice",
+         "legacy_field": "LISTUNITPRICE",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.listUnitPriceElectronic",
+         "legacy_field": "LISTUNITPRICE",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.poLineEstimatedPrice",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.quantityElectronic",
+         "legacy_field": "QUANTITYX",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].cost.quantityPhysical",
+         "legacy_field": "QUANTITYX",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].description",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].details.productIds[0].productId",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].details.productIds[0].productIdType",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].details.productIds[0].qualifier",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].details.receivingNote",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].details.subscriptionFrom",
+         "legacy_field": "SUBSCRIPTIONFROM",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].details.subscriptionInterval",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].details.subscriptionTo",
+         "legacy_field": "SUBSCRIPTIONTO",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].donor",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].edition",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.accessProvider",
+         "legacy_field": "VENDOR",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.activated",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.activationDue",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.createInventory",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.expectedActivation",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.license.code",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.license.description",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.license.reference",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.materialType",
+         "legacy_field": "Z68_MATERIAL_TYPE",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.resourceUrl",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.trial",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].eresource.userLimit",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].fundDistribution[0].code",
+         "legacy_field": "FUND",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].fundDistribution[0].distributionType",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].fundDistribution[0].encumbrance",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].fundDistribution[0].expenseClassId",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].fundDistribution[0].fundId",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].fundDistribution[0].value",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].id",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].instanceId",
+         "legacy_field": "RECORD #(BIBLIO)",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].isPackage",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].locations[0].holdingId",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].locations[0].locationId",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].locations[0].quantity",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].locations[0].quantityElectronic",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].locations[0].quantityPhysical",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].orderFormat",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].packagePoLineId",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].paymentStatus",
+         "legacy_field": "PAYMENTSTATUS",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].physical.createInventory",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].physical.expectedReceiptDate",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].physical.materialSupplier",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].physical.materialType",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].physical.receiptDue",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].physical.volumes[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].poLineDescription",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].poLineNumber",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].publicationDate",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].publisher",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].purchaseOrderId",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].receiptDate",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].receiptStatus",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].reportingCodes[0].code",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].reportingCodes[0].description",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].reportingCodes[0].id",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].requester",
+         "legacy_field": "REQUESTOR",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].rush",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].selector",
+         "legacy_field": "APPROVED",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].source",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].tags.tagList[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].titleOrPackage",
+         "legacy_field": "TITLE",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].vendorDetail.instructions",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].vendorDetail.noteFromVendor",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].vendorDetail.referenceNumbers",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "compositePoLines[0].vendorDetail.vendorAccount",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "dateOrdered",
+         "legacy_field": "Z68_ORDER_DATE",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "id",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "manualPo",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "needReEncumber",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "notes[0]",
+         "legacy_field": "VEN. NOTE",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "ongoing.interval",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "ongoing.isSubscription",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "ongoing.manualRenewal",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "ongoing.notes",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "ongoing.renewalDate",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "ongoing.reviewDate",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "ongoing.reviewPeriod",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "orderType",
+         "legacy_field": "ORDERTYPE",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "poNumber",
+         "legacy_field": "PONUMBER",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "poNumberPrefix",
+         "legacy_field": "PONUMBERPREFIX",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "poNumberSuffix",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "reEncumber",
+         "legacy_field": "REENCUMBER",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "shipTo",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "tags.tagList[0]",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "template",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "totalEncumbered",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "totalEstimatedPrice",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "totalExpended",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "totalItems",
+         "legacy_field": "Not mapped",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "vendor",
+         "legacy_field": "VENDOR",
+         "value": "",
+         "description": ""
+      },
+      {
+         "folio_field": "workflowStatus",
+         "legacy_field": "WORKFLOWSTATUS",
+         "value": "",
+         "description": ""
+      }
+   ]
+}
