@@ -735,7 +735,7 @@ class AcqErm():
                         ls=self.load_settings()
                         existname=str(ls[self.value_a]['fileName'])
                         if existname!="":
-                            filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                            filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
                             self.customerName=pd.dataframe()
                             #print(ls[self.value_a])
                             self.dforders=self.customerName.importDataFrame(filetoload,

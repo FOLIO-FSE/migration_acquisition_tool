@@ -211,9 +211,9 @@ class compositePurchaseorders():
                                     tempmap[i]=newvalue
                                         
                     if len(recordnotfound)>0:
-                            print(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
-                            logging.info(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
-                            flag=False
+                        print(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
+                        logging.info(f"INFO {self.client} critical Error the following {schematosearch} does not exist  {recordnotfound}")
+                        flag=False
                     else:
                         dt = datetime.datetime.now()
                         self.dt=dt.strftime('%Y%m%d-%H-%M')  
@@ -225,10 +225,9 @@ class compositePurchaseorders():
                         logging.info(f"{schematosearch}")
                         logging.info(f"{schematosearch} | counter")
                         for k,v in tempmap.items(): 
-                            print(f"{k} => {v}")
-                                                                                
-                        logging.info(f"{k} => {v}")
-                        logging.info(json.dumps(tempmap,indent=4))
+                            print(f"{k} => {v}")                                                                                
+                            logging.info(f"{k} => {v}")
+                        #logging.info(json.dumps(tempmap,indent=4))
                         #self.migrationreport_a.add(Blurbs.polinesmapping,f"{schematosearch}",f"{name} => {countfield}")    
                         if swpolines:
                             print(f"{self.dt} the following codes were replaced  for: {schematosearch}")
@@ -1078,10 +1077,10 @@ class compositePurchaseorders():
                             if curvalue:
                                 currency=curvalue
                 else:
-                    curvalue=""
-                    curvalue=self.readcompositepurchaseorderMapping(folio_field=field)
-                    if curvalue:
-                        curvalue=curvalue.get("value")
+                    
+                    curvaluetemp=self.readcompositepurchaseorderMapping(folio_field=field)
+                    if curvaluetemp:
+                        curvalue=curvaluetemp.get("value")
                         if curvalue:
                             currency=curvalue
                 #Locations for print/mixed resources
@@ -1248,7 +1247,7 @@ class compositePurchaseorders():
                                     # dater=f"{Y}-{M}-{D}"   
                                     # receiptDate=f"{Y}-{M}-{D}T00:00:00.000+00:00"
                             except Exception as ee:
-                                receiptDatetemp=str(receiptDate)
+                                receiptDatetemp=str(dater)
                                 receiptDate=self.date_stamp(receiptDatetemp)
 
                 cp['receiptDate']=receiptDate
@@ -1301,7 +1300,8 @@ class compositePurchaseorders():
                         if cprow[field]:
                             productId=str(cprow[field]).strip()
                             field=f"compositePoLines[0].details.productIds[{iter}].productIdType"
-                            if cprow[field]:
+                            if field in poLines.columns:
+                            #if cprow[field]:
                                 prodctidtype=str(cprow[field]).strip()
                                 valueprod=str(prodctidtype).strip()
                             else:

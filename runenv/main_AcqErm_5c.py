@@ -10,7 +10,7 @@ import os.path
 if __name__ == "__main__":
     """This is the Starting point for the script"""
     #Insert the customer c-ode here or enter the customer running the code, by default blank
-    customerName="fivecolleges-sandbox"
+    customerName="lafayette"
     #Insert True if do you want to get the reference data from server, this function allow download the reference data to acquisitions, by default TRUE
     getrefdata=False#False
     #Insert True/False if you want to use GUI / command line. by default command Line FALSE
