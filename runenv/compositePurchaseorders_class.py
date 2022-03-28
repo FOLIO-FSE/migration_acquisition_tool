@@ -1,3 +1,4 @@
+from lib2to3.pgen2.parse import ParseError
 from isbnlib import is_isbn10
 from matplotlib.font_manager import json_dump
 import backup_restore as br
@@ -6,6 +7,7 @@ import functions_AcqErm as mf
 from report_blurbs import Blurbs
 import notes_class as notes
 import datetime
+import dateutil
 import warnings
 import dataframe_class as pd
 import json
@@ -498,23 +500,15 @@ class compositePurchaseorders():
                     
                         field="dateOrdered"
                         if field in self.orders.columns:
-                            if row[field]:
-                                dateorder=row[field]
-                                try:
-                                    dateordered=dateorder.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
-                                except Exception as ee:
-                                    dateorder=str(dateorder)
-                                    dateordered=self.date_stamp(dateorder)
-                                    #dateorder=str(dateorder)
-                                    #M=dateorder[0:2]
-                                    #D=dateorder[3:5] 
-                                    #Y=dateorder[6:10]
-                                    
-                                
-                                Order['dateOrdered']=dateordered
-                                #Order["approvedById"]=""
-                                #Order["approvalDate"]= ""
-                                #Order["closeReason"]=dic(reason="",note="")
+                            dateorder=row[field]
+                            format_date = dateutil.parser.parse(dateorder, fuzzy=True)
+                            date_ordered = format_date.isoformat()
+                            Order['dateOrdered']=date_ordered
+
+                            #Order["approvedById"]=""
+                            #Order["approvalDate"]= ""
+                            #Order["closeReason"]=dic(reason="",note="")
+
                         field="manualPo"
                         Order["manualPo"]= False
                         #PURCHASE ORDER NOTES
@@ -722,7 +716,7 @@ class compositePurchaseorders():
                     except Exception as ee:
                         Worder=Order
                         mf.printObject(Worder,self.path_results,self.count,f"{client}_purchaseOrderbyline_worse_{self.dt}",False)
-                        print(f"ERROR: {field} {ee}")
+                        print(f"ERROR for PO number {poNumber}: {field} {ee}")
                         self.noprint=False
                     
                     purchaseOrders['purchaseOrders']=purchase
