@@ -14,20 +14,15 @@ client_data/uaiA
 client_data/washcoll
 client_data/Wellesley
 client_data/*
-
-
-
-
-
-
-
-
-
 data
 main_AcqErmlocal.py
 results
 logs
 
+
+# Debugging
+.vscode/launch.json
+.vscode/settings.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
