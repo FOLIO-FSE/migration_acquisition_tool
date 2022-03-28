@@ -998,7 +998,7 @@ class compositePurchaseorders():
                         else:
                             ordertitleUUID=self.get_title(client,element="instances",searchValue=titleUUID,query=f"?query=(identifiers=")
                         if ordertitleUUID is None:
-                            print(f"INFO Title: {titlepoLine}")
+                            logging.info("INFO Title: %s", titlepoLine)
                             newinstanceid=self.createinstance(client,titlepoLine,titleUUID,linkId,self.po_LineNumber)
                             cp["instanceId"]=str(newinstanceid)
                             self.nointance=True
@@ -1013,7 +1013,7 @@ class compositePurchaseorders():
                     self.nointance=True
                     
                 if self.nointance:
-                    print(f"INFO Title: {titlepoLine}")
+                    logging.info("INFO Title: %s", titlepoLine)
                     cp["titleOrPackage"]=titlepoLine
                     cp["isPackage"]=False
                     self.nointance=True
@@ -1679,15 +1679,14 @@ class compositePurchaseorders():
             else:
                 return None
         except Exception as ee:
-            print(f"ERROR: GET TITLE {ee}")
-            logging.info(f"ERROR: GET TITLE {ee}")    
+            logging.error(f"GET TITLE %s", ee)    
             
             
     def createinstance(self, client,titleOrPackage,titleUUID,linkId,poNumbertitle):
         try:
             idinstance=""
             self.createinstanid=True
-            print(f"INFO Creating instance for title {titleOrPackage} {titleUUID}")
+            logging.info(f"Creating instance for title %s %s", titleOrPackage, titleUUID)
             idinstance=str(uuid.uuid4())
             instance= {
                                         "id": idinstance,
@@ -1746,7 +1745,7 @@ class compositePurchaseorders():
             mf.printObject(ordertitle,self.path_results,0,f"{client}_orders-storage-titles_{self.dt}",False)
             logging.info(f"INFO: Title created {titleOrPackage} | {idinstance}") 
         except Exception as ee:
-            print(f"ERROR: GET TITLE {ee}")        
+            logging.error(f"GET TITLE %s", ee)        
             
             
     def lup(self,value):

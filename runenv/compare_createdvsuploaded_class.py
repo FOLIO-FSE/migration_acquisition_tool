@@ -56,8 +56,7 @@ class compare_createdvstenant():
                         newid=str(uuid.uuid4())
                         data['id']=newid
         except Exception as ee:
-            print(f"ERROR: GET TITLE {ee}")
-            logging.info(f"ERROR: GET TITLE {ee}")            
+            logging.error(f"GET TITLE %s", ee)
 
     def get_title(self,client,**kwargs):
         try:
@@ -109,15 +108,14 @@ class compare_createdvstenant():
             else:
                 return None
         except Exception as ee:
-            print(f"ERROR: GET TITLE {ee}")
-            logging.info(f"ERROR: GET TITLE {ee}")    
+            logging.error(f"GET TITLE %s", ee)    
             
             
     def createinstance(self, client,titleOrPackage,titleUUID,linkId,poNumbertitle):
         try:
             idinstance=""
             self.createinstanid=True
-            print(f"INFO Creating instance for title {titleOrPackage} {titleUUID}")
+            logging.info(f"Creating instance for title %s %s", titleOrPackage, titleUUID)
             idinstance=str(uuid.uuid4())
             instance= {
                                         "id": idinstance,
@@ -157,7 +155,7 @@ class compare_createdvstenant():
             self.createordertitle(client,idinstance,titleOrPackage,linkId,poNumbertitle)
             return idinstance
         except Exception as ee:
-            print(f"ERROR: GET TITLE {ee}")
+            logging.error(f"ERROR: GET TITLE", ee)
             
 
 if __name__ == "__main__":
