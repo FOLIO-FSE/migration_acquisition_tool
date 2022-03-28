@@ -164,6 +164,9 @@ class dataframe():
             if 'orderType' in self.df:
                 self.df['orderType'] = self.df['orderType'].astype('str')
                 self.df['orderType'] = self.df['orderType'].str.strip()
+#            if 'compositePoLines[0].receiptDate' in self.df:
+#                self.df['compositePoLines[0].receiptDate']= pd.to_datetime(self.df['compositePoLines[0].receiptDate'])
+                
             if 'workflowStatus' in self.df:
                 self.df['workflowStatus'] = self.df['workflowStatus'].astype('str')
                 self.df['workflowStatus'] = self.df['workflowStatus'].str.strip()
@@ -204,11 +207,11 @@ class dataframe():
                 self.df['compositePoLines[0].physical.materialType'] = self.df['compositePoLines[0].physical.materialType'].astype('str')
                 self.df['compositePoLines[0].physical.materialType'] = self.df['compositePoLines[0].physical.materialType'].str.strip() 
             if 'LEGACY SYSTEM' in self.df:
-                self.df['LEGACY SYSTEM'] = self.df['LEGACY SYSTEM'].str.strip()
-                self.df['LEGACY SYSTEM'] = self.df['LEGACY SYSTEM'].str.strip()
+                self.df['LEGACY SYSTEM'] = self.df['LEGACY SYSTEM'].astype('str')
+                self.df['LEGACY SYSTEM'] = self.df['LEGACY SYSTEM'].astype('str')
             if 'FOLIO' in self.df:
-                self.df['FOLIO'] = self.df['FOLIO'].str.strip()
-                self.df['FOLIO'] = self.df['FOLIO'].str.strip()
+                self.df['FOLIO'] = self.df['FOLIO'].astype('str')
+                self.df['FOLIO'] = self.df['FOLIO'].astype('str')
             '''if 'compositePoLines[0].cost.listUnitPrice' in self.df:
                 self.df['compositePoLines[0].cost.listUnitPrice'] = self.df['compositePoLines[0].cost.listUnitPrice'].str.strip()
                 self.df['compositePoLines[0].cost.listUnitPrice'] = self.df['compositePoLines[0].cost.listUnitPrice'].replace({'$':''}, regex=True)
@@ -239,7 +242,6 @@ class dataframe():
                                 #print("INFO Dataframe Replacing the following legacy field columns:")
                                 changelist.append(f"{legacy_field} => {folio_field}")
                                 self.migrationreport_a.set(Blurbs.Alex_GeneralStatistics,f"{legacy_field} => {folio_field}",1)
-                    path_results=f"C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\migration_fivecolleges-sandbox\\results"
                     except Exception as ee:
                         print(f"WARNING: {ee} legacy_field was not described as column Name in the sourceData: check the mapping file {self.dfname}")
                 with open(f"{path_results}/purchaseOrders_migration_report.md", "w+") as report_file:
