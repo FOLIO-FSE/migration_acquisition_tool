@@ -795,7 +795,7 @@ class AcqErm():
                             if self.notes is not None:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes,notes_mapping_file=readmapping)
                             else:
-                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLine)
+                                self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
                         else:
                             print(f"INFO Purchase Orders file Name must be included in the ..{self.path_mapping_files}\loadSetting.json")                     
                     except ValueError as error:

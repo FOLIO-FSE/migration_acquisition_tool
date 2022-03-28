@@ -241,11 +241,9 @@ class dataframe():
                                 self.dfnew[folio_field]=self.df[legacy_field]
                                 #print("INFO Dataframe Replacing the following legacy field columns:")
                                 changelist.append(f"{legacy_field} => {folio_field}")
-                                self.migrationreport_a.set(Blurbs.Alex_GeneralStatistics,f"{legacy_field} => {folio_field}",1)
+                                
                     except Exception as ee:
                         print(f"WARNING: {ee} legacy_field was not described as column Name in the sourceData: check the mapping file {self.dfname}")
-                with open(f"{path_results}/purchaseOrders_migration_report.md", "w+") as report_file:
-                    self.migrationreport_a.write_migration_report(report_file) 
             except Exception as ee:
                 print(f"ERROR: Change Columns {ee}")  
                 #print(changelist)
