@@ -67,7 +67,7 @@ class compositePurchaseorders():
                 if valueinstanceid:
                     value=valueinstanceid.get("value")
                     if value!="":
-                        filetoload=f"{self.path_results}\{value}"
+                        filetoload=f"{self.path_results}/{value}"
                         #self.localinstanceId=self.customerName.importDataFrame(filetoload,sheetName="localinstaceId", dfname="localinstanceId")
                         self.localinstanceId=self.customerName.importDataFrame(filetoload,dfname="LOCAL InstanceId",distinct=['legacy_id_sierra'])
                         print(f"INFO local Instance Id file found, do you want to use this file?")
@@ -79,7 +79,7 @@ class compositePurchaseorders():
                 if valueinstanceid:
                     value=valueinstanceid.get("value")
                     if value!="":
-                        filetoload=f"{self.path_results}\{value}"
+                        filetoload=f"{self.path_results}/{value}"
                         #self.localinstanceId=self.customerName.importDataFrame(filetoload,sheetName="localinstaceId", dfname="localinstanceId")
                         print(f"INFO Reading UUIDs from file {filetoload}, do you want to use this file as PO ID / poLines?")
                         self.localinstanceId=self.customerName.importDataFrame(filetoload,dfname="purchaseOrdersId")
@@ -87,7 +87,7 @@ class compositePurchaseorders():
                         self.getidfile=True
                 
             else:
-                print(f"ERROR the {self.path_mapping_files}\composite_purchase_order_mapping.json")
+                print(f"ERROR the {self.path_mapping_files}/composite_purchase_order_mapping.json")
                 self.flag=False
             self.productidsDictionary={"REPORT NUMBER":"37b65e79-0392-450d-adc6-e2a1f47de452","ISBN":"8261054f-be78-422d-bd51-4ed9f33c3422","ISSN":"913300b2-03ed-469a-8179-c1092c991227"}
             self.po_countworse=0

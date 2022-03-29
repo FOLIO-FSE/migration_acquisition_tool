@@ -34,12 +34,12 @@ def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
             outfilename=""
             #toPrint=json_validator(objectToPrint)
             if prettyJson:
-                path_file=path_file=f"{path}\{file_name}.json"
+                path_file=path_file=f"{path}/{file_name}.json"
                 #outfilename = json.load(objectToPrint)
                 with codecs.open(path_file,"w+", encoding="utf-8") as outfile:
                     json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
             else:
-                path_file=path_file=f"{path}\{file_name}.json"
+                path_file=path_file=f"{path}/{file_name}.json"
                 outfilename = json.dumps(objectToPrint,ensure_ascii=False)
                 with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
                     outfile.write(outfilename+"\n")
@@ -53,12 +53,12 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
             outfilename=""
             #toPrint=json_validator(objectToPrint)
             if prettyJson:
-                path_file=path_file=f"{path}\{file_name}.json"
+                path_file=path_file=f"{path}/{file_name}.json"
                 #outfilename = json.load(objectToPrint)
                 with codecs.open(path_file,"w+", encoding="utf-8") as outfile:
                     json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
             else:
-                path_file=path_file=f"{path}\{file_name}.json"
+                path_file=path_file=f"{path}/{file_name}.json"
                 outfilename = json.dumps(objectToPrint,ensure_ascii=False)
                 with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
                     outfile.write(outfilename+"\n")
@@ -429,12 +429,12 @@ class AcqErm():
                     refnumt.append({"Vendor continuation reference number":"","Vendor order reference number":"","Vendor subscription reference number":"","Vendor internal number":"","Vendor title number":""})
                     refNumberType['refNumberType']=refnumt
                     printObject(refNumberType,f"{self.path_dir}/{arg}",0,"refNumberType",True)
-                    shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}/composite_purchase_order_mapping.json")
-                    shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}\{arg}/organization_mapping.json")
-                    shutil.copy(f"{self.path_original}/agreement_mapping_template.json", f"{self.path_dir}\{arg}/agreement_mapping.json")
-                    shutil.copy(f"{self.path_original}/license_mapping_template.json", f"{self.path_dir}\{arg}/license_mapping.json")
-                    shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}\{arg}/users_mapping.json")
-                    shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}\{arg}/notes_mapping.json") 
+                    shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json")
+                    shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}/{arg}/organization_mapping.json")
+                    shutil.copy(f"{self.path_original}/agreement_mapping_template.json", f"{self.path_dir}/{arg}/agreement_mapping.json")
+                    shutil.copy(f"{self.path_original}/license_mapping_template.json", f"{self.path_dir}/{arg}/license_mapping.json")
+                    shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}/{arg}/users_mapping.json")
+                    shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}/{arg}/notes_mapping.json") 
                     self.path_usersMapping=f"{self.path_dir}/{arg}/users_mapping.json"
                     self.path_licenseMapping=f"{self.path_dir}/{arg}/license_mapping.json"
                     self.path_agreementMapping=f"{self.path_dir}/{arg}/agreement_mapping.json"
@@ -481,11 +481,11 @@ class AcqErm():
                         if os.path.exists(f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"):
                             self.path_purchaseMapping=f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"
                         else:
-                            shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}/composite_purchase_order_mapping.json")
+                            shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json")
                         if os.path.exists(f"{self.path_dir}/{arg}/organization_mapping.json"):
                             pass
                         else:
-                            shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}\{arg}/organization_mapping.json")
+                            shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}/{arg}/organization_mapping.json")
                         if os.path.exists(f"{self.path_dir}/{arg}/agreement_mapping.json"):
                             pass 
                         else:
@@ -508,11 +508,11 @@ class AcqErm():
                         if os.path.exists(f"{self.path_dir}/{arg}/users_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}\{arg}/users_mapping.json")
+                            shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}/{arg}/users_mapping.json")
                         if os.path.exists(f"{self.path_dir}/{arg}/notes_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}\{arg}/notes_mapping.json")
+                            shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}/{arg}/notes_mapping.json")
                         self.path_usersMapping=f"{self.path_dir}/{arg}/users_mapping.json"                
                         self.path_licenseMapping=f"{self.path_dir}/{arg}/license_mapping.json"
                         self.path_agreementMapping=f"{self.path_dir}/{arg}/agreement_mapping.json"
@@ -582,7 +582,7 @@ class AcqErm():
                         self.customerName=agree.Agreements(client,self.path_dir)
                         self.customerName.readagreements(client,self.df)
                     else:
-                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json")   
+                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}/loadSetting.json")   
                 elif self.sctr=="l": 
                     self.value="licenses"
                     self.value_a="lic"
@@ -637,7 +637,7 @@ class AcqErm():
                             else:
                                 self.customerName.readlicenses(client,dflicenses=self.dflicenses)
                     else:
-                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json") 
+                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}/loadSetting.json") 
                         
                 elif self.sctr=="o":
                     swnotes=False
@@ -725,7 +725,7 @@ class AcqErm():
                             else:
                                 self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces)
                         else:
-                            print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json") 
+                            print(f"INFO file Name must be included in the ..{self.path_mapping_files}/loadSetting.json") 
                     
                 elif self.sctr=="p":
                     try:
@@ -797,7 +797,7 @@ class AcqErm():
                             else:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
                         else:
-                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_mapping_files}\loadSetting.json")                     
+                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_mapping_files}/loadSetting.json")                     
                     except ValueError as error:
                         print(f"Error: {error}")
                         
@@ -3184,7 +3184,7 @@ def readorders(**kwargs):
                                             delimiter=i['purchaseOrders_file']['sep'],
                                             sheetName=i['purchaseOrders_file']['sheetName'])
             else:
-                print(f"Error: Name file to upload is missing  {path_refdata}\loadSetting.json")  
+                print(f"Error: Name file to upload is missing  {path_refdata}/loadSetting.json")  
                 return None    
             purchaseOrderFileData=""
             filetoload=""
@@ -3199,10 +3199,10 @@ def readorders(**kwargs):
                 if i['poLines_file']['poNumberfield']!="":
                     poLineNumberfield=str(i['poLines_file']['poNumberfield']).strip()
                 else:
-                    print(f"Error: seccion poLines_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion poLines_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
             else:
-                print(f"Error: Name poLines file to load is missing  {path_refdata}\loadSetting.json")  
+                print(f"Error: Name poLines file to load is missing  {path_refdata}/loadSetting.json")  
                 return None
             notesapp1=""
             purchaseOrderFileData=""
@@ -3221,7 +3221,7 @@ def readorders(**kwargs):
                 if i['notes_file1']['poNumberfield']!="":
                     notesapp1Pofield=i['notes_file1']['poNumberfield']
                 else:
-                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
                
             notesapp2=""
@@ -3241,7 +3241,7 @@ def readorders(**kwargs):
                 if i['notes_file2']['poNumberfield']!="":
                     notesapp2Pofield=i['notes_file2']['poNumberfield']
                 else:
-                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
                 
             print(f"INFO MAPPING FILES")
@@ -4010,7 +4010,7 @@ def readagreements(**kwargs):
                                             delimiter=i['agreement_file']['sep'],
                                             sheetName=i['agreement_file']['sheetName'])
             else:
-                print(f"Error: Name file to upload is missing  {path_refdata}\loadSetting.json")  
+                print(f"Error: Name file to upload is missing  {path_refdata}/loadSetting.json")  
                 return None    
             notesapp1=""
             agreement_file=""
@@ -4029,7 +4029,7 @@ def readagreements(**kwargs):
                 if i['notes_file1']['poNumberfield']!="":
                     notesapp1Pofield=i['notes_file1']['poNumberfield']
                 else:
-                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
                
             notesapp2=""
@@ -4049,7 +4049,7 @@ def readagreements(**kwargs):
                 if i['notes_file2']['poNumberfield']!="":
                     notesapp2Pofield=i['notes_file2']['poNumberfield']
                 else:
-                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
                 
             
