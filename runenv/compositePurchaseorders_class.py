@@ -1035,9 +1035,9 @@ class compositePurchaseorders():
                 accessProvider=""
                 accessProvider=vendors
                 field="compositePoLines[0].eresource.accessProvider" 
-                if field in poLines.columns:
-                    if cprow[field]:
-                        accessProvider=str(cprow[field]).strip()
+                # if field in poLines.columns:
+                #     if cprow[field]:
+                #         accessProvider=str(cprow[field]).strip()
                 
                 
                 
