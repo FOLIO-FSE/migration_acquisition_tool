@@ -34,12 +34,12 @@ def GetprintObject(objectToPrint,path,x,file_name,prettyJson):
             outfilename=""
             #toPrint=json_validator(objectToPrint)
             if prettyJson:
-                path_file=path_file=f"{path}\{file_name}.json"
+                path_file=path_file=f"{path}/{file_name}.json"
                 #outfilename = json.load(objectToPrint)
                 with codecs.open(path_file,"w+", encoding="utf-8") as outfile:
                     json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
             else:
-                path_file=path_file=f"{path}\{file_name}.json"
+                path_file=path_file=f"{path}/{file_name}.json"
                 outfilename = json.dumps(objectToPrint,ensure_ascii=False)
                 with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
                     outfile.write(outfilename+"\n")
@@ -53,12 +53,12 @@ def printObject(objectToPrint,path,x,file_name,prettyJson):
             outfilename=""
             #toPrint=json_validator(objectToPrint)
             if prettyJson:
-                path_file=path_file=f"{path}\{file_name}.json"
+                path_file=path_file=f"{path}/{file_name}.json"
                 #outfilename = json.load(objectToPrint)
                 with codecs.open(path_file,"w+", encoding="utf-8") as outfile:
                     json.dump(objectToPrint,outfile,indent=2,ensure_ascii=False)
             else:
-                path_file=path_file=f"{path}\{file_name}.json"
+                path_file=path_file=f"{path}/{file_name}.json"
                 outfilename = json.dumps(objectToPrint,ensure_ascii=False)
                 with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
                     outfile.write(outfilename+"\n")
@@ -70,7 +70,7 @@ def SearchClient(code_search):
         # Opening JSON file
         dic= {}
         pathfile=os.path.dirname(os.path.realpath(__file__))
-        f = open(f"{pathfile}\\okapi_customers.json","r", encoding="utf-8")
+        f = open(os.path.join(pathfile, "okapi_customers.json"),"r", encoding="utf-8")
         data = json.load(f)
         #print("INFO reading OKAPI DATA from okapi_customer.json file")
         for i in data['okapi']:
@@ -95,7 +95,7 @@ def get_one_schema(code_search):
     valor=[]
     try:
         pathfile=os.path.dirname(os.path.realpath(__file__))
-        f = open(f"{pathfile}\\setting_data.json","r", encoding="utf-8")
+        f = open(os.path.join(pathfile, "setting_data.json"),"r", encoding="utf-8")
         data = json.load(f)
         for i in data['settings']:
             a_line=str(i)
@@ -291,7 +291,7 @@ def okapiPath(code_search):
             #valor="0"
             pathfile=os.path.dirname(os.path.realpath(__file__))
             
-            f = open(f"{pathfile}\\setting_data.json",)
+            f = open(os.path.join(pathfile, "setting_data.json"))
             data = json.load(f)
             for i in data['settings']:
                 a_line=str(i)
@@ -402,7 +402,7 @@ class AcqErm():
                 print(f"INFO creating folder {arg} for {self.customerName}")
                 self.exist=False
                 if arg=="mapping_files":
-                    shutil.copy(f"{self.path_original}/loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
+                    shutil.copy(f"{self.path_original}/loadSetting_template.json", os.path.join(self.path_dir, arg, "loadSetting.json"))
                     dic= []
                     loadset={}
                     f = open(f"{self.path_dir}/{arg}/loadSetting.json",)
@@ -423,18 +423,18 @@ class AcqErm():
                     f.close
                     with open(f"{self.path_dir}/{arg}/loadSetting.json","w+", encoding="utf-8") as outfile:
                         json.dump(loadset,outfile,indent=2)
-                    shutil.copy(f"{self.path_original}/acquisitionMapping_template.xlsx", f"{self.path_dir}\{arg}\\acquisitionMapping.xlsx")
+                    shutil.copy(f"{self.path_original}/acquisitionMapping_template.xlsx", os.path.join(self.path_dir, arg, "acquisitionMapping.xlsx"))
                     refnumt=[]
                     refNumberType={}
                     refnumt.append({"Vendor continuation reference number":"","Vendor order reference number":"","Vendor subscription reference number":"","Vendor internal number":"","Vendor title number":""})
                     refNumberType['refNumberType']=refnumt
                     printObject(refNumberType,f"{self.path_dir}/{arg}",0,"refNumberType",True)
-                    shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
-                    shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}\{arg}\\organization_mapping.json")
-                    shutil.copy(f"{self.path_original}/agreement_mapping_template.json", f"{self.path_dir}\{arg}\\agreement_mapping.json")
-                    shutil.copy(f"{self.path_original}/license_mapping_template.json", f"{self.path_dir}\{arg}\\license_mapping.json")
-                    shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
-                    shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json") 
+                    shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json")
+                    shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}/{arg}/organization_mapping.json")
+                    shutil.copy(f"{self.path_original}/agreement_mapping_template.json", f"{self.path_dir}/{arg}/agreement_mapping.json")
+                    shutil.copy(f"{self.path_original}/license_mapping_template.json", f"{self.path_dir}/{arg}/license_mapping.json")
+                    shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}/{arg}/users_mapping.json")
+                    shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}/{arg}/notes_mapping.json") 
                     self.path_usersMapping=f"{self.path_dir}/{arg}/users_mapping.json"
                     self.path_licenseMapping=f"{self.path_dir}/{arg}/license_mapping.json"
                     self.path_agreementMapping=f"{self.path_dir}/{arg}/agreement_mapping.json"
@@ -458,7 +458,7 @@ class AcqErm():
                         if os.path.exists(f"{self.path_dir}/{arg}/loadSetting.json"):
                             pass
                         else:
-                            shutil.copy(f"{self.path_original}/loadSetting_template.json", f"{self.path_dir}\{arg}\\loadSetting.json")
+                            shutil.copy(f"{self.path_original}/loadSetting_template.json", os.path.join(self.path_dir, arg, "loadSetting.json"))
                             dic= []
                             loadset={}
                             f = open(f"{self.path_dir}/{arg}/loadSetting.json",)
@@ -481,11 +481,11 @@ class AcqErm():
                         if os.path.exists(f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"):
                             self.path_purchaseMapping=f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json"
                         else:
-                            shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}\{arg}\\composite_purchase_order_mapping.json")
+                            shutil.copy(f"{self.path_original}/composite_purchase_order_mapping_template.json", f"{self.path_dir}/{arg}/composite_purchase_order_mapping.json")
                         if os.path.exists(f"{self.path_dir}/{arg}/organization_mapping.json"):
                             pass
                         else:
-                            shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}\{arg}\\organization_mapping.json")
+                            shutil.copy(f"{self.path_original}/organization_mapping_template.json", f"{self.path_dir}/{arg}/organization_mapping.json")
                         if os.path.exists(f"{self.path_dir}/{arg}/agreement_mapping.json"):
                             pass 
                         else:
@@ -508,11 +508,11 @@ class AcqErm():
                         if os.path.exists(f"{self.path_dir}/{arg}/users_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}\{arg}\\users_mapping.json")
+                            shutil.copy(f"{self.path_original}/users_mapping_template.json", f"{self.path_dir}/{arg}/users_mapping.json")
                         if os.path.exists(f"{self.path_dir}/{arg}/notes_mapping.json"):
                             pass 
                         else:
-                            shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}\{arg}\\notes_mapping.json")
+                            shutil.copy(f"{self.path_original}/notes_mapping_template.json", f"{self.path_dir}/{arg}/notes_mapping.json")
                         self.path_usersMapping=f"{self.path_dir}/{arg}/users_mapping.json"                
                         self.path_licenseMapping=f"{self.path_dir}/{arg}/license_mapping.json"
                         self.path_agreementMapping=f"{self.path_dir}/{arg}/agreement_mapping.json"
@@ -571,7 +571,7 @@ class AcqErm():
                     ls=self.load_settings()
                     self.customerName=pd.dataframe()
                     #print(ls[self.value_a])
-                    filetoload=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['fileName'])
+                    filetoload=os.path.join(self.path_mapping_files, str(ls[self.value_a]['fileName']))
                     self.df=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
@@ -582,7 +582,7 @@ class AcqErm():
                         self.customerName=agree.Agreements(client,self.path_dir)
                         self.customerName.readagreements(client,self.df)
                     else:
-                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json")   
+                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}/loadSetting.json")   
                 elif self.sctr=="l": 
                     self.value="licenses"
                     self.value_a="lic"
@@ -590,7 +590,7 @@ class AcqErm():
                     ls=self.load_settings() 
                     existname=str(ls[self.value_a]['fileName'])
                     if existname!="":
-                        filetoload=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['fileName'])
+                        filetoload=os.path.join(self.path_mapping_files, +str(ls[self.value_a]['fileName']))
                         self.customerName=pd.dataframe()
                         self.dflicenses=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
@@ -609,12 +609,12 @@ class AcqErm():
                         if existname!="":
                             swno=False
                             #print(ls[self.value_a])
-                            filetoload=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['fileName'])
+                            filetoload=f"{self.path_mapping_files}/"+str(ls[self.value_a]['fileName'])
                             if filetoload!="":
                                 self.customerName=pd.dataframe()
                                 filenametoprint=str(ls[self.value_a]['fileName'])
-                                readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
-                                linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
+                                readmapping=f"{self.path_mapping_files}/"+str(ls[self.value_a]['mappingfile'])
+                                linkidfilewithid=f"{self.path_results}/"+str(ls[self.value_a]['linkidfile'])                    
                                 if readmapping=="":
                                     self.notes=self.customerName.importDataFrame(filetoload,
                                     orderby=ls[self.value_a]['orderby'],
@@ -637,7 +637,7 @@ class AcqErm():
                             else:
                                 self.customerName.readlicenses(client,dflicenses=self.dflicenses)
                     else:
-                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json") 
+                        print(f"INFO file Name must be included in the ..{self.path_mapping_files}/loadSetting.json") 
                         
                 elif self.sctr=="o":
                     swnotes=False
@@ -647,7 +647,7 @@ class AcqErm():
                     ls=self.load_settings()
                     existname=str(ls[self.value_a]['fileName'])
                     if existname!="":
-                        filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                        filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
                         self.customerName=pd.dataframe()
                         #print(ls[self.value_a])
                         filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
@@ -725,7 +725,7 @@ class AcqErm():
                             else:
                                 self.customerName.readOrganizations(client,dforganizations=self.dforganizations, dfcontacts=self.dfcontacts, dfinterfaces=self.dfinterfaces)
                         else:
-                            print(f"INFO file Name must be included in the ..{self.path_mapping_files}\loadSetting.json") 
+                            print(f"INFO file Name must be included in the ..{self.path_mapping_files}/loadSetting.json") 
                     
                 elif self.sctr=="p":
                     try:
@@ -750,7 +750,7 @@ class AcqErm():
                             existname=""
                             existname=str(lsa[self.value_a]['fileName'])
                             if existname!="":
-                                filetoload=f"{self.path_data}\\"+str(lsa[self.value_a]['fileName'])
+                                filetoload=f"{self.path_data}/"+str(lsa[self.value_a]['fileName'])
                                 self.dfpoLines=self.customerName.importDataFrame(filetoload,
                                             orderby=lsa[self.value_a]['orderby'],
                                             distinct=lsa[self.value_a]['distinct'],
@@ -770,12 +770,12 @@ class AcqErm():
                             if existname!="":
                                 swno=False
                                 #print(ls[self.value_a])
-                                filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                                filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
                                 if filetoload!="":
                                     self.customerName=pd.dataframe()
                                     filenametoprint=str(ls[self.value_a]['fileName'])
-                                    readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
-                                    linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
+                                    readmapping=f"{self.path_mapping_files}/"+str(ls[self.value_a]['mappingfile'])
+                                    linkidfilewithid=f"{self.path_results}/"+str(ls[self.value_a]['linkidfile'])                    
                                     if readmapping=="":
                                         self.notes=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
@@ -797,7 +797,7 @@ class AcqErm():
                             else:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines)
                         else:
-                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_mapping_files}\loadSetting.json")                     
+                            print(f"INFO Purchase Orders file Name must be included in the ..{self.path_mapping_files}/loadSetting.json")                     
                     except ValueError as error:
                         print(f"Error: {error}")
                         
@@ -808,7 +808,7 @@ class AcqErm():
                     ls=self.load_settings()
                     self.customerName=pd.dataframe()
                     #print(ls[self.value_a])
-                    filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                    filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
                     self.dfusers=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
@@ -834,13 +834,13 @@ class AcqErm():
                             swno=False
                         if ls is not None:
                             #print(ls[self.value_a])
-                            filetoload=f"{self.path_data}\\"+str(ls[self.value_a]['fileName'])
+                            filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
                             if filetoload!="":
                                 self.customerName=pd.dataframe()
                                 filenametoprint=str(ls[self.value_a]['fileName'])
-                                readmapping=f"{self.path_mapping_files}\\"+str(ls[self.value_a]['mappingfile'])
+                                readmapping=f"{self.path_mapping_files}/"+str(ls[self.value_a]['mappingfile'])
                                 if str(ls[self.value_a]['linkidfile'])!="":
-                                    linkidfilewithid=f"{self.path_results}\\"+str(ls[self.value_a]['linkidfile'])                    
+                                    linkidfilewithid=f"{self.path_results}/"+str(ls[self.value_a]['linkidfile'])                    
                                 else:
                                     linkidfilewithid=""
                                 if readmapping=="":
@@ -883,7 +883,7 @@ class AcqErm():
             #CUSTOMER CONFIGURATION FILE (PATHS, PURCHASE ORDER FILE NAME AND FILTERS)
             #path_root=f"{kwargs['rootpath']}"
             #customerName=kwargs['customerName']
-            f = open(f"{self.path_mapping_files}\\loadSetting.json",)
+            f = open(f"{self.path_mapping_files}/loadSetting.json",)
             settingdata = json.load(f)
             countpol=0
             countpolerror=0
@@ -2882,7 +2882,7 @@ def readJsonfile_Cornell(path,json_file,schema):
 
 def readJsonfile_mls(path,json_file,schema):
     try:
-        f = open(path+"\\"+json_file)
+        f = open(path+"/"+json_file)
         data = json.load(f)
         count=0
         con={}
@@ -2941,7 +2941,7 @@ def jsontotupla(**kwargs):
     
 def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
     try:
-        filetoload=f"{path}\\{json_file}"
+        filetoload=f"{path}/{json_file}"
         f = open(filetoload,encoding='utf-8')
         data = json.load(f)
         count=0
@@ -2973,7 +2973,7 @@ def readJsonfile(path,json_file,schema,toSearch,fielTosearch):
 
 def readJsonfileRetor(path,json_file,schema,toSearch,fielTosearch):
     try:
-        filetoload=f"{path}\\{json_file}"
+        filetoload=f"{path}/{json_file}"
         f = open(filetoload, encoding="utf-8")
         data = json.load(f)
         count=0
@@ -2991,7 +2991,7 @@ def readJsonfileRetor(path,json_file,schema,toSearch,fielTosearch):
         
 def readJsonfile_identifier(path,json_file,schema,toSearch,tovalue):
     try:
-        f = open(path+"\\"+json_file)
+        f = open(path+"/"+json_file)
         data = json.load(f)
         count=0
         con={}
@@ -3015,7 +3015,7 @@ def readJsonfile_identifier(path,json_file,schema,toSearch,tovalue):
     
 def readJsonfile_identifier(path,json_file,schema):
     try:
-        f = open(path+"\\"+json_file)
+        f = open(path+"/"+json_file)
         data = json.load(f)
         count=0
 
@@ -3026,7 +3026,7 @@ def readJsonfile_identifier(path,json_file,schema):
             j_content=i
             lic=j_content['id']
             print(f"record:{count}")
-            with open(path+"\\Trinity_idtodelete.txt","a+") as outfile:
+            with open(path+"/Trinity_idtodelete.txt","a+") as outfile:
                 outfile.write(lic+"\n")
         print(f"end")
     except Exception as err:
@@ -3035,7 +3035,7 @@ def readJsonfile_identifier(path,json_file,schema):
 
 def readJsonfile_fund(path,json_file,schema,toSearch,fielTosearch):
     try:
-        f = open(path+"\\"+json_file)
+        f = open(path+"/"+json_file)
         data = json.load(f)
         count=0
         con={}
@@ -3140,7 +3140,7 @@ def reports(**kwargs):
                 recout+=1
             else:
                 recin+=1
-                write_file(path=f"{path_logs}\\recordNotcreated.log",contenido=toSearch)
+                write_file(path=f"{path_logs}/recordNotcreated.log",contenido=toSearch)
             
         except Exception as ee:
             print(ee)
@@ -3156,7 +3156,7 @@ def readorders(**kwargs):
     #CUSTOMER CONFIGURATION FILE (PATHS, PURCHASE ORDER FILE NAME AND FILTERS)
     path_root=f"{kwargs['rootpath']}"
     customerName=kwargs['customerName']
-    f = open(f"{path_root}\\refdata\\loadSetting.json",)
+    f = open(f"{path_root}/refdata/loadSetting.json",)
     settingdata = json.load(f)
     countpol=0
     countpolerror=0
@@ -3177,20 +3177,20 @@ def readorders(**kwargs):
             purchaseOrderFileData=str(i['purchaseOrders_file']['name'])
             filetoload=""
             if purchaseOrderFileData!="":
-                filetoload=f"{path_data}\\{purchaseOrderFileData}"
+                filetoload=f"{path_data}/{purchaseOrderFileData}"
                 orders= importDataFrame(filetoload,
                                             orderby=i['purchaseOrders_file']['orderby'],
                                             distinct=i['purchaseOrders_file']['distinct'],
                                             delimiter=i['purchaseOrders_file']['sep'],
                                             sheetName=i['purchaseOrders_file']['sheetName'])
             else:
-                print(f"Error: Name file to upload is missing  {path_refdata}\loadSetting.json")  
+                print(f"Error: Name file to upload is missing  {path_refdata}/loadSetting.json")  
                 return None    
             purchaseOrderFileData=""
             filetoload=""
             purchaseOrderFileData=str(i['poLines_file']['name'])    
             if purchaseOrderFileData!="":
-                filetoload=f"{path_data}\\{purchaseOrderFileData}"
+                filetoload=f"{path_data}/{purchaseOrderFileData}"
                 poLines= importDataFrame(filetoload,
                                             orderby=i['poLines_file']['orderby'],
                                             distinct=i['poLines_file']['distinct'],
@@ -3199,10 +3199,10 @@ def readorders(**kwargs):
                 if i['poLines_file']['poNumberfield']!="":
                     poLineNumberfield=str(i['poLines_file']['poNumberfield']).strip()
                 else:
-                    print(f"Error: seccion poLines_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion poLines_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
             else:
-                print(f"Error: Name poLines file to load is missing  {path_refdata}\loadSetting.json")  
+                print(f"Error: Name poLines file to load is missing  {path_refdata}/loadSetting.json")  
                 return None
             notesapp1=""
             purchaseOrderFileData=""
@@ -3211,7 +3211,7 @@ def readorders(**kwargs):
             #notesapp1=pd.DataFrame()
             if purchaseOrderFileData!="":
                 notes_file1=str(i['notes_file1']['name'])
-                filetoload=f"{path_data}\\{purchaseOrderFileData}"
+                filetoload=f"{path_data}/{purchaseOrderFileData}"
                 notesapp1= importDataFrame(filetoload,
                                             orderby=i['notes_file1']['orderby'],
                                             distinct=i['notes_file1']['distinct'],
@@ -3221,7 +3221,7 @@ def readorders(**kwargs):
                 if i['notes_file1']['poNumberfield']!="":
                     notesapp1Pofield=i['notes_file1']['poNumberfield']
                 else:
-                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
                
             notesapp2=""
@@ -3231,7 +3231,7 @@ def readorders(**kwargs):
             #notesapp2=pd.DataFrame()
             if purchaseOrderFileData!="":
                 notes_file2=str(i['notes_file2']['name'])
-                filetoload=f"{path_data}\\{purchaseOrderFileData}"
+                filetoload=f"{path_data}/{purchaseOrderFileData}"
                 notesapp2= importDataFrame(filetoload,
                                             orderby=i['notes_file2']['orderby'],
                                             distinct=i['notes_file2']['distinct'],
@@ -3241,12 +3241,12 @@ def readorders(**kwargs):
                 if i['notes_file2']['poNumberfield']!="":
                     notesapp2Pofield=i['notes_file2']['poNumberfield']
                 else:
-                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
                 
             print(f"INFO MAPPING FILES")
             
-            filetoload=f"{path_refdata}\\acquisitionMapping_{customerName}.xlsx"
+            filetoload=f"{path_refdata}/acquisitionMapping_{customerName}.xlsx"
             workflowStatus_Map=importDataFrame(filetoload,orderby="",distinct=[],delimiter="",sheetName="workflowStatus")
             orderFormat_Map=importDataFrame(filetoload,orderby="",distinct=[],delimiter="",sheetName="orderFormat")
             acquisitionMethod_Map= importDataFrame(filetoload,orderby="",distinct=[],delimiter="",sheetName="acquisitionMethod")
@@ -3308,7 +3308,7 @@ def readorders(**kwargs):
             else:
                 randompoNumber=str(round(random.randint(100, 1000)))
                 poNumber=str(randompoNumber)
-                write_file(path=f"{path_logs}\\oldNew_ordersID.log",contenido=f"{vendorToSearch}")
+                write_file(path=f"{path_logs}/oldNew_ordersID.log",contenido=f"{vendorToSearch}")
                 
                 po=poNumber
             #CHECKING DUPLICATED PO number    
@@ -3384,7 +3384,7 @@ def readorders(**kwargs):
                     vendorToSearch=str(row['VENDOR']).strip()
                     OrganizationUUID=readJsonfile(path_refdata,f"{customerName}_organizations.json","organizations",vendorToSearch,"code")
                     if OrganizationUUID is None:
-                        write_file(path=f"{path_logs}\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
+                        write_file(path=f"{path_logs}/vendorsNotFounds.log",contenido=f"{vendorToSearch}")
                         countvendorerror+=1
                         printpoline=False
             else:
@@ -3549,7 +3549,7 @@ def compositePoLines(poLines,poLineNumberfield,
                     #    locationId=readJsonfile(path_refdata,f"{customerName}_locations.json","locations",vendorrealToSearch,"code")
                     if locationId is None:
                         locationId="None"
-                        write_file(path=f"{path_logs}\\locationsNotFounds.log",contenido=locationtoSearch)                            
+                        write_file(path=f"{path_logs}/locationsNotFounds.log",contenido=locationtoSearch)                            
                 else:
                     loca=[]
                     x = locationtoSearch.split(",")
@@ -3567,7 +3567,7 @@ def compositePoLines(poLines,poLineNumberfield,
                                 #locationIdA=get_locId(vendorrealToSearch, customerName)
                         if locationIdA is None:
                             locationIdA="None"
-                            write_file(path=f"{path_logs}\\locationsNotFounds.txt",contenido=f" {poLineNumber} {locationtoSearch} undefined locations")
+                            write_file(path=f"{path_logs}/locationsNotFounds.txt",contenido=f" {poLineNumber} {locationtoSearch} undefined locations")
                                 
                         lc+=1
                         if cprow['Order format']:
@@ -3623,7 +3623,7 @@ def compositePoLines(poLines,poLineNumberfield,
                         cp["titleOrPackage"]=titleOrPackage
                         #instance_holdings_items="None"
                         #instance_holdings_items="Instance"
-                        write_file(path=f"{path_logs}\\titlesNotFounds.log",contenido=f"{poLineNumber}  {titleUUID} {titleOrPackage}")
+                        write_file(path=f"{path_logs}/titlesNotFounds.log",contenido=f"{poLineNumber}  {titleUUID} {titleOrPackage}")
                         instance= {
                                 "_version": 1,
                                 "source": "FOLIO",
@@ -3669,7 +3669,7 @@ def compositePoLines(poLines,poLineNumberfield,
                 accessProvidertosearch=str(cprow['Access provider']).strip()
                 accessproviderUUID=readJsonfile(path_refdata,f"{customerName}_organizations.json","organizations",accessProvidertosearch,"code")
                 if accessproviderUUID is None:
-                    write_file(path=f"{path_logs}\\providerNotFounds.log",contenido=f"{accessProvidertosearch}")
+                    write_file(path=f"{path_logs}/providerNotFounds.log",contenido=f"{accessProvidertosearch}")
                 else:
                     accessProvider=accessproviderUUID
             
@@ -3678,7 +3678,7 @@ def compositePoLines(poLines,poLineNumberfield,
                 materialaccessProvidertosearch=str(cprow['(Physical Resource) Material supplier']).strip()
                 accessproviderUUID=readJsonfile(path_refdata,f"{customerName}_organizations.json","organizations",materialaccessProvidertosearch,"code")
                 if accessproviderUUID is None:
-                    write_file(path=f"{path_logs}\\materialProviderNotFounds.log",contenido=f"{materialaccessProvidertosearch}")
+                    write_file(path=f"{path_logs}/materialProviderNotFounds.log",contenido=f"{materialaccessProvidertosearch}")
                 else:
                     materialSupplier=accessproviderUUID            
             
@@ -3700,9 +3700,9 @@ def compositePoLines(poLines,poLineNumberfield,
                         #materialType=get_matId(mtypestosearch,customerName)
                         if materialType is None:
                             materialType=get_matId(mtypestosearch,customerName)
-                            write_file(path=f"{path_logs}\\materialTypeNotFounds.log",contenido=f"{poLineNumber} {mtypestosearch}")
+                            write_file(path=f"{path_logs}/materialTypeNotFounds.log",contenido=f"{poLineNumber} {mtypestosearch}")
                             if materialType is None:
-                                write_file(path=f"{path_logs}\\materialTypeNotFounds.log",contenido=f"{poLineNumber} {mtypestosearch}")
+                                write_file(path=f"{path_logs}/materialTypeNotFounds.log",contenido=f"{poLineNumber} {mtypestosearch}")
                                 materialType="materialtypeUndefined"
 
 
@@ -3724,13 +3724,13 @@ def compositePoLines(poLines,poLineNumberfield,
                     if cprow['Material type']:
                         mtypestosearch=""
                         mtypestosearch=str(cprow['Material type']).strip()
-                        materialType=readJsonfile(path_refdata,f"{path_logs}\\_mtypes.json","mtypes",mtypestosearch,"name")
+                        materialType=readJsonfile(path_refdata,f"{path_logs}/_mtypes.json","mtypes",mtypestosearch,"name")
                         #materialType=get_matId(mtypestosearch,customerName)
                         if materialType is None:
                             materialType=get_matId(mtypestosearch,customerName)
-                            write_file(path=f"{path_logs}\\materialTypeNotFounds.txt",contenido=f"{poLineNumber} {mtypestosearch}")
+                            write_file(path=f"{path_logs}/materialTypeNotFounds.txt",contenido=f"{poLineNumber} {mtypestosearch}")
                             if materialType is None:
-                                write_file(path=f"{path_logs}\\materialTypeNotFounds.txt",contenido=f"{poLineNumber} {mtypestosearch}")
+                                write_file(path=f"{path_logs}/materialTypeNotFounds.txt",contenido=f"{poLineNumber} {mtypestosearch}")
                                 materialType="materialtypeUndefined"
 
                     cp["cost"]=dic(currency="USD",listUnitPrice=listUnitPrice,listUnitPriceElectronic=listUnitPrice, quantityElectronic=quantityElectronic, poLineEstimatedPrice=listUnitPrice,discountType="percentage")
@@ -3797,7 +3797,7 @@ def compositePoLines(poLines,poLineNumberfield,
                         else:
                             cp["fundDistribution"]=[dic(code=code,fundId=fundId,distributionType="percentage",value=valuefund)]
                     else:
-                        write_file(path=f"{path_logs}\\fundsNotfounds.log",contenido=f"{poLineNumber} {codeTosearch}")
+                        write_file(path=f"{path_logs}/fundsNotfounds.log",contenido=f"{poLineNumber} {codeTosearch}")
                         cp["fundDistribution"]=[]
                 else:
                     fundlist=[]
@@ -3815,7 +3815,7 @@ def compositePoLines(poLines,poLineNumberfield,
                             searchtoValue=str(cprow['Expense Class']).strip()
                             expenseClassId=readJsonfile(path_refdata,f"{customerName}_expenseClasses.json","expenseClasses",searchtoValue,"code")
                             if expenseClassId is None:
-                                write_file(path=f"{path_logs}\\expensesNotfounds.log",contenido=f"{poLineNumber} {searchtoValue}")
+                                write_file(path=f"{path_logs}/expensesNotfounds.log",contenido=f"{poLineNumber} {searchtoValue}")
                             #expenseClassId=get_Id(customerName,element="expenseClasses",searchValue=searchtoValue)
                         #get_funId(searchValue,orderFormat,client):
                         fundId=readJsonfile_fund(path_refdata,f"{customerName}_funds.json","funds",codeTosearch,"code")
@@ -3913,14 +3913,14 @@ def compositePoLines(poLines,poLineNumberfield,
         return cpList    
     except Exception as ee:
         print(ee)
-        write_file(path=f"{path_logs}\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")       
+        write_file(path=f"{path_logs}/poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")       
 
 def orderTransactionSummaries():
-    path= "C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\runenv\\results\\utm"
+    path= "C:/Users/asoto/Documents/EBSCO/Migrations/folio/runenv/results/utm"
     json_file="utm_purchaseOrders.check.json"
     customerName="utm"
     searchValue="id"
-    f = open(path+"\\"+json_file)
+    f = open(path+"/"+json_file)
     data = json.load(f)
     count=0
     con={}
@@ -3944,7 +3944,7 @@ def orderTransactionSummaries():
                              }
                 c+=1
                 print("creating record")
-                printObject(transactions,f"C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\runenv\\results\\utm",0,"utm_New_transactions",False)
+                printObject(transactions,f"C:/Users/asoto/Documents/EBSCO/Migrations/folio/runenv/results/utm",0,"utm_New_transactions",False)
         except Exception as err:
             print("error ", str(err))
     print(f"{c}")
@@ -3982,7 +3982,7 @@ def readagreements(**kwargs):
     #CUSTOMER CONFIGURATION FILE (PATHS, PURCHASE ORDER FILE NAME AND FILTERS)
     path_root=f"{kwargs['rootpath']}"
     customerName=kwargs['customerName']
-    f = open(f"{path_root}\\refdata\\loadSetting.json",)
+    f = open(f"{path_root}/refdata/loadSetting.json",)
     settingdata = json.load(f)
     countpol=0
     countpolerror=0
@@ -4003,14 +4003,14 @@ def readagreements(**kwargs):
             agreement_file=str(i['agreement_file']['name'])
             filetoload=""
             if agreement_file!="":
-                filetoload=f"{path_data}\\{agreement_file}"
+                filetoload=f"{path_data}/{agreement_file}"
                 agreements= importDataFrame(filetoload,
                                             orderby=i['agreement_file']['orderby'],
                                             distinct=i['agreement_file']['distinct'],
                                             delimiter=i['agreement_file']['sep'],
                                             sheetName=i['agreement_file']['sheetName'])
             else:
-                print(f"Error: Name file to upload is missing  {path_refdata}\loadSetting.json")  
+                print(f"Error: Name file to upload is missing  {path_refdata}/loadSetting.json")  
                 return None    
             notesapp1=""
             agreement_file=""
@@ -4019,7 +4019,7 @@ def readagreements(**kwargs):
             #notesapp1=pd.DataFrame()
             if purchaseOrderFileData!="":
                 notes_file1=str(i['notes_file1']['name'])
-                filetoload=f"{path_data}\\{purchaseOrderFileData}"
+                filetoload=f"{path_data}/{purchaseOrderFileData}"
                 notesapp1= importDataFrame(filetoload,
                                             orderby=i['notes_file1']['orderby'],
                                             distinct=i['notes_file1']['distinct'],
@@ -4029,7 +4029,7 @@ def readagreements(**kwargs):
                 if i['notes_file1']['poNumberfield']!="":
                     notesapp1Pofield=i['notes_file1']['poNumberfield']
                 else:
-                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
                
             notesapp2=""
@@ -4039,7 +4039,7 @@ def readagreements(**kwargs):
             #notesapp2=pd.DataFrame()
             if purchaseOrderFileData!="":
                 notes_file2=str(i['notes_file2']['name'])
-                filetoload=f"{path_data}\\{purchaseOrderFileData}"
+                filetoload=f"{path_data}/{purchaseOrderFileData}"
                 notesapp2= importDataFrame(filetoload,
                                             orderby=i['notes_file2']['orderby'],
                                             distinct=i['notes_file2']['distinct'],
@@ -4049,7 +4049,7 @@ def readagreements(**kwargs):
                 if i['notes_file2']['poNumberfield']!="":
                     notesapp2Pofield=i['notes_file2']['poNumberfield']
                 else:
-                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}\loadSetting.json")      
+                    print(f"Error: seccion Notes: notes1_file foreing key is required  {path_refdata}/loadSetting.json")      
                     return None
                 
             
@@ -4080,7 +4080,7 @@ def readagreements(**kwargs):
                 vendorToSearch=str(row['organizationCode_1']).strip()
                 OrganizationUUID=readJsonfile(path_refdata,f"{customerName}_organizations.json","organizations",vendorToSearch,"code")
                 if OrganizationUUID is None:
-                    write_file(path=f"{path_logs}\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
+                    write_file(path=f"{path_logs}/vendorsNotFounds.log",contenido=f"{vendorToSearch}")
                     countvendorerror+=1
                     printpoline=False
                     OrganizationUUID=readJsonfile(f"{path_refdata}",f"{customerName}_organizations.json","organizations","undefined","code")
@@ -4111,7 +4111,7 @@ def readagreements(**kwargs):
                 if vendorToSearch1!=vendorToSearch:
                     OrganizationUUID=readJsonfile(path_refdata,f"{customerName}_organizations.json","organizations",vendorToSearch,"code")
                     if OrganizationUUID is None:
-                        write_file(path=f"{path_logs}\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
+                        write_file(path=f"{path_logs}/vendorsNotFounds.log",contenido=f"{vendorToSearch}")
                         countvendorerror+=1
                         printpoline=False
                         OrganizationUUID=readJsonfile(f"{path_refdata}",f"{customerName}_organizations.json","organizations","undefined","code")

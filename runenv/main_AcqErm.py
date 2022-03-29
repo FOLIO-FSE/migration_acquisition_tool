@@ -1,8 +1,8 @@
 import functions_AcqErm as ma
 import agreement_class as ac
 import migration_report as mr
-#from tkinter import *
-#from tkinter import filedialog, messagebox, ttk
+##from tkinter import *
+##from tkinter import filedialog, messagebox, ttk
 import argparse
 ################################
 # MAIN ERM AND ACQUISITIONS MIGRATION TOOLS 

@@ -18,8 +18,8 @@ def chagebibdata():
     dt=dt.strftime('%d%m%Y')
     count=0
     dataitemhol=[]
-    in_file=open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\BIBLIOGRAPHIC_1574568070002776_1.mrk","r", encoding="utf-8")
-    in_holdings="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\Holdings_20220105.tsv"
+    in_file=open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/data/BIBLIOGRAPHIC_1574568070002776_1.mrk","r", encoding="utf-8")
+    in_holdings="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/data/Holdings_20220105.tsv"
     #hol = pd.read_csv(in_holdings,dtype ='str')
     hol = pd.read_csv(in_holdings,sep="\t", dtype ='str')
     totalhol=len(hol)
@@ -30,7 +30,7 @@ def chagebibdata():
     hol['MMS ID NEW'] = hol['MMS ID NEW'].astype('str')
     hol['MMS ID NEW'] = hol['MMS ID NEW'].str.strip()
     items_holding=[]
-    logging.basicConfig(filename="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\changebibdata"+str(dt)+".log", encoding='utf-8', level=logging.INFO)
+    logging.basicConfig(filename="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/changebibdata"+str(dt)+".log", encoding='utf-8', level=logging.INFO)
     #print(hol['MMS ID NEW'])
     logging.info(f"START")
     for a_line in in_file:
@@ -43,7 +43,7 @@ def chagebibdata():
             recordfound=0
             cadena=new_line
             id=str(cadena[6:]).strip()
-            tag035MMSI=f"=035  \\$a{id}"
+            tag035MMSI=f"=035  /$a{id}"
             mmsid = hol[hol['MMS ID']== id]
             #print(mmsid)
             recordfound=len(mmsid)
@@ -104,19 +104,19 @@ def chagebibdata():
                     location="unmapped"
                 location=location.replace("$h$$h", "$$h")
                 if swcall and swloc:
-                    with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\mfhf_"+str(dt)+".mrk","a",encoding="utf-8") as f:
+                    with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/mfhf_"+str(dt)+".mrk","a",encoding="utf-8") as f:
                         f.write(f"=LDR  00232nx  a22000974n 4500"+"\n")
                         f.write(f"=001  {tag001}"+"\n")
                         f.write(f"=004  {tag0041}"+"\n")
-                        f.write(f"=008  9810090p\\\\\\\\8\\\\\\4001aueng0000000"+"\n")
+                        f.write(f"=008  9810090p////8///4001aueng0000000"+"\n")
                         f.write(f"=852  0\$b{location}$h{callNumber}"+"\n")
                         f.write("\n")
                 else:
-                    with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\mfhf_worse_"+str(dt)+".mrk","a",encoding="utf-8") as f:
+                    with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/mfhf_worse_"+str(dt)+".mrk","a",encoding="utf-8") as f:
                         f.write(f"=LDR  00232nx  a22000974n 4500"+"\n")
                         f.write(f"=001  {tag001}"+"\n")
                         f.write(f"=004  {tag0041}"+"\n")
-                        f.write(f"=008  9810090p\\\\\\\\8\\\\\\4001aueng0000000"+"\n")
+                        f.write(f"=008  9810090p////8///4001aueng0000000"+"\n")
                         f.write(f"=852  0\$b{location}$h{callNumber}"+"\n")
                         f.write("\n")
                 
@@ -127,7 +127,7 @@ def chagebibdata():
                 print(f"Record Holding {new_id} {count}/{totalhol}")
                 #logging.info(f"NOT Record Holding | {new_id} | {count}/{totalhol}")
                 errordesc=f"NOT Record Holding {count}  {new_id}   count:{errorscount}"            
-                with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\malos_"+str(dt)+".txt","a",encoding="utf-8") as errorline:
+                with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/malos_"+str(dt)+".txt","a",encoding="utf-8") as errorline:
                     errorline.write(errordesc+"\n")
                 id=str(cadena[6:]).strip()
                 # new_id=id[:-4]
@@ -140,18 +140,18 @@ def chagebibdata():
                 buenosa=f"Record {count}/{totalhol} |   {new_id}    {tag0041}   {swcall}    ({totaltime} seconds)"
                 #logging.info(f"Record Holding {new_id} {count}/{totalhol} -- {tag0041} {swcall}")
                 #dataitemhol.append([tag001,new_id,callNumber,location])
-                with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\buenos_"+str(dt)+".txt","a",encoding="utf-8") as buenos:
+                with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/buenos_"+str(dt)+".txt","a",encoding="utf-8") as buenos:
                     buenos.write(buenosa+"\n")
             count+=1
         elif tag=="STA" or tag=="OWN" or tag=="SID":
             printtag=False
         if printtag:
-            with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\marc_modified_"+str(dt)+".mrk","a",encoding="utf-8") as newmarc:
+            with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/marc_modified_"+str(dt)+".mrk","a",encoding="utf-8") as newmarc:
                 if tag=="001":
                     countlist = orderList.count(str(new_line))
                     if countlist>0:
                         new_line=new_line+str(round(random.randint(10, 100)))
-                        with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\duplicatedID"+str(dt)+".txt","a",encoding="utf-8") as newmarc:
+                        with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/duplicatedID"+str(dt)+".txt","a",encoding="utf-8") as newmarc:
                             newmarc.write(f"id"+"\n")
                     orderList.append(str(new_line))
                     newmarc.write(new_line+"\n")
@@ -163,7 +163,7 @@ def chagebibdata():
         printtag=True
                 
     #header=['holding','bibId','clasification', 'location']
-    #with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\holdings_12122021.csv","a",encoding="utf-8") as itemhol:
+    #with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/holdings_12122021.csv","a",encoding="utf-8") as itemhol:
     #    writer = csv.writer(f)
     #    writer.writerow(itemhol)
     #    writer.writerow(dataitemhol)
@@ -172,17 +172,17 @@ def tocsv():
     dt=dt.strftime('%Y%m%d')
     count=0 
     dataitemhol=[]
-    in_holdings=open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\location.csv","r")
+    in_holdings=open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/data/location.csv","r")
     hol = pd.read_csv(in_holdings,encoding="utf-8", dtype ='str')
     hol['location_code']=hol['legacy_code']
     hol['folio_code']=hol['legacy_code']
     totalhol=len(hol)       
-    uai_csv_data = hol.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\results\\locations_12112021.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
+    uai_csv_data = hol.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/results/locations_12112021.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
         
 def spreadsheet_to_csv():
-    #in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\Holdings_Bibliografico.xlsx"
-    #in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\Holdings_Seriadas.xlsx"
-    in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\items_all.xlsx"
+    #in_items="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/data/Holdings_Bibliografico.xlsx"
+    #in_items="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/data/Holdings_Seriadas.xlsx"
+    in_items="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/data/items_all.xlsx"
     #buffer = StringIO()
     start_time = time.perf_counter()
     #Xlsx2csv(in_items, outputencoding="utf-8").convert(buffer)
@@ -194,15 +194,15 @@ def spreadsheet_to_csv():
     end_time = time.perf_counter()
     total_time= round((end_time - start_time))/60
     print(f" records {tt} / total {total_time}:{60} seconds")
-    #uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\items_20200226.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE, encoding="utf-8")
-    uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\items_20200226.tsv", sep="\t", index=False, header = True, encoding="utf-8")
-    #uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\20220226_Holdings_Bibliografico.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
+    #uai_csv_data = items.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/items_20200226.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE, encoding="utf-8")
+    uai_csv_data = items.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/items_20200226.tsv", sep="\t", index=False, header = True, encoding="utf-8")
+    #uai_csv_data = items.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/20220226_Holdings_Bibliografico.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
     print("end")
 
 def csv_to_tsv():
-    #in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\Holdings_Bibliografico.xlsx"
-    #in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\Holdings_Seriadas.xlsx"
-    in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\data\\tadeo_holdings\\tadeo_holdings_utf8.csv"
+    #in_items="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/data/Holdings_Bibliografico.xlsx"
+    #in_items="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/data/Holdings_Seriadas.xlsx"
+    in_items="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/data/tadeo_holdings/tadeo_holdings_utf8.csv"
     #buffer = StringIO()
     start_time = time.perf_counter()
     #Xlsx2csv(in_items, outputencoding="utf-8").convert(buffer)
@@ -222,9 +222,9 @@ def csv_to_tsv():
     end_time = time.perf_counter()
     total_time= round((end_time - start_time))/60
     print(f" records {tt} / total {total_time}:{60} seconds")
-    #uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\items_20200226.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE, encoding="utf-8")
-    uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\tadeo_holdings02032022_utf8.tsv", sep="\t", index=False, header = True, encoding="utf-8")
-    #uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\20220226_Holdings_Bibliografico.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
+    #uai_csv_data = items.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/items_20200226.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE, encoding="utf-8")
+    uai_csv_data = items.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/tadeo_holdings02032022_utf8.tsv", sep="\t", index=False, header = True, encoding="utf-8")
+    #uai_csv_data = items.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/20220226_Holdings_Bibliografico.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
     print("end")
 
 def holding_to_csv():
@@ -232,8 +232,8 @@ def holding_to_csv():
     dt=dt.strftime('%Y%m%d')
     count=0
     dataitemhol=[]
-    #in_file=open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\BIBLIOGRAPHIC_1539004070002776_1\\BIBLIOGRAPHIC_1539004070002776_1.mrk","r", encoding="utf-8")
-    in_items="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\Holding M_Final.xlsx"
+    #in_file=open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/data/BIBLIOGRAPHIC_1539004070002776_1/BIBLIOGRAPHIC_1539004070002776_1.mrk","r", encoding="utf-8")
+    in_items="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/data/Holding M_Final.xlsx"
     start_time = time.perf_counter()
     items = pd.read_excel(in_items, engine='openpyxl', dtype ='str')
     print("total items original: "+str(len(items)))
@@ -241,11 +241,11 @@ def holding_to_csv():
     end_time = time.perf_counter()
     total_time= round((end_time - start_time))/60
     print(f" records {tt} / total {total_time}:{60} seconds")
-    uai_csv_data = items.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\Holdings_"+str(dt)+".tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)    
+    uai_csv_data = items.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/data/Holdings_"+str(dt)+".tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)    
 
 def fix_dup():
     import uuid
-    in_holdings="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\uai\\data\\Ejemplares_columnB - Copy.xlsx"
+    in_holdings="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/uai/data/Ejemplares_columnB - Copy.xlsx"
     #hol = pd.read_csv(in_holdings,dtype ='str')
     print("reading ejemplares")
     hol = pd.read_excel(in_holdings, engine='openpyxl', dtype ='str')
@@ -254,7 +254,7 @@ def fix_dup():
     #errorscount=0
     tupla=[]
     print("reading json")
-    json_file="C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\uai\\results\\folio_item_20211218-022127 - Copy.json"
+    json_file="C:/Users/asoto/Documents/EBSCO/Migrations/folio/client_data/uai/results/folio_item_20211218-022127 - Copy.json"
     with open(json_file, "r", encoding="utf") as file_j:
         for linea in file_j:
             recitem=linea
@@ -270,7 +270,7 @@ def fix_dup():
     print(f'Total Hol {totalhol}')
     dfnote = hol[hol['Estado']== "No migró"]
     totdfnote=len(dfnote)
-    path_file="C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\uai\\results\\folio_itemII_20211218-022127-NoMigrated.json"
+    path_file="C:/Users/asoto/Documents/EBSCO/Migrations/folio/client_data/uai/results/folio_itemII_20211218-022127-NoMigrated.json"
     print(f"Total no migrados: {totdfnote}")
     count=0
     for i, row in dfnote.iterrows():
@@ -294,8 +294,8 @@ def exceltodataframe(path: str, sheet_name: str):
     
 def fix_dupmich():
     import uuid
-    in_holdings="C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\data\\MSU Historic orders 2 years order info title only(1).xlsx"
-    #in_holdings="C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\data\\MSU Historic orders 2 years order info title only(1) - Copy.xlsx"
+    in_holdings="C:/Users/asoto/code/migration_acquisition_tool/client_data/michstate_prod/data/MSU Historic orders 2 years order info title only(1).xlsx"
+    #in_holdings="C:/Users/asoto/code/migration_acquisition_tool/client_data/michstate_prod/data/MSU Historic orders 2 years order info title only(1) - Copy.xlsx"
     
     #hol = pd.read_csv(in_holdings,dtype ='str')
     buffer = StringIO()
@@ -313,10 +313,10 @@ def fix_dupmich():
     #errorscount=0
     tupla=[]
     print("reading json")
-    #json_file="C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\uai\\results\\folio_item_20211218-022127 - Copy.json"
+    #json_file="C:/Users/asoto/Documents/EBSCO/Migrations/folio/client_data/uai/results/folio_item_20211218-022127 - Copy.json"
     count=0
-    #json_file="C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\results\\michstate_prod_purchaseOrderbyline_with_new_instance_20220104-10-02.json"
-    json_file="C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\results\\michstate_prod_purchaseOrderbyline_20220104-10-02.json"
+    #json_file="C:/Users/asoto/code/migration_acquisition_tool/client_data/michstate_prod/results/michstate_prod_purchaseOrderbyline_with_new_instance_20220104-10-02.json"
+    json_file="C:/Users/asoto/code/migration_acquisition_tool/client_data/michstate_prod/results/michstate_prod_purchaseOrderbyline_20220104-10-02.json"
     with open(json_file, "r", encoding="utf") as file_j:
         for linea in file_j:
             recitem=linea
@@ -385,7 +385,7 @@ def fix_dupmich():
                             productos.append({"productId": producti, "productIdType": "8e3dd25e-db82-4b06-8311-90d41998c109"})
                             data['compositePoLines'][0]['details']['productIds']=productos   
             #print(data)
-            path_file=f"C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\results\\michstate_prod_purchaseOrders_20220104-10-02_modified.json"
+            path_file=f"C:/Users/asoto/code/migration_acquisition_tool/client_data/michstate_prod/results/michstate_prod_purchaseOrders_20220104-10-02_modified.json"
             outfilename = json.dumps(data,ensure_ascii=False)
             with codecs.open(path_file,"a+", encoding="utf-8") as outfile:
                 outfile.write(outfilename+"\n")
@@ -393,8 +393,8 @@ def fix_dupmich():
     
 def extractdata():
     ids={}
-    json_file="C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\results\\tocompare.json"
-    out_fileid=f"C:\\Users\\asoto\\code\\migration_acquisition_tool\\client_data\\michstate_prod\\results\\idsmsu.json"
+    json_file="C:/Users/asoto/code/migration_acquisition_tool/client_data/michstate_prod/results/tocompare.json"
+    out_fileid=f"C:/Users/asoto/code/migration_acquisition_tool/client_data/michstate_prod/results/idsmsu.json"
     count=1
     with open(json_file, "r", encoding="utf") as file_j:
         for linea in file_j:
@@ -419,7 +419,7 @@ def extractdata():
             
 def cairn_fix_holdings():
     temp=pd.DataFrame()
-    in_holdings=open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\cairn\\data\\20220202-125611_items_with_boundwiths_handled.tsv","r")
+    in_holdings=open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/cairn/data/20220202-125611_items_with_boundwiths_handled.tsv","r")
     hol = pd.read_csv(in_holdings,encoding="utf-8", sep='\t', dtype ='str')
     hol = hol.apply(lambda x: x.fillna(""))
     lendA = len(hol)
@@ -458,15 +458,15 @@ def cairn_fix_holdings():
         
         
                
-    uai_csv_data = temp.to_csv("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\cairn\\results\\07022022_cairn_itemsmodified.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
+    uai_csv_data = temp.to_csv("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/cairn/results/07022022_cairn_itemsmodified.tsv", sep="\t", index=False, header = True, quoting=csv.QUOTE_NONE)
     print(f"total: {count} borrados:{delcount}")
 
 
 def mfhf():
     #spreadsheet_to_csv()
     print("CSV created")
-    #in_holdings="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\20220226_Holdings_Bibliografico.tsv"
-    in_holdings="C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\tadeo_holdings02032022_utf8.tsv"
+    #in_holdings="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/20220226_Holdings_Bibliografico.tsv"
+    in_holdings="C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/tadeo_holdings02032022_utf8.tsv"
     #hol = pd.read_csv(in_holdings,dtype ='str')
     hol = pd.read_csv(in_holdings,sep="\t", encoding="utf-8", dtype ='str')
     totalhol=len(hol)
@@ -519,21 +519,21 @@ def mfhf():
         
 
         if tag004!="":
-            with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\mfhf_tadeo_holdings02032022_utf8.mrk","a",encoding="utf-8") as f:
+            with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/mfhf_tadeo_holdings02032022_utf8.mrk","a",encoding="utf-8") as f:
                 f.write(f"=LDR  00232nx  a22000974n 4500"+"\n")
                 f.write(f"=001  {tag001}"+"\n") #item
                 f.write(f"=004  {tag004}"+"\n") #bib
-                f.write(f"=008  2202260p\\\\\\\\8\\\\\\4001auspa0000000"+"\n")
+                f.write(f"=008  2202260p////8///4001auspa0000000"+"\n")
                 f.write(f"=852  0\$b{location}$h{callNumber}"+"\n")
                 f.write("\n")
                 print(f"record {count} {count}/{totalhol} -- {tag004}")
                 count+=1
         else:
-            with open("C:\\Users\\asoto\\Documents\\EBSCO\Migrations\\folio\\client_data\\tadeo\\results\\mfhf_tadeo_holdings02032022_utf8.mrk","a",encoding="utf-8") as f:
+            with open("C:/Users/asoto/Documents/EBSCO\Migrations/folio/client_data/tadeo/results/mfhf_tadeo_holdings02032022_utf8.mrk","a",encoding="utf-8") as f:
                 f.write(f"=LDR  00232nx  a22000974n 4500"+"\n")
                 f.write(f"=001  {tag001}"+"\n") #item
                 f.write(f"=004  void"+"\n") #bib
-                f.write(f"=008  2202260p\\\\\\\\8\\\\\\4001auspa0000000"+"\n")
+                f.write(f"=008  2202260p////8///4001auspa0000000"+"\n")
                 f.write(f"=852  0\$b{location}$h{callNumber}"+"\n")
                 f.write("\n")
                 print(f"record {count}")
@@ -549,7 +549,7 @@ if __name__ == "__main__":
     #https://raw.githubusercontent.com/folio-org/mod-inventory-storage/v22.0.3/ramls/instance.json
     #Insert the customer c-ode here or enter the customer running the code, by default blank
     #tocsv()
-    #exceltodataframe("C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\uai\\data\\Ejemplares M_Final.xlsx", "Sheet1")
+    #exceltodataframe("C:/Users/asoto/Documents/EBSCO/Migrations/folio/client_data/uai/data/Ejemplares M_Final.xlsx", "Sheet1")
     #fix_dup()
     #spreadsheet_to_csv()
     #spreadsheet_to_csv():

@@ -1,3 +1,4 @@
+from lib2to3.pgen2.parse import ParseError
 from isbnlib import is_isbn10
 from matplotlib.font_manager import json_dump
 import backup_restore as br
@@ -6,6 +7,7 @@ import functions_AcqErm as mf
 from report_blurbs import Blurbs
 import notes_class as notes
 import datetime
+import dateutil
 import warnings
 import dataframe_class as pd
 import json
@@ -23,8 +25,8 @@ import validator
 import ast
 import re
 #from tabulate import tabulate
-#import tkinter as tk
-#from tkinter import filedialog, messagebox, ttk
+##import tkinter as tk
+##from tkinter import filedialog, messagebox, ttk
 import yaml
 import shutil
 from tqdm import tqdm
@@ -44,18 +46,18 @@ class compositePurchaseorders():
             self.dt=dt.strftime('%Y%m%d-%H-%M')    
             self.Polinesmtypes=0
             self.path_dir=path_dir
-            #os.mkdir(f"{path_dir}\\results")
-            self.path_results=f"{path_dir}\\results"
-            #os.mkdir(f"{path_dir}\\data")
-            self.path_data=f"{path_dir}\\data"
-            #os.mkdir(f"{path_dir}\\logs")
-            self.path_logs=f"{path_dir}\\logs"
-            #os.mkdir(f"{path_dir}\\refdata")
-            self.path_refdata=f"{path_dir}\\refdata"
-            self.path_mapping_files=f"{path_dir}\\mapping_files"
-            logging.basicConfig(filename=f"{self.path_logs}\\composite_purchaseorders-{self.dt}.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
-            logging.basicConfig(filename=f"{self.path_logs}\\composite_purchaseorders-DEBUG-{self.dt}.log", encoding='utf-8', level=logging.DEBUG,format='%(message)s')
-            mappingfile=self.path_mapping_files+"\\composite_purchase_order_mapping.json"
+            #os.mkdir(f"{path_dir}/results")
+            self.path_results=f"{path_dir}/results"
+            #os.mkdir(f"{path_dir}/data")
+            self.path_data=f"{path_dir}/data"
+            #os.mkdir(f"{path_dir}/logs")
+            self.path_logs=f"{path_dir}/logs"
+            #os.mkdir(f"{path_dir}/refdata")
+            self.path_refdata=f"{path_dir}/refdata"
+            self.path_mapping_files=f"{path_dir}/mapping_files"
+            logging.basicConfig(filename=f"{self.path_logs}/composite_purchaseorders-{self.dt}.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
+            logging.basicConfig(filename=f"{self.path_logs}/composite_purchaseorders-DEBUG-{self.dt}.log", encoding='utf-8', level=logging.DEBUG,format='%(message)s')
+            mappingfile=self.path_mapping_files+"/composite_purchase_order_mapping.json"
             if os.path.exists(mappingfile):  
                 with open(mappingfile) as json_mappingfile:
                     self.mappingdata = json.load(json_mappingfile)
@@ -65,7 +67,7 @@ class compositePurchaseorders():
                 if valueinstanceid:
                     value=valueinstanceid.get("value")
                     if value!="":
-                        filetoload=f"{self.path_results}\{value}"
+                        filetoload=f"{self.path_results}/{value}"
                         #self.localinstanceId=self.customerName.importDataFrame(filetoload,sheetName="localinstaceId", dfname="localinstanceId")
                         self.localinstanceId=self.customerName.importDataFrame(filetoload,dfname="LOCAL InstanceId",distinct=['legacy_id_sierra'])
                         print(f"INFO local Instance Id file found, do you want to use this file?")
@@ -77,7 +79,7 @@ class compositePurchaseorders():
                 if valueinstanceid:
                     value=valueinstanceid.get("value")
                     if value!="":
-                        filetoload=f"{self.path_results}\{value}"
+                        filetoload=f"{self.path_results}/{value}"
                         #self.localinstanceId=self.customerName.importDataFrame(filetoload,sheetName="localinstaceId", dfname="localinstanceId")
                         print(f"INFO Reading UUIDs from file {filetoload}, do you want to use this file as PO ID / poLines?")
                         self.localinstanceId=self.customerName.importDataFrame(filetoload,dfname="purchaseOrdersId")
@@ -85,7 +87,7 @@ class compositePurchaseorders():
                         self.getidfile=True
                 
             else:
-                print(f"ERROR the {self.path_mapping_files}\composite_purchase_order_mapping.json")
+                print(f"ERROR the {self.path_mapping_files}/composite_purchase_order_mapping.json")
                 self.flag=False
             self.productidsDictionary={"REPORT NUMBER":"37b65e79-0392-450d-adc6-e2a1f47de452","ISBN":"8261054f-be78-422d-bd51-4ed9f33c3422","ISSN":"913300b2-03ed-469a-8179-c1092c991227"}
             self.po_countworse=0
@@ -199,7 +201,7 @@ class compositePurchaseorders():
                             if newvalue is None:
                                 if toSearch!="":
                                     if schematosearch=="localinstanceId":
-                                        mf.write_file(ruta=f"{self.path_logs}\\titlesNotFounds.log",contenido=f"{recordnotfound}")
+                                        mf.write_file(ruta=f"{self.path_logs}/titlesNotFounds.log",contenido=f"{recordnotfound}")
                                         recordnotfound=[]
                                     else:
                                         recordnotfound.append(i)
@@ -285,7 +287,7 @@ class compositePurchaseorders():
                 
     def readMappingfile(self):
         try:
-            filetoload=self.path_mapping_files+f"\\acquisitionMapping.xlsx"            
+            filetoload=self.path_mapping_files+f"/acquisitionMapping.xlsx"            
             if os.path.exists(filetoload):
                 myobj = datetime.datetime.now()
                 self.dobj=myobj.strftime('%T')
@@ -317,23 +319,23 @@ class compositePurchaseorders():
                 self.dfworkflowStatus=self.customerName.importupla(tupla=self.workflowStatusEnum,dfname="FOLIO Work Flow Status",columns=["name"])
                 #print("Dataframe: Locations")
                 self.locations=self.customerName.importDataFrame(filetoload,sheetName="locations", dfname="locations")
-                self.dflocations=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_locations.json",schema="locations"),dfname="locations",columns=["id", "code","name","value","json"])
+                self.dflocations=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_locations.json",schema="locations"),dfname="locations",columns=["id", "code","name","value","json"])
                 #print("Dataframe: Funds/Expenses")
                 self.fundsExpenseClass=self.customerName.importDataFrame(filetoload,sheetName="fundsExpenseClass", dfname="Expense Class",columns=["id", "code","name","value","json"])
                 #print("Dataframe: Funds")
                 self.funds=self.customerName.importDataFrame(filetoload,sheetName="funds",dfname="Funds")
-                self.dffunds=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_funds.json",schema="funds"),dfname="funds",columns=["id", "code","name","value","json"])
+                self.dffunds=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_funds.json",schema="funds"),dfname="funds",columns=["id", "code","name","value","json"])
                 tupladistributionType=["amount","percentage"]
                 self.dfdistributionType=self.customerName.importupla(tupla=tupladistributionType,dfname="FOLIO Fund Distribution Type",columns=["name"])
                 #print("Dataframe: Organization code to Change - optional")
                 self.organizationCodeToChange=self.customerName.importDataFrame(filetoload,sheetName="organizationCodeToChange", dfname="Organization Change Codes")
                 #print(self.organizationCodeToChange)
-                self.dforg=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_organizations.json",schema="organizations"),dfname="Organizations",columns=["id", "code","name","value","json"])
-                self.dfmtype=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_mtypes.json",schema="mtypes"),dfname="Material Type",columns=["id", "code","name","value","json"])
-                self.dfexpense=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_expenseClasses.json",schema="expenseClasses"),dfname="Expense Classes",columns=["id", "code","name","value","json"])
-                self.acqUnits=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_acquisitionsUnits.json",schema="acquisitionsUnits"),dfname="acquisitionsUnits",columns=["id", "code","name","value","json"])
+                self.dforg=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_organizations.json",schema="organizations"),dfname="Organizations",columns=["id", "code","name","value","json"])
+                self.dfmtype=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_mtypes.json",schema="mtypes"),dfname="Material Type",columns=["id", "code","name","value","json"])
+                self.dfexpense=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_expenseClasses.json",schema="expenseClasses"),dfname="Expense Classes",columns=["id", "code","name","value","json"])
+                self.acqUnits=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_acquisitionsUnits.json",schema="acquisitionsUnits"),dfname="acquisitionsUnits",columns=["id", "code","name","value","json"])
           
-                #self.billtoshipto=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_tenant.addresses.json",schema="configs"),dfname="tenant addresses",columns=["id", "code","name","value","json"])
+                #self.billtoshipto=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_tenant.addresses.json",schema="configs"),dfname="tenant addresses",columns=["id", "code","name","value","json"])
             else:
                 logging.info(f"ERROR Acquisition Mapping spreadsheet does not exist: {filetoload} check")
                 print(f"ERROR Acquisition Mapping spreadsheet does not exist: {filetoload}")
@@ -474,7 +476,7 @@ class compositePurchaseorders():
                             else:
                                 randompoNumber=str(round(random.randint(100, 1000)))
                                 poNumber=str(randompoNumber)
-                                mf.write_file(ruta=self.path_logs+"\\oldNew_ordersID.log",contenido=poNumber)
+                                mf.write_file(ruta=self.path_logs+"/oldNew_ordersID.log",contenido=poNumber)
                         if poNumberPrefix:
                             poNumber=f"{poNumberPrefix}{po}"
                         if poNumberSuffix:
@@ -498,23 +500,15 @@ class compositePurchaseorders():
                     
                         field="dateOrdered"
                         if field in self.orders.columns:
-                            if row[field]:
-                                dateorder=row[field]
-                                try:
-                                    dateordered=dateorder.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
-                                except Exception as ee:
-                                    dateorder=str(dateorder)
-                                    dateordered=self.date_stamp(dateorder)
-                                    #dateorder=str(dateorder)
-                                    #M=dateorder[0:2]
-                                    #D=dateorder[3:5] 
-                                    #Y=dateorder[6:10]
-                                    
-                                
-                                Order['dateOrdered']=dateordered
-                                #Order["approvedById"]=""
-                                #Order["approvalDate"]= ""
-                                #Order["closeReason"]=dic(reason="",note="")
+                            dateorder=row[field]
+                            format_date = dateutil.parser.parse(dateorder, fuzzy=True)
+                            date_ordered = format_date.isoformat()
+                            Order['dateOrdered']=date_ordered
+
+                            #Order["approvedById"]=""
+                            #Order["approvalDate"]= ""
+                            #Order["closeReason"]=dic(reason="",note="")
+
                         field="manualPo"
                         Order["manualPo"]= False
                         #PURCHASE ORDER NOTES
@@ -722,15 +716,15 @@ class compositePurchaseorders():
                     except Exception as ee:
                         Worder=Order
                         mf.printObject(Worder,self.path_results,self.count,f"{client}_purchaseOrderbyline_worse_{self.dt}",False)
-                        print(f"ERROR: {field} {ee}")
+                        print(f"ERROR for PO number {poNumber}: {field} {ee}")
                         self.noprint=False
                     
                     purchaseOrders['purchaseOrders']=purchase
                     report=[]
                     #report=reports(df=orders,plog=path_logs,pdata=path_results,file_report=f"{customerName}_purchaseself.orders.json",schema="purchaseOrders",dfFieldtoCompare=poLineNumberfield)
             else:
-                print(f"ERROR critical does not exist {self.path_refdata}\\acquisitionMapping.xlsx file")
-                logging.info(f"ERROR critical does not exist {self.path_refdata}\\acquisitionMapping.xlsx file")
+                print(f"ERROR critical does not exist {self.path_refdata}/acquisitionMapping.xlsx file")
+                logging.info(f"ERROR critical does not exist {self.path_refdata}/acquisitionMapping.xlsx file")
         if self.flag:
             mf.printObject(purchaseOrders,self.path_results,self.count,f"{client}_purchaseOrders_{self.dt}",True)
         self.migrationreport_a.set(Blurbs.GeneralStatistics,"Record processed",self.count)
@@ -998,7 +992,7 @@ class compositePurchaseorders():
                         else:
                             ordertitleUUID=self.get_title(client,element="instances",searchValue=titleUUID,query=f"?query=(identifiers=")
                         if ordertitleUUID is None:
-                            print(f"INFO Title: {titlepoLine}")
+                            logging.info("INFO Title: %s", titlepoLine)
                             newinstanceid=self.createinstance(client,titlepoLine,titleUUID,linkId,self.po_LineNumber)
                             cp["instanceId"]=str(newinstanceid)
                             self.nointance=True
@@ -1013,12 +1007,12 @@ class compositePurchaseorders():
                     self.nointance=True
                     
                 if self.nointance:
-                    print(f"INFO Title: {titlepoLine}")
+                    logging.info("INFO Title: %s", titlepoLine)
                     cp["titleOrPackage"]=titlepoLine
                     cp["isPackage"]=False
                     self.nointance=True
                     self.printnote=False
-                    mf.write_file(ruta=f"{self.path_logs}\\titlesNotFounds.log",contenido=f"{self.po_LineNumber}    {titleUUID} {titlepoLine}   instance ID:    {newinstanceid}")
+                    mf.write_file(ruta=f"{self.path_logs}/titlesNotFounds.log",contenido=f"{self.po_LineNumber}    {titleUUID} {titlepoLine}   instance ID:    {newinstanceid}")
                     
 
                     
@@ -1463,12 +1457,12 @@ class compositePurchaseorders():
             self.migrationreport_a.add(Blurbs.PolinesErrors,f"ERROR POLINE:{masterPo} | {self.po_LineNumber} | {field} {ee}")
             print(ee)
             print(self.po_LineNumber)
-            mf.write_file(ruta=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {field} {ee}")
+            mf.write_file(ruta=self.path_logs+"/poLinesErrors.log",contenido=f"Order:{masterPo} {field} {ee}")
             print(f"ERROR POLINE:{masterPo} | {self.po_LineNumber} | {field} {ee}")   
             logging.info(f"ERROR POLINE:{masterPo} | {self.po_LineNumber} | {field} {ee}")   
         except ValueError:
             print(self.po_LineNumber)
-            mf.write_file(ruta=self.path_logs+"\\poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")
+            mf.write_file(ruta=self.path_logs+"/poLinesErrors.log",contenido=f"Order:{masterPo} {ee}")
             print(f"General Error on GET: {self.req.text} {self.req.status_code}")
             logging.info(f"General Error on GET:{masterPo} | {self.po_LineNumber} | {ee}")   
 
@@ -1557,7 +1551,7 @@ class compositePurchaseorders():
                 for x, cptemp in temp.iterrows():
                     dataToreturn=str(cptemp['FOLIO']).strip()
             else:
-                    mf.write_file(ruta=self.path_logs+"\\workflowNotfound.log",contenido=f"{toSearch}")
+                    mf.write_file(ruta=self.path_logs+"/workflowNotfound.log",contenido=f"{toSearch}")
                     self.noprint=False
                     dataToreturn=None
             return dataToreturn
@@ -1679,15 +1673,14 @@ class compositePurchaseorders():
             else:
                 return None
         except Exception as ee:
-            print(f"ERROR: GET TITLE {ee}")
-            logging.info(f"ERROR: GET TITLE {ee}")    
+            logging.error(f"GET TITLE %s", ee)    
             
             
     def createinstance(self, client,titleOrPackage,titleUUID,linkId,poNumbertitle):
         try:
             idinstance=""
             self.createinstanid=True
-            print(f"INFO Creating instance for title {titleOrPackage} {titleUUID}")
+            logging.info(f"Creating instance for title %s %s", titleOrPackage, titleUUID)
             idinstance=str(uuid.uuid4())
             instance= {
                                         "id": idinstance,
@@ -1746,7 +1739,7 @@ class compositePurchaseorders():
             mf.printObject(ordertitle,self.path_results,0,f"{client}_orders-storage-titles_{self.dt}",False)
             logging.info(f"INFO: Title created {titleOrPackage} | {idinstance}") 
         except Exception as ee:
-            print(f"ERROR: GET TITLE {ee}")        
+            logging.error(f"GET TITLE %s", ee)        
             
             
     def lup(self,value):
@@ -1769,7 +1762,7 @@ class compositePurchaseorders():
     #             locationId=mf.readJsonfile(self.path_refdata,f"{client}_locations.json","locations",result,"code")
     #             if locationId is None:
     #                 locationId="None"
-    #                 mf.write_file(ruta=self.path_logs+"\\locationsNotFounds.log",contenido=locationtoSearch)                            
+    #                 mf.write_file(ruta=self.path_logs+"/locationsNotFounds.log",contenido=locationtoSearch)                            
     #         else:
     #             loca=[]
     #             x = locationtoSearch.split(",")
@@ -1790,7 +1783,7 @@ class compositePurchaseorders():
     #                     locid=mf.readJsonfile(self.path_refdata,f"{client}_locations.json","locations",result,"code")
     #                     if locid is None:
     #                         locid="None"
-    #                         mf.write_file(ruta=self.path_logs+"\\locationsNotFounds.log",contenido=locationtoSearch)
+    #                         mf.write_file(ruta=self.path_logs+"/locationsNotFounds.log",contenido=locationtoSearch)
     #                 #loca1.append([str(locid[0]),qP])
     #                 if orderFormat.upper()=="PHYSICAL RESOURCE":
     #                     loca.append({"locationId":locid[0],"quantity":int(qP), "quantityPhysical":int(qP)}) 
@@ -1834,7 +1827,7 @@ class compositePurchaseorders():
     #                             else:
     #                                 fundDistribution.append(mf.dic(code=code,fundId=fundId,distributionType="percentage",value=valuefund))
     #                         else:
-    #                             mf.write_file(ruta=self.path_logs+"\\fundsNotfounds.log",contenido=f"{self.po_LineNumber} {fundcodeTosearch}")
+    #                             mf.write_file(ruta=self.path_logs+"/fundsNotfounds.log",contenido=f"{self.po_LineNumber} {fundcodeTosearch}")
                                 
     #                     else:
     #                         fundlist=[]
@@ -1853,7 +1846,7 @@ class compositePurchaseorders():
     #                                     expsearchtoValue=str(cprow[field]).strip()
     #                                     expenseClassId=mf.readJsonfile(self.path_refdata,f"{client}_expenseClasses.json","expenseClasses",expsearchtoValue,"code")
     #                                     if expenseClassId is None:
-    #                                         mf.write_file(ruta=self.path_logs+"\\expensesNotfounds.log",contenido=f"{self.po_LineNumber} {expsearchtoValue}")
+    #                                         mf.write_file(ruta=self.path_logs+"/expensesNotfounds.log",contenido=f"{self.po_LineNumber} {expsearchtoValue}")
     #                                     #expenseClassId=get_Id(customerName,element="expenseClasses",searchValue=searchtoValue)
     #                                 #get_funId(searchValue,orderFormat,client):
     #                             fundId=mf.readJsonfile_fund(self.path_refdata,f"{client}_funds.json","funds",codeTosearch,"code")
@@ -1867,7 +1860,7 @@ class compositePurchaseorders():
         instancebibexit=[]
         instancebibnoexit=[]
         tupla_order = self.orders['compositePoLines[0].instanceId'].unique()
-        instancefile=self.path_refdata+"\\instanceid.json"
+        instancefile=self.path_refdata+"/instanceid.json"
         if os.path.exists(instancefile):
             pass:
         else:
@@ -1877,7 +1870,7 @@ class compositePurchaseorders():
                 if ordertitleUUID is None:
                     print(f"INFO Title: {bibid}")
                     #instancebibnoexit=[]
-                    mf.write_file(ruta=f"{self.path_logs}\\titlesNotFoundsbyidentifier.log",contenido=f"{bibid}")
+                    mf.write_file(ruta=f"{self.path_logs}/titlesNotFoundsbyidentifier.log",contenido=f"{bibid}")
                 else: 
                     instancebibexist.append([str(bibid),str(ordertitleUUID[0]),str(ordertitleUUID[1])])
                     

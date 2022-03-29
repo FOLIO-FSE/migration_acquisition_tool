@@ -1,5 +1,5 @@
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+#import tkinter as tk
+#from tkinter import filedialog, messagebox, ttk
 
 class window:
     def __init__(self, master,titlewin,geometrywin, customerName):

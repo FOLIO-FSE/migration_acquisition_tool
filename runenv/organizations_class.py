@@ -17,8 +17,8 @@ import random
 import logging
 import validator
 import ast
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+#import tkinter as tk
+#from tkinter import filedialog, messagebox, ttk
 import time
 from datetime import datetime
 import yaml
@@ -31,15 +31,15 @@ class organizations():
         try:
             self.path_dir=path_dir
             self.customerName=client
-            #os.mkdir(f"{path_dir}\\results")
-            self.path_results=f"{path_dir}\\results"
-            #os.mkdir(f"{path_dir}\\data")
-            self.path_data=f"{path_dir}\\data"
-            #os.mkdir(f"{path_dir}\\logs")
-            self.path_logs=f"{path_dir}\\logs"
-            #os.mkdir(f"{path_dir}\\refdata")
-            self.path_refdata=f"{path_dir}\\refdata"
-            self.organizationbyline=self.path_logs+"\\"+self.customerName+"_organizationbyline.json"
+            #os.mkdir(f"{path_dir}/results")
+            self.path_results=f"{path_dir}/results"
+            #os.mkdir(f"{path_dir}/data")
+            self.path_data=f"{path_dir}/data"
+            #os.mkdir(f"{path_dir}/logs")
+            self.path_logs=f"{path_dir}/logs"
+            #os.mkdir(f"{path_dir}/refdata")
+            self.path_refdata=f"{path_dir}/refdata"
+            self.organizationbyline=self.path_logs+"/"+self.customerName+"_organizationbyline.json"
             #print(self.organizationbyline)
             self.organizationbyline=open(self.organizationbyline, 'w')
             self.interfaces_created = 0
@@ -52,11 +52,11 @@ class organizations():
     def readMappingfile(self):
         try:       
             self.customerName=pd.dataframe()
-            filetoload=self.path_refdata+f"\\acquisitionMapping.xlsx"
+            filetoload=self.path_refdata+f"/acquisitionMapping.xlsx"
             print("INFO Reading mapping file")
             self.paymentMethodAccount=self.customerName.importDataFrame(filetoload,sheetName="paymentMethodAccount",dfname="Payment Method")
             self.categories=self.customerName.importDataFrame(filetoload,sheetName="categories", dfname="Categories")
-            with open(self.path_refdata+"\\organization_mapping.json") as json_mappingfile:
+            with open(self.path_refdata+"/organization_mapping.json") as json_mappingfile:
                 self.mappingdata = json.load(json_mappingfile)
             self.paymentMethod= ["Cash","Credit Card","EFT","Deposit Account","Physical Check","Bank Draft","Internal Transfer","Other"]
         except Exception as ee:
@@ -228,7 +228,7 @@ class organizations():
                                     toSearch=str(row[field]).strip()
                                     cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
                                     if cate is None:
-                                        mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                        mf.write_file(ruta=self.path_logs+"/categoriesNotFounds.log",contenido=f"{toSearch}")
                                     else:                                         
                                         categories.append(cate[0])
                             field=f"addresses[{iter}].language"
@@ -300,7 +300,7 @@ class organizations():
                                             toSearch=str(row[field]).strip()
                                             cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
                                             if cate is None:
-                                                mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                                mf.write_file(ruta=self.path_logs+"/categoriesNotFounds.log",contenido=f"{toSearch}")
                                             else:                                         
                                                 categories.append(cate)
                                 orgphonNumbers.append(mf.dic(phoneNumber= phonNumbers,type=phonenumbertype, isPrimary= isPrimary, language=language,categories=categories))
@@ -348,7 +348,7 @@ class organizations():
                                         toSearch=str(row[field]).strip()
                                         cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
                                         if cate is None:
-                                            mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                            mf.write_file(ruta=self.path_logs+"/categoriesNotFounds.log",contenido=f"{toSearch}")
                                         else:                                         
                                             categories.append(cate)
                                 orgemails.append(mf.dic(value=email,description=desc,language=language,isPrimary= isPrimary, categories=categories))
@@ -413,7 +413,7 @@ class organizations():
                                         toSearch=str(row[field]).strip()
                                         cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
                                         if cate is None:
-                                            mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                            mf.write_file(ruta=self.path_logs+"/categoriesNotFounds.log",contenido=f"{toSearch}")
                                         else:                                         
                                             categories.append(cate)
                             
@@ -734,7 +734,7 @@ class organizations():
                                             toSearch=str(rowc[field]).strip()
                                             cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
                                             if cate is None:
-                                                mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                                mf.write_file(ruta=self.path_logs+"/categoriesNotFounds.log",contenido=f"{toSearch}")
                                             else:
                                                 categories.append(cate)
                                     conphonNumbers.append(mf.dic(phoneNumber= phonNumbers,type=phonenumbertype, isPrimary= isPrimary, language="eng-us",categories=categories))
@@ -788,7 +788,7 @@ class organizations():
                                         toSearch=str(rowc[field]).strip()
                                         cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
                                         if cate is None:
-                                            mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                            mf.write_file(ruta=self.path_logs+"/categoriesNotFounds.log",contenido=f"{toSearch}")
                                         else:                                         
                                             categories.append(cate)
                             
@@ -840,7 +840,7 @@ class organizations():
                                         toSearch=str(rowc[field]).strip()
                                         cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
                                         if cate is None:
-                                            mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                            mf.write_file(ruta=self.path_logs+"/categoriesNotFounds.log",contenido=f"{toSearch}")
                                         else:                                         
                                             categories.append(cate)
                                 conurls.append(mf.dic(value=url, description=desc,note=note,language="eng-us",categories=categories))                
@@ -874,7 +874,7 @@ class organizations():
                                         toSearch=str(rowc[field]).strip()
                                         cate=mf.readJsonfile(self.path_refdata,client+"_categories.json","categories",toSearch,"value")
                                         if cate is None:
-                                            mf.write_file(ruta=self.path_logs+"\\categoriesNotFounds.log",contenido=f"{toSearch}")
+                                            mf.write_file(ruta=self.path_logs+"/categoriesNotFounds.log",contenido=f"{toSearch}")
                                         else:                                         
                                             categories.append(cate)
                                 conemails.append(mf.dic(value=email,description=desc,language="eng-us",isPrimary= True, categories=categories))

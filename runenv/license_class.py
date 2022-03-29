@@ -20,8 +20,8 @@ import random
 import logging
 import validator
 import ast
-#import tkinter as tk
-#from tkinter import filedialog, messagebox, ttk
+##import tkinter as tk
+##from tkinter import filedialog, messagebox, ttk
 import time
 import yaml
 import shutil
@@ -42,17 +42,17 @@ class licenses():
             dt = datetime.datetime.now()
             self.dt=dt.strftime('%Y%m%d-%H-%M')
             self.path_dir=path_dir
-            #os.mkdir(f"{path_dir}\\results")
-            self.path_results=f"{path_dir}\\results"
-            #os.mkdir(f"{path_dir}\\data")
-            self.path_data=f"{path_dir}\\data"
-            #os.mkdir(f"{path_dir}\\logs")
-            self.path_logs=f"{path_dir}\\logs"
-            #os.mkdir(f"{path_dir}\\refdata")
-            self.path_refdata=f"{path_dir}\\refdata"
-            self.path_mapping_files=f"{path_dir}\\mapping_files"
-            logging.basicConfig(filename=f"{self.path_logs}\\licenses-{self.dt}.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
-            mappingfile=self.path_mapping_files+"\\license_mapping.json"
+            #os.mkdir(f"{path_dir}/results")
+            self.path_results=f"{path_dir}/results"
+            #os.mkdir(f"{path_dir}/data")
+            self.path_data=f"{path_dir}/data"
+            #os.mkdir(f"{path_dir}/logs")
+            self.path_logs=f"{path_dir}/logs"
+            #os.mkdir(f"{path_dir}/refdata")
+            self.path_refdata=f"{path_dir}/refdata"
+            self.path_mapping_files=f"{path_dir}/mapping_files"
+            logging.basicConfig(filename=f"{self.path_logs}/licenses-{self.dt}.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
+            mappingfile=self.path_mapping_files+"/license_mapping.json"
             if os.path.exists(mappingfile):  
                 with open(mappingfile) as json_mappingfile:
                     self.mappingdata = json.load(json_mappingfile)
@@ -62,7 +62,7 @@ class licenses():
     def readMappingfile(self):
         try:
             self.flag=True
-            filetoload=self.path_mapping_files+f"\\acquisitionMapping.xlsx"            
+            filetoload=self.path_mapping_files+f"/acquisitionMapping.xlsx"            
             if os.path.exists(filetoload):
                 myobj = datetime.datetime.now()
                 self.dobj=myobj.strftime('%T')
@@ -71,9 +71,9 @@ class licenses():
                 print(f"{self.dobj} INFO Reading Mapping {filetoload}")
                 logging.info(f"{self.dobj} INFO Reading Mapping {filetoload}")
                 #self.customerName.importDataFrame(filetoload,sheetName="acquisitionMethod", dfname="Acquisition Method")
-                self.dforg=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_organizations.json",schema="organizations"),dfname="Organizations",columns=["id", "code","name","value","json"])
-                #self.custprops=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_licenses_custprops.json"),dfname="License custprops",columns=["id", "code","name","value","json"])
-                #self.refdata=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_licenses_refdata.json"),dfname="License refdata",columns=["id", "code","name","value","json"])
+                self.dforg=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_organizations.json",schema="organizations"),dfname="Organizations",columns=["id", "code","name","value","json"])
+                #self.custprops=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_licenses_custprops.json"),dfname="License custprops",columns=["id", "code","name","value","json"])
+                #self.refdata=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"/{self.client}_licenses_refdata.json"),dfname="License refdata",columns=["id", "code","name","value","json"])
             else:
                 logging.info(f"ERROR Acquisition Mapping spreadsheet does not exist: {filetoload} check")
                 print(f"ERROR Acquisition Mapping spreadsheet does not exist: {filetoload}")

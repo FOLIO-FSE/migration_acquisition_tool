@@ -8,6 +8,12 @@ requests = "*"
 pandas = "*"
 validator = "*"
 pyyaml = "*"
+pipfile = "*"
+xlsx2csv = "*"
+isbnlib = "*"
+matplotlib = "*"
+tqdm = "*"
+openpyxl = "*"
 
 [dev-packages]
 

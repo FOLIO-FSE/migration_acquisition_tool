@@ -1,7 +1,7 @@
 import functions_AcqErm as ma
 import migration_report as mr
-#from tkinter import *
-#from tkinter import filedialog, messagebox, ttk
+##from tkinter import *
+##from tkinter import filedialog, messagebox, ttk
 import argparse
 import os
 import os.path

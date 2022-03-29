@@ -15,8 +15,8 @@ import logging
 import pandas as pd
 import validator
 import ast
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+#import tkinter as tk
+#from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
 import functions_AcqErm as mf
 import time
@@ -56,7 +56,7 @@ class Agreements():
                     vendorToSearch=str(row['organizationCode_1']).strip()
                     OrganizationUUID=readJsonfile({self.path_refdata},f"{self.customerName}_organizations.json","organizations",vendorToSearch,"code")
                     if OrganizationUUID is None:
-                        write_file(path=f"{path_logs}\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
+                        write_file(path=f"{path_logs}/vendorsNotFounds.log",contenido=f"{vendorToSearch}")
                         countvendorerror+=1
                         printpoline=False
                         OrganizationUUID=readJsonfile(f"{path_refdata}",f"{self.customerName}_organizations.json","organizations","undefined","code")
@@ -87,7 +87,7 @@ class Agreements():
                     if vendorToSearch1!=vendorToSearch:
                         OrganizationUUID=readJsonfile(path_refdata,f"{self.customerName}_organizations.json","organizations",vendorToSearch,"code")
                         if OrganizationUUID is None:
-                            write_file(path=f"{path_logs}\\vendorsNotFounds.log",contenido=f"{vendorToSearch}")
+                            write_file(path=f"{path_logs}/vendorsNotFounds.log",contenido=f"{vendorToSearch}")
                             countvendorerror+=1
                             printpoline=False
                             OrganizationUUID=readJsonfile(f"{path_refdata}",f"{self.customerName}_organizations.json","organizations","undefined","code")
