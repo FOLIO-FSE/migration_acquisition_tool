@@ -18,8 +18,8 @@ import logging
 import validator
 import ast
 #from tabulate import tabulate
-#import tkinter as tk
-#from tkinter import filedialog, messagebox, ttk
+##import tkinter as tk
+##from tkinter import filedialog, messagebox, ttk
 import yaml
 import shutil
         
@@ -33,17 +33,17 @@ class compare_createdvstenant():
             self.dt=dt.strftime('%Y%m%d-%H-%M')    
             self.customerName=client
             self.path_dir=path_dir
-            #os.mkdir(f"{path_dir}\\results")
-            self.path_results=f"{path_dir}\\results"
-            #os.mkdir(f"{path_dir}\\data")
-            self.path_data=f"{path_dir}\\data"
-            #os.mkdir(f"{path_dir}\\logs")
-            self.path_logs=f"{path_dir}\\logs"
-            #os.mkdir(f"{path_dir}\\refdata")
-            self.path_refdata=f"{path_dir}\\refdata"
-            #self.path_mapping_files=f"{path_dir}\\mapping_files"
-            logging.basicConfig(filename=f"{self.path_logs}\\compare-{self.dt}.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
-            logging.basicConfig(filename=f"{self.path_logs}\\compare-DEBUG-{self.dt}.log", encoding='utf-8', level=logging.DEBUG,format='%(message)s')
+            #os.mkdir(f"{path_dir}/results")
+            self.path_results=f"{path_dir}/results"
+            #os.mkdir(f"{path_dir}/data")
+            self.path_data=f"{path_dir}/data"
+            #os.mkdir(f"{path_dir}/logs")
+            self.path_logs=f"{path_dir}/logs"
+            #os.mkdir(f"{path_dir}/refdata")
+            self.path_refdata=f"{path_dir}/refdata"
+            #self.path_mapping_files=f"{path_dir}/mapping_files"
+            logging.basicConfig(filename=f"{self.path_logs}/compare-{self.dt}.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
+            logging.basicConfig(filename=f"{self.path_logs}/compare-DEBUG-{self.dt}.log", encoding='utf-8', level=logging.DEBUG,format='%(message)s')
             print("INFO reading json")
             if 'json_file' in kwargs:
                 json_file=kwargs['json_file']

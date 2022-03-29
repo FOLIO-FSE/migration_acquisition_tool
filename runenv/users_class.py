@@ -15,8 +15,8 @@ import random
 import logging
 import validator
 import ast
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+#import tkinter as tk
+#from tkinter import filedialog, messagebox, ttk
 import yaml
 import shutil
 
@@ -27,24 +27,24 @@ class users():
     def __init__(self,client,path_dir):
         try:    
             self.customerName=client
-            self.path_results=f"{path_dir}\\results"
-            self.path_data=f"{path_dir}\\data"
-            self.path_logs=f"{path_dir}\\logs"
-            self.path_refdata=f"{path_dir}\\refdata"
-            #self.userbyline=open(f"{self.path_logs}\\{self.customerName}_usersbyline.json", 'w') 
+            self.path_results=f"{path_dir}/results"
+            self.path_data=f"{path_dir}/data"
+            self.path_logs=f"{path_dir}/logs"
+            self.path_refdata=f"{path_dir}/refdata"
+            #self.userbyline=open(f"{self.path_logs}/{self.customerName}_usersbyline.json", 'w') 
         except Exception as ee:
             print(f"ERROR: {ee}")
             
     def readMappingfile(self):
         self.customerName=pd.dataframe()
-        filetoload=self.path_refdata+f"\\userMapping.xlsx"
+        filetoload=self.path_refdata+f"/userMapping.xlsx"
         print("INFO Reading mapping file")
         self.groups=self.customerName.importDataFrame(filetoload,sheetName="groups")
         print(self.groups)
         self.departments=self.customerName.importDataFrame(filetoload,sheetName="departments")
         self.userStatus=self.customerName.importDataFrame(filetoload,sheetName="userStatus")
         self.addressType=self.customerName.importDataFrame(filetoload,sheetName="addressType")
-        with open(self.path_refdata+"\\users_mapping.json") as json_mappingfile:
+        with open(self.path_refdata+"/users_mapping.json") as json_mappingfile:
             self.mappingdata = json.load(json_mappingfile)
         
 
@@ -81,7 +81,7 @@ class users():
                         result=str(row['patronGroup']).strip()
                         patronuserId=mf.readJsonfile(self.path_refdata,client+"_usergroups.json","usergroups",result,"group")
                         if patronuserId is None:
-                            mf.write_file(ruta=self.path_logs+"\\patronusersNotFounds.log",contenido=f"{result}")
+                            mf.write_file(ruta=self.path_logs+"/patronusersNotFounds.log",contenido=f"{result}")
                             printusers=False
                         else:
                             patronGroupId=str(patronuserId[0])
@@ -182,7 +182,7 @@ class users():
                                         result=str(row[field]).strip()
                                         ptype=mf.readJsonfile(self.path_refdata,client+"_usergroups.json","usergroups",result,"group")
                                         if ptype is None:
-                                            mf.write_file(ruta=self.path_logs+"\\patronusersNotFounds.log",contenido=f"{result}")
+                                            mf.write_file(ruta=self.path_logs+"/patronusersNotFounds.log",contenido=f"{result}")
                                             printusers=False
                                         else:
                                             patronGroupId=ptype
@@ -303,7 +303,7 @@ class users():
                 for x, cptemp in temp.iterrows():
                     dataToreturn=cptemp['FOLIO']
             else:
-                mf.write_file(ruta=self.path_logs+"\\workflowNotfound.log",contenido=f"{toSearch}")
+                mf.write_file(ruta=self.path_logs+"/workflowNotfound.log",contenido=f"{toSearch}")
                 dataToreturn=None
             return dataToreturn
         

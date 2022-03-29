@@ -16,8 +16,8 @@ import logging
 import pandas as pd
 import validator
 import ast
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+#import tkinter as tk
+#from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
 import functions_AcqErm as mf
 
@@ -30,26 +30,26 @@ class notes():
         if 'dataframe' in kwargs:
             self.notes= kwargs['dataframe']
             self.customerName=client
-            #os.mkdir(f"{path_dir}\\results")
-            self.path_results=f"{path_dir}\\results"
-            #os.mkdir(f"{path_dir}\\data")
-            self.path_data=f"{path_dir}\\data"
-            #os.mkdir(f"{path_dir}\\logs")
-            self.path_logs=f"{path_dir}\\logs"
-            #os.mkdir(f"{path_dir}\\refdata")
-            self.path_refdata=f"{path_dir}\\refdata"
+            #os.mkdir(f"{path_dir}/results")
+            self.path_results=f"{path_dir}/results"
+            #os.mkdir(f"{path_dir}/data")
+            self.path_data=f"{path_dir}/data"
+            #os.mkdir(f"{path_dir}/logs")
+            self.path_logs=f"{path_dir}/logs"
+            #os.mkdir(f"{path_dir}/refdata")
+            self.path_refdata=f"{path_dir}/refdata"
             self.valuetitle=""
             self.valuetypeId=""
             self.valuedomainId=""
             v=""
             typev=""
             typed=""
-            mappingfile=self.path_refdata+"\\notes_mapping.json"
+            mappingfile=self.path_refdata+"/notes_mapping.json"
             if os.path.exists(mappingfile):  
                 with open(mappingfile) as json_mappingfile:
                     self.mappingdata = json.load(json_mappingfile)
             else:
-                print("INFO Notes Script: include: {self.path_refdata}\\notes_mapping.json file")
+                print("INFO Notes Script: include: {self.path_refdata}/notes_mapping.json file")
                 flag=False
             
             return          
@@ -96,7 +96,7 @@ class notes():
                     notes["typeId"]=self.valuetypeId
                     cate=mf.readJsonfile(self.path_refdata,client+"_noteTypes.json","noteTypes",self.valuetypeId,"id")
                     if cate is None:
-                        mf.write_file(ruta=self.path_logs+"\\notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
+                        mf.write_file(ruta=self.path_logs+"/notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
                         noteType=""
                     else:
                         noteType=cate[1]
@@ -225,7 +225,7 @@ class notes():
                 print(f"ERROR: {ee}")
             
     def readmapping(self,toSearch):
-        with open(self.path_refdata+"\\notes_mapping.json") as json_mappingfile:
+        with open(self.path_refdata+"/notes_mapping.json") as json_mappingfile:
             self.mappingdata = json.load(json_mappingfile)
             for i in self.mappingdata['data']:
                 if i['folio_field']==toSearch:

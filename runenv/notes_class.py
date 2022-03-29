@@ -20,8 +20,8 @@ import logging
 import pandas as pd
 import validator
 import ast
-#import tkinter as tk
-#from tkinter import filedialog, messagebox, ttk
+##import tkinter as tk
+##from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
 import logging
 
@@ -43,17 +43,17 @@ class notes():
             self.dtnote=dt.strftime('%Y%m%d-%H-%M')                        
             self.notes= kwargs['dataframe']
             self.notes['printed']=False
-            self.notes_mapping="notes_mapping.json"                                         #os.mkdir(f"{path_dir}\\results")
-            self.path_results=f"{path_dir}\\results"
-            self.path_reports=f"{path_dir}\\reports"
-            #os.mkdir(f"{path_dir}\\data")
-            self.path_data=f"{path_dir}\\data"
-            #os.mkdir(f"{path_dir}\\logs")
-            self.path_logs=f"{path_dir}\\logs"
-            #os.mkdir(f"{path_dir}\\refdata")
-            self.path_refdata=f"{path_dir}\\refdata"
-            self.path_mapping_files=f"{path_dir}\\mapping_files"
-            logging.basicConfig(filename=f"{self.path_logs}\\notes.log", encoding='utf-8', level=logging.INFO,format='%(message)s')            
+            self.notes_mapping="notes_mapping.json"                                         #os.mkdir(f"{path_dir}/results")
+            self.path_results=f"{path_dir}/results"
+            self.path_reports=f"{path_dir}/reports"
+            #os.mkdir(f"{path_dir}/data")
+            self.path_data=f"{path_dir}/data"
+            #os.mkdir(f"{path_dir}/logs")
+            self.path_logs=f"{path_dir}/logs"
+            #os.mkdir(f"{path_dir}/refdata")
+            self.path_refdata=f"{path_dir}/refdata"
+            self.path_mapping_files=f"{path_dir}/mapping_files"
+            logging.basicConfig(filename=f"{self.path_logs}/notes.log", encoding='utf-8', level=logging.INFO,format='%(message)s')            
             self.valuetitle=""
             self.valuetypeId=""
             self.valuedomainId=""
@@ -67,14 +67,14 @@ class notes():
             if 'notes_mapping_file' in kwargs:
                 self.notes_mapping= kwargs['notes_mapping_file']
             else:
-                self.notes_mapping=f"{self.path_mapping_files}\\notes_mapping.json"
+                self.notes_mapping=f"{self.path_mapping_files}/notes_mapping.json"
             #mappingfile=self.path_mapping_files+f"/{self.notes_mapping}"
             if os.path.exists(self.notes_mapping):  
                 with open(self.notes_mapping) as json_mappingfile:
                     self.mappingdata = json.load(json_mappingfile)
                 logging.info(f"INFO Reading {self.notes_mapping} OK")
             else:
-                print("INFO Notes Script: include: {self.path_mapping_files}\\notes_mapping.json file")
+                print("INFO Notes Script: include: {self.path_mapping_files}/notes_mapping.json file")
                 logging.info(f"INFO Reading {self.mappingfile} ERROR") 
                 flag=False
                 
@@ -134,7 +134,7 @@ class notes():
         if self.valuetypeId:
             cate=mf.readJsonfile(self.path_refdata,client+"_noteTypes.json","noteTypes",self.valuetypeId,"id")
             if cate is None:
-                mf.write_file(ruta=self.path_logs+"\\notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
+                mf.write_file(ruta=self.path_logs+"/notetypesNotFounds.log",contenido=f"{self.valuetypeId}")
                 noteType=""
         contall=""
         noprint=False
@@ -376,7 +376,7 @@ class notes():
                 print(f"ERROR: {ee}")
             
     def readmapping(self,toSearch):
-        with open(self.path_refdata+"\\notes_mapping.json") as json_mappingfile:
+        with open(self.path_refdata+"/notes_mapping.json") as json_mappingfile:
             self.mappingdata = json.load(json_mappingfile)
             for i in self.mappingdata['data']:
                 if i['folio_field']==toSearch:

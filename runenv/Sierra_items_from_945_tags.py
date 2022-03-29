@@ -62,7 +62,7 @@ def sierra_get_items(path_file):
                     RECORDBIBLIO=l[2:]
                 # else:
                 #     print("error")
-                #     with open("C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\Cairn\\data\\norecordbibloerror.txt","a",encoding="utf-8") as errornobiblio:
+                #     with open("C:/Users/asoto/Documents/EBSCO/Migrations/folio/client_data/Cairn/data/norecordbibloerror.txt","a",encoding="utf-8") as errornobiblio:
                 #         errornobiblio.write(new_line+"\n")    
                 if l[0]=="c":
                     creationdate=l[1:]
@@ -73,7 +73,7 @@ def sierra_get_items(path_file):
             if new_line.find("MARCIVE")==-1:
                 tagtemp=tag945.split("$")
                 print(tagtemp)
-                #['\\\\', 'g1', 'i35800000235186', 'lmcrc1', 'o-', 'p{dollar}50.00', 'q-', 'r-', 's-  ', 
+                #['//', 'g1', 'i35800000235186', 'lmcrc1', 'o-', 'p{dollar}50.00', 'q-', 'r-', 's-  ', 
                 # 't1', 'u0', 'v0', 'w0', 'x0', 'y.i10000021', 'z010530\n']
                 #                               INTNOTE,STATUS,IMESSAGE,PRICE,INTNOTE_1,MESSAGE(ITEM),PBARCODE
             # a	Call number part 1
@@ -153,7 +153,7 @@ def sierra_get_items(path_file):
             #                               DUEDATE,TOTRENEW,TOTCHKOUT,INTLUSE,YTDCIRC,LYRCIRC,INVDA,MESSAGEITEM,
             #                               INTNOTE,STATUS,IMESSAGE,PRICE,INTNOTE_1,MESSAGE(ITEM),PBARCODE])
         
-        with open("C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\Cairn\\data\\marc.mrk","a",encoding="utf-8") as newmarc:
+        with open("C:/Users/asoto/Documents/EBSCO/Migrations/folio/client_data/Cairn/data/marc.mrk","a",encoding="utf-8") as newmarc:
             newmarc.write(new_line+"\n")        
        
         
@@ -161,7 +161,7 @@ def sierra_get_items(path_file):
     #                                       'DUE DATE','TOT RENEW','TOT CHKOUT','INTL USE ','YTDCIRC','LYRCIRC','INVDA','MESSAGEITEM',
     #                                       'INT NOTE','STATUS','IMESSAGE','PRICE','INT NOTE_1','MESSAGE(ITEM)','P BARCODE'])
     
-    #df_item.to_csv('C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\Cairn\\data\\New_items_cairn.tsv', sep = '\t', index=False)
+    #df_item.to_csv('C:/Users/asoto/Documents/EBSCO/Migrations/folio/client_data/Cairn/data/New_items_cairn.tsv', sep = '\t', index=False)
 
 
 '''items.append([str(row['Z30_REC_KEY_FULL']).strip(),str(newId),str(row['N_SISTEMA']).strip(),str(row['COPIA']).strip(),str(row['Z30_REC_KEY']).strip(),str(row['Z30_BARCODE']).strip(),str(row['z30_barcode-SIN-ESPACIOS']).strip(),str(row['Z30_SUB_LIBRARY']).strip(),str(row['Z30_MATERIAL']).strip(),str(row['Z30_ITEM_STATUS']).strip(),str(row['Z30_ITEM_PROCESS_STATUS']).strip(),row['Z30_OPEN_DATE'],row['Z30_UPDATE_DATE'],str(row['Z30_CATALOGER']).strip(),row['Z30_DATE_LAST_RETURN'],row['Z30_HOUR_LAST_RETURN'],str(row['Z30_IP_LAST_RETURN']).strip(),row['Z30_NO_LOANS'],str(row['Z30_ALPHA']).strip(),str(row['Z30_COLLECTION']).strip(),str(row['Z30_CALL_NO_TYPE']).strip(),clasificacion,str(row['PREFIX']).strip(),str(row['DEWEY']).strip(),str(row['POS']).strip(),str(row['Z30_CALL_NO_KEY']).strip(),str(row['Z30_CALL_NO_2_TYPE']).strip(),str(row['Z30_CALL_NO_2']).strip(),str(row['Z30_CALL_NO_2_KEY']).strip(),str(row['Z30_DESCRIPTION']).strip(),str(row['Z30_NOTE_OPAC']).strip(),str(row['Z30_NOTE_CIRCULATION']).strip(),str(row['Z30_NOTE_INTERNAL']).strip(),str(row['Z30_ORDER_NUMBER']).strip(),str(row['Z30_INVENTORY_NUMBER']).strip(),row['Z30_INVENTORY_NUMBER_DATE'],['Z30_LAST_SHELF_REPORT_DATE'],row['Z30_PRICE'],row['Z30_SHELF_REPORT_NUMBER'],row['Z30_ON_SHELF_DATE'],str(row['Z30_ON_SHELF_SEQ']).strip(),str(row['Z30_REC_KEY_2']).strip(),str(row['Z30_REC_KEY_3']).strip(),str(row['Z30_PAGES']).strip(),row['Z30_ISSUE_DATE'],row['Z30_EXPECTED_ARRIVAL_DATE'],row['Z30_ARRIVAL_DATE'],str(row['Z30_ITEM_STATISTIC']).strip(),str(row['Z30_COPY_ID']).strip(),str(row['Z30_HOL_DOC_NUMBER_X']).strip(),str(row['Z30_TEMP_LOCATION']).strip(),str(row['Z30_ENUMERATION_A']).strip(),str(row['Z30_ENUMERATION_B']).strip(),str(row['Z30_ENUMERATION_C']).strip(),str(row['Z30_ENUMERATION_D']).strip(),str(row['Z30_ENUMERATION_E']).strip(),str(row['Z30_ENUMERATION_F']).strip(),str(row['Z30_ENUMERATION_G']).strip(),str(row['Z30_ENUMERATION_H']).strip(),str(row['Z30_CHRONOLOGICAL_I']).strip(),str(row['Z30_CHRONOLOGICAL_J']).strip(),str(row['Z30_CHRONOLOGICAL_K']).strip(),str(row['Z30_CHRONOLOGICAL_L']).strip(),str(row['Z30_CHRONOLOGICAL_M']).strip(),str(row['Z30_SUPP_INDEX_O']).strip(),str(row['Z30_85X_TYPE']).strip(),str(row['Z30_DEPOSITORY_ID']).strip(),str(row['Z30_LINKING_NUMBER']).strip(),str(row['Z30_GAP_INDICATOR']).strip(),str(row['Z30_MAINTENANCE_COUNT']).strip(),row['Z30_PROCESS_STATUS_DATE'],row['Z30_UPD_TIME_STAMP'],str(row['Z30_IP_LAST_RETURN_V6']).strip()])'''
@@ -170,5 +170,5 @@ if __name__ == "__main__":
     """This is the Starting point for the script"""
     #replaceItemIPVG()
     #ipvg_001() # reemplazar la 001 del archivo original de Aleph
-    pathfile="C:\\Users\\asoto\\Documents\\EBSCO\\Migrations\\folio\\client_data\\Cairn\\data\\foliounsuppressedjan312022.mrk"
+    pathfile="C:/Users/asoto/Documents/EBSCO/Migrations/folio/client_data/Cairn/data/foliounsuppressedjan312022.mrk"
     sierra_get_items(pathfile)
