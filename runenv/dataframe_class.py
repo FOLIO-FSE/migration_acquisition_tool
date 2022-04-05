@@ -116,6 +116,7 @@ class dataframe():
                 lendf = len(self.df)
                 if self.filename.find("acquisitionMapping.xlsx")!=-1:
                     self.df.rename(columns={ self.df.columns[1]: "LEGACY SYSTEM" }, inplace=True)
+                    self.df.rename(columns={ self.df.columns[0]: "FOLIO" }, inplace=True)
                 if self.sheet_name:      
                     print(f"INFO File <<{self.dfname}>>")
                 else:
