@@ -1221,24 +1221,15 @@ class compositePurchaseorders():
 
                 #Ongoing
                 receiptDate=""
-                
                 field="compositePoLines[0].receiptDate"
-                if field in poLines.columns:
-                    if cprow[field]:
-                        if cprow[field]!="  -  -  ":
-                            try:
-                                dater=""
-                                dater=cprow[field]                               
-                                receiptDate=dater.strftime("%Y-%m-%dT%H:%M:%S.000+00:00") 
-                                    # receitdate=cprow[field]
-                                    # M=receitdate[0:2]
-                                    # D=receitdate[3:5] 
-                                    # Y=receitdate[6:10]
-                                    # dater=f"{Y}-{M}-{D}"   
-                                    # receiptDate=f"{Y}-{M}-{D}T00:00:00.000+00:00"
-                            except Exception as ee:
-                                receiptDatetemp=str(dater)
-                                receiptDate=self.date_stamp(receiptDatetemp)
+                if field in poLines.columns and cprow[field] and cprow[field] != "  -  -  ":
+                    try:
+                        receiptDate=cprow[field]
+                        format_date = dateutil.parser.parse(receiptDate, fuzzy=True)
+                        receiptDate = format_date.isoformat()
+                    except Exception as ee:
+                        receiptDatetemp=str(dater)
+                        receiptDate=self.date_stamp(receiptDatetemp)
 
                 cp['receiptDate']=receiptDate
                 
