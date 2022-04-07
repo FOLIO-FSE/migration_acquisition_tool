@@ -511,27 +511,23 @@ class compositePurchaseorders():
 
                         field="manualPo"
                         Order["manualPo"]= False
+
                         #PURCHASE ORDER NOTES
-                        notea=[]
+                        array_of_notes=[]
                         iter=0
                         sw=True
                         while sw:
                             field="notes["+str(iter)+"]"
                             if field in self.orders.columns:
                                 if row[field]:
-                                    valuenote={}
-                                    valuenote=self.readcompositepurchaseorderMapping(folio_field=field)
-                                    if valuenote:
-                                        valuenote=valuenote.get("legacy_field")
-                                        notespo=f"{valuenote}: "+str(row[field]).strip()
-                                    else:
-                                        notespo=str(row[field]).strip()
-                                    notea.append(notespo)
+                                    notes=row[field].split(";")
+                                    for note in notes:
+                                        array_of_notes.append(note.strip())
                             else:
                                 sw=False
-                            iter+=1
-                            
-                        Order["notes"]=notea
+                            iter+=1      
+                        Order["notes"]= array_of_notes
+
                         if poNumber=="o1484302x":
                             a=1
                         #IS SUSCRIPTION FALSE/TRUE
