@@ -15,8 +15,8 @@ import logging
 import pandas as pd
 import validator
 import ast
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+#import tkinter as tk
+#from tkinter import filedialog, messagebox, ttk
 import backup_restore as br
 import functions_AcqErm as mf
 import time
