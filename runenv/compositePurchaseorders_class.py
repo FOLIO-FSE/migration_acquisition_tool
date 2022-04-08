@@ -33,7 +33,7 @@ from tqdm import tqdm
 ##ORDERS CLASS
 ################################
 class compositePurchaseorders():
-    def __init__(self,client,path_dir):
+    def __init__(self,client,path_dir,readmappingPO):
         try:
             self.migrationreport_a=mr.MigrationReport()
             self.migrationreport_a.add_general_statistics("Composite purchase Orders")
@@ -55,7 +55,7 @@ class compositePurchaseorders():
             self.path_mapping_files=f"{path_dir}\\mapping_files"
             logging.basicConfig(filename=f"{self.path_logs}\\composite_purchaseorders-{self.dt}.log", encoding='utf-8', level=logging.INFO,format='%(message)s')
             logging.basicConfig(filename=f"{self.path_logs}\\composite_purchaseorders-DEBUG-{self.dt}.log", encoding='utf-8', level=logging.DEBUG,format='%(message)s')
-            mappingfile=self.path_mapping_files+"\\composite_purchase_order_mapping.json"
+            mappingfile=readmappingPO
             if os.path.exists(mappingfile):  
                 with open(mappingfile) as json_mappingfile:
                     self.mappingdata = json.load(json_mappingfile)
@@ -153,6 +153,7 @@ class compositePurchaseorders():
                     if len(tupla_order)>0:
                         for i in tupla_order:
                             toSearch=str(i).strip()
+                            
                             if dfmapping.empty:
                                 newvalue=toSearch
                             else:
@@ -170,11 +171,17 @@ class compositePurchaseorders():
                                 toSearchnewvalue=str(newvalue).strip()
                                 newvalue=self.searchdata_dataframe(self.dflocations,"code","id",toSearchnewvalue) 
                             elif schematosearch=="funds":
+                                #print(dfmapping)
                                 toSearchnewvalue=str(newvalue).strip()
                                 newvalue=self.searchdata_dataframe(self.dffunds,"code","id",toSearchnewvalue)
                             elif schematosearch=="fundsExpenseClass":
                                 toSearchnewvalue=newvalue
-                                newvalue=self.searchdata_dataframe(self.dfexpense,"code","id",toSearchnewvalue)
+                                newvalue=self.searchdata_dataframe(self.dffundsExpenseClass,"code","id",toSearchnewvalue)
+                                if newvalue is None:
+                                    valueinstanceid=self.readcompositepurchaseorderMapping(folio_field="compositePoLines[0].fundDistribution[0].expenseClassId")
+                                    if valueinstanceid:
+                                        newvalue=valueinstanceid.get("value")
+                                        recordmissing.append(toSearchnewvalue)
                             elif schematosearch=="paymentStatus":
                                 if newvalue is None:
                                     valueinstanceid=self.readcompositepurchaseorderMapping(folio_field="compositePoLines[0].paymentStatus")
@@ -238,7 +245,7 @@ class compositePurchaseorders():
                                 countfield=self.dfPolines[fieldtosearch].value_counts()[idx]
                                 print(f"{name} => {countfield}")
                                 #self.migrationreport_a.add(Blurbs.polinesmapping,f"{schematosearch}",f"{name} => {countfield}")
-                                print(self.mapping)
+                                #print(self.mapping)
                                 logging.info(f"{name} => {countfield}") 
                             #print(self.dfPolines[fieldtosearch].value_counts())
                             #logging.info(self.dfPolines[fieldtosearch].value_counts())
@@ -319,10 +326,12 @@ class compositePurchaseorders():
                 self.locations=self.customerName.importDataFrame(filetoload,sheetName="locations", dfname="locations")
                 self.dflocations=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_locations.json",schema="locations"),dfname="locations",columns=["id", "code","name","value","json"])
                 #print("Dataframe: Funds/Expenses")
-                self.fundsExpenseClass=self.customerName.importDataFrame(filetoload,sheetName="fundsExpenseClass", dfname="Expense Class",columns=["id", "code","name","value","json"])
+                self.expenseclass=self.customerName.importDataFrame(filetoload,sheetName="fundsExpenseClass",dfname="ExpenseClass")
+                self.dffundsExpenseClass=self.customerName.importDataFrame(filetoload,sheetName="fundsExpenseClass", dfname="Expense Class",columns=["id", "code","name","value","json"])
                 #print("Dataframe: Funds")
                 self.funds=self.customerName.importDataFrame(filetoload,sheetName="funds",dfname="Funds")
                 self.dffunds=self.customerName.importupla(tupla=mf.jsontotupla(json_file=self.path_refdata+f"\\{self.client}_funds.json",schema="funds"),dfname="funds",columns=["id", "code","name","value","json"])
+                
                 tupladistributionType=["amount","percentage"]
                 self.dfdistributionType=self.customerName.importupla(tupla=tupladistributionType,dfname="FOLIO Fund Distribution Type",columns=["name"])
                 #print("Dataframe: Organization code to Change - optional")
@@ -389,11 +398,17 @@ class compositePurchaseorders():
                 #POLINES
                 if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].eresource.materialType",dfmapping=self.dfmtype,swpolines=True)   
                 if self.flag: self.flag=self.checkingparameters(schematosearch="mtype", fieldtosearch="compositePoLines[0].physical.materialType",dfmapping=self.dfmtype,swpolines=True)
-                if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[0].code",dfmapping=self.funds,swpolines=True)
-                if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[1].code",dfmapping=self.funds,swpolines=True)
-                if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[2].code",dfmapping=self.funds,swpolines=True)
-                if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch="compositePoLines[0].fundDistribution[3].code",dfmapping=self.funds,swpolines=True)
-                if self.flag: self.flag=self.checkingparameters(schematosearch="fundsExpenseClass", fieldtosearch="compositePoLines[0].fundDistribution[0].expenseClassId",dfmapping=self.fundsExpenseClass,swpolines=True)
+                sw=True
+                iter=0
+                fundsdistributionids=[]
+                while sw:              
+                    field=f"compositePoLines[0].fundDistribution[{iter}].code"
+                    if field in self.dfPolines.columns:
+                        if self.flag: self.flag=self.checkingparameters(schematosearch="funds", fieldtosearch=f"compositePoLines[0].fundDistribution[{iter}].code",dfmapping=self.funds,swpolines=True)
+                        iter+=1
+                    else:
+                     sw=False
+                if self.flag: self.flag=self.checkingparameters(schematosearch="fundsExpenseClass", fieldtosearch="compositePoLines[0].fundDistribution[0].expenseClassId",dfmapping=self.expenseclass,swpolines=True)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="locations", fieldtosearch="compositePoLines[0].locations[0].locationId",dfmapping=self.locations,swpolines=True)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="locations", fieldtosearch="compositePoLines[0].locations[1].locationId",dfmapping=self.locations,swpolines=True)
                 if self.flag: self.flag=self.checkingparameters(schematosearch="locations", fieldtosearch="compositePoLines[0].locations[2].locationId",dfmapping=self.locations,swpolines=True)
@@ -515,8 +530,28 @@ class compositePurchaseorders():
                                 #Order["approvedById"]=""
                                 #Order["approvalDate"]= ""
                                 #Order["closeReason"]=dic(reason="",note="")
+                        field="closeReason.reason"
+                        if field in self.orders.columns:
+                            reasondic={}
+                            reasonNote=""
+                            reason=""
+                            if row[field]:
+                                reason=str(row[field]).strip()
+                                reasondic['reason']=reason
+                                field="closeReason.note"
+                                if field in self.orders.columns:
+                                    reasonNote=row[field].strip()
+                                    reasondic['note']=reasonNote
+                                
+                                Order["closeReason"]=reasondic
+                                
                         field="manualPo"
-                        Order["manualPo"]= False
+                        manualPo=False
+                        if field in self.orders.columns:
+                                if row[field]:
+                                    manualPo=str(row[field]).strip()
+                                    manualPo=manualPo.title()
+                        Order["manualPo"]= manualPo
                         #PURCHASE ORDER NOTES
                         notea=[]
                         iter=0
@@ -625,7 +660,7 @@ class compositePurchaseorders():
                         if field in self.orders.columns:
                             if row[field]:
                                 workflowStatus=str(row[field]).strip()                 
-                                if workflowStatus is not None:
+                                if workflowStatus != "Pending":
                                     approvedStatus=True
                             
                         Order["approved"]= approvedStatus
@@ -825,8 +860,6 @@ class compositePurchaseorders():
                         if collection.upper()=="TRUE":
                             collection=True
                 cp["collection"]=collection
-
-                
                 rush=False
                 field="compositePoLines[0].rush"
                 if field in poLines.columns:
@@ -847,7 +880,6 @@ class compositePurchaseorders():
                         if field in poLines.columns:
                             if cprow[field]:
                                 contributortype=cprow[field]
-                                
                         else:
                             contvalue=self.readcompositepurchaseorderMapping(folio_field=field)
                             if contvalue:
@@ -992,7 +1024,7 @@ class compositePurchaseorders():
                 titleUUID=""
                 if field in poLines.columns:
                     if cprow[field]:
-                        titleUUID=str(cprow[field]).strip()
+                        titleUUID="."+str(cprow[field]).strip()
                         if self.getidfile:
                             ordertitleUUID=self.get_title(client,element="instances",searchValue=titleUUID,query=f"/")
                         else:
@@ -1447,8 +1479,6 @@ class compositePurchaseorders():
                     cp["vendorDetail"]=vendetails
                 self.returnnotes=0       
                 if self.swnotes:      #dataframe,toSearch,linkId):
-                    if client=="washcoll" or client=="michstate_prod":
-                        masterPo="o"+masterPo
                     #if client=="massey":
                     #    masterPo=masterPo[:-1]
                     if self.printnote:                        
