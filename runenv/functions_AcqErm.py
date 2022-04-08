@@ -370,9 +370,9 @@ class AcqErm():
             elif self.sctr=="o":
                 schemas=["categories","acquisitionsUnits","organizations","noteTypes"]
             elif self.sctr=="p":
-                schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","tenant.addresses"]
+                schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","tenant.addresses","contributorNameTypes"]
             else:
-                schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments","tenant.addresses"]
+                schemas=["categories","acquisitionsUnits","organizations","mtypes","locations","funds","expenseClasses","noteTypes","servicepoints","overdueFinePolicies","lostItemFeePolicies","usergroups","departments","tenant.addresses", "contributorNameTypes"]
             #print(f"INFO Getting Okapi customer from okapi_customer files")
             #client=br.SearchClient(self.customerName)
             if self.customerName is not None:
@@ -736,13 +736,14 @@ class AcqErm():
                         existname=str(ls[self.value_a]['fileName'])
                         if existname!="":
                             filetoload=f"{self.path_data}/"+str(ls[self.value_a]['fileName'])
+                            readmappingPO=f"{self.path_mapping_files}/"+str(ls[self.value_a]['mappingfile'])
                             self.customerName=pd.dataframe()
                             #print(ls[self.value_a])
                             self.dforders=self.customerName.importDataFrame(filetoload,
                                             orderby=ls[self.value_a]['orderby'],
                                             distinct=ls[self.value_a]['distinct'],                                            
                                             sheetName=ls[self.value_a]['sheetName'],
-                                            mapping_file=self.path_purchaseMapping,
+                                            mapping_file=readmappingPO,
                                             dfname=self.value)
 
                             self.value_a="poLines"
@@ -755,14 +756,14 @@ class AcqErm():
                                             orderby=lsa[self.value_a]['orderby'],
                                             distinct=lsa[self.value_a]['distinct'],
                                             sheetName=lsa[self.value_a]['sheetName'],
-                                            mapping_file=self.path_purchaseMapping,
+                                            mapping_file=readmappingPO,
                                             dfname=self.value_a)
                             else:
-                                self.dfpoLine=self.dforders
+                                self.dfpoLines=self.dforders
                             #Notes
                             self.value="notes"
                             self.value_a=f"note[0]"
-                            print(f"INFO NOTE NO. {self.value_a}===================")
+                            print(f"INFO NOTE NO. {self.value_a}")
                             self.df=self.value
                             ls=self.load_settings()
                             existname=str(ls[self.value_a]['fileName'])
@@ -791,7 +792,7 @@ class AcqErm():
                                             mapping_file=readmapping,
                                             dfname=self.value)
                             if self.dforders is not None: 
-                                self.customerName=orders.compositePurchaseorders(client,self.path_dir)
+                                self.customerName=orders.compositePurchaseorders(client,self.path_dir,readmappingPO)
                             if self.notes is not None:
                                 self.customerName.readorders(client, dfOrders=self.dforders, dfPolines=self.dfpoLines, dfnotes=self.notes,notes_mapping_file=readmapping)
                             else:
