@@ -239,7 +239,7 @@
             "permissionsRequired": [false]
         },
         {
-            "name": "contributor-name-types",
+            "name": "contributorNameTypes",
             "pathPattern": "/contributor-name-types",
             "app": "inventory",
             "type": "ref",
