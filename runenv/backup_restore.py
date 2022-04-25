@@ -371,13 +371,20 @@ class backup:
                     tend = time.perf_counter()
                     #print(req.status_code)
                     #print(req.headers)
-                    #print(req.text)
+                    print(req.text)
                     if req.status_code==404:
                         print(str(countrecord)+" Record: "+str(id)+f" not found Deleting ({tini - tend:0.4f}) seconds")
                         Recordsnodeleted.write(str(id)+f"({tini - tend:0.4f}) seconds \n")
                         countnodel=+1
                         print("==================================")
                         printworserecords(req.text,client,schema,client+"_"+schema+"_nodeleted")
+                    if req.status_code==400:
+                        print(str(countrecord)+" Record: "+str(id)+f" Relates records  ({tini - tend:0.4f}) seconds")
+                        Recordsnodeleted.write(str(id)+f"({tini - tend:0.4f}) seconds \n")
+                        countnodel=+1
+                        print("==================================")
+                        printworserecords(req.text,client,schema,client+"_"+schema+"_nodeleted")
+ 
                     elif req.status_code==204:
                         print(str(countrecord)+" Record: "+str(id)+f" has been deleted (time in {tini - tend: 0.4f}) seconds")
                         deletedRecords.write(str(id)+f" ({tini - tend: 0.4f}) seconds\n")
